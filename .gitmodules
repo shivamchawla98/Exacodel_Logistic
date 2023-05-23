@@ -1,6 +1,0 @@
-[submodule "packages/admin-portal"]
-	path = packages/admin-portal
-	url = ./packages/admin-portal
-[submodule "packages/customer-portal"]
-	path = packages/customer-portal
-	url = ./packages/customer-portal/
