@@ -13,17 +13,17 @@ function Navbar() {
               <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
                 <li>
                   <a className="hover:text-gray-200" href="#">
-                    Home
+                    Products
                   </a>
                 </li>
                 <li>
                   <a className="hover:text-gray-200" href="#">
-                    Catagory
+                    Partners
                   </a>
                 </li>
                 <li>
                   <a className="hover:text-gray-200" href="#">
-                    Collections
+                    Knowledge Center
                   </a>
                 </li>
                 <li>

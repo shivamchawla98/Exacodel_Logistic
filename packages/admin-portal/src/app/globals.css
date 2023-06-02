@@ -2,26 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+@font-face {
+  font-family: 'InterFont';
+  src: url('/fonts/Inter-Black.ttf') format('ttf'),
+       url('/fonts/Inter-Bold.ttf') format('ttf'),
+       url('/fonts/Inter-ExtraBold.ttf') format('ttf'),
+       url('/fonts/Inter-Light.ttf') format('ttf'),
+       url('/fonts/Inter-Regular.ttf') format('ttf');
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  /* Add additional font properties if needed */
 }

@@ -2,7 +2,7 @@ import '../globals.css';
 
 function page() {
   return (
-    <div className="flex justify-center items-center">
+    <div className="w-full h-full bg-cover bg-center flex justify-center items-center  bg-gradient-to-r from-cyan-500 to-blue-500">
       {/* form field */}
       <form className='mt-7'>
         <div className="grid gap-6 mb-6 md:grid-cols-2">
