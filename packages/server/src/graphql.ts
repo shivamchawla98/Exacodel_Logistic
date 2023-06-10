@@ -10,6 +10,8 @@
 
 export interface IQuery {
     sayHello(): string | Promise<string>;
+    securedResource(): string | Promise<string>;
+    login(email: string, password: string): string | Promise<string>;
 }
 
 type Nullable<T> = T | null;

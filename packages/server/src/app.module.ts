@@ -4,9 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
-import { AppResolver } from './app/app.resolver';
+import { AppResolver } from './app.resolver';
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -43,6 +44,8 @@ import { User } from './user/entities/user.entity';
     }),
 
     UserModule,
+
+    AuthModule,
   ],
   controllers: [],
   providers: [AppResolver],
