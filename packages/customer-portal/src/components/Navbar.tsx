@@ -3,7 +3,7 @@ function Navbar() {
     <>
         <section className="relative mx-auto">
           {/* navbar */}
-          <nav className="flex justify-between bg-gray-900 text-white w-screen" style={{height: "70px"}}>
+          <nav className="flex justify-between bg-gray-900 text-white" style={{height: "70px"}}>
             <div className="px-5 xl:px-12 py-6 flex w-full items-center">
               <a className="text-3xl font-bold font-heading" href="#">
                 {/* <img class="h-9" src="logo.png" alt="logo"> */}

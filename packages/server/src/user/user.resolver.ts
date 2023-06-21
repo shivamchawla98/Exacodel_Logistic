@@ -15,7 +15,7 @@ export class UserResolver {
 
   @Query((returns) => String)
   @UseGuards(JwtGuard)
-  securedResource(): string {
+  securedResource(@Context("user") user: User ): string {
     return 'This is secured resource';
   }
 
@@ -32,9 +32,6 @@ export class UserResolver {
       lastName: user.last_name,
       email: user.email,
     };
-    return (
-      'User Authenticated succesfully!!' +
-      jwt.sign(payload, 'key need to be change', { expiresIn: '3600s' })
-    );
+    return jwt.sign(payload, 'key need to be change', { expiresIn: '60s' });
   }
 }

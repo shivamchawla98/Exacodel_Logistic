@@ -14,6 +14,3 @@ export class UserService {
     return user;
   }
 }
-function findUserByEmail(email: any, string: any) {
-  throw new Error('Function not implemented.');
-}
