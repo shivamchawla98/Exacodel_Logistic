@@ -2,10 +2,10 @@ import {AiOutlinePlus} from 'react-icons/ai'
 import { FaTachometerAlt, FaWpforms } from 'react-icons/fa';
 import {TbTableShortcut} from 'react-icons/tb'
 import {SlCalender} from 'react-icons/sl'
-import Header from './Header';
 
 
-function Aside() {
+function Aside({toggleAddModule}) {
+
   return (
     <>
     <aside className="relative bg-blue-500 h-screen w-64 hidden sm:block shadow-xl">
@@ -16,7 +16,7 @@ function Aside() {
         >
           Admin
         </a>
-        <button className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
+        <button onClick={toggleAddModule} className="w-full bg-white cta-btn font-semibold py-2 mt-5 rounded-br-lg rounded-bl-lg rounded-tr-lg shadow-lg hover:shadow-xl hover:bg-gray-300 flex items-center justify-center">
         <AiOutlinePlus className='mr-4 text-2xl' /> New Report
         </button>
       </div>

@@ -1,7 +1,10 @@
+"use state"
 import {HiDocumentReport} from 'react-icons/hi'
+import AddModule from './AddModule';
 
-const ReportsTable = () => {
+const ReportsTable = ({}) => {
   return (
+    <>
     <div className="w-full mt-12 mx-auto">
       <p className="text-xl w-11/12 font-medium pb-3 flex items-center m-6 ml-8">
         <HiDocumentReport className="text-4xl  ml-4" /> Latest Reports
@@ -34,6 +37,8 @@ const ReportsTable = () => {
         </table>
       </div>
     </div>
+
+    </>
   );
 };
 
