@@ -41,7 +41,7 @@ function Page() {
           <div className="max-w-md mx-auto">
             <div>
               <h1 className="text-2xl font-semibold">
-                Login Form with Floating Labels
+                Login Form
               </h1>
             </div>
             <div className="divide-y divide-gray-200">
@@ -79,7 +79,7 @@ function Page() {
                   </label>
                 </div>
                 <div className="relative">
-                  <button className="bg-blue-500 text-white rounded-md px-2 py-1">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white rounded-md px-2 py-1">
                     Submit
                   </button>
                 </div>
