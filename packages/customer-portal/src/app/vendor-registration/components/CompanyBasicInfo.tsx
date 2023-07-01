@@ -1,8 +1,103 @@
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { Formik, useFormik } from 'formik';
+
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.customerName) {
+    errors.customerName = 'Required';
+  } else if (values.customerName.length < 3) {
+    errors.customerName = 'Must be 3 or greater characters or less';
+  }
+
+  if (!values.companyNames) {
+    errors.companyNames = 'Required';
+  } else if (values.companyNames.length < 3) {
+    errors.companyNames = 'Must be 3 or greater characters or less';
+  }
+
+  if (!values.website) {
+    errors.website = 'Required';
+  } else if (!/^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/i.test(values.website)) {
+    errors.website = 'Invalid Email Address';
+  }
+
+  if (!values.email) {
+    errors.email = 'Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email';
+  }
+
+  if (!values.regNum) {
+    errors.regNum = 'Required';
+  } else if (values.regNum.length < 3) {
+    errors.regNum = 'Must be 3 or greater characters or less';
+  }
+
+  if (!values.country) {
+    errors.country = 'Required';
+  } else if (values.country.length < 3) {
+    errors.country = 'Must be 3 or greater characters or less';
+  }
+
+  if (!values.streetAaddress) {
+    errors.streetAaddress = 'Required';
+  } else if (values.streetAaddress.length < 3) {
+    errors.streetAaddress = 'Must be 3 or greater characters or less';
+  }
+
+  if (!values.region) {
+    errors.region = 'Required';
+  } else if (!/[A-Z][a-z]+(?: +[A-Z][a-z]+)*/.test(values.region)) {
+    errors.region = 'Enter Valid state';
+  }
+
+  if (!values.city) {
+    errors.city = 'Required';
+  } else if (!/[A-Z][a-z]+(?: +[A-Z][a-z]+)*/.test(values.city)) {
+    errors.city = 'Enter appropriate city';
+  }
+
+  if (!values.postalCode) {
+    errors.postalCode = 'Required';
+  } else if (!/^[1-9][0-9]{5}$/i.test(values.postalCode)) {
+    errors.postalCode = 'Wrong postal code';
+  }
+
+  return errors;
+};
 
 function CompanyBasicInfo() {
+  const formik = useFormik({
+    initialValues: {
+      customerName: '',
+      companyName: '',
+      website: '',
+      email: '',
+      regNum: '',
+      country: '',
+      streetAaddress: '',
+      region: '',
+      city: '',
+      postalCode: '',
+    },
+    
+    validate,
+    onSubmit: (values) => {
+      console.log(values);
+
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
   return (
-    <form>
+
+
+<Formik
+      validateOnChange={false}
+      validateOnBlur={false}
+      onSubmit={(values) => { onSubmit(values); } } initialValues={undefined} >
+    <form onSubmit={formik.handleSubmit}>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -81,9 +176,10 @@ function CompanyBasicInfo() {
           </p>
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            {/* customer name */}
             <div className="sm:col-span-3">
               <label
-                htmlFor="first-name"
+                htmlFor="customerName"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Customer name
@@ -91,17 +187,25 @@ function CompanyBasicInfo() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="first-name"
-                  id="first-name"
+                  name="customerName"
+                  id="customerName"
                   autoComplete="given-name"
+                  onChange={formik.handleChange}
+                  value={formik.values.customerName}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.customerName ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.customerName}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* company name */}
             <div className="sm:col-span-3">
               <label
-                htmlFor="last-name"
+                htmlFor="companyName"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Company name
@@ -109,17 +213,25 @@ function CompanyBasicInfo() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
+                  name="companyName"
+                  id="companyName"
                   autoComplete="family-name"
+                  onChange={formik.handleChange}
+                  value={formik.values.companyName}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.companyName ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.companyName}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/*website field  */}
             <div className="sm:col-span-3">
               <label
-                htmlFor="last-name"
+                htmlFor="website"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Website
@@ -127,17 +239,25 @@ function CompanyBasicInfo() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
+                  name="website"
+                  id="website"
                   autoComplete="family-name"
+                  onChange={formik.handleChange}
+                  value={formik.values.website}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.website ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.website}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* company registration number */}
             <div className="sm:col-span-3">
               <label
-                htmlFor="last-name"
+                htmlFor="regNum"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Company resgistration number
@@ -145,14 +265,22 @@ function CompanyBasicInfo() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="last-name"
-                  id="last-name"
+                  name="regNum"
+                  id="regNum"
                   autoComplete="family-name"
+                  onChange={formik.handleChange}
+                  value={formik.values.regNum}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.regNum ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.regNum}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* company email */}
             <div className="sm:col-span-4">
               <label
                 htmlFor="email"
@@ -166,11 +294,19 @@ function CompanyBasicInfo() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.email ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.email}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* country field id = country */}
             <div className="sm:col-span-3">
               <label
                 htmlFor="country"
@@ -183,18 +319,26 @@ function CompanyBasicInfo() {
                   id="country"
                   name="country"
                   autoComplete="country-name"
+                  onChange={formik.handleChange}
+                  value={formik.values.country}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
                   <option>United States</option>
                   <option>Canada</option>
                   <option>Mexico</option>
                 </select>
+                {formik.errors.country ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.country}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* street address id = streetAaddress */}
             <div className="col-span-full">
               <label
-                htmlFor="street-address"
+                htmlFor="streetAaddress"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Street address
@@ -202,14 +346,22 @@ function CompanyBasicInfo() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="street-address"
-                  id="street-address"
-                  autoComplete="street-address"
+                  name="streetAaddress"
+                  id="streetAaddress"
+                  autoComplete="streetAaddress"
+                  onChange={formik.handleChange}
+                  value={formik.values.streetAaddress}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.streetAaddress ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.streetAaddress}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* city field id = city*/}
             <div className="sm:col-span-2 sm:col-start-1">
               <label
                 htmlFor="city"
@@ -223,11 +375,19 @@ function CompanyBasicInfo() {
                   name="city"
                   id="city"
                   autoComplete="address-level2"
+                  onChange={formik.handleChange}
+                  value={formik.values.city}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.city ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.city}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* state provience id = region*/}
             <div className="sm:col-span-2">
               <label
                 htmlFor="region"
@@ -240,15 +400,23 @@ function CompanyBasicInfo() {
                   type="text"
                   name="region"
                   id="region"
+                  onChange={formik.handleChange}
+                  value={formik.values.region}
                   autoComplete="address-level1"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.region ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.region}
+                  </span>
+                ) : null}
               </div>
             </div>
 
+            {/* zip code id = postalCode */}
             <div className="sm:col-span-2">
               <label
-                htmlFor="postal-code"
+                htmlFor="postalCode"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 ZIP / Postal code
@@ -256,11 +424,18 @@ function CompanyBasicInfo() {
               <div className="mt-2">
                 <input
                   type="text"
-                  name="postal-code"
-                  id="postal-code"
-                  autoComplete="postal-code"
+                  name="postalCode"
+                  id="postalCode"
+                  autoComplete="postalCode"
+                  onChange={formik.handleChange}
+                  value={formik.values.postalCode}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {formik.errors.postalCode ? (
+                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                    {formik.errors.postalCode}
+                  </span>
+                ) : null}
               </div>
             </div>
           </div>
@@ -282,6 +457,7 @@ function CompanyBasicInfo() {
         </button>
       </div>
     </form>
+    </Formik>
   );
 }
 
