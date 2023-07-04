@@ -1,6 +1,6 @@
 function ShipingLineFilter() {
   return (
-    <div className="flex justify-center flex-col mt-11 ml-8 rounded-lg shadow-lg">
+    <div className="flex justify-center flex-col mt-11 md:ml-8 rounded-lg shadow-lg">
       <p className="text-2xl font-semibold text-gray-900 dark:text-white text-center">Shipping Lines</p>
       <div className="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
         <input

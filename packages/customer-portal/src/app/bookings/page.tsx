@@ -6,6 +6,7 @@ import { BsArrowLeftRight } from 'react-icons/bs';
 import ContainerFilter from '@/components/small components/ContainerFilter';
 import ShipingLineFilter from '@/components/small components/ShipingLineFilter';
 import ShippingProviderCard from '@/components/ShippingProviderCard';
+import ShippingFilter from './components/ShippingFilter';
 
 function page() {
   let from = 'porbandar';
@@ -15,15 +16,10 @@ function page() {
   let testArr = [1,2,3,4,5,6,7,8,9];
   return (
     <>
-      <section>
-        <div
-          style={{
-            backgroundColor: '#f7b42c',
-            backgroundImage: 'linear-gradient(315deg, #f7b42c 0%, #fc575e 74%)',
-          }}
-        >
-          <div className="flex items-center justify-center font-black p-3 mb-2">
-            <h1 className="font-InterFont tracking-wide text-3xl text-white">
+      <section className="bg-white dark:bg-gray-900 h-full bg-yellow-400">
+
+          <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
+          <h1 className="mb-4 mt-7 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
               You Have Booked form {from} to {to}
             </h1>
           </div>
@@ -31,24 +27,11 @@ function page() {
             we are committed to delivering success, one mile at a time. With a
             focus on efficiency and reliability,
           </h6>
-          <DropDownBar />
-          <div className="mt-2 pb-2 flex justify-center w-full flex-wrap">
-            <SearchFromDesination />
-            <span className="" style={{ height: '36px', marginTop: '26px' }}>
-              <BsArrowLeftRight
-                size={50}
-                color="white"
-                style={{ paddingTop: '7px' }}
-              />
-            </span>
-            <SearchToDesination />
-          </div>
-          <ContainerInputBar />
-        </div>
+          <ShippingFilter />
       </section>
 
-      <div className="flex justify-evenly">
-        <div className=" ml-7">
+      <div className="md:flex md:justify-evenly">
+        <div className=" p-7 md:ml-7 lg:ml-7">
           <ContainerFilter />
           <ShipingLineFilter />
         </div>

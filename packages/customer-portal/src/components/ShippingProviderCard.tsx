@@ -12,7 +12,7 @@ function ShippingProviderCard({img, fromDestination, toDestination}) {
       flex justify-center
       "
     >
-      <div className="mx-auto w-3/4">
+      <div className="w-11/12 md:w-3/6 lg:w-1/2 sm:w-3/6 mx-auto">
         <div className="w-full flex justify-center border-b-2 border-slate-100 pb-2">
           <Image src={maersk} width={100} height={60} alt="maersk" />
         </div>
@@ -32,7 +32,7 @@ function ShippingProviderCard({img, fromDestination, toDestination}) {
 
         <div className="w-full flex justify-between mt-3">
             <h2 className="font-semibold text-gray-800 dark:text-white">{fromDestination}</h2>
-            <AiOutlineArrowRight size={35} className='text-blue-600'/>
+            <AiOutlineArrowRight size={20} className='text-blue-600'/>
             <h2 className='font-semibold text-gray-800 dark:text-white'>{toDestination}</h2>
         </div>
       </div>

@@ -2,7 +2,7 @@ function ContainerFilter() {
   return (
     <>
 
-    <ul className="mt-14 w-50 pt-6 ml-8 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+    <ul className="mt-14 w-50 pt-6 m-4 md:ml-8 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
     <p className="p-1 text-xl font-semibold text-gray-900 dark:text-white text-center">
       Choose Container Size
     </p>

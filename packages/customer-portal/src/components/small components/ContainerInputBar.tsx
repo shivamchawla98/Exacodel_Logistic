@@ -13,7 +13,7 @@ function SearchBar() {
       id="login"
       className="p-4 flex flex-col justify-center max-w-md mx-auto"
     >
-      <div className="p-6 bg-sky-100 rounded">
+      <div className="p-6 bg-gray-100 rounded">
         <div className="flex items-center justify-center font-black m-3 mb-12">
           <h1 className="tracking-wide text-3xl text-gray-900">
             FCL Containers
@@ -93,7 +93,7 @@ function SearchBar() {
             <select
               defaultValue={'DEFAULT'}
               id="countries"
-              className="max-w-[100px] font-bold font-mono py-1.5 px-2 mx-1.5
+              className="max-w-[100px] font-bold py-1.5 px-2 mx-1.5
               block border border-gray-300 rounded-md text-sm shadow-sm  placeholder-gray-400
               focus:outline-none
               focus:border-sky-500

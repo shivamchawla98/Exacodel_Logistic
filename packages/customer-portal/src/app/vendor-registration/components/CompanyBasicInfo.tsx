@@ -1,5 +1,5 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
-import { Formik, useFormik } from 'formik';
+import { Formik, FormikHelpers, FormikValues, useFormik } from 'formik';
 
 const validate = (values) => {
   const errors = {};
@@ -18,7 +18,11 @@ const validate = (values) => {
 
   if (!values.website) {
     errors.website = 'Required';
-  } else if (!/^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/i.test(values.website)) {
+  } else if (
+    !/^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/i.test(
+      values.website
+    )
+  ) {
     errors.website = 'Invalid Email Address';
   }
 
@@ -81,7 +85,7 @@ function CompanyBasicInfo() {
       city: '',
       postalCode: '',
     },
-    
+
     validate,
     onSubmit: (values) => {
       console.log(values);
@@ -91,12 +95,6 @@ function CompanyBasicInfo() {
   });
 
   return (
-
-
-<Formik
-      validateOnChange={false}
-      validateOnBlur={false}
-      onSubmit={(values) => { onSubmit(values); } } initialValues={undefined} >
     <form onSubmit={formik.handleSubmit}>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -217,10 +215,11 @@ function CompanyBasicInfo() {
                   id="companyName"
                   autoComplete="family-name"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.companyName}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.companyName ? (
+                {formik.touched.companyName && formik.errors.companyName ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.companyName}
                   </span>
@@ -243,10 +242,11 @@ function CompanyBasicInfo() {
                   id="website"
                   autoComplete="family-name"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.website}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.website ? (
+                {formik.touched.website && formik.errors.website ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.website}
                   </span>
@@ -269,10 +269,11 @@ function CompanyBasicInfo() {
                   id="regNum"
                   autoComplete="family-name"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.regNum}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.regNum ? (
+                {formik.touched.regNum && formik.errors.regNum ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.regNum}
                   </span>
@@ -295,10 +296,11 @@ function CompanyBasicInfo() {
                   type="email"
                   autoComplete="email"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.email}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.email ? (
+                {formik.touched.email && formik.errors.email ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.email}
                   </span>
@@ -318,6 +320,7 @@ function CompanyBasicInfo() {
                 <select
                   id="country"
                   name="country"
+                  onBlur={formik.handleBlur}
                   autoComplete="country-name"
                   onChange={formik.handleChange}
                   value={formik.values.country}
@@ -327,7 +330,7 @@ function CompanyBasicInfo() {
                   <option>Canada</option>
                   <option>Mexico</option>
                 </select>
-                {formik.errors.country ? (
+                {formik.touched.country && formik.errors.country ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.country}
                   </span>
@@ -348,12 +351,14 @@ function CompanyBasicInfo() {
                   type="text"
                   name="streetAaddress"
                   id="streetAaddress"
+                  onBlur={formik.handleBlur}
                   autoComplete="streetAaddress"
                   onChange={formik.handleChange}
                   value={formik.values.streetAaddress}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.streetAaddress ? (
+                {formik.touched.streetAaddress &&
+                formik.errors.streetAaddress ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.streetAaddress}
                   </span>
@@ -374,12 +379,13 @@ function CompanyBasicInfo() {
                   type="text"
                   name="city"
                   id="city"
+                  onBlur={formik.handleBlur}
                   autoComplete="address-level2"
                   onChange={formik.handleChange}
                   value={formik.values.city}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.city ? (
+                {formik.touched.city && formik.errors.city ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.city}
                   </span>
@@ -400,12 +406,13 @@ function CompanyBasicInfo() {
                   type="text"
                   name="region"
                   id="region"
+                  onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.region}
                   autoComplete="address-level1"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.region ? (
+                {formik.touched.region && formik.errors.region ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.region}
                   </span>
@@ -427,11 +434,12 @@ function CompanyBasicInfo() {
                   name="postalCode"
                   id="postalCode"
                   autoComplete="postalCode"
+                  onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
                   value={formik.values.postalCode}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.postalCode ? (
+                {formik.touched.postalCode && formik.errors.postalCode ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
                     {formik.errors.postalCode}
                   </span>
@@ -457,7 +465,6 @@ function CompanyBasicInfo() {
         </button>
       </div>
     </form>
-    </Formik>
   );
 }
 
