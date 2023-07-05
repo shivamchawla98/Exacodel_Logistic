@@ -3,7 +3,7 @@ import {MdDirectionsBoat} from 'react-icons/md'
 
 function DealCard({ flag, country, containerType, amount }) {
   return (
-    <div className="relative m-6 flex w-64 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+    <div className="relative m-6 flex w-60 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
         <span className="bg-slate-200 w-30 ml-32 font-semibold rounded-bl-md rounded-tr-md text-center">Starting from</span>
       <div className="p-3 flex justify-start pt-4">
         <Image src={flag} width={40} alt="flag" />
@@ -12,7 +12,7 @@ function DealCard({ flag, country, containerType, amount }) {
         </h5>
 
       </div>
-      <div className='flex justify-evenly p-6 pt-2'>
+      <div className='flex justify-evenly p-3 pt-2'>
         <div className="flex justify-center">
             <MdDirectionsBoat size={20} color='blue'/>
             <p>{containerType}</p>
