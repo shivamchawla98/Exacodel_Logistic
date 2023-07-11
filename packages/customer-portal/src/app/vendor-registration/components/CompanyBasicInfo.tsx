@@ -1,8 +1,10 @@
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { Formik, FormikHelpers, FormikValues, useFormik } from 'formik';
+import countries from '../data/country'
 
 const validate = (values) => {
   const errors = {};
+console.log(countries);
 
   if (!values.customerName) {
     errors.customerName = 'Required';
@@ -189,11 +191,12 @@ function CompanyBasicInfo() {
                   id="customerName"
                   autoComplete="given-name"
                   onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   value={formik.values.customerName}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
-                {formik.errors.customerName ? (
-                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                {formik.touched.companyName && formik.errors.customerName ? (
+                  <span className=" text-red-700  mt-8">
                     {formik.errors.customerName}
                   </span>
                 ) : null}
@@ -220,7 +223,7 @@ function CompanyBasicInfo() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 {formik.touched.companyName && formik.errors.companyName ? (
-                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                  <span className=" text-red-700 mt-8">
                     {formik.errors.companyName}
                   </span>
                 ) : null}
@@ -247,7 +250,7 @@ function CompanyBasicInfo() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 {formik.touched.website && formik.errors.website ? (
-                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                  <span className=" text-red-700 rounded mt-8">
                     {formik.errors.website}
                   </span>
                 ) : null}
@@ -274,7 +277,7 @@ function CompanyBasicInfo() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 {formik.touched.regNum && formik.errors.regNum ? (
-                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                  <span className=" text-red-700 mt-8">
                     {formik.errors.regNum}
                   </span>
                 ) : null}
@@ -301,7 +304,7 @@ function CompanyBasicInfo() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 {formik.touched.email && formik.errors.email ? (
-                  <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
+                  <span className=" text-red-700  mt-8">
                     {formik.errors.email}
                   </span>
                 ) : null}
@@ -326,9 +329,8 @@ function CompanyBasicInfo() {
                   value={formik.values.country}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
+                  {countries.map((country) => <option> {country} </option>)}
+
                 </select>
                 {formik.touched.country && formik.errors.country ? (
                   <span className="bg-red-100 border border-red-400 text-red-700 px-2 py-2 rounded mt-8">
