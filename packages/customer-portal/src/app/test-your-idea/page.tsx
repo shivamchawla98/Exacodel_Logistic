@@ -6,6 +6,11 @@ import OverseasRegistrationForm from '@/components/form components/OverseasRegis
 import CustomerProfileUpdate from '@/components/form components/CustomerProfileUpdate'
 import VendorProfileUpdate from '@/components/form components/VendorProfileUpdate'
 import OverseasAgentProfileUpdate from '@/components/form components/OverseasAgentProfileUpdate'
+import SeaFclRateInputByAdmin from '@/components/form components/SeaFclRateInputByAdmin'
+import AirRateInputByAdmin from '@/components/form components/AirRateInputByAdmin'
+import LCLRateInputByAdmin from '@/components/form components/LCLRateInputByAdmin'
+import AirDomesticRateInputByAdmin from '@/components/form components/AirDomesticRateInputByAdmin'
+import CustomClearenceFCLAdminInput from '@/components/form components/CustomClearenceFCLAdminInput'
 
 function page() {
   return (
@@ -13,11 +18,15 @@ function page() {
     {/* <StarterForm />
     <CustomerRegistrationForm />
     <VendorRegistrationForm />
-    <OverseasRegistrationForm /> */}
-    {/* <CustomerProfileUpdate /> */}
-    {/* <VendorProfileUpdate /> */}
-    <OverseasAgentProfileUpdate />
-    
+    <OverseasRegistrationForm />
+    <CustomerProfileUpdate />
+    <VendorProfileUpdate />
+    <OverseasAgentProfileUpdate /> */}
+    {/* <SeaFclRateInputByAdmin /> */}
+    {/* <AirRateInputByAdmin /> */}
+    {/* <LCLRateInputByAdmin /> */}
+    {/* <AirDomesticRateInputByAdmin /> */}
+    <CustomClearenceFCLAdminInput />
     </>
   )
 }
