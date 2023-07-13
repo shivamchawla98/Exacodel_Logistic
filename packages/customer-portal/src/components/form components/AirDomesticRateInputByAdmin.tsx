@@ -3,6 +3,7 @@ import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import AirportDetails from './AirportDetails';
 import AirportCostBreakDown from './AirportCostBreakDown';
+import SubmitButtons from './SubmitButtons';
 
 // formik validation
 const validationSchema = Yup.object({
@@ -57,21 +58,7 @@ function AirDomesticRateInputByAdmin() {
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
           <h2 className="col-span-3">Cost Break Down</h2>
           <AirportCostBreakDown prefix={'domesticAir1'} />
-          {/* buttons */}
-          <div className="col-span-3">
-            <button
-              type="submit"
-              className="mt-8 mr-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Submit
-            </button>
-          </div>
+          <SubmitButtons id1={'addMoreRates'} title1={"Add More Rates"} id2={'save'} title2={"Save"} />
         </Form>
       </Formik>
     </>

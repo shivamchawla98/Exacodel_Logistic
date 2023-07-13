@@ -11,22 +11,33 @@ import AirRateInputByAdmin from '@/components/form components/AirRateInputByAdmi
 import LCLRateInputByAdmin from '@/components/form components/LCLRateInputByAdmin'
 import AirDomesticRateInputByAdmin from '@/components/form components/AirDomesticRateInputByAdmin'
 import CustomClearenceFCLAdminInput from '@/components/form components/CustomClearenceFCLAdminInput'
+import CustomClearenceBrockerageAirByAdmin from '@/components/form components/CustomClearenceBrockerageAirByAdmin'
+import CustomClearenceBrockerageLCLByAdmin from '@/components/form components/CustomClearenceBrockerageLCLByAdmin'
+import AdminInputWarehouse from '@/components/form components/AdminInputWarehouse'
+import AdminInputDomesticTransport from '@/components/form components/AdminInputDomesticTransport'
 
 function page() {
   return (
     <>
-    {/* <StarterForm />
-    <CustomerRegistrationForm />
-    <VendorRegistrationForm />
-    <OverseasRegistrationForm />
-    <CustomerProfileUpdate />
-    <VendorProfileUpdate />
-    <OverseasAgentProfileUpdate /> */}
+     {/* <StarterForm /> */}
+    {/* <CustomerRegistrationForm /> */}
+    {/* <VendorRegistrationForm /> */}
+    {/* <OverseasRegistrationForm /> */}
+    {/* <CustomerProfileUpdate /> */}
+    {/* <VendorProfileUpdate /> */}
+    {/* <OverseasAgentProfileUpdate />  */}
+
+    {/* Downward forms are refactored  */}
+    
     {/* <SeaFclRateInputByAdmin /> */}
     {/* <AirRateInputByAdmin /> */}
     {/* <LCLRateInputByAdmin /> */}
     {/* <AirDomesticRateInputByAdmin /> */}
-    <CustomClearenceFCLAdminInput />
+    {/* <CustomClearenceFCLAdminInput /> */}
+    {/* <CustomClearenceBrockerageAirByAdmin /> */}
+    {/* <CustomClearenceBrockerageLCLByAdmin /> */}
+    {/* <AdminInputWarehouse /> */}
+    <AdminInputDomesticTransport />
     </>
   )
 }

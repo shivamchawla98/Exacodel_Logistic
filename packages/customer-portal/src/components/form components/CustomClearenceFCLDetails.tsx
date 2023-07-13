@@ -4,6 +4,7 @@ import TextField from "./TextField"
 function CustomClearenceFCLDetails({prefix}) {
   return (
     <>
+    <h2 className="col-span-3">Upload Sea Rates</h2>
       <SelectComponet options={[1,2,3,4]} id={`${prefix}.portClearence`} title={"Port Clearence"} />
       <SelectComponet options={[1,2,3,4]} id={`${prefix}.commodity`} title={"Commodity"} />
       <SelectComponet options={[1,2,3,4]} id={`${prefix}.containerType`} title={"Port Clearence"} />

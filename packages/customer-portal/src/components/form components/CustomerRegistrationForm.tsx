@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
+import SubmitButtons from './SubmitButtons';
 
 const validationSchema = Yup.object({
   companyBillingCode: Yup.string().required('Enter Billing Code'),
@@ -508,18 +509,7 @@ function CustomerRegistrationForm() {
                 .
               </label>
             </div>
-            <button
-              type="submit"
-              className="mt-8 mr-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Submit
-            </button>
+            <SubmitButtons id1={'back'} title1={"Back"} id2={'submit'} title2={"Submit"} />
           </div>
         </Form>
       </Formik>

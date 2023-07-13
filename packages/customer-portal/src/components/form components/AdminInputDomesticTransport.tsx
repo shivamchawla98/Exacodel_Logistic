@@ -1,16 +1,19 @@
 'use client';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import AirportDetails from './AirportDetails';
-import * as Yup from 'yup';
-import SeaRatesForaFix from './SeaRatesForaFix';
-import SubmitButtons from './SubmitButtons';
 
-// formik validation
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import SubmitButtons from './SubmitButtons';
+import Address from './Address';
+import SelectComponet from './SelectComponent';
+import TextField from './TextField';
+import AdminInputWarehouseDetail from './AdminInputWarehouseDetail';
+import DomesticTransportDetails from './DomesticTransportDetails';
+
 const validationSchema = Yup.object({
   billingAddress: Yup.string(),
 });
 
-function SeaFclRateInputByAdmin() {
+function AdminInputDomesticTransport() {
   const handleSubmit = (values) => {
     // Handle form submission
     console.log(values);
@@ -43,23 +46,25 @@ function SeaFclRateInputByAdmin() {
     file2: null,
     termsAccepted: '',
   };
+
   return (
     <>
       <h2 className="text-2xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
-        Overseas Profile Update
+      ADMIN INPUT - WAREHOUSE 
       </h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
-          <SeaRatesForaFix prefix={'seaRate1'} />
-          <SubmitButtons id1={'addMoreRates'} title1={"Add More Rates"} id2={'save'} title2={"Save"} />
+        <Form className="mt-2 grid lg:grid-cols-3 gap-6 p-12 gap-y-8">
+            <Address prefix={'address1'} />
+            <DomesticTransportDetails prefix="transport1"/>
+            <SubmitButtons id1={'addMoreRates'} title1={"Add More Rates"} id2={'save'} title2={'Save'} />
         </Form>
       </Formik>
     </>
   );
 }
 
-export default SeaFclRateInputByAdmin;
+export default AdminInputDomesticTransport;
