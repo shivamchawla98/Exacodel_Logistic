@@ -2,39 +2,50 @@ import { ErrorMessage, Field } from 'formik';
 import WarehouseCapacity from './WarehouseCapacity';
 import SelectComponent from './SelectComponent';
 import { useState } from 'react';
+import * as Yup from 'yup';
 
-interface WarehouseDetailsProps {}
+interface WarehouseDetailsProps {
+  prefix: string;
+}
 
-const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({}) => {
+const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({ prefix }) => {
   const [tempSelection, setTempSelection] = useState(false);
   const [hazardSelection, setHazardSelection] = useState(false);
-  return (
-    <div className='mt-10 grid grid-cols-1 col-span-3 gap-x-6 gap-y-8 sm:grid-cols-6'>
 
+  return (
+    <div className="mt-10 grid grid-cols-1 col-span-3 gap-x-6 gap-y-8 sm:grid-cols-6">
       <WarehouseCapacity
-        id="totalStorageArea"
+        id={`${prefix}.totalStorageArea`}
         labelTitle="Total Storage Area"
-        unit='ft²'
+        unit="ft²"
       />
       <WarehouseCapacity
-        id="totalAvailableArea"
+        id={`${prefix}.totalAvailableArea`}
         labelTitle="Total Available Area"
-        unit='ft²'
+        unit="ft²"
       />
-      <WarehouseCapacity id="occupiedSpace" labelTitle="Occupied Space" unit='ft²' />
-      <WarehouseCapacity id="unoccupiedSpace" labelTitle="Un-occupied Space" unit='ft²' />
-      <WarehouseCapacity id="rackedSpace" labelTitle="Racked Space" unit='ft²' />
+      <WarehouseCapacity
+        id={`${prefix}.occupiedSpace`}
+        labelTitle="Occupied Space"
+        unit="ft²"
+      />
+      <WarehouseCapacity
+        id={`${prefix}.unoccupiedSpace`}
+        labelTitle="Un-occupied Space"
+        unit="ft²"
+      />
+      <WarehouseCapacity id={`${prefix}.rackedSpace`} labelTitle="Racked Space" unit="ft²" />
       <SelectComponent
         options={['Yes', 'No']}
-        id="warehouseInsurance"
+        id={`${prefix}.warehouseInsurance`}
         title="Warehouse Insurance"
         optionalOption="Warehouse Insurance?"
       />
 
       {/* coldStorage */}
-      <div className='sm:col-span-2'>
+      <div className="sm:col-span-2">
         <label
-          htmlFor="storageType"
+          htmlFor={`${prefix}.coldStorage`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Storage Type
@@ -44,23 +55,23 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({}) => {
             <Field
               onClick={() => setTempSelection(!tempSelection)}
               type="checkbox"
-              id="coldStorage"
-              name="coldStorage"
+              id={`${prefix}.coldStorage`}
+              name={`${prefix}.coldStorage`}
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             />
             <label
-              htmlFor="coldStorage"
+              htmlFor={`${prefix}.coldStorage`}
               className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
             >
               Cold Storage
             </label>
             <ErrorMessage
-              name="coldStorage"
+              name={`${prefix}.coldStorage`}
               component={'span'}
               className="text-rose-500"
             />
           </div>
-          {tempSelection ? (
+          {tempSelection && (
             <div className="flex items-center pl-3 pr-3 border border-gray-200 rounded dark:border-gray-700">
               <SelectComponent
                 options={[
@@ -69,20 +80,18 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({}) => {
                   '-20 to +20 Deg Cel',
                   '-15 to +25 Deg Cel',
                 ]}
-                id="referigeratedTemp"
+                id={`${prefix}.referigeratedTemp`}
                 title="Referigerated Temperature"
               />
             </div>
-          ) : (
-            ''
           )}
         </div>
       </div>
 
       {/* hazardousWarehouse  */}
-      <div className='sm:col-span-2'>
-      <label
-          htmlFor="hazardousWarehouse"
+      <div className="sm:col-span-2">
+        <label
+          htmlFor={`${prefix}.hazardousWarehouse`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Hazard Warehouse
@@ -91,23 +100,24 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({}) => {
           <Field
             onClick={() => setHazardSelection(!hazardSelection)}
             type="checkbox"
-            id="hazardousWarehouse"
-            name="hazardousWarehouse"
+            id={`${prefix}.hazardousWarehouse`}
+            name={`${prefix}.hazardousWarehouse`}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            checked={hazardSelection}
           />
           <label
-            htmlFor="hazardousWarehouse "
+            htmlFor={`${prefix}.hazardousWarehouse`}
             className="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
           >
             Hazardous Warehouse
           </label>
           <ErrorMessage
-            name="hazardousWarehouse"
-            component={'span'}
+            name={`${prefix}.hazardousWarehouse`}
+            component="span"
             className="text-rose-500"
           />
         </div>
-        {hazardSelection ? (
+        {hazardSelection && (
           <div className="flex items-center pl-3 pr-3 border border-gray-200 rounded dark:border-gray-700">
             <SelectComponent
               options={[
@@ -123,23 +133,34 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({}) => {
                 'class 1 to 9',
                 '',
               ]}
-              id="hazardousGrade"
+              id={`${prefix}.hazardousGrade`}
               title="Hazardous Grade"
             />
           </div>
-        ) : (
-          ''
         )}
       </div>
 
-      <WarehouseCapacity id="storageCharges" labelTitle="Storage Charges"  unit='ft²'/>
-      <WarehouseCapacity id="storagePerPallet" labelTitle="Storage Charges" unit='per pallet'/>
-      <WarehouseCapacity id="minimumStorageAreaPerPallet" labelTitle="Minimum Storage Area" unit='ft²'/>
-      <WarehouseCapacity id="storageCharges" labelTitle="Minimum Storage Area" unit='per pallet'/>
-      <WarehouseCapacity id="minimumStorageRent" labelTitle="Minimum Storage Rent" unit='ft²'/>
-      <WarehouseCapacity id="minimumStorageChargesPerPallet" labelTitle="Minimum Storage Charges" unit='per pallet'/>
-
-      
+      <WarehouseCapacity id={`${prefix}.storageCharges`} labelTitle="Storage Charges" unit="ft²" />
+      <WarehouseCapacity
+        id={`${prefix}.storagePerPallet`}
+        labelTitle="Storage Charges"
+        unit="per pallet"
+      />
+      <WarehouseCapacity
+        id={`${prefix}.minimumStorageAreaPerPallet`}
+        labelTitle="Minimum Storage Area"
+        unit="ft²"
+      />
+      <WarehouseCapacity
+        id={`${prefix}.minimumStorageRent`}
+        labelTitle="Minimum Storage Rent"
+        unit="ft²"
+      />
+      <WarehouseCapacity
+        id={`${prefix}.minimumStorageChargesPerPallet`}
+        labelTitle="Minimum Storage Charges"
+        unit="per pallet"
+      />
     </div>
   );
 };

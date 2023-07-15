@@ -3,6 +3,8 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
+import SelectComponet from './SelectComponent';
+import companyType from '@/app/vendor-registration/data/typeOfCompany';
 
 const validationSchema = Yup.object({
   gst: Yup.string()
@@ -39,28 +41,7 @@ function StarterForm() {
         <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           {/* user type */}
           <div className="mt-2">
-            <label
-              htmlFor="userType"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Select User Type
-            </label>
-            <Field
-              as="select"
-              id="userType"
-              name="userType"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
-              <option value="">Select a country</option>
-              <option value="customer">CUSTOMER</option>
-              <option value="vendor">VENDOR</option>
-              <option value="overseasAgent">OVERSEAS AGENT</option>
-            </Field>
-            <ErrorMessage
-              name="userType"
-              component="span"
-              className="error-message"
-            />
+            <SelectComponet options={companyType} id={'userType'} title={'Select User Type'} />
           </div>
           {/* country */}
           <div className="mt-2">
@@ -86,7 +67,7 @@ function StarterForm() {
             <ErrorMessage
               name="country"
               component="span"
-              className="error-message"
+              className="error-message  text-rose-600"
             />
           </div>
           {/* gst numer */}
@@ -103,7 +84,7 @@ function StarterForm() {
               name="gst"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="gst" component="span" />
+            <ErrorMessage name="gst" component="span" className=" text-rose-600" />
           </div>
          {/* company */}
           <div>
@@ -119,7 +100,7 @@ function StarterForm() {
               name="company"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="company" component="span" />
+            <ErrorMessage name="company" component="span" clasName=" text-rose-600" />
           </div>
 
           {/* buttons */}

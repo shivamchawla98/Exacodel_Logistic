@@ -15,6 +15,7 @@ import CustomClearenceBrockerageAirByAdmin from '@/components/form components/Cu
 import CustomClearenceBrockerageLCLByAdmin from '@/components/form components/CustomClearenceBrockerageLCLByAdmin'
 import AdminInputWarehouse from '@/components/form components/AdminInputWarehouse'
 import AdminInputDomesticTransport from '@/components/form components/AdminInputDomesticTransport'
+import AdminInputOverseasTransport from '@/components/form components/AdminInputOverseasTransport'
 
 function page() {
   return (
@@ -24,7 +25,7 @@ function page() {
     {/* <VendorRegistrationForm /> */}
     {/* <OverseasRegistrationForm /> */}
     {/* <CustomerProfileUpdate /> */}
-    {/* <VendorProfileUpdate /> */}
+    <VendorProfileUpdate />
     {/* <OverseasAgentProfileUpdate />  */}
 
     {/* Downward forms are refactored  */}
@@ -37,7 +38,8 @@ function page() {
     {/* <CustomClearenceBrockerageAirByAdmin /> */}
     {/* <CustomClearenceBrockerageLCLByAdmin /> */}
     {/* <AdminInputWarehouse /> */}
-    <AdminInputDomesticTransport />
+    {/* <AdminInputDomesticTransport /> */}
+    {/* <AdminInputOverseasTransport /> */}
     </>
   )
 }

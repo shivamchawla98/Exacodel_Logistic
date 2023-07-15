@@ -1,9 +1,8 @@
-import CustomerRegistrationForm from "@/components/form components/CustomerRegistrationForm"
-import StarterForm from "@/components/form components/StarterForm"
+import SeaFclRateInputByAdmin from "@/components/form components/SeaFclRateInputByAdmin"
 
 function page() {
   return (
-    <StarterForm />
+    <SeaFclRateInputByAdmin />
   )
 }
 

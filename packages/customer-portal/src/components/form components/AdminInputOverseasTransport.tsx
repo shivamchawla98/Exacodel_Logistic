@@ -9,12 +9,13 @@ import TextField from './TextField';
 import AdminInputWarehouseDetail from './AdminInputWarehouseDetail';
 import DomesticTransportFTLDetails from './DomesticTransportFTLDetails';
 import DomesticTransporLTLtDetails from './DomesticTransportLCLDetails';
+import OverseasTruckingDetails from './OverseasTruckingDetails';
 
 const validationSchema = Yup.object({
   billingAddress: Yup.string(),
 });
 
-function AdminInputDomesticTransport() {
+function AdminInputOverseasTransport() {
   const handleSubmit = (values) => {
     // Handle form submission
     console.log(values);
@@ -51,7 +52,7 @@ function AdminInputDomesticTransport() {
   return (
     <>
       <h2 className="text-2xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
-      ADMIN INPUT - WAREHOUSE 
+      ADMIN INPUT - OVERSEAS TRANSPORT / TRUCK
       </h2>
       <Formik
         initialValues={initialValues}
@@ -61,9 +62,8 @@ function AdminInputDomesticTransport() {
         <Form className="mt-2 grid lg:grid-cols-3 gap-6 p-12 gap-y-8">
             <Address prefix={'address1'} />
             <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-            <DomesticTransportFTLDetails prefix="flt1"/>
+            <OverseasTruckingDetails prefix="flt1"/>
             <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-            <DomesticTransporLTLtDetails prefix="ltl1" />
             <SubmitButtons id1={'addMoreRates'} title1={"Add More Rates"} id2={'save'} title2={'Save'} />
         </Form>
       </Formik>
@@ -71,4 +71,4 @@ function AdminInputDomesticTransport() {
   );
 }
 
-export default AdminInputDomesticTransport;
+export default AdminInputOverseasTransport;

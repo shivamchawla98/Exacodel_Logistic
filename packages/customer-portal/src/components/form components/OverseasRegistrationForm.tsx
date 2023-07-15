@@ -3,28 +3,31 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
+import SelectComponet from './SelectComponent';
+import { companyTypes, industryType, typeOfCompanies } from '../data/dropdownData';
+import TextField from './TextField';
 
 const validationSchema = Yup.object({
   companyBillingCode: Yup.string().required('Enter Billing Code'),
-  userType: Yup.string().required('select user type'),
+  userType: Yup.string().required('Select user type'),
   company: Yup.string().required('Enter company name'),
   industryType: Yup.string().required('Select Industry type'),
   country: Yup.string().required('Enter Country name'),
-  streetAddress: Yup.string().required('Enter Country name'),
-  city: Yup.string().required('Enter Country name'),
-  region: Yup.string().required('Enter Country name'),
+  streetAddress: Yup.string().required('Enter street address'),
+  city: Yup.string().required('Enter city'),
+  region: Yup.string().required('Enter region'),
   companyTaxIdNumber: Yup.string().required('Enter Company Tax Id Number'),
   postalCode: Yup.string()
-    .required('enter postal code')
-    .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'enter valid postal code'),
+    .required('Enter postal code')
+    .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'Enter valid postal code'),
   panNumer: Yup.string()
-    .required('Enter pan number name')
-    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'enter valid pan number'),
+    .required('Enter PAN number')
+    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Enter valid PAN number'),
   gst: Yup.string()
-    .required('Enter gst if you have or choose alternate')
+    .required('Enter GST number or choose alternate')
     .matches(
       /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
-      'Enter valid gst number'
+      'Enter valid GST number'
     ),
 });
 
@@ -42,6 +45,16 @@ function OverseasRegistrationForm() {
     panNumer: '',
     gst: '',
     companyTaxIdNumber: '',
+    companyRegistrationNumber: '',
+    turnover: '',
+    majorTradeLane: '',
+    firstName: '',
+    lastName: '',
+    designation: '',
+    email: '',
+    countryPhnCode: '',
+    phnNumber: '',
+    website: '',
   };
 
   const handleSubmit = (values) => {
@@ -79,90 +92,31 @@ function OverseasRegistrationForm() {
 
           {/* user type */}
           <div>
-            <label
-              htmlFor="userType"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Select User Type
-            </label>
-            <Field
-              as="select"
-              id="userType"
-              name="userType"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
-              <option value="">Select a country</option>
-              <option value="customer">CUSTOMER</option>
-              <option value="vendor">VENDOR</option>
-              <option value="overseasAgent">OVERSEAS AGENT</option>
-            </Field>
-            <ErrorMessage
-              name="userType"
-              component="span"
-              className="error-message"
+            <SelectComponet
+              options={companyTypes}
+              id={'userType'}
+              title={'Select User Type'}
             />
           </div>
 
-          {/* company */}
+          {/* companyType */}
           <div>
-            <label
-              htmlFor="company"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Company Name
-            </label>
-            <Field
-              type="text"
-              id="company"
-              name="company"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            <ErrorMessage name="company" component="span" />
+
+         <SelectComponet options={typeOfCompanies} id={'companyType'} title={'Type Of Company'} />
           </div>
 
           {/* Industry Type */}
           <div>
-            <label
-              htmlFor="industryType"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Industry Type
-            </label>
-            <Field
-              as="select"
-              id="industryType"
-              name="industryType"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            >
-              <option value="">Select a country</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage
-              name="industryType"
-              component="span"
-              className="error-message"
+            <SelectComponet
+              options={industryType}
+              id={'industryType'}
+              title={'Industry Type'}
             />
           </div>
 
           {/* **company name */}
           <div>
-            <label
-              htmlFor="companyName"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Company Name
-            </label>
-            <Field
-              type="text"
-              id="companyName"
-              name="companyName"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-            <ErrorMessage name="companyName" component="span" />
+            <TextField id={'companyName'} title={'Company Name'} type={'text'} />
           </div>
 
           {/* company registration number */}
@@ -479,21 +433,9 @@ function OverseasRegistrationForm() {
             </div>
           </div>
 
-          {/* company email */}
+          {/* website*/}
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              Company email address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
+          <TextField id={'website'} title={'Comapny Website'} type={'text'} />
           </div>
 
           {/* contact end */}

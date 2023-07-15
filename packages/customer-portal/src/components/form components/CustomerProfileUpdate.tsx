@@ -12,22 +12,44 @@ import UploadComponent from './UploadComponent';
 
 // formik validation
 const validationSchema = Yup.object({
-  billingAddress: Yup.string(),
+  billingAddress: Yup.string().required('Select an option'),
+  address1: Yup.object().shape({
+    country: Yup.string().required('Enter country'),
+    region: Yup.string().required('Enter region'),
+    city: Yup.string().required('Enter city'),
+    streetAddress: Yup.string().required('Enter street address'),
+    postalCode: Yup.string().required('Enter postal code'),
+  }),
+  address2: Yup.object().shape({
+      country: Yup.string().required('Enter country'),
+      region: Yup.string().required('Enter region'),
+      city: Yup.string().required('Enter city'),
+      streetAddress: Yup.string().required('Enter street address'),
+      postalCode: Yup.string().required('Enter postal code'),
+    }),
+  warehouseAddress: Yup.string().required('Select an option'),
+  firstName: Yup.string().required('Enter first name'),
+  lastName: Yup.string().required('Enter last name'),
+  designation: Yup.string().required('Enter designation'),
+  email: Yup.string().email('Enter a valid email').required('Enter email'),
+  country: Yup.string().required('Enter country'),
+  file1: Yup.mixed().required('Upload a file'),
+  file2: Yup.mixed().required('Upload a file'),
+  termsAccepted: Yup.boolean().oneOf([true], 'Accept the terms and conditions'),
+  companyFirstName: Yup.string().required('First Name is required'),
+  companyLastName: Yup.string().required('Last Name is required'),
+  companyDesignation: Yup.string().required('Designation is required'),
+  companyEmail: Yup.string().email('Invalid email address').required('Email is required'),
+  companyCountry: Yup.string().required('Country is required'),
+  companyPhoneNumber: Yup.string().required('Phone Number is required'),
 });
 
 function CustomerProfileUpdate() {
   const [showAddressField, setShowAdressField] = useState(false);
   const [showWarehouseAddress, setShowWarehouseAddress] = useState(false);
 
-  const handleBillingAddress = (values) => {
-    // Access values here
-    setShowAdressField(!showAddressField); // Accessing individual field value
-
-    // Perform additional logic or API calls with the values
-    // ...
-  };
-  // initial values
   const initialValues = {
+    billingAddress: '',
     address1: {
       country: '',
       region: '',
@@ -42,7 +64,6 @@ function CustomerProfileUpdate() {
       streetAddress: '',
       postalCode: '',
     },
-    billingAddress: '',
     warehouseAddress: '',
     firstName: '',
     lastName: '',
@@ -51,8 +72,22 @@ function CustomerProfileUpdate() {
     country: '',
     file1: null,
     file2: null,
-    termsAccepted: '',
+    termsAccepted: false,
+    companyFirstName: '',
+    companyLastName: '',
+    companyDesignation: '',
+    companyEmail: '',
+    companyCountry: '',
+    companyPhoneNumber: '',
   };
+  const handleBillingAddress = (values) => {
+    // Access values here
+    setShowAdressField(!showAddressField); // Accessing individual field value
+
+    // Perform additional logic or API calls with the values
+    // ...
+  };
+
 
   const handleSubmit = (values) => {
     // Handle form submission
@@ -147,7 +182,12 @@ function CustomerProfileUpdate() {
           {/* buttons */}
           <div className="col-span-3">
             <div className="flex items-center">
-            <Field type="checkbox" id="termsAccepted" name="termsAccepted" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+              <Field
+                type="checkbox"
+                id="termsAccepted"
+                name="termsAccepted"
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
 
               <label
                 htmlFor="link-checkbox"

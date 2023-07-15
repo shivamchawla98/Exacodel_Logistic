@@ -1,11 +1,12 @@
 import { ErrorMessage, Field } from 'formik';
+import country_list from '../data/country';
 
-function CompanyContact() {
+function CompanyContact({ prefix }) {
   return (
     <div className="mt-10 grid grid-cols-1 col-span-3 gap-x-6 gap-y-8 sm:grid-cols-6">
       <div className="sm:col-span-2">
         <label
-          htmlFor="firstName"
+          htmlFor={`${prefix}.firstName`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           First Name
@@ -13,17 +14,17 @@ function CompanyContact() {
         <div className="mt-2">
           <Field
             type="text"
-            id="firstName"
-            name="firstName"
+            id={`${prefix}.firstName`}
+            name={`${prefix}.firstName`}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name="firstName" component="div" />
+          <ErrorMessage name={`${prefix}.firstName`} component="div" />
         </div>
       </div>
 
       <div className="sm:col-span-2">
         <label
-          htmlFor="lastName"
+          htmlFor={`${prefix}.lastName`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Name
@@ -31,17 +32,17 @@ function CompanyContact() {
         <div className="mt-2">
           <Field
             type="text"
-            id="lastName"
-            name="lastName"
+            id={`${prefix}.lastName`}
+            name={`${prefix}.lastName`}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name="lastName" component="div" />
+          <ErrorMessage name={`${prefix}.lastName`} component="div" />
         </div>
       </div>
 
       <div className="sm:col-span-2">
         <label
-          htmlFor="designation"
+          htmlFor={`${prefix}.designation`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Designation
@@ -49,17 +50,17 @@ function CompanyContact() {
         <div className="mt-2">
           <Field
             type="text"
-            id="designation"
-            name="designation"
+            id={`${prefix}.designation`}
+            name={`${prefix}.designation`}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name="designation" component="div" />
+          <ErrorMessage name={`${prefix}.designation`} component="div" />
         </div>
       </div>
 
       <div className="sm:col-span-3">
         <label
-          htmlFor="email"
+          htmlFor={`${prefix}.email`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Email address
@@ -67,46 +68,49 @@ function CompanyContact() {
         <div className="mt-2">
           <Field
             type="email"
-            id="email"
-            name="email"
+            id={`${prefix}.email`}
+            name={`${prefix}.email`}
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name="email" component="span" />
+          <ErrorMessage name={`${prefix}.email`} component="span" />
         </div>
       </div>
 
       <div className="sm:col-span-3">
         <label
-          htmlFor="phoneNumber"
+          htmlFor={`${prefix}.phoneNumber`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Phone Number
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
           <div className="absolute inset-y-0 left-0 flex items-center">
-            <label htmlFor="country" className="sr-only">
+            <label htmlFor={`${prefix}.country`} className="sr-only">
               Country
             </label>
             <Field
               as="select"
-              id="country"
-              name="country"
+              id={`${prefix}.country`}
+              name={`${prefix}.country`}
               autoComplete="country"
               className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
             >
-              <option>US</option>
-              <option>CA</option>
-              <option>EU</option>
+              <option value=""></option>
+              {country_list.map((element) => (
+                <option key={element} value={element}>
+                  {element}
+                </option>
+              ))}
             </Field>
           </div>
           <Field
             type="tel"
-            id="phoneNumber"
-            name="phoneNumber"
+            id={`${prefix}.phoneNumber`}
+            name={`${prefix}.phoneNumber`}
             className="block w-full rounded-md border-0 py-1.5 pl-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             placeholder="      +1 (555) 987-6543"
           />
-          <ErrorMessage name="phoneNumber" component="div" />
+          <ErrorMessage name={`${prefix}.phoneNumber`} component="div" />
         </div>
       </div>
     </div>
