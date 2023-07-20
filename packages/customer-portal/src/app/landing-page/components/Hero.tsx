@@ -1,4 +1,54 @@
-import ShippingFilter from '@/app/bookings/components/ShippingFilter';
+'use client'
+import {FaShip, FaPlaneDeparture, FaTruck} from 'react-icons/fa'
+import { useState } from 'react';
+import ShippingFilter from '../../../components/ShippingFilter';
+
+
+const SelectMedium = () => {
+  const [isActive, setActive] = useState("sea");
+
+  const handleSeaClick = () => {
+    setActive("sea")
+  }
+
+  const handleAirClick = () => {
+    setActive("air")
+  }
+
+  const handleLandClick = () => {
+    setActive("land")
+  }
+
+  return (
+    <span className="isolate inline-flex rounded-lg">
+      <button
+        onClick={handleSeaClick}
+        type="button"
+        className={`relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:z-10 ${isActive === 'sea' ? 'bg-blue-400' : 'bg-white'}`}
+      >
+        SEA
+        <FaShip className={`text-gray-900 pl-2 ${isActive === 'sea' ? 'text-rose-400' : ''}`} size={35}/>
+      </button>
+      <button
+        type="button"
+        onClick={handleAirClick}
+        className={`relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:z-10 ${isActive === 'air' ? 'bg-blue-400' : 'bg-white'}`}
+      >
+        AIR
+        <FaPlaneDeparture className={`text-gray-900 pl-2 ${isActive === 'air' ? 'text-rose-400' : ''}`} size={35}/>
+      </button>
+      <button
+        type="button"
+        onClick={handleLandClick}
+        className={`relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:z-10 ${isActive === 'land' ? 'bg-blue-400' : 'bg-white'}`}
+      >
+        LAND
+      <FaTruck className={`text-gray-900 pl-2 ${isActive === 'land' ? 'text-rose-400' : ''}`} size={35}/>
+      </button>
+    </span>
+  )
+}
+
 
 function Hero() {
   return (
@@ -10,6 +60,7 @@ function Hero() {
         <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
           From checkout to global sales tax compliance, companies.
         </p>
+        <SelectMedium />
         <ShippingFilter />
       </div>
     </section>

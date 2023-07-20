@@ -8,9 +8,9 @@ import ServicesCard from './ServicesCard';
 function Service() {
   return (
     <section className="py-16 h-full bg-sky-100">
-      <h1 className=" mb-4 text-3xl font-extrabold tracking-tight leading-none md:text-3xl xl:text-5xl dark:text-white ml-20">
+      <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center">
         Services
-      </h1>
+      </h2>
       <div className="pl-5 pr-5 ">
         <div className=" mx-auto flex justify-evenly p-2 md:m-7 lg:m-9 flex-wrap">
           <ServicesCard

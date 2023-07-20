@@ -12,6 +12,8 @@ import TransporterDetail from './TransporterDetail';
 import LTLDetail from './LTLDetail';
 import AirportDetails from './AirportDetails';
 
+
+
 // formik validation
 const validationSchema = Yup.object({
   billingAddress: Yup.string().required('Billing Address is required'),
@@ -22,6 +24,7 @@ const validationSchema = Yup.object({
     streetAddress: Yup.string().required('Street Address is required'),
     postalCode: Yup.string().required('Postal Code is required'),
   }),
+
   address2: Yup.object().shape({
     country: Yup.string().required('Country is required'),
     region: Yup.string().required('Region is required'),
@@ -29,6 +32,7 @@ const validationSchema = Yup.object({
     streetAddress: Yup.string().required('Street Address is required'),
     postalCode: Yup.string().required('Postal Code is required'),
   }),
+
   transport1: Yup.object().shape({
     typesOfTransport: Yup.string().required('Type of Transport is required'),
     typesOfTruck: Yup.string().required('Type of Truck is required'),
@@ -47,6 +51,7 @@ const validationSchema = Yup.object({
     ),
     basisOfCharges: Yup.string().required('Basis of Charges is required'),
   }),
+
   ltl1: Yup.object().shape({
     typesOfTransport: Yup.string().required('Type of Transport is required'),
     pickUpState: Yup.string().required('Pick Up State is required'),
@@ -60,6 +65,7 @@ const validationSchema = Yup.object({
     ),
     basisOfCharges: Yup.string().required('Basis of Charges is required'),
   }),
+
   companyContact1: Yup.object().shape({
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
@@ -68,6 +74,7 @@ const validationSchema = Yup.object({
     country: Yup.string().required('Country is required'),
     phoneNumber: Yup.string().required('Phone Number is required'),
   }),
+
   warehouse1: Yup.object().shape({
     totalStorageArea: Yup.number().required('Total Storage Area is required'),
     totalAvailableArea: Yup.number().required(
@@ -79,18 +86,7 @@ const validationSchema = Yup.object({
     warehouseInsurance: Yup.string().required(
       'Warehouse Insurance is required'
     ),
-    coldStorage: Yup.boolean().required('Cold Storage is required'),
-    referigeratedTemp: Yup.string().when('coldStorage', {
-      is: true,
-      then: Yup.string().required('Referigerated Temperature is required'),
-    }),
-    hazardousWarehouse: Yup.boolean().required(
-      'Hazardous Warehouse is required'
-    ),
-    hazardousGrade: Yup.string().when('hazardousWarehouse', {
-      is: true,
-      then: Yup.string().required('Hazardous Grade is required'),
-    }),
+    // coldStorage: Yup.boolean('Co'),
     storageCharges: Yup.number().required('Storage Charges is required'),
     storagePerPallet: Yup.number().required(
       'Storage Charges per pallet is required'
@@ -105,6 +101,7 @@ const validationSchema = Yup.object({
       'Minimum Storage Charges per pallet is required'
     ),
   }),
+
   airport1: Yup.object().shape({
     airportOfOrigin: Yup.string().required('Airport of Origin is required'),
     airportOfDestination: Yup.string().required(

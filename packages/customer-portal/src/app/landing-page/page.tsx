@@ -6,6 +6,7 @@ import Service from './components/Service'
 import GetStarted from './components/GetStarted'
 import Feature from './components/Feature'
 import Brand from './components/Brand'
+import HomeBlogSection from './components/HomeBlogSection'
 
 function page() {
   return (
@@ -17,6 +18,7 @@ function page() {
         <GetStarted />
         <Feature />
         <Brand />
+        <HomeBlogSection />
     </>
   )
 }

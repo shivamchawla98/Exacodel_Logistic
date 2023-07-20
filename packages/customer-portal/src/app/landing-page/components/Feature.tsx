@@ -3,7 +3,7 @@ import {BsFillBoxSeamFill} from 'react-icons/bs'
 function Feature() {
   return (
     <section className="relative pt-16 bg-blueGray-50">
-      <h1 className=" mb-12 text-3xl font-extrabold tracking-tight leading-none md:text-3xl xl:text-5xl dark:text-white ml-20">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center mb-6">
         Our Advantages
       </h1>
       <div className="container mx-auto">

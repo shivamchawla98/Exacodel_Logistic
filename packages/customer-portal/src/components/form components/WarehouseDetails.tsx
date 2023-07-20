@@ -1,3 +1,4 @@
+
 import { ErrorMessage, Field } from 'formik';
 import WarehouseCapacity from './WarehouseCapacity';
 import SelectComponent from './SelectComponent';
@@ -9,6 +10,36 @@ interface WarehouseDetailsProps {
 }
 
 const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({ prefix }) => {
+
+  // warehouse validation
+  const validationSchema = Yup.lazy((values) => {
+    return Yup.object().shape({
+      [`${prefix}.coldStorage`]: Yup.boolean(),
+
+      [`${prefix}.hazardousWarehouse`]: Yup.boolean(),
+      [`${prefix}.storageCharges`]: Yup.number()
+        .positive('Number must be positive')
+        .typeError('Storage Charges must be a number')
+        .required('Storage Charges is required'),
+      [`${prefix}.storagePerPallet`]: Yup.number()
+        .positive('Number must be positive')
+        .typeError('Storage Charges per pallet must be a number')
+        .required('Storage Charges per pallet is required'),
+      [`${prefix}.minimumStorageAreaPerPallet`]: Yup.number()
+        .positive('Number must be positive')
+        .typeError('Minimum Storage Area per pallet must be a number')
+        .required('Minimum Storage Area per pallet is required'),
+      [`${prefix}.minimumStorageRent`]: Yup.number()
+        .positive('Number must be positive')
+        .typeError('Minimum Storage Rent must be a number')
+        .required('Minimum Storage Rent is required'),
+      [`${prefix}.minimumStorageChargesPerPallet`]: Yup.number()
+        .positive('Number must be positive')
+        .typeError('Minimum Storage Charges per pallet must be a number')
+        .required('Minimum Storage Charges per pallet is required'),
+    });
+  });
+
   const [tempSelection, setTempSelection] = useState(false);
   const [hazardSelection, setHazardSelection] = useState(false);
 

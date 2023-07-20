@@ -62,7 +62,9 @@ function SearchBar() {
       focus:ring-1
       focus:ring-sky-500
       focus:invalid:border-red-500  focus:invalid:ring-red-500"
-              >{containerAmount}</span>
+              >
+                {containerAmount}
+              </span>
               <button
                 type="button"
                 onClick={() => setContainerAmount(containerAmount + 1)}
