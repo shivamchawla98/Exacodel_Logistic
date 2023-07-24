@@ -1,14 +1,12 @@
 'use client';
+
 import { BsFillCalendarFill } from 'react-icons/bs';
 import { HiLocationMarker } from 'react-icons/hi';
 import { TbArrowsExchange2 } from 'react-icons/tb';
 import { useState } from 'react';
 import ContainerInputBar from '@/components/small components/ContainerInputBar';
-import ports from '../components/mockdata/ports.json'
+import ports from './mockdata/ports.json';
 
-
-
-// export component or main component
 function ShippingFilter() {
   const [show, setToggle] = useState(false);
   const clickHandler = () => {

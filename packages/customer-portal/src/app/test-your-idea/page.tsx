@@ -17,30 +17,17 @@ import AdminInputWarehouse from '@/components/form components/AdminInputWarehous
 import AdminInputDomesticTransport from '@/components/form components/AdminInputDomesticTransport'
 import AdminInputOverseasTransport from '@/components/form components/AdminInputOverseasTransport'
 
-const FilterBar = () => {
-  return (
-    <div className='flex justify-center'>
-    <div className="grid grid-cols-5 divide-x px-3">
-  <div>01</div>
-  <div>02</div>
-  <div>03</div>
-</div>
-    </div>
-  )
-}
 
 
 function page() {
   return (
     <>
-    <FilterBar />
      {/* <StarterForm /> */}
     {/* <CustomerRegistrationForm /> */}
     {/* <VendorRegistrationForm /> */}
     {/* <OverseasRegistrationForm /> */}
     {/* <CustomerProfileUpdate /> */}
-    {/* refactor from here */}
-    {/* <VendorProfileUpdate />  */}
+    <VendorProfileUpdate /> 
     {/* <OverseasAgentProfileUpdate />  */}
 
     {/* Downward forms are refactored  */}

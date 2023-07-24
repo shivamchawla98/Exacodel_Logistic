@@ -19,8 +19,8 @@ function page() {
       <section className="bg-white dark:bg-gray-900 h-full bg-yellow-400">
 
           <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
-          <h1 className="mb-4 mt-7 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">
-              You Have Booked form {from} to {to}
+          <h1 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl text-center">
+              You Have Booked form <br/> {from} to {to}
             </h1>
           </div>
           <h6 className="text-base font-medium text-white leading-tight text-center">
