@@ -40,9 +40,7 @@ function Page() {
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <div>
-              <h1 className="text-2xl font-semibold">
-                Login Form
-              </h1>
+              <h1 className="text-2xl font-semibold">Login Form</h1>
             </div>
             <div className="divide-y divide-gray-200">
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -82,6 +80,17 @@ function Page() {
                   <button className="bg-blue-500 hover:bg-blue-700 text-white rounded-md px-2 py-1">
                     Submit
                   </button>
+                </div>
+                <div>
+                  <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                    Don&apos;t have an account? 
+                    <a
+                      href="/registration"
+                      className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
+                    >
+                      Register
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>

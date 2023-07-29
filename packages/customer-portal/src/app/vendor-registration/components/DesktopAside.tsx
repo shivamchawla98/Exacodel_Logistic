@@ -132,6 +132,17 @@ function DesktopAside({handleClick}: any) {
                 </div>
               </div>
             </li>
+            <li onClick={() => handleClick(6)}>
+              <div
+                className="cursor-pointer w-full p-4 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400"
+                role="alert"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="sr-only">Confirmation</span>
+                  <h3 className="font-medium">6. Rate Input</h3>
+                </div>
+              </div>
+            </li>
           </ol>
         </div>
       </div>

@@ -1,4 +1,5 @@
 
+'use client'
 import StarterForm from '@/components/form components/StarterForm'
 import CustomerRegistrationForm from '@/components/form components/CustomerRegistrationForm'
 import VendorRegistrationForm from '@/components/form components/VendorRegistrationForm'

@@ -4,6 +4,7 @@ import CompanyStatus from './CompanyStatus';
 import Addresses from './Addresses';
 import Contact from './Contact';
 import UploadForm from './UploadForm';
+import CustomClearenceFCLAdminInput from '@/components/form components/CustomClearenceFCLAdminInput';
 
 export default function Main({ showForm }) {
   let componentToShow;
@@ -23,6 +24,9 @@ export default function Main({ showForm }) {
       break;
     case 5:
       componentToShow = <UploadForm />;
+      break;
+    case 6:
+      componentToShow = <CustomClearenceFCLAdminInput />;
       break;
 
     default:

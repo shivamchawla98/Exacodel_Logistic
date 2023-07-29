@@ -16,7 +16,7 @@ function page() {
   let testArr = [1,2,3,4,5,6,7,8,9];
   return (
     <>
-      <section className="bg-white dark:bg-gray-900 h-full bg-yellow-400">
+      <section className="bg-white dark:bg-gray-900 h-full bg-sky-400">
 
           <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
           <h1 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl text-center">
