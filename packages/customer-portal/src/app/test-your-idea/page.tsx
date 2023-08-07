@@ -23,26 +23,26 @@ import AdminInputOverseasTransport from '@/components/form components/AdminInput
 function page() {
   return (
     <>
-     {/* <StarterForm /> */}
-    {/* <CustomerRegistrationForm /> */}
-    {/* <VendorRegistrationForm /> */}
-    {/* <OverseasRegistrationForm /> */}
-    {/* <CustomerProfileUpdate /> */}
+     <StarterForm />
+    <CustomerRegistrationForm />
+    <VendorRegistrationForm />
+    <OverseasRegistrationForm />
+    <CustomerProfileUpdate />
     <VendorProfileUpdate /> 
-    {/* <OverseasAgentProfileUpdate />  */}
+    <OverseasAgentProfileUpdate /> 
 
     {/* Downward forms are refactored  */}
     
-    {/* <SeaFclRateInputByAdmin /> */}
-    {/* <AirRateInputByAdmin /> */}
-    {/* <LCLRateInputByAdmin /> */}
-    {/* <AirDomesticRateInputByAdmin /> */}
-    {/* <CustomClearenceFCLAdminInput /> */}
-    {/* <CustomClearenceBrockerageAirByAdmin /> */}
-    {/* <CustomClearenceBrockerageLCLByAdmin /> */}
-    {/* <AdminInputWarehouse /> */}
-    {/* <AdminInputDomesticTransport /> */}
-    {/* <AdminInputOverseasTransport /> */}
+    <SeaFclRateInputByAdmin />
+    <AirRateInputByAdmin />
+    <LCLRateInputByAdmin />
+    <AirDomesticRateInputByAdmin />
+    <CustomClearenceFCLAdminInput />
+    <CustomClearenceBrockerageAirByAdmin />
+    <CustomClearenceBrockerageLCLByAdmin />
+    <AdminInputWarehouse />
+    <AdminInputDomesticTransport />
+    <AdminInputOverseasTransport />
     </>
   )
 }

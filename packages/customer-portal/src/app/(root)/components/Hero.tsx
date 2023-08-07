@@ -61,7 +61,7 @@ function Hero() {
         <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
           From checkout to global sales tax compliance, companies.
         </p>
-        <div className='absolute right-0'>
+        <div className='absolute right-0 sm:hidden md:hidden lg:block hidden'>
         <World />
 
         </div>

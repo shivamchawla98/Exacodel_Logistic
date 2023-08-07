@@ -12,6 +12,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+import { usePathname } from 'next/navigation'
 
 const tools = [
   { name: 'Logistic Explorer', description: ' Use our real-time freight calculator to compare rates ', href: '/bookings', icon: ChartPieIcon },
@@ -35,10 +36,17 @@ const company = [
   { name: 'Blog', href: '#', description: 'Read our latest announcements and get perspectives from our team' },
 ]
 
-export default function Example() {
+export default function Navbar({navAndFotterHidingRoute}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname();
+  const hideRoutePresent = navAndFotterHidingRoute.find(item => item == pathname)
+  const show = hideRoutePresent === undefined ? true : false;
+  
+  
 
   return (
+    <>
+    {show && 
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
@@ -270,5 +278,7 @@ export default function Example() {
         </Dialog.Panel>
       </Dialog>
     </header>
+    }
+    </>
   )
 }

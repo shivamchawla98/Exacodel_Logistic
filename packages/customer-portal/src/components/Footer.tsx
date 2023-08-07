@@ -1,5 +1,7 @@
 'use client'
 
+import { usePathname } from "next/navigation";
+
 const navigation = {
   tools: [
     { name: 'Logistics Explorer', href: '/bookings' },
@@ -79,8 +81,13 @@ const navigation = {
   ],
 }
 
-export default function Example() {
+export default function Example({navAndFotterHidingRoute}) {
+  const pathname = usePathname();
+  const hideRoutePresent = navAndFotterHidingRoute.find(item => item == pathname)
+  const show = hideRoutePresent === undefined ? true : false;
   return (
+    <>
+    { show &&
     <footer className="bg-white" aria-labelledby="footer-heading">
       <h2 id="footer-heading" className="sr-only">
         Footer
@@ -165,5 +172,7 @@ export default function Example() {
         </div>
       </div>
     </footer>
+    }
+    </>
   )
 }
