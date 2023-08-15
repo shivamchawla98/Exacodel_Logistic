@@ -47,9 +47,9 @@ export default function Navbar({navAndFotterHidingRoute}) {
   return (
     <>
     {show && 
-    <header className="bg-white">
+    <header className="bg-white z-50">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div className="flex lg:flex-1">
+        <div className="flex lg:flex-1 z-50">
           <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
@@ -66,8 +66,8 @@ export default function Navbar({navAndFotterHidingRoute}) {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
-          <Popover className="relative">
-            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+          <Popover className="relative z-50">
+            <Popover.Button className="flex left-14 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Tools
               <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
             </Popover.Button>
@@ -81,7 +81,7 @@ export default function Navbar({navAndFotterHidingRoute}) {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+              <Popover.Panel className="absolute -left-8 top-full mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
                 <div className="p-4">
                   {tools.map((item) => (
                     <div
@@ -124,7 +124,7 @@ export default function Navbar({navAndFotterHidingRoute}) {
             References
           </a>
 
-          <Popover className="relative">
+          <Popover className="relative z-50">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Company
               <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
@@ -153,7 +153,7 @@ export default function Navbar({navAndFotterHidingRoute}) {
             </Transition>
           </Popover>
 
-          <Popover className="relative">
+          <Popover className="relative z-50">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Integration
               <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
@@ -181,12 +181,13 @@ export default function Navbar({navAndFotterHidingRoute}) {
               </Popover.Panel>
             </Transition>
           </Popover>
-        </Popover.Group>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
           <a href="/login" className="text-sm font-semibold leading-6 text-gray-900 hover:text-sky-800">
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
+        </Popover.Group>
+
 
       </nav>
 

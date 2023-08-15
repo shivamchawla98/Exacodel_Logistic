@@ -8,6 +8,7 @@ import Feature from './components/Feature'
 import Brand from './components/Brand'
 import HomeBlogSection from './components/HomeBlogSection'
 import World from '@/components/Globe'
+import Descript from './components/Descript'
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <Hero />
 
         <HotDeals />
+        <Descript />
         <Service />
         <GetStarted />
         <Feature />

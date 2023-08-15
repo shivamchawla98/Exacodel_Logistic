@@ -74,6 +74,9 @@ function ShippingFilter() {
   return (
     <form onClick={closeSuggestion} className="w-full flex-wrap flex justify-center item-center pt-12 pb-12">
       <div className="w-11/12 md:w-3/12 lg:w-3/12  relative mt-2 bg-white ml-2 mr-2 rounded-md shadow-sm px-3.5 py-2.5">
+
+      </div>
+      <div className="w-11/12 md:w-3/12 lg:w-3/12  relative mt-2 bg-white ml-2 mr-2 rounded-md shadow-sm px-3.5 py-2.5">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
           <HiLocationMarker
             className="h-5 w-5 text-gray-400"
@@ -91,15 +94,14 @@ function ShippingFilter() {
         />
         <div
           id="suggestion"
-          className="left-0 absolute z-20 mt-4 w-full overflow-hidden rounded-md bg-white"
+          className="left-0 absolute z-50 mt-4 w-full overflow-hidden rounded-md bg-white"
         >
           {Array.isArray(suggestionsFrom)
             ? suggestionsFrom?.slice(0, 5).map(([key, data]) => (
                 <div
                   key={key}
                   onClick={() => handleSelectFrom(data.name)}
-                  key={key}
-                  className="cursor-pointer py-2 px-3 hover:bg-slate-100 z-20"
+                  className="cursor-pointer py-2 px-3 hover:bg-slate-100"
                 >
                   <p className="text-sm font-medium text-gray-600">
                     {data.name}
@@ -133,15 +135,14 @@ function ShippingFilter() {
         />
         <div
           id="suggestion"
-          className="left-0 absolute z-20 mt-4 w-full overflow-hidden rounded-md bg-white"
+          className="left-0 absolute z-50 mt-4 w-full overflow-hidden rounded-md bg-white"
         >
           {Array.isArray(suggestionsTo)
             ? suggestionsTo?.slice(0, 5).map(([key, data]) => (
                 <div
                   key={key}
                   onClick={() => handleSelectTo(data.name)}
-                  key={key}
-                  className="cursor-pointer py-2 px-3 hover:bg-slate-100"
+                  className="cursor-pointer py-2 px-3 hover:bg-slate-100 z-40"
                 >
                   <p className="text-sm font-medium text-gray-600">
                     {data.name}
@@ -173,8 +174,8 @@ function ShippingFilter() {
         >
           Book Now
         </button>
-        <div className=" z-20">{show ? <ContainerInputBar /> : ''}</div>
       </div>
+      <div className=" z-20">{show ? <ContainerInputBar /> : ''}</div>
     </form>
   );
 }

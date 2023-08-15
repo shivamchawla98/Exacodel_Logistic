@@ -1,94 +1,74 @@
-import {BsFillBoxSeamFill} from 'react-icons/bs'
+import OurProductCard from "@/components/OurProductCard";
+import OurProductShortCard from "@/components/OurProductShortCard";
+import { BsFillBoxSeamFill } from "react-icons/bs";
+
+const incentives = [
+  {
+    name: "Free shipping",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce/icons/icon-shipping-simple.svg",
+    description:
+      "It's not actually free we just price it into the products. Someone's paying for it, and it's not us.",
+  },
+  {
+    name: "10-year warranty",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce/icons/icon-warranty-simple.svg",
+    description:
+      "If it breaks in the first 10 years we'll replace it. After that you're on your own though.",
+  },
+  {
+    name: "Exchanges",
+    imageSrc:
+      "https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg",
+    description:
+      "If you don't like it, trade it to one of your friends for something of theirs. Don't send it here though.",
+  },
+];
 
 function Feature() {
   return (
-    <section className="relative pt-16 bg-blueGray-50">
+    <section className="relative pt-16 bg-sky-100">
       <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center mb-6">
-        Our Advantages
+        Our Products
       </h1>
-      <div className="container mx-auto">
-        <div className="flex flex-wrap items-center">
-          <div className="w-10/12 md:w-6/12 lg:w-4/12 px-12 md:px-4 mr-auto ml-auto -mt-78">
-            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-pink-500">
-              <img
-                alt="..."
-                src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80"
-                className="w-full align-middle rounded-t-lg"
-              />
-              <blockquote className="relative p-8 mb-4">
-                <h4 className="text-xl font-bold text-white">
-                  Ship With us to Get Awesome deal
-                </h4>
-                <p className="text-md font-light mt-2 text-white">
-                  Putting together a page has never been easier than matching
-                  together pre-made components. From landing pages presentation
-                  to login areas, you can easily customise and built your pages.
-                </p>
-              </blockquote>
+      <div className="w-11/12 flex justify-center flex-col">
+        <div className="w-1/6 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+          <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
+            hsdjsdcsd slknl skdnc
+          </h2>
+        </div>
+        <div className="flex justify-center items-center w-screen ">
+          <OurProductCard itemsArray={incentives} />
+        </div>
+
+        <div className="flex justify-evenly items-center w-screen ">
+          <div className="mt-12 justify-center flex-col lg:w-2/5">
+            <div className="w-96 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+              <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
+                hsdjsdcsd slknl skdnc
+              </h2>
             </div>
+            <OurProductShortCard itemsArray={incentives.slice(0, 2)} />
           </div>
-          <div className="w-full md:w-6/12 px-4">
-            <div className="flex flex-wrap">
-              <div className="w-full md:w-6/12 px-4">
-                <div className="relative flex flex-col mt-4">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
-                      <i className="fas fa-sitemap" />
-                    </div>
-                    <h6 className="text-xl mb-1 font-semibold">
-                      Easy freight Booking
-                    </h6>
-                    <p className="mb-4 text-blueGray-500">
-                      Notus JS comes with a huge number of Fully Coded CSS
-                      components.
-                    </p>
-                  </div>
-                </div>
-                <div className="relative flex flex-col min-w-0">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
-                      <i className="fas fa-drafting-compass" />
-                    </div>
-                    <h6 className="text-xl mb-1 font-semibold">
-                      Save With Loyalty
-                    </h6>
-                    <p className="mb-4 text-blueGray-500">
-                      We also feature many dynamic components for React, NextJS,
-                      Vue and Angular.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full md:w-6/12 px-4">
-                <div className="relative flex flex-col min-w-0 mt-4">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
-                      <i className="fas fa-newspaper" />
-                    </div>
-                    <h6 className="text-xl mb-1 font-semibold">End to End Support</h6>
-                    <p className="mb-4 text-blueGray-500">
-                      This extension also comes with 3 sample pages. They are
-                      fully coded so you can start working instantly.
-                    </p>
-                  </div>
-                </div>
-                <div className="relative flex flex-col min-w-0">
-                  <div className="px-4 py-5 flex-auto">
-                    <div className="text-blueGray-500 p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-white">
-                      <i className="fas fa-file-alt" />
-                    </div>
-                    <h6 className="text-xl mb-1 font-semibold">
-                      All in one Shipping
-                    </h6>
-                    <p className="mb-4 text-blueGray-500">
-                      Built by developers for developers. You will love how easy
-                      is to to work with Notus JS.
-                    </p>
-                  </div>
-                </div>
-              </div>
+
+          <div className="mt-12 justify-center flex-col lg:w-2/5">
+            <div className="w-96 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+              <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
+                hsdjsdcsd slknl skdnc
+              </h2>
             </div>
+            <OurProductShortCard itemsArray={incentives.slice(0, 2)} />
           </div>
+        </div>
+
+        <div className="mt-12 w-1/6 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+          <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
+            hsdjsdcsd slknl skdnc
+          </h2>
+        </div>
+        <div className="flex mb-12 justify-center items-center w-screen ">
+          <OurProductCard itemsArray={incentives} />
         </div>
       </div>
     </section>

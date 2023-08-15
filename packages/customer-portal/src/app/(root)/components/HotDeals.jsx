@@ -11,7 +11,7 @@ function HotDeals() {
       </h1>
 
       {/* import Offer */}
-      <h3 className="mb-4 text-xl font-semibold tracking-tight leading-none md:text-2xl xl:text-2xl dark:text-white pl-10 pt-4">
+      <h3 className="mb-4 text-xl font-semibold tracking-tight leading-none md:text-2xl xl:text-2xl text-center dark:text-white pt-12">
         Import Offers
       </h3>
       <div className="flex justify-center flex-wrap">
@@ -27,7 +27,7 @@ function HotDeals() {
       </div>
 
       {/* export offer */}
-      <h3 className="mb-4 text-xl font-semibold tracking-tight leading-none md:text-2xl xl:text-2xl dark:text-white pl-10 pt-9">
+      <h3 className="mb-4 text-xl font-semibold tracking-tight leading-none md:text-2xl xl:text-2xl dark:text-white text-center pt-12">
         Export Offers
       </h3>
       <div className="flex justify-center flex-wrap">
