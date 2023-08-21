@@ -3,7 +3,7 @@ import LogoImg from "./LogoImg";
 function Brand() {
   return (
     <section className="bg-white ">
-      <div className="container flex mt-24 justify-center items-center">
+      <div className="w-full flex mt-24 justify-center items-center">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full px-4">
             <div className="flex flex-wrap items-center justify-center">

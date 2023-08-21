@@ -1,7 +1,7 @@
 
 function OurProductCard({itemsArray}) {
   return (
-    <div className="mx-auto w-11/12 bg-white shadow-lg rounded-lg py-8 grid max-w-sm grid-cols-1 gap-x-8 gap-y-10 sm:max-w-none lg:grid-cols-3">
+    <div className="mx-auto w-11/12 bg-white shadow-lg items-center rounded-lg py-8 grid max-w-sm grid-cols-1 gap-x-8 gap-y-10 sm:max-w-none lg:grid-cols-3">
       {itemsArray.map((incentive) => (
         <div
           key={incentive.name}

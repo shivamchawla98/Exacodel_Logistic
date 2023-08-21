@@ -1,9 +1,22 @@
+'use client'
+
 import Image from 'next/image';
 import maersk from '../asset/images/maersk.png';
 import {LuShip} from 'react-icons/lu'
 import {AiOutlineArrowRight} from 'react-icons/ai'
+import { useState } from 'react';
+import Modal from './ShipmentInformation';
 
 function ShippingProviderCard({img, fromDestination, toDestination}) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div
       style={{ marginTop: '56px' }}
@@ -20,12 +33,13 @@ function ShippingProviderCard({img, fromDestination, toDestination}) {
         <ol className="flex items-center w-full mt-2">
           <li className="flex w-full items-center text-blue-600 dark:text-blue-500 after:content-[''] after:w-full after:h-1 after:border-b after:border-blue-100 after:border-4 after:inline-block dark:after:border-blue-800">
             <span className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-800 shrink-0">
-            <LuShip />
+            {/* <LuShip /> */}
             </span>
           </li>
+          <LuShip />
           <li className="flex w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block dark:after:border-gray-700">
             <span className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0">
-            <LuShip />
+            
             </span>
           </li>
         </ol>
@@ -37,10 +51,19 @@ function ShippingProviderCard({img, fromDestination, toDestination}) {
         </div>
       </div>
       <div className="flex justify-center my-auto">
-        <button className="bg-rose-500 hover:bg-rose-400 text-white font-bold py-2 px-4 rounded h-12">
-          BOOk NOW
+        <button
+          onClick={openModal}
+         className="bg-sky-500 hover:bg-sky-400 text-white font-bold py-2 px-4 rounded h-auto">
+          <p className='text-gray-800'>$789</p>
+          <p className='text-xs'>BOOk NOW</p>
         </button>
       </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        title="Modal Title"
+        content="Modal content goes here."
+      />
     </div>
   );
 }

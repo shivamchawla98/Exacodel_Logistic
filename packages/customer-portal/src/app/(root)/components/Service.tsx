@@ -22,7 +22,7 @@ function Service() {
         <div className=" mx-auto flex justify-evenly p-2 pb-10 md:m-7 lg:m-9 flex-wrap">
           <ServicesCard icons={<FiMonitor size={30} color="#922724" />} />
           <ServicesCard icons={<MdSupportAgent size={30} color="purple" />} />
-          <div className="w-80 invisible lg:visible"></div>
+          <div className="w-96 invisible lg:visible"></div>
         </div>
       </div>
     </section>

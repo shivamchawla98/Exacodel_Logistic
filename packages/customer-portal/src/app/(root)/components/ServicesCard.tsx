@@ -4,7 +4,7 @@
 function ServicesCard({icons}) {
 
   return (
-    <div className="max-w-sm p-6 mt-8 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-w-sm p-6 mt-8 w-96 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-52">
       <div className="flex justify-between items-center ">
         <div className="bg-slate-200 flex justify-center items-center w-12 h-12 rounded">
           {icons}

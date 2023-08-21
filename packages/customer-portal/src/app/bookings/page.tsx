@@ -1,17 +1,18 @@
 
-import ContainerFilter from '@/components/small components/ContainerFilter';
-import ShipingLineFilter from '@/components/small components/ShipingLineFilter';
-import ShippingProviderCard from '@/components/ShippingProviderCard';
-import ShippingFilter from './components/ShippingFilter';
+import ContainerFilter from "@/components/small components/ContainerFilter";
+import ShipingLineFilter from "@/components/small components/ShipingLineFilter";
+import BookingCard from "./components/BookingCard";
+import ShippingFilter from "./components/ShippingFilter";
+
 
 
 function page() {
-  let from = 'porbandar';
-  let to = 'china';
+  let from = "porbandar";
+  let to = "china";
   from = from.toUpperCase();
   to = to.toUpperCase();
-  let testArr = [1,2,3,4,5,6,7,8,9];
-  
+  let testArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
   return (
     <>
       <section className="bg-white dark:bg-gray-900 h-full">
@@ -23,18 +24,16 @@ function page() {
           </div>
       </section>
 
-
-
       <div className="md:flex md:justify-evenly">
-        <div className=" p-7 md:ml-7 lg:ml-7 shadow-lg">
+        <div className="p-7 md:ml-7 lg:ml-7 shadow-lg">
           <ContainerFilter />
           <ShipingLineFilter />
         </div>
         <div className='w-full p-2 lg:w-3/6 mx-auto'>
-        {testArr.map((element) =>  <ShippingProviderCard img="1" key={element} fromDestination="Abbu Dhabi" toDestination="Bandar Abbas" />)}
+        {testArr.map((element) =>  <BookingCard img="1" key={element} fromDestination="Abbu Dhabi" toDestination="Bandar Abbas" />)}
 
         </div>
-        
+
       </div>
     </>
   );

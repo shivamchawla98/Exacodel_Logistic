@@ -33,41 +33,49 @@ function Feature() {
         Our Products
       </h1>
       <div className="w-11/12 flex justify-center flex-col">
-        <div className="w-1/6 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+        <div className="ml-8 lg:w-1/6 bg-blue-500 rounded-tr-lg rounded-tl-lg md:ml-20 lg:ml-20 ">
           <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-            hsdjsdcsd slknl skdnc
+            hsdjsdcsd slknl skdnc 
           </h2>
         </div>
-        <div className="flex justify-center items-center w-screen ">
+        <div className="w-screen flex justify-center items-center">
           <OurProductCard itemsArray={incentives} />
         </div>
 
-        <div className="flex justify-evenly items-center w-screen ">
-          <div className="mt-12 justify-center flex-col lg:w-2/5">
-            <div className="w-96 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+        <div className="w-screen flex justify-evenly items-center flex-wrap">
+          <div className="lg:w-1/2">
+            <div className="mt-12 flex justify-center">
+            <div className="w-80 bg-blue-500 rounded-tr-lg rounded-tl-lg">
               <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
                 hsdjsdcsd slknl skdnc
               </h2>
             </div>
-            <OurProductShortCard itemsArray={incentives.slice(0, 2)} />
+            </div>
+            <div className="mb-12  flex justify-center items-center ">
+              <OurProductShortCard itemsArray={incentives.slice(0,2)} />
+            </div>
           </div>
 
-          <div className="mt-12 justify-center flex-col lg:w-2/5">
-            <div className="w-96 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+          <div className="lg:w-1/2">
+            <div className="mt-12 flex justify-center">
+            <div className="w-80 bg-blue-500 rounded-tr-lg rounded-tl-lg">
               <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
                 hsdjsdcsd slknl skdnc
               </h2>
             </div>
-            <OurProductShortCard itemsArray={incentives.slice(0, 2)} />
+            </div>
+            <div className="mb-12  flex justify-center items-center ">
+              <OurProductShortCard itemsArray={incentives.slice(0,2)} />
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 w-1/6 bg-blue-600 rounded-tr-lg rounded-tl-lg ml-20">
+        <div className="ml-8 lg:w-1/6 bg-blue-500 rounded-tr-lg rounded-tl-lg md:ml-20 lg:ml-20 ">
           <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-            hsdjsdcsd slknl skdnc
+            hsdjsdcsd slknl skdnc 
           </h2>
         </div>
-        <div className="flex mb-12 justify-center items-center w-screen ">
+        <div className="mb-12 w-screen flex justify-center items-center ">
           <OurProductCard itemsArray={incentives} />
         </div>
       </div>
