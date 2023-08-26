@@ -36,14 +36,14 @@ const teams = [
   { id: 3, name: "More", href: "#", initial: "M", current: false },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dashSection, setDashSection] = useState("user");
-  const handleMenuClick = (e) => {
+  const handleMenuClick = (e: any) => {
     
     setDashSection(e.target.id);
     navigation.map((item) => {

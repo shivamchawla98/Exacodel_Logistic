@@ -134,7 +134,7 @@ function VendorProfileUpdate() {
   const [showTransportField, setShowTransportField] = useState(false);
   const [showLTLField, setShowLTLField] = useState(false);
 
-  const handleBillingAddress = (values) => {
+  const handleBillingAddress = (values: any) => {
     // Access values here
     setShowAdressField(!showAddressField); // Accessing individual field value
 
@@ -223,7 +223,7 @@ function VendorProfileUpdate() {
     // Add initial values for other fields
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
   };

@@ -16,7 +16,7 @@ const validationSchema = Yup.object({
 });
 
 function AdminInputOverseasTransport() {
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
   };

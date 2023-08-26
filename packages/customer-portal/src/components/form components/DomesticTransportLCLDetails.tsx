@@ -6,7 +6,7 @@ import {
   basisOfCharges,
 } from '../data/dropdownData';
 
-function DomesticTransporLTLtDetails(prefix) {
+function DomesticTransporLTLtDetails(prefix: any) {
   return (
     <>
       <h2 className="font-semibold text-gray-900 col-span-3">

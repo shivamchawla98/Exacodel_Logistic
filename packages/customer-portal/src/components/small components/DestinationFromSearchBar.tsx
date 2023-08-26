@@ -6,8 +6,22 @@ import ports from '../mockdata/ports.json';
 import Suggestion from './Suggestion';
 
 function SearchBar() {
+  type Location = {
+    name: string;
+    city: string;
+    country: string;
+    alias: string[];
+    regions: string[];
+    coordinates: number[];
+    province: string;
+    timezone: string;
+    unlocs: string[];
+    code: string;
+  };
+  
+  type Suggestions = [string, Location][];
   const [inputValue, setInputValue] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<Suggestions>([]);
   let count = 0;
 
   const handleChange = async (event: { target: { value: any } }) => {
@@ -17,7 +31,7 @@ function SearchBar() {
     const generatedSuggestions = await generateSuggestions(value);
     console.log('generated suggestions : ', generateSuggestions);
     // eslint-disable-next-line react/jsx-key
-    setSuggestions(generatedSuggestions);
+    setSuggestions(generatedSuggestions as Suggestions);
   };
 
   const handleSelect = (selectedValue: SetStateAction<string>) => {
@@ -27,7 +41,7 @@ function SearchBar() {
     setSuggestions([]);
   };
 
-  const generateSuggestions = async (inputValue) => {
+  const generateSuggestions = async (inputValue: any) => {
     // Generate or fetch suggestions based on the input value
     // Example: You can make an API call to fetch suggestions from a backend endpoint
     // For simplicity, using a static list of suggestions here
@@ -39,7 +53,6 @@ function SearchBar() {
     );
   };
 
-  console.log(ports.json);
 
   return (
     <div className="translate-y-1/3">

@@ -2,7 +2,7 @@ import { basisOfCharges, maxPayLoad, pincode, states, truckTypes } from "../data
 import SelectComponet from "./SelectComponent";
 import TextField from "./TextField";
 
-function OverseasTruckingDetails({prefix}) {
+function OverseasTruckingDetails({prefix}: any) {
   return (
     <>
      <h2 className="font-semibold text-gray-900 col-span-3">

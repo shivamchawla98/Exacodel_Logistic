@@ -6,7 +6,7 @@ import Contact from './Contact';
 import UploadForm from './UploadForm';
 import CustomClearenceFCLAdminInput from '@/components/form components/CustomClearenceFCLAdminInput';
 
-export default function Main({ showForm }) {
+export default function Main({ showForm }: any) {
   let componentToShow;
 
   switch (showForm) {

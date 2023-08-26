@@ -1,7 +1,7 @@
 import SelectComponet from './SelectComponent';
 import TextField from './TextField';
 
-function CustomClearenceBrockerageLCLDetail({ prefix }) {
+function CustomClearenceBrockerageLCLDetail({ prefix }: any) {
   return (
     <>
       <h2 className="col-span-3">Upload Sea Rates</h2>

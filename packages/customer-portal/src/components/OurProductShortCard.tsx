@@ -1,9 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 
-function OurProductCard({itemsArray}) {
+function OurProductCard({itemsArray}: any) {
     return (
       <div className="mx-auto w-11/12 bg-white shadow-lg items-center rounded-lg py-8 grid max-w-sm grid-cols-1 gap-x-8 gap-y-10 sm:max-w-none lg:grid-cols-2">
-        {itemsArray.map((incentive) => (
+        {itemsArray.map((incentive: any) => (
           <div
             key={incentive.name}
             className="text-center sm:flex sm:text-left lg:block lg:text-center"

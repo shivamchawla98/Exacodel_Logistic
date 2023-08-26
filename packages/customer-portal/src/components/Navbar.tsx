@@ -37,10 +37,10 @@ const company = [
   { name: 'Blog', href: '#', description: 'Read our latest announcements and get perspectives from our team' },
 ]
 
-export default function Navbar({navAndFotterHidingRoute}) {
+export default function Navbar({navAndFotterHidingRoute}: any) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname();
-  const hideRoutePresent = navAndFotterHidingRoute.find(item => item == pathname)
+  const hideRoutePresent = navAndFotterHidingRoute.find((item: any) => item == pathname)
   const show = hideRoutePresent === undefined ? true : false;
   
   

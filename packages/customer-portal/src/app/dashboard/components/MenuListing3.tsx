@@ -1,15 +1,15 @@
-function classNames(...classes) {
+function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ');
   }
 
-const MenuListing3 = ({ navArray, title }) => {
+const MenuListing3 = ({ navArray, title }: any) => {
   return (
     <>
       <div className="text-xs font-semibold leading-6 text-gray-400 pt-5">
         {title}
       </div>
       <ul role="list" className="-mx-2 mt-2 space-y-1">
-        {navArray.map((nav) => (
+        {navArray.map((nav: any) => (
           <li key={nav.name}>
             <a
               href={nav.href}

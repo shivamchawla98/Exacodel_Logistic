@@ -16,15 +16,31 @@ function ShippingFilter() {
     console.log(show);
   };
 
+
+type Location = {
+  name: string;
+  city: string;
+  country: string;
+  alias: string[];
+  regions: string[];
+  coordinates: number[];
+  province: string;
+  timezone: string;
+  unlocs: string[];
+  code: string;
+};
+
+type Suggestions = [string, Location][];
+
   // suggetion code
 
   const [inputValueTo, setInputValueTo] = useState("");
   const [inputValueFrom, setInputValueFrom] = useState("");
-  const [suggestionsFrom, setSuggestionsFrom] = useState([]);
-  const [suggestionsTo, setSuggestionsTo] = useState([]);
+  const [suggestionsFrom, setSuggestionsFrom] = useState<Suggestions>([]);
+  const [suggestionsTo, setSuggestionsTo] = useState<Suggestions>([]);
   let count = 0;
 
-  const handleChange = async (event: { target: { value: any } }) => {
+  const handleChange = async (event: any) => {
     const value = event.target.value;
     event.target.id === "from"
       ? setInputValueFrom(value)
@@ -36,11 +52,11 @@ function ShippingFilter() {
     console.log("generated suggestions : ", generateSuggestions);
     // eslint-disable-next-line react/jsx-key
     event.target.id === "from"
-      ? setSuggestionsFrom(generatedSuggestions)
-      : setSuggestionsTo(generatedSuggestions);
+      ? setSuggestionsFrom(generatedSuggestions as Suggestions)
+      : setSuggestionsTo(generatedSuggestions as Suggestions);
   };
 
-  const handleSelectTo = (selectedValue: SetStateAction<string>) => {
+  const handleSelectTo = (selectedValue: any) => {
     setInputValueTo(selectedValue);
     console.log(selectedValue);
 
@@ -53,14 +69,14 @@ function ShippingFilter() {
     console.log(">>>>>>>>>> ", inputValueTo);
   };
 
-  const handleSelectFrom = (selectedValue: SetStateAction<string>) => {
+  const handleSelectFrom = (selectedValue: any) => {
     setInputValueFrom(selectedValue);
     console.log(selectedValue);
 
     setSuggestionsFrom([]);
   };
 
-  const generateSuggestions = async (inputValue) => {
+  const generateSuggestions = async (inputValue: any) => {
     // Generate or fetch suggestions based on the input value
     // Example: You can make an API call to fetch suggestions from a backend endpoint
     // For simplicity, using a static list of suggestions here
@@ -205,7 +221,6 @@ function ShippingFilter() {
           <BsFillCalendarFill className="h-5 w-5 text-gray-400" />
         </div>
         <input
-          datepicker=""
           type="date"
           className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-600 font-medium placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
           placeholder="Select date"

@@ -2,7 +2,7 @@ import { ErrorMessage, Field } from 'formik';
 import React from 'react';
 import countries from '../data/country';
 
-function Address({prefix}) {
+function Address({prefix}: any) {
   return (
     <>
       {/* country */}

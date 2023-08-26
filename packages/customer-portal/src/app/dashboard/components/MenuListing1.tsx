@@ -3,7 +3,10 @@ function classNames(...classes: any) {
 }
 
 
-const MenuListing1 = ({ navArray, title="" , onClickHandler}) => {
+
+
+
+const MenuListing1 = ({ navArray, title="" }: any) => {
     return (
       <li>
         {title !== undefined ? (
@@ -14,11 +17,10 @@ const MenuListing1 = ({ navArray, title="" , onClickHandler}) => {
           ''
         )}
         <ul role="list" className="-mx-2 space-y-1">
-          {navArray.map((item) => (
+          {navArray.map((item: any) => (
             <li key={item.name} >
               <a
                 id={item.href} 
-                onClick={onClickHandler}
                 href="#"
                 className={classNames(
                   item.current

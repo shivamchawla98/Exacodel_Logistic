@@ -1,7 +1,7 @@
 import SelectComponet from "./SelectComponent"
 import TextField from "./TextField"
 
-function UploadClearenceChargesOverseasUpdate({prefix}) {
+function UploadClearenceChargesOverseasUpdate({prefix}: any) {
   return (
     <>
     <SelectComponet options={["1","2","3"]} id={`${prefix}.portOfClearence`} title={"Port OF Clearence"} />

@@ -7,7 +7,7 @@ function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     const formData = new FormData(event.target);

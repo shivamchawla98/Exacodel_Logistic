@@ -1,7 +1,7 @@
 import { ErrorMessage, Field } from 'formik';
 import country_list from '../data/country';
 
-function CompanyContact({ prefix }) {
+function CompanyContact({ prefix }: any) {
   return (
     <div className="mt-10 grid grid-cols-1 col-span-3 gap-x-6 gap-y-8 sm:grid-cols-6">
       <div className="sm:col-span-2">

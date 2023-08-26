@@ -27,7 +27,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         Username
                       </label>
@@ -42,7 +42,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         Email address
                       </label>
@@ -57,7 +57,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         First Name
                       </label>
@@ -72,7 +72,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         Last Name
                       </label>
@@ -93,7 +93,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         Address
                       </label>
@@ -108,7 +108,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         City
                       </label>
@@ -123,7 +123,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         Country
                       </label>
@@ -138,7 +138,7 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         Postal Code
                       </label>
@@ -159,12 +159,11 @@ function UserDetails() {
                     <div className="relative w-full mb-3">
                       <label
                         className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
+                        htmlFor="grid-password"
                       >
                         About me
                       </label>
                       <textarea
-                        type="text"
                         className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                         rows={4}
                         defaultValue={

@@ -1,6 +1,6 @@
 import TextField from "./TextField";
 
-function LCLCostBreakDown({prefix}) {
+function LCLCostBreakDown({prefix}: any) {
   return (
     <>
       {/* cost break down */}

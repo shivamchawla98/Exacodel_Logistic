@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from './TextField';
 import SelectComponet from './SelectComponent';
 
-function LCLSeaRates({ prefix }) {
+function LCLSeaRates({ prefix }: any) {
   return (
     <>
       {/* upload sea rates */}

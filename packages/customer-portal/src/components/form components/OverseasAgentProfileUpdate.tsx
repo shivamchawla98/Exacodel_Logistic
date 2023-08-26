@@ -25,7 +25,7 @@ function OverseasAgentProfileUpdate() {
   const [showAddressField, setShowAdressField] = useState(false);
   const [showWarehouseAddress, setShowWarehouseAddress] = useState(false);
 
-  const handleBillingAddress = (values) => {
+  const handleBillingAddress = (values: any) => {
     // Access values here
     setShowAdressField(!showAddressField); // Accessing individual field value
 
@@ -60,7 +60,7 @@ function OverseasAgentProfileUpdate() {
     termsAccepted: '',
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
   };

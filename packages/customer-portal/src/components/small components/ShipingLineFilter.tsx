@@ -2,7 +2,7 @@
 import { shippingLines } from '../data/dropdownData';
 import { useState } from 'react';
 
-const Listings = ({ id, line, handleClick, active }) => {
+const Listings = ({ id, line, handleClick, active }: any) => {
   return (
     <div className="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
       <input
@@ -27,9 +27,9 @@ const Listings = ({ id, line, handleClick, active }) => {
 };
 
 function ShipingLineFilter() {
-  const [active, setActive] = useState([]);
+  const [active, setActive] = useState<string[]>([])
 
-  const handleClick = (line) => {
+  const handleClick = (line: string) => {
     if (active.includes(line)) {
       // If the line is already active, remove it from the active array
       setActive(active.filter((item) => item !== line));

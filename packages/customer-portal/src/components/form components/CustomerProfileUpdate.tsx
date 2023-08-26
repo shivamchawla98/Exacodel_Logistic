@@ -80,7 +80,7 @@ function CustomerProfileUpdate() {
     companyCountry: '',
     companyPhoneNumber: '',
   };
-  const handleBillingAddress = (values) => {
+  const handleBillingAddress = (values:any) => {
     // Access values here
     setShowAdressField(!showAddressField); // Accessing individual field value
 
@@ -89,7 +89,7 @@ function CustomerProfileUpdate() {
   };
 
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
   };

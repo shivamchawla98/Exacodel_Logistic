@@ -7,7 +7,7 @@ import {AiOutlineArrowRight} from 'react-icons/ai'
 import { useState } from 'react';
 import Modal from './ShipmentInformation';
 
-function ShippingProviderCard({img, fromDestination, toDestination}) {
+function ShippingProviderCard({img, fromDestination, toDestination}: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -60,10 +60,7 @@ function ShippingProviderCard({img, fromDestination, toDestination}) {
       </div>
       <Modal
         isOpen={isModalOpen}
-        onClose={closeModal}
-        title="Modal Title"
-        content="Modal content goes here."
-      />
+        onClose={closeModal} departure={''} arrival={''} readyToLoad={''} typeOfDelivery={''} cargoDetail={''}      />
     </div>
   );
 }

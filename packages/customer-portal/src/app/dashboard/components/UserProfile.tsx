@@ -16,7 +16,7 @@ const UserAvtar = ({
   user = "John Doe",
   company = "abc company",
   userImage,
-}) => {
+}: any) => {
   return (
     <>
       <div className="flex bg-white flex-col justify-center shadow-sm rounded-sm p-8 items-center">
@@ -32,7 +32,7 @@ const UserAvtar = ({
   );
 };
 
-const FieldInProfileSection = ({ fieldName, data }) => {
+const FieldInProfileSection = ({ fieldName, data }: any) => {
   return (
     <div className="pt-6 sm:flex">
       <dt className="font-medium text-gray-800 sm:w-64 sm:flex-none sm:pr-6">
@@ -51,7 +51,7 @@ const FieldInProfileSection = ({ fieldName, data }) => {
   );
 };
 
-const ProfileInfoSection = ({ children, title = "Profile" }) => {
+const ProfileInfoSection = ({ children, title = "Profile" }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {

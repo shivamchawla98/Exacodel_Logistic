@@ -1,4 +1,4 @@
-function SubmitButtons({id1, title1, id2, title2}) {
+function SubmitButtons({id1, title1, id2, title2}: any) {
   return (
     <>
       {/* buttons */}

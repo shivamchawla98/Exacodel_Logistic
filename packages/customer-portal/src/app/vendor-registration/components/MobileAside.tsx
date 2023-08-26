@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { PhotoIcon } from '@heroicons/react/24/outline';
 
-function MobileAside({handleClick}) {
+function MobileAside({handleClick}: any) {
   return (
     <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
       <div className="flex h-16 shrink-0 items-center">

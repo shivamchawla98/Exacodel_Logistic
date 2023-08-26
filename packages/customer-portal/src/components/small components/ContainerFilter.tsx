@@ -3,7 +3,7 @@ import { useState } from "react";
 import { containerTypes } from "../data/dropdownData";
 
 
-const Listings = ({containerSize, active, handleClick}) => {
+const Listings = ({containerSize, active, handleClick}: any) => {
 
   return (
 
@@ -32,7 +32,7 @@ const Listings = ({containerSize, active, handleClick}) => {
 
 function ContainerFilter() {
   const [active, setActive] = useState(null)
-  const handleClick = (containerSize) => {
+  const handleClick = (containerSize: any) => {
     setActive(containerSize)
   }
   

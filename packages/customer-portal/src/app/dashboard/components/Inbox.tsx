@@ -1,6 +1,9 @@
 import { InboxStackIcon, MagnifyingGlassIcon, TrashIcon } from "@heroicons/react/24/outline";
 import MenuListing1 from "./MenuListing1";
 import MenuListing3 from "./MenuListing3";
+import { ComponentType } from "react";
+
+
 
 interface DashboardProps {}
 

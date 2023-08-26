@@ -1,6 +1,6 @@
 import TextField from './TextField';
 
-function LCLDestinationCharges({ prefix }) {
+function LCLDestinationCharges({ prefix }: any) {
   return (
     <>
       <h2 className="text-base col-span-3 font-semibold leading-7 text-gray-900">

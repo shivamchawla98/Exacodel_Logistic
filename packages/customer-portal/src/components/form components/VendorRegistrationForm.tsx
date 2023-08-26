@@ -68,7 +68,7 @@ function VendorRegistrationForm() {
     checkBox: false,
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
   };

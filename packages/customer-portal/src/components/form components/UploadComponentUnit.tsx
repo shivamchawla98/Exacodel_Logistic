@@ -1,7 +1,7 @@
 import { ErrorMessage } from 'formik';
 
-const UploadComponentUnit = ({ field, form }) => {
-  const handleFileChange = (event) => {
+const UploadComponentUnit = ({ field, form }: any) => {
+  const handleFileChange = (event: any) => {
     form.setFieldValue(field.name, event.currentTarget.files[0]);
   };
 

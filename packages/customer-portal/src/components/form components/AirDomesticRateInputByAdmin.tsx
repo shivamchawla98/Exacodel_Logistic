@@ -11,7 +11,7 @@ const validationSchema = Yup.object({
 });
 
 function AirDomesticRateInputByAdmin() {
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
   };

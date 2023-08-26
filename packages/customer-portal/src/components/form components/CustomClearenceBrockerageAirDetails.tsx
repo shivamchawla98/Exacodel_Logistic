@@ -1,7 +1,7 @@
 import SelectComponet from "./SelectComponent"
 import TextField from "./TextField"
 
-function CustomClearenceBrockerageAirDetails({prefix}) {
+function CustomClearenceBrockerageAirDetails({prefix}: any) {
   return (
     <>
         <h2 className="col-span-3">Upload Sea Rates</h2>

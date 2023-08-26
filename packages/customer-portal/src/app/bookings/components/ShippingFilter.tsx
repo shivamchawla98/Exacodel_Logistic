@@ -26,11 +26,11 @@ type Location = {
 
 type Suggestions = [string, Location][];
 
-interface InputEvent extends React.ChangeEvent<HTMLInputElement> {
-  target: HTMLInputElement;
-}
+// interface InputEvent extends React.ChangeEvent<HTMLInputElement> {
+//   target: HTMLInputElement;
+// }
 
-function ShippingFilter(event: InputEvent) {
+function ShippingFilter() {
   const [show, setToggle] = useState(false);
   const clickHandler = () => {
     setToggle(!show);
@@ -41,11 +41,14 @@ function ShippingFilter(event: InputEvent) {
 
   const [inputValueTo, setInputValueTo] = useState('');
   const [inputValueFrom, setInputValueFrom] = useState('');
-  const [suggestionsFrom, setSuggestionsFrom] = useState([]);
-  const [suggestionsTo, setSuggestionsTo] = useState([]);
+  const [suggestionsFrom, setSuggestionsFrom] = useState<Suggestions>([]);
+  const [suggestionsTo, setSuggestionsTo] = useState<Suggestions>([]);
   let count = 0;
 
-  const handleChange = async (event: InputEvent) => {
+  const handleChange = async (event: any) => {
+    if (!event.target) {
+      return; // Exit early if event.target is null
+    }
     const value = event.target.value;
     
     if (event.target.id === 'from') {
@@ -58,11 +61,13 @@ function ShippingFilter(event: InputEvent) {
 
     // Generate suggestions based on the input value
     const generatedSuggestions = await generateSuggestions(value);
+    console.log(generatedSuggestions);
+    
     // eslint-disable-next-line react/jsx-key
     if (event.target.id === 'from') {
-      setSuggestionsFrom(generatedSuggestions);
+      setSuggestionsFrom(generatedSuggestions as Suggestions);
     } else {
-      setSuggestionsTo(generatedSuggestions);
+      setSuggestionsTo(generatedSuggestions as Suggestions);
     }
     
     // event.target.id === 'from'
@@ -95,7 +100,6 @@ function ShippingFilter(event: InputEvent) {
     // Example: You can make an API call to fetch suggestions from a backend endpoint
     // For simplicity, using a static list of suggestions here
     const staticSuggestions = await Object.entries(ports);
-    console.log('length of data : ', staticSuggestions);
 
     return staticSuggestions.filter((suggestion) =>
       suggestion[1].name.toLowerCase().includes(inputValue.toLowerCase())

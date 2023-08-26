@@ -2,76 +2,7 @@ import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { Formik, FormikHelpers, FormikValues, useFormik } from 'formik';
 import countries from '../data/country'
 
-const validate = (values) => {
-  const errors = {};
-console.log(countries);
 
-  if (!values.customerName) {
-    errors.customerName = 'Required';
-  } else if (values.customerName.length < 3) {
-    errors.customerName = 'Must be 3 or greater characters or less';
-  }
-
-  if (!values.companyNames) {
-    errors.companyNames = 'Required';
-  } else if (values.companyNames.length < 3) {
-    errors.companyNames = 'Must be 3 or greater characters or less';
-  }
-
-  if (!values.website) {
-    errors.website = 'Required';
-  } else if (
-    !/^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$/i.test(
-      values.website
-    )
-  ) {
-    errors.website = 'Invalid Email Address';
-  }
-
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email';
-  }
-
-  if (!values.regNum) {
-    errors.regNum = 'Required';
-  } else if (values.regNum.length < 3) {
-    errors.regNum = 'Must be 3 or greater characters or less';
-  }
-
-  if (!values.country) {
-    errors.country = 'Required';
-  } else if (values.country.length < 3) {
-    errors.country = 'Must be 3 or greater characters or less';
-  }
-
-  if (!values.streetAaddress) {
-    errors.streetAaddress = 'Required';
-  } else if (values.streetAaddress.length < 3) {
-    errors.streetAaddress = 'Must be 3 or greater characters or less';
-  }
-
-  if (!values.region) {
-    errors.region = 'Required';
-  } else if (!/[A-Z][a-z]+(?: +[A-Z][a-z]+)*/.test(values.region)) {
-    errors.region = 'Enter Valid state';
-  }
-
-  if (!values.city) {
-    errors.city = 'Required';
-  } else if (!/[A-Z][a-z]+(?: +[A-Z][a-z]+)*/.test(values.city)) {
-    errors.city = 'Enter appropriate city';
-  }
-
-  if (!values.postalCode) {
-    errors.postalCode = 'Required';
-  } else if (!/^[1-9][0-9]{5}$/i.test(values.postalCode)) {
-    errors.postalCode = 'Wrong postal code';
-  }
-
-  return errors;
-};
 
 function CompanyBasicInfo() {
   const formik = useFormik({
@@ -87,8 +18,6 @@ function CompanyBasicInfo() {
       city: '',
       postalCode: '',
     },
-
-    validate,
     onSubmit: (values) => {
       console.log(values);
 

@@ -2,7 +2,7 @@
 import { BsArrowRight } from 'react-icons/bs'
 import lady from '../../asset/images/lady.png'
 
-function BlogCard({id, imageUrl, datetime, date, href, title}) {
+function BlogCard({id, imageUrl, datetime, date, href, title}: any) {
   return (
     <article
     key={id}

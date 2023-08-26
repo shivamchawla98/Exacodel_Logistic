@@ -1,4 +1,4 @@
-function UploadUnit({title}) {
+function UploadUnit({title}: any) {
   return (
     <div className="flex flex-col items-center justify-center w-full mx-auto my-20 bg-white sm:w-3/4 sm:rounded-lg sm:shadow-xl">
       <div className="mb-5 text-center">

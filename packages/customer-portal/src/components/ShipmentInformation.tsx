@@ -35,7 +35,6 @@ const plans = [
     name: "Do you need pre shipment inspection service",
     description: "dsvsv",
   },
-
 ];
 
 const songs = [
@@ -80,7 +79,7 @@ const countryCodes = [
 const PaymentModeSelect = () => {
     const [selectedMode, setSelectedMode] = useState('Pay with Invoice');
   
-    const handleModeChange = (mode) => {
+    const handleModeChange = (mode: any) => {
       setSelectedMode(mode);
     };
   
@@ -276,8 +275,8 @@ const ContactForm = () => {
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
-  departure,
-  arrival,
+  departure='',
+  arrival='',
 }) => {
   const [count, setCount] = useState(1);
   const [selectedSong, setSelectedSong] = useState(null);
@@ -294,7 +293,7 @@ const Modal: React.FC<ModalProps> = ({
   };
 
 
-  const handleSongSelect = (songId) => {
+  const handleSongSelect = (songId: any) => {
     setSelectedSong(songId);
   };
 

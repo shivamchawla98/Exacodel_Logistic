@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from './TextField';
 
-function AirportCostBreakDown({ prefix }) {
+function AirportCostBreakDown({ prefix }: any) {
   return (
     <>
       <TextField id={`${prefix}.awbFees`} title={'AWB Fees'} type={'number'} />

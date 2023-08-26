@@ -2,7 +2,7 @@ import React from 'react'
 import SelectComponet from './SelectComponent'
 import TextField from './TextField'
 
-function UploadDomesticTruking({prefix}) {
+function UploadDomesticTruking({prefix}: any) {
   return (
     <>
     <SelectComponet options={[1,2,3,4]} id={`${prefix}.typeOfTransport`} title={'Type Of Transport'} />

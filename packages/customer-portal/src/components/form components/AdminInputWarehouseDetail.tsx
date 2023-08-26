@@ -2,7 +2,7 @@ import React from 'react';
 import SelectComponet from './SelectComponent';
 import TextField from './TextField';
 
-function AdminInputWarehouseDetail({ prefix }) {
+function AdminInputWarehouseDetail({ prefix }: any) {
   return (
     <>
       <SelectComponet
