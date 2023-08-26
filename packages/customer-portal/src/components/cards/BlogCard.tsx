@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { BsArrowRight } from 'react-icons/bs'
 import lady from '../../asset/images/lady.png'
 

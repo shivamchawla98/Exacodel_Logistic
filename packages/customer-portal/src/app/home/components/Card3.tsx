@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import brazil from '../../../asset/images/brazil.png'
 
 function Card3() {

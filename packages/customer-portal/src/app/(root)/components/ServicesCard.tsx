@@ -1,7 +1,7 @@
 'use client';
 
 
-function ServicesCard({icons}) {
+function ServicesCard({icons}: any) {
 
   return (
     <div className="max-w-sm p-6 mt-8 w-96 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-52">

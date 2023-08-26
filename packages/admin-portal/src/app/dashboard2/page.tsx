@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Fragment, useState } from "react";
@@ -22,7 +23,7 @@ import {
 import Stats from "./components/Stats";
 import Chart from "./components/PieChart";
 import LineChart from "./components/LineChart";
-import BarCharts from "./components/BarChart";
+// import BarCharts from "./components/BarChart";
 import UserProfileStats from "./components/UserProfileStats";
 
 const navigation = [
@@ -43,7 +44,7 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -554,7 +555,7 @@ export default function Example() {
                   <Chart />
                   <LineChart />
                 </div>
-                <BarCharts />
+                {/* <BarCharts /> */}
               </div>
             </main>
 

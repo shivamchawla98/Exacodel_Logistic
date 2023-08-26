@@ -6,11 +6,11 @@ import ReportsTable from './components/Reports';
 import AddModule from './components/AddModule';
 
 
-function page() {
+
+function Page() {
   const [showAddModule, setShowAddModule] = useState(false)
   function toggleAddModule(params: null) {
     setShowAddModule(!showAddModule);
-    console.log(showAddModule);
     return showAddModule;
   }
 
@@ -20,7 +20,7 @@ function page() {
       <div className='w-full' >
       <Header />
       {showAddModule ? <AddModule /> :
-      <ReportsTable showAddModule={showAddModule} />
+      <ReportsTable  />
       }
       
       </div>
@@ -28,4 +28,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

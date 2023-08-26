@@ -2,7 +2,7 @@ import React from "react";
 import { Stepper, Step, Button } from "@material-tailwind/react";
 import { FaAnchor, FaShip } from "react-icons/fa";
 
-export default function BookingStepper({activeStep,setActiveStep}) {
+export default function BookingStepper({activeStep,setActiveStep}: any) {
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
 

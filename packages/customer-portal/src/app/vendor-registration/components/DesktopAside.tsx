@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 

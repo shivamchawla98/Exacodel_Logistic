@@ -279,9 +279,10 @@ const Modal: React.FC<ModalProps> = ({
   departure,
   arrival,
 }) => {
+  const [count, setCount] = useState(1);
+  const [selectedSong, setSelectedSong] = useState(null);
   if (!isOpen) return null;
 
-  const [count, setCount] = useState(1);
   const increment = () => {
     setCount(count + 1);
   };
@@ -292,7 +293,6 @@ const Modal: React.FC<ModalProps> = ({
     }
   };
 
-  const [selectedSong, setSelectedSong] = useState(null);
 
   const handleSongSelect = (songId) => {
     setSelectedSong(songId);

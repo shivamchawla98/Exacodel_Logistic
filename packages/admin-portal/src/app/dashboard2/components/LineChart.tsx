@@ -42,14 +42,15 @@ export default class App extends React.Component {
         <Line
           data={state}
           options={{
-            title: {
-              display: true,
-              text: 'Class Strength',
-              fontSize: 20,
-            },
-            legend: {
-              display: true,
-              position: 'right',
+            responsive: true,
+            plugins: {
+              legend: {
+                position: 'top' as const,
+              },
+              title: {
+                display: true,
+                text: 'Chart.js Line Chart',
+              },
             },
           }}
         />

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import {MdDirectionsBoat} from 'react-icons/md'
 
-function DealCard({ flag, country, containerType, amount }) {
+function DealCard({ flag, country, containerType, amount }: any) {
   return (
     <div className="relative m-6 flex w-60 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
         <span className="bg-gray-600 text-white w-30 ml-32 font-semibold rounded-bl-md text-base rounded-tr-md text-center">Starting from</span>

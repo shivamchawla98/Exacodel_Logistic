@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { BsArrowRight } from 'react-icons/bs'
 import lady from '../../../asset/images/lady.png'
 
@@ -5,7 +6,7 @@ function Card4() {
   return (
     <div className=" lg:w-66 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex justify-center flex-col">
   <a href="#">
-    <img className="rounded-t-lg h-52" src={`${lady.src}`}  />
+    <img className="rounded-t-lg h-52" src={`${lady.src}`} alt='image' />
   </a>
   <div className="p-5">
     <a href="#">

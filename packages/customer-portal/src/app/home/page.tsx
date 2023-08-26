@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import HomeCard from '@/components/HomeCard';
 import Card2 from './components/Card2';
 import bg from '../../asset/images/container1.png';

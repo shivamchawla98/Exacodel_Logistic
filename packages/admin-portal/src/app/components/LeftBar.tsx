@@ -1,7 +1,7 @@
 
 import { FcViewDetails,FcCustomerSupport } from 'react-icons/fc';
 
-function LeftbarUser({change}) {
+function LeftbarUser({change}: any) {
   return (
     <div className="font-InterFont">
       

@@ -3,7 +3,7 @@ import {IoIosPeople} from "react-icons/io"
 import {LuActivity} from "react-icons/lu"
 import {FaUserCog} from "react-icons/fa"
 
-function Card({title, numbers, icons}) {
+function Card({title, numbers, icons}: any) {
   return (
     <div className="
                 p-6 mx-8 bg-white rounded-xl 

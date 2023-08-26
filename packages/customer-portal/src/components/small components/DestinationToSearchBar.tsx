@@ -69,7 +69,7 @@ function SearchBar() {
               <div 
               key={key}
               onClick={() => handleSelect(data.name)}
-              key={key} className="cursor-pointer py-2 px-3 hover:bg-slate-100"
+              className="cursor-pointer py-2 px-3 hover:bg-slate-100"
               >
               <p className="text-sm font-medium text-gray-600">{data.name}</p>
               <p className="text-sm text-gray-500">

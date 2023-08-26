@@ -4,7 +4,7 @@ import {TbTableShortcut} from 'react-icons/tb'
 import {SlCalender} from 'react-icons/sl'
 
 
-function Aside({toggleAddModule}) {
+function Aside({toggleAddModule}: any) {
 
   return (
     <>

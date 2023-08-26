@@ -38,15 +38,17 @@ export default class App extends React.Component {
         <Pie
           data={state}
           options={{
+            responsive: true,
+            plugins: {
             title: {
               display: true,
               text: 'Class Strength',
-              fontSize: 20,
             },
             legend: {
               display: true,
               position: 'right',
             },
+          }
           }}
         />
       </div>

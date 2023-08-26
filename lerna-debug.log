@@ -1,0 +1,9 @@
+0 silly argv { _: [ 'run' ], lernaVersion: '7.1.5', '$0': 'lerna', script: 'dev' }
+1 notice cli v7.1.5
+2 verbose packageConfigs Explicit "packages" configuration found in lerna.json. Resolving packages using the configured glob(s): "packages/*"
+3 verbose rootPath /home/abhishek/Exacodel_Logistic
+4 error TypeError: packageConfigs.some is not a function
+4 error     at /home/abhishek/.nvm/versions/node/v18.17.1/lib/node_modules/lerna/dist/index.js:1369:27
+4 error     at Array.filter (<anonymous>)
+4 error     at createProjectGraphWithPackages (/home/abhishek/.nvm/versions/node/v18.17.1/lib/node_modules/lerna/dist/index.js:1367:59)
+4 error     at detectProjects (/home/abhishek/.nvm/versions/node/v18.17.1/lib/node_modules/lerna/dist/index.js:1491:30)

@@ -7,7 +7,7 @@ import LeftbarUser from '../components/LeftBar';
 import { MdOutlineArrowBackIos } from 'react-icons/md';
 
 
-export default function page() {
+export default function Page() {
   const [isHidden, setIsHidden] = useState(true);
   let [adminView, setAdminView] = useState(false);
   let [customerView, setCustomerView] = useState(true);

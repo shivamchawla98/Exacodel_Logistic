@@ -5,11 +5,32 @@ import { HiLocationMarker } from 'react-icons/hi';
 import { TbArrowsExchange2 , TbRoad} from 'react-icons/tb';
 import {LuWaves} from 'react-icons/lu'
 import {RiCloudWindyLine} from 'react-icons/ri'
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import ContainerInputBar from '@/components/small components/ContainerInputBar';
 import ports from '../../../components/mockdata/ports.json';
+import Suggestion from '@/components/small components/Suggestion';
 
-function ShippingFilter() {
+
+type Location = {
+  name: string;
+  city: string;
+  country: string;
+  alias: string[];
+  regions: string[];
+  coordinates: number[];
+  province: string;
+  timezone: string;
+  unlocs: string[];
+  code: string;
+};
+
+type Suggestions = [string, Location][];
+
+interface InputEvent extends React.ChangeEvent<HTMLInputElement> {
+  target: HTMLInputElement;
+}
+
+function ShippingFilter(event: InputEvent) {
   const [show, setToggle] = useState(false);
   const clickHandler = () => {
     setToggle(!show);
@@ -24,20 +45,29 @@ function ShippingFilter() {
   const [suggestionsTo, setSuggestionsTo] = useState([]);
   let count = 0;
 
-  const handleChange = async (event: { target: { value: any } }) => {
+  const handleChange = async (event: InputEvent) => {
     const value = event.target.value;
-    event.target.id === 'from'
-      ? setInputValueFrom(value)
-      : setInputValueTo(value);
-    console.log('event id >>', event.target.id);
+    
+    if (event.target.id === 'from') {
+      setInputValueFrom(value)
+
+    } else {
+      setInputValueTo(value);
+
+    }
 
     // Generate suggestions based on the input value
     const generatedSuggestions = await generateSuggestions(value);
-    console.log('generated suggestions : ', generateSuggestions);
     // eslint-disable-next-line react/jsx-key
-    event.target.id === 'from'
-      ? setSuggestionsFrom(generatedSuggestions)
-      : setSuggestionsTo(generatedSuggestions);
+    if (event.target.id === 'from') {
+      setSuggestionsFrom(generatedSuggestions);
+    } else {
+      setSuggestionsTo(generatedSuggestions);
+    }
+    
+    // event.target.id === 'from'
+    //   ? setSuggestionsFrom(generatedSuggestions)
+    //   : setSuggestionsTo(generatedSuggestions);
   };
 
   const handleSelectTo = (selectedValue: SetStateAction<string>) => {
@@ -50,7 +80,6 @@ function ShippingFilter() {
   const closeSuggestion = () => {
     setSuggestionsTo([]);
     setSuggestionsFrom([]);
-    console.log(">>>>>>>>>> ",inputValueTo);
     
   }
 
@@ -61,7 +90,7 @@ function ShippingFilter() {
     setSuggestionsFrom([]);
   };
 
-  const generateSuggestions = async (inputValue) => {
+  const generateSuggestions = async (inputValue: any) => {
     // Generate or fetch suggestions based on the input value
     // Example: You can make an API call to fetch suggestions from a backend endpoint
     // For simplicity, using a static list of suggestions here
@@ -120,7 +149,7 @@ function ShippingFilter() {
                 <div
                   key={key}
                   onClick={() => handleSelectFrom(data.name)}
-                  key={key}
+            
                   className="cursor-pointer py-2 px-3 hover:bg-slate-100 z-20"
                 >
                   <p className="text-sm font-medium text-gray-600">
@@ -162,7 +191,6 @@ function ShippingFilter() {
                 <div
                   key={key}
                   onClick={() => handleSelectTo(data.name)}
-                  key={key}
                   className="cursor-pointer py-2 px-3 hover:bg-slate-100"
                 >
                   <p className="text-sm font-medium text-gray-600">
@@ -180,7 +208,6 @@ function ShippingFilter() {
           <BsFillCalendarFill className="h-5 w-5 text-gray-400" />
         </div>
         <input
-          datepicker=""
           type="date"
           className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-600 font-medium placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
           placeholder="Select date"

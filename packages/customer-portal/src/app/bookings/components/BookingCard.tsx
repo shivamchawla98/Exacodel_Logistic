@@ -8,7 +8,7 @@ import BookingStepper from './BookingCardStepper';
 import ViewMoreTab from './ViewMoreTab';
 import { BsArrowRight } from 'react-icons/bs';
 
-function BookingCard({img, fromDestination, toDestination}) {
+function BookingCard({img, fromDestination, toDestination}: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showKnowMore, setShowKnowMore] = useState(false);
   const [activeStep, setActiveStep] = useState(1);

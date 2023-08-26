@@ -67,7 +67,6 @@ function SearchBar() {
           Array.isArray(suggestions)
             ? suggestions?.slice(0,5).map(([key, data]) => (
               <div 
-              key={key}
               onClick={() => handleSelect(data.name)}
               key={key} className="cursor-pointer py-2 px-3 hover:bg-slate-100"
               >

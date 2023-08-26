@@ -1,9 +1,9 @@
-function classNames(...classes) {
+function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
 
-const MenuListing1 = ({ navArray, title="" }) => {
+const MenuListing1 = ({ navArray, title="" , onClickHandler}) => {
     return (
       <li>
         {title !== undefined ? (
@@ -15,9 +15,11 @@ const MenuListing1 = ({ navArray, title="" }) => {
         )}
         <ul role="list" className="-mx-2 space-y-1">
           {navArray.map((item) => (
-            <li key={item.name}>
+            <li key={item.name} >
               <a
-                href={item.href}
+                id={item.href} 
+                onClick={onClickHandler}
+                href="#"
                 className={classNames(
                   item.current
                     ? 'bg-gray-50 text-sky-600'

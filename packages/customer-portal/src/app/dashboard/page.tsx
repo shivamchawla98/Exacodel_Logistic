@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Fragment, useState } from "react";
@@ -15,13 +16,19 @@ import MenuListing1 from "./components/MenuListing1";
 import MenuListing2 from "./components/MenuListing2";
 import Image from "next/image";
 import User from "./components/User";
+import Bookings from "./components/Bookings";
 
 const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Inbox", href: "#", icon: InboxIcon, current: false },
+  { name: "Dashboard", href: "user", icon: HomeIcon, current: true },
+  { name: "Inbox", href: "inbox", icon: InboxIcon, current: false },
   { name: "AI Assistant", href: "#", icon: RocketLaunchIcon, current: false },
   { name: "My Request", href: "#", icon: BookmarkIcon, current: false },
-  { name: "Bookings", href: "#", icon: PaperAirplaneIcon, current: false },
+  {
+    name: "Bookings",
+    href: "booking",
+    icon: PaperAirplaneIcon,
+    current: false,
+  },
 ];
 const teams = [
   { id: 1, name: "Apps", href: "#", initial: "A", current: false },
@@ -35,6 +42,16 @@ function classNames(...classes) {
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [dashSection, setDashSection] = useState("user");
+  const handleMenuClick = (e) => {
+    
+    setDashSection(e.target.id);
+    navigation.map((item) => {
+      if(item.href != e.target.id) {
+        item.current = false
+      } else item.current = true
+    })
+  };
 
   return (
     <>
@@ -107,7 +124,9 @@ export default function Example() {
                             {navigation.map((item) => (
                               <li key={item.name}>
                                 <a
-                                  href={item.href}
+                                  id={item.href}
+                                  onClick={handleMenuClick}
+                                  href="#"
                                   className={classNames(
                                     item.current
                                       ? "bg-gray-50 text-indigo-600"
@@ -191,7 +210,10 @@ export default function Example() {
                     <span aria-hidden="true">Tom Cook</span>
                   </a>
                 </li>
-                <MenuListing1 navArray={navigation}/>
+                <MenuListing1
+                  navArray={navigation}
+                  onClickHandler={handleMenuClick}
+                />
                 <MenuListing2 navArray={teams} title="overview" />
               </ul>
             </nav>
@@ -221,8 +243,8 @@ export default function Example() {
         </div>
 
         <main className="lg:pl-32">
-              <User />
-
+          {dashSection === "user" && <User />}
+          {dashSection === "booking" && <Bookings />}
         </main>
       </div>
     </>

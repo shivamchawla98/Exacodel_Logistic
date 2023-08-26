@@ -5,7 +5,7 @@ function TrackingField() {
     tracking: "",
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: any) => {
     // Handle form submission here
     console.log(values);
   };
