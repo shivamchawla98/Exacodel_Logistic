@@ -67,7 +67,7 @@ const vehicleDimension: Array<string> = [
     "40 L X 8 W X 8 H"
     ]
 
-const industryType: Array<string> = [
+const industryTypes: Array<string> = [
     "Automobile, Parts & Spares",
     "Apparel & Garments",
     "Building & Construction",
@@ -784,4 +784,4 @@ const truckTypes = [
 
 
 
-export {truckName, truckTypes, maxPayLoad, vehicleDimension, industryType, typeOfCompanies, documetForOverseas, documetForForign, countries, mainMarket, storageType, turnOver, overseasAgent, temperatureCapacity, states, pincode, basisOfCharges, shippingLines, airlines, ports, containerTypes, companyTypes}
+export {truckName, truckTypes, maxPayLoad, vehicleDimension, industryTypes, typeOfCompanies, documetForOverseas, documetForForign, countries, mainMarket, storageType, turnOver, overseasAgent, temperatureCapacity, states, pincode, basisOfCharges, shippingLines, airlines, ports, containerTypes, companyTypes}

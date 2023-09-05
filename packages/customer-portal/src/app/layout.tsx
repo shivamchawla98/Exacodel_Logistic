@@ -3,6 +3,7 @@ import './globals.css';
 import { Poppins } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import ReduxProvider from '@/features/Provider';
 
 const popin = Poppins({
    weight: ["200", "400", "500"],
@@ -28,7 +29,9 @@ const navAndFotterHidingRoute = ["/dashboard"];
     <html lang="en">
       <body className={popin.className}>
         <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
-        {children}
+        <ReduxProvider>
+          {children}
+        </ReduxProvider>
         <Footer navAndFotterHidingRoute={navAndFotterHidingRoute}/>
       </body>
     </html>
