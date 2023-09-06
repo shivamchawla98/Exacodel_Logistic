@@ -14,6 +14,7 @@ import {
   updateCompanyName,
   resetForm,
 } from "@/features/starter-form/starter-slice";
+import FormWrapper from "@/components/FormWrapper";
 
 const validationSchema = Yup.object({
   identification: Yup.string().required("Please select an option"),
@@ -53,23 +54,18 @@ function Page() {
   };
 
   return (
-    <div className="lg:px-6">
-      <h2 className="text-xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
-        Start your Shipping with us
-      </h2>
+
+      <FormWrapper title="Start your Shipping with us">
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ setFieldValue }) => (
-          <Form className="mt-2 grid lg:grid-cols-3 gap-6 p-12 gap-y-8">
+          <Form className=" ">
             {/* Identification */}
-            <div className="mt-2 col-span-3 lg:px-12">
-              <h3 className="mb-4 font-semibold text-gray-900 dark:text-white">
-                Identification
-              </h3>
-              <ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <div className="flex justify-center">
+              <ul className="items-center lg:w-1/2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                 {/* Radio buttons */}
                 <li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                   <div className="flex items-center pl-3">
@@ -142,8 +138,10 @@ function Page() {
               />
             </div>
 
-            {/* User type */}
-            <div className="mt-2">
+<div className="flex justify-center items-center">
+            <div className="lg:w-1/2">
+    {/* User type */}
+    <div className="mt-2">
               <label
                 htmlFor="userType"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -243,7 +241,7 @@ function Page() {
             {/* Buttons */}
             <div className="end-end-2 col-span-3 mx-auto mt-3">
               <button className="text-sm font-semibold leading-6 text-gray-900 mr-7">
-                Don't have GST Number?
+                Don&apos;t have GST Number?
               </button>
               <button
                 type="submit"
@@ -252,10 +250,14 @@ function Page() {
                 Confirm
               </button>
             </div>
+
+            </div>
+            </div>
+        
           </Form>
         )}
       </Formik>
-    </div>
+      </FormWrapper>
   );
 }
 

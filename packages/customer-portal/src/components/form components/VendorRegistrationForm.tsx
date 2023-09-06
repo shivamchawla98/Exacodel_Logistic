@@ -1,15 +1,36 @@
 'use client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
 import * as Yup from 'yup';
-import countries from '../data/country';
-import SelectComponet from './SelectComponent';
+import countries from '../../components/data/country';
+import SelectComponet from '../../components/form components/SelectComponent';
+import {    updateCompanyBillingCode,
+    updateUserType,
+    updateCompany,
+    updateIndustryType,
+    updateCountry,
+    updateStreetAddress,
+    updateCity,
+    updateRegion,
+    updatePostalCode,
+    updatePanNumber,
+    updateGST,
+    updateFirstName,
+    updateLastName,
+    updateDesignation,
+    updatePhoneNumber,
+    updateEmail,
+    updateWebsite,
+    updateCheckBox,
+    updateCompanyRegistrationNumber,} from '../../features/vendorRegForm/vendorReg-slice'
 import {
   companyTypes,
-  industryType,
+  industryTypes,
   typeOfCompanies,
 } from '../data/dropdownData';
-import TextField from './TextField';
+import TextField from '../form components/TextField';
+import FormWrapper from '@/components/FormWrapper';
 
 const validationSchema = Yup.object({
   companyBillingCode: Yup.string().required('Enter Billing Code'),
@@ -46,46 +67,90 @@ const validationSchema = Yup.object({
   ),
 });
 
+
+
 function VendorRegistrationForm() {
+    const dispatch = useDispatch();
+    const {  companyBillingCode,
+        companyRegistrationNumber,
+        userType,
+        company,
+        industryType,
+        country,
+        streetAddress,
+        city,
+        region,
+        postalCode,
+        panNumber,
+        gst,
+        firstName,
+        lastName,
+        designation,
+        phnNumber,
+        email,
+        website,
+        checkBox, } = useSelector((state: any) => state.vendorRegistration);
   const initialValues = {
-    companyBillingCode: '',
-    userType: '',
-    company: '',
-    industryType: '',
-    country: '',
-    streetAddress: '',
-    city: '',
-    region: '',
-    postalCode: '',
-    panNumber: '',
-    gst: '',
-    firstName: '',
-    lastName: '',
-    designation: '',
-    phnNumber: '',
-    email: '',
-    website: '',
-    checkBox: false,
+    companyBillingCode,
+    userType,
+    companyRegistrationNumber,
+    company,
+    industryType,
+    country,
+    streetAddress,
+    city,
+    region,
+    postalCode,
+    panNumber,
+    gst,
+    firstName,
+    lastName,
+    designation,
+    phnNumber,
+    email,
+    website,
+    checkBox,
   };
 
   const handleSubmit = (values: any) => {
+    
+    dispatch(updateCompanyBillingCode(values.companyBillingCode));
+    dispatch(updateCompanyRegistrationNumber(values.companyRegistrationNumber));
+    dispatch(updateUserType(values.userType));
+    dispatch(updateCompany(values.company));
+    dispatch(updateIndustryType(values.industryType));
+    dispatch(updateCountry(values.country));
+    dispatch(updateStreetAddress(values.streetAddress));
+    dispatch(updateCity(values.city));
+    dispatch(updateRegion(values.region));
+    dispatch(updatePostalCode(values.postalCode));
+    dispatch(updatePanNumber(values.panNumber));
+    dispatch(updateGST(values.gst));
+    dispatch(updateFirstName(values.firstName));
+    dispatch(updateLastName(values.lastName));
+    dispatch(updateDesignation(values.designation));
+    dispatch(updatePhoneNumber(values.phnNumber));
+    dispatch(updateEmail(values.email));
+    dispatch(updateWebsite(values.website));
+    dispatch(updateCheckBox(values.checkBox));
+
     // Handle form submission
-    console.log(values);
+
   };
 
   return (
     <>
-      <h2 className="text-xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
-        Vendor Registration Form
-      </h2>
-      <Formik
+    <FormWrapper title="Vendor Registartion">
+    <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
+        {({values}) => (
+        <Form className="mx-auto max-w-4xl sm:mt-20">
           {/* billing Code of a company */}
-          <div>
+      <div className='grid grid-cols-2 mx-auto lg:grid-cols-4 gap-4'>
+          <div className='col-span-2'>
             <label
               htmlFor="companyBillingCode"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -96,13 +161,13 @@ function VendorRegistrationForm() {
               type="text"
               id="companyBillingCode"
               name="companyBillingCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="companyBillingCode" component="span" />
+            <ErrorMessage className='text-rose-500' name="companyBillingCode" component="span" />
           </div>
 
           {/* user type */}
-          <div>
+          <div className='col-span-2'>
             <SelectComponet
               options={companyTypes}
               id={'userType'}
@@ -111,7 +176,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* companyType */}
-          <div>
+          <div className='col-span-2'>
             <SelectComponet
               options={typeOfCompanies}
               id={'companyType'}
@@ -120,25 +185,32 @@ function VendorRegistrationForm() {
           </div>
 
           {/* Industry Type */}
-          <div>
+          <div className='col-span-2'>
             <SelectComponet
-              options={industryType}
+              options={industryTypes}
               id={'industryType'}
               title={'Industry Type'}
             />
           </div>
 
           {/* **company name */}
-          <div>
-            <TextField
-              id={'companyName'}
-              title={'Company Name'}
-              type={'text'}
+                      <div className='col-span-2'>
+            <label
+              htmlFor="company"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Company Name
+            </label>
+            <Field
+              type="text"
+              id="company"
+              name="company"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
+            <ErrorMessage className='text-rose-500' name="company" component="span" />
           </div>
-
           {/* company registration number */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="companyRegistrationNumber"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -149,15 +221,15 @@ function VendorRegistrationForm() {
               type="text"
               id="companyRegistrationNumber"
               name="companyRegistrationNumber"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="companyRegistrationNumber" component="span" />
+            <ErrorMessage className='text-rose-500' name="companyRegistrationNumber" component="span" />
           </div>
 
           {/* address */}
 
           {/* country */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="country"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -168,7 +240,7 @@ function VendorRegistrationForm() {
               as="select"
               id="country"
               name="country"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -180,107 +252,107 @@ function VendorRegistrationForm() {
             <ErrorMessage
               name="country"
               component="span"
-              className="error-message"
+              className='text-rose-500'
             />
           </div>
 
           {/* stree address streetAddress */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="streetAddress"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Street address
             </label>
-            <input
+            <Field
               type="text"
               name="streetAddress"
               id="streetAddress"
               autoComplete="streetAddress"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <ErrorMessage
               name="streetAddress"
               component="span"
-              className="error-message"
+              className='text-rose-500'
             />
           </div>
 
           {/* city */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="city"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               City
             </label>
-            <input
+            <Field
               type="text"
               name="city"
               id="city"
               autoComplete="address-level2"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="city" component="span" />
+            <ErrorMessage className='text-rose-500' name="city" component="span" />
           </div>
 
           {/* region */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="region"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               State / Province
             </label>
-            <input
+            <Field
               type="text"
               name="region"
               id="region"
               autoComplete="address-level1"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="region" component="span" />
+            <ErrorMessage className='text-rose-500' name="region" component="span" />
           </div>
 
           {/* postal code */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="postalCode"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               ZIP / Postal code
             </label>
-            <input
+            <Field
               type="text"
               name="postalCode"
               id="postalCode"
               autoComplete="postalCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="postalCode" component="span" />
+            <ErrorMessage className='text-rose-500' name="postalCode" component="span" />
           </div>
 
           {/* adress end */}
 
           {/* company pan number panNumer*/}
-          <div>
+          <div className='col-span-2'>
             <label
-              htmlFor="panNumer"
+              htmlFor="panNumber"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Company Pan Number
             </label>
             <Field
               type="text"
-              id="panNumer"
-              name="panNumer"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              id="panNumber"
+              name="panNumber"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="panNumer" component="span" />
+            <ErrorMessage className='text-rose-500' name="panNumber" component="span" />
           </div>
 
           {/* Annual Turn Over */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="turnover"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -291,7 +363,7 @@ function VendorRegistrationForm() {
               as="select"
               id="turnover"
               name="turnover"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -301,14 +373,14 @@ function VendorRegistrationForm() {
               ))}
             </Field>
             <ErrorMessage
+            className='text-rose-500'
               name="country"
               component="span"
-              className="error-message"
             />
           </div>
 
           {/* gst numer */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="gst"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -319,89 +391,89 @@ function VendorRegistrationForm() {
               type="text"
               id="gst"
               name="gst"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="gst" component="span" />
+            <ErrorMessage className='text-rose-500' name="gst" component="span" />
           </div>
 
           {/* firstName */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="firstName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Customer name
+              First Name
             </label>
 
-            <input
+            <Field
               type="text"
               name="firstName"
               id="firstName"
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="firstName" component="span" />
+            <ErrorMessage className='text-rose-500' name="firstName" component="span" />
           </div>
 
           {/* lastName */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="lastName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Customer name
+              Last Name
             </label>
 
-            <input
+            <Field
               type="text"
               name="lastName"
               id="lastName"
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="lastName" component="span" />
+            <ErrorMessage className='text-rose-500' name="lastName" component="span" />
           </div>
 
           {/* designation */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="designation"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Designation
             </label>
-            <input
+            <Field
               type="text"
               name="designation"
               id="designation"
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="designation" component="span" />
+            <ErrorMessage className='text-rose-500' name="designation" component="span" />
           </div>
 
           {/* contact */}
 
           {/* email */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Email address
             </label>
-            <input
+            <Field
               id="email"
               name="email"
               type="email"
               autoComplete="email"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="email" component="span" />
+            <ErrorMessage className='text-rose-500' name="email" component="span" />
           </div>
 
           {/* phone number */}
-          <div>
+          <div className='col-span-2'>
             <label
               htmlFor="phone-number"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -423,9 +495,9 @@ function VendorRegistrationForm() {
                   <option>CA</option>
                   <option>EU</option>
                 </select>
-                <ErrorMessage name="countryPhnCode" component="span" />
+                <ErrorMessage className='text-rose-500' name="countryPhnCode" component="span" />
               </div>
-              <input
+              <Field
                 type="text"
                 name="phnNumber"
                 id="phnNumber"
@@ -435,20 +507,20 @@ function VendorRegistrationForm() {
               <ErrorMessage
                 name="phnNumber"
                 component="span"
-                className="text-rose-400"
+                className='text-rose-500'
               />
             </div>
           </div>
 
           {/* website*/}
-          <div>
+          <div className='col-span-2'>
           <TextField id={'website'} title={'Comapny Website'} type={'text'} />
           </div>
 
           {/* contact end */}
 
           {/* buttons */}
-          <div className="end-end-2">
+          <div className="end-end-2 col-span-3 mx-auto">
             <div className="flex items-center">
               <input
                 id="link-checkbox"
@@ -470,21 +542,23 @@ function VendorRegistrationForm() {
                 .
               </label>
             </div>
+
             <button
-              type="submit"
-              className="mt-8 mr-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              type="button"
+              onClick={() => handleSubmit(values)}
+              className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
               Submit
             </button>
           </div>
-        </Form>
+        </div>
+        </Form> 
+        )}
       </Formik>
+
+    </FormWrapper>
+
+  
     </>
   );
 }
