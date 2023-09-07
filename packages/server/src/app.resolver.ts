@@ -14,21 +14,21 @@ export class AppResolver {
     return 'Hello World!';
   }
 
-  @Query(() => String)
-  @UseGuards(AuthGuard)
-  login(
-    @Args({ name: 'email', type: () => String }) email: string,
-    @Args({ name: 'password', type: () => String }) password: string,
-    @Context('user') user: User,
-  ): string {
+  // @Query(() => String)
+  // @UseGuards(AuthGuard)
+  // login(
+  //   @Args({ name: 'email', type: () => String }) email: string,
+  //   @Args({ name: 'password', type: () => String }) password: string,
+  //   @Context('user') user: User,
+  // ): string {
 
-    let payload = {
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: 
-    };
+  //   let payload = {
+  //     id: user.id,
+  //     firstName: user.firstName,
+  //     lastName: user.lastName,
+  //     email: 
+  //   };
 
 
-  }
+  // }
 }

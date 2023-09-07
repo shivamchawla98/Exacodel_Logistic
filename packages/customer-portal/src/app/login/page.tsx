@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateEmail, updatePassword } from '@/features/login/form-slice';
+import Link from 'next/link';
 
 
 const validationSchema = Yup.object().shape({
@@ -107,12 +108,12 @@ function Page() {
                   <div>
                     <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                       Don&apos;t have an account?{' '}
-                      <a
+                      <Link
                         href="/registration"
                         className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
                       >
                         Register
-                      </a>
+                      </Link>
                     </p>
                   </div>
                 </div>

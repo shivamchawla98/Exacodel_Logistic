@@ -51,7 +51,7 @@ function SearchBar() {
   }, []);
 
   return (
-    <div className="overflow-hidden block opacity-100 contrast-100 h-72 px-6 w-full">
+    <div className="overflow-hidden block opacity-100 contrast-100 lg:h-72 px-6 w-full sm:w-screen">
       <ul className="grid grid-flow-col text-center text-gray-500 bg-gray-100 rounded-lg p-1 lg:w-1/3 ">
         <li onClick={() => handleTabClick(1)}>
           <a

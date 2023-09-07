@@ -4,27 +4,62 @@ import { BsFillBoxSeamFill } from "react-icons/bs";
 
 const incentives = [
   {
-    name: "Free shipping",
+    name: "Ocean Freight",
     imageSrc:
-      "https://tailwindui.com/img/ecommerce/icons/icon-shipping-simple.svg",
+      "https://img.icons8.com/ios-filled/50/cargo-ship.png",
     description:
-      "It's not actually free we just price it into the products. Someone's paying for it, and it's not us.",
+      "Managing the transportation of goods by sea, including container shipping",
   },
   {
-    name: "10-year warranty",
+    name: "Freight Forwarding",
     imageSrc:
-      "https://tailwindui.com/img/ecommerce/icons/icon-warranty-simple.svg",
+      "https://img.icons8.com/ios-filled/50/port.png",
     description:
-      "If it breaks in the first 10 years we'll replace it. After that you're on your own though.",
+      "Coordinating the transportation of goods by various modes such as road, rail, sea, or air.",
   },
   {
-    name: "Exchanges",
+    name: "Trucking and Shipping",
     imageSrc:
-      "https://tailwindui.com/img/ecommerce/icons/icon-exchange-simple.svg",
+      "https://img.icons8.com/ios-filled/50/partially-shipped.png",
     description:
-      "If you don't like it, trade it to one of your friends for something of theirs. Don't send it here though.",
+      "Providing trucking and shipping services for transporting goods locally or internationally.",
   },
 ];
+
+const warehousing = [
+  {
+    name: "Warehousing ",
+    imageSrc:
+      "https://img.icons8.com/ios-filled/50/warehouse-1.png",
+    description:
+      "Storage and inventory management services, including pick, pack, and ship operations.",
+  },
+  {
+    name: "Cross-Docking",
+    imageSrc:
+      "https://img.icons8.com/ios-filled/50/horizontal-docking.png",
+    description:
+      "Transferring goods directly from inbound to outbound shipments with minimal storage",
+  },
+];
+
+const supplyChain = [
+  {
+    name: "Demand Forecasting",
+    imageSrc:
+      "https://img.icons8.com/ios-filled/50/strike.png",
+    description:
+      "Predicting future demand to optimize inventory and production planning",
+  },
+  {
+    name: "Vendor Management",
+    imageSrc:
+      "https://img.icons8.com/ios-filled/50/commercial-development-management.png",
+    description:
+      "Coordinating with suppliers to ensure a smooth flow of materials and products",
+  },
+];
+
 
 function Feature() {
   return (
@@ -33,9 +68,9 @@ function Feature() {
         Our Products
       </h1>
       <div className="w-11/12 flex justify-center flex-col">
-        <div className="ml-8 lg:w-1/6 bg-blue-500 rounded-tr-lg rounded-tl-lg md:ml-20 lg:ml-20 ">
+        <div className="ml-8 lg:w-1/6 bg-sky-500 rounded-tr-lg rounded-tl-lg md:ml-20 lg:ml-20 ">
           <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-            hsdjsdcsd slknl skdnc 
+            Transportation Services
           </h2>
         </div>
         <div className="w-screen flex justify-center items-center">
@@ -45,38 +80,29 @@ function Feature() {
         <div className="w-screen flex justify-evenly items-center flex-wrap">
           <div className="lg:w-1/2">
             <div className="mt-12 flex justify-center">
-            <div className="w-80 bg-blue-500 rounded-tr-lg rounded-tl-lg">
+            <div className="w-80 bg-sky-500 rounded-tr-lg rounded-tl-lg">
               <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-                hsdjsdcsd slknl skdnc
+                Warehousing and Distribution
               </h2>
             </div>
             </div>
             <div className="mb-12  flex justify-center items-center ">
-              <OurProductShortCard itemsArray={incentives.slice(0,2)} />
+              <OurProductShortCard itemsArray={warehousing} />
             </div>
           </div>
 
           <div className="lg:w-1/2">
             <div className="mt-12 flex justify-center">
-            <div className="w-80 bg-blue-500 rounded-tr-lg rounded-tl-lg">
+            <div className="w-80 bg-sky-500 rounded-tr-lg rounded-tl-lg">
               <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-                hsdjsdcsd slknl skdnc
+                Supply Chain Management
               </h2>
             </div>
             </div>
             <div className="mb-12  flex justify-center items-center ">
-              <OurProductShortCard itemsArray={incentives.slice(0,2)} />
+              <OurProductShortCard itemsArray={supplyChain.slice(0,2)} />
             </div>
           </div>
-        </div>
-
-        <div className="ml-8 lg:w-1/6 bg-blue-500 rounded-tr-lg rounded-tl-lg md:ml-20 lg:ml-20 ">
-          <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-            hsdjsdcsd slknl skdnc 
-          </h2>
-        </div>
-        <div className="mb-12 w-screen flex justify-center items-center ">
-          <OurProductCard itemsArray={incentives} />
         </div>
       </div>
     </section>

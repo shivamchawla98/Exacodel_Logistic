@@ -18,7 +18,7 @@ function TrackingField() {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="flex items-center flex-col md:flex-row gap-3">
-        <div className="w-72">
+        <div className="lg:w-72">
           <div className="relative w-full min-w-[200px] h-10">
             <div className="grid place-items-center absolute text-blue-gray-500 top-2/4 right-3 -translate-y-2/4 w-5 h-5">
               <svg

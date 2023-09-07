@@ -4,6 +4,8 @@ import { Poppins } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ReduxProvider from '@/features/Provider';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const popin = Poppins({
    weight: ["200", "400", "500"],
@@ -17,7 +19,7 @@ export const metadata = {
 
 
 
-export default function RootLayout({
+export default function RootLayout({ 
   children,
 }: {
   children: React.ReactNode;
@@ -26,14 +28,17 @@ const navAndFotterHidingRoute = ["/dashboard"];
   
 
   return (
+        // <Provider store={store}>
     <html lang="en">
       <body className={popin.className}>
         <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
-        <ReduxProvider>
+      <ReduxProvider>
           {children}
         </ReduxProvider>
+
         <Footer navAndFotterHidingRoute={navAndFotterHidingRoute}/>
       </body>
     </html>
+        // </Provider>
   );
 }

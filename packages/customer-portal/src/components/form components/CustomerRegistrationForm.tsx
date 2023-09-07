@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import countries from '../data/country';
 import SubmitButtons from './SubmitButtons';
 import SelectComponet from './SelectComponent';
-import { companyTypes, industryType, turnOver, typeOfCompanies } from '../data/dropdownData';
+import { companyTypes, industryTypes, turnOver, typeOfCompanies } from '../data/dropdownData';
 import TextField from './TextField';
 
 const validationSchema = Yup.object({
@@ -111,7 +111,7 @@ function CustomerRegistrationForm() {
           {/* Industry Type */}
           <div>
             <SelectComponet
-              options={industryType}
+              options={industryTypes}
               id={'industryType'}
               title={'Industry Type'}
             />

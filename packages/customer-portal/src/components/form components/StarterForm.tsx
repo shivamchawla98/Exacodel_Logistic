@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import countries from "../../components/data/country";
 import companyType from "@/app/vendor-registration/data/typeOfCompany";
 import { useDispatch, useSelector } from "react-redux";
+import { updateFormName } from "@/features/select-form/selectForm-slice";
 import {
   updateIdentification,
   updateUserType,
@@ -30,6 +31,7 @@ const validationSchema = Yup.object({
 
 function Page() {
     const {  identification, userType, country, gstNumber, companyName} = useSelector((state: any) => state.starterSlice)
+    const {formName} = useSelector( (state: any) => state.selectForm)
   const dispatch = useDispatch();
   const initialValues = {
     identification, // Set your initial values here
@@ -49,7 +51,8 @@ function Page() {
     dispatch(updateCountry(values.country));
     dispatch(updateGstNumber(values.gst));
     dispatch(updateCompanyName(values.company));
-    console.log(identification);
+    dispatch(updateFormName(values.identification))
+    console.log("form name : ",formName);
     
   };
 
@@ -139,9 +142,9 @@ function Page() {
             </div>
 
 <div className="flex justify-center items-center">
-            <div className="lg:w-1/2">
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
     {/* User type */}
-    <div className="mt-2">
+            <div className="sm:col-span-3">
               <label
                 htmlFor="userType"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -152,11 +155,15 @@ function Page() {
                 as="select"
                 id="userType"
                 name="userType"
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full bg-white rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 <option value="">Select a user type</option>
                 {companyType.map((type) => (
-                  <option key={type} value={type}>
+                  <option
+                   key={type} 
+                   value={type}
+                  
+                   >
                     {type}
                   </option>
                 ))}
@@ -169,7 +176,7 @@ function Page() {
             </div>
 
             {/* Country */}
-            <div className="mt-2">
+            <div className="sm:col-span-3" >
               <label
                 htmlFor="country"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -197,7 +204,7 @@ function Page() {
             </div>
 
             {/* GST number */}
-            <div>
+            <div className="sm:col-span-3">
               <label
                 htmlFor="gst"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -218,7 +225,7 @@ function Page() {
             </div>
 
             {/* Company name */}
-            <div>
+            <div className="sm:col-span-3">
               <label
                 htmlFor="company"
                 className="block text-sm font-medium leading-6 text-gray-900"
@@ -239,7 +246,7 @@ function Page() {
             </div>
 
             {/* Buttons */}
-            <div className="end-end-2 col-span-3 mx-auto mt-3">
+            <div className="sm:col-span-3 lg:max-w-4xl flex justify-end">
               <button className="text-sm font-semibold leading-6 text-gray-900 mr-7">
                 Don&apos;t have GST Number?
               </button>

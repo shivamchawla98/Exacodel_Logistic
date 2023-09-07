@@ -147,10 +147,11 @@ function VendorRegistrationForm() {
         onSubmit={handleSubmit}
       >
         {({values}) => (
-        <Form className="mx-auto max-w-4xl sm:mt-20">
+        <Form className="mx-auto max-w-4xl sm:mt-10">
           {/* billing Code of a company */}
-      <div className='grid grid-cols-2 mx-auto lg:grid-cols-4 gap-4'>
-          <div className='col-span-2'>
+          <div className='flex justify-center items-center'>
+          <div className='mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="companyBillingCode"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -167,7 +168,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* user type */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <SelectComponet
               options={companyTypes}
               id={'userType'}
@@ -176,7 +177,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* companyType */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <SelectComponet
               options={typeOfCompanies}
               id={'companyType'}
@@ -185,7 +186,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* Industry Type */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <SelectComponet
               options={industryTypes}
               id={'industryType'}
@@ -194,7 +195,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* **company name */}
-                      <div className='col-span-2'>
+                      <div className='sm:col-span-3'>
             <label
               htmlFor="company"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -210,7 +211,7 @@ function VendorRegistrationForm() {
             <ErrorMessage className='text-rose-500' name="company" component="span" />
           </div>
           {/* company registration number */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="companyRegistrationNumber"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -229,7 +230,7 @@ function VendorRegistrationForm() {
           {/* address */}
 
           {/* country */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="country"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -240,7 +241,7 @@ function VendorRegistrationForm() {
               as="select"
               id="country"
               name="country"
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block bg-white w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -257,7 +258,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* stree address streetAddress */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="streetAddress"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -279,7 +280,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* city */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="city"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -297,7 +298,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* region */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="region"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -315,7 +316,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* postal code */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="postalCode"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -335,7 +336,7 @@ function VendorRegistrationForm() {
           {/* adress end */}
 
           {/* company pan number panNumer*/}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="panNumber"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -352,7 +353,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* Annual Turn Over */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="turnover"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -363,7 +364,7 @@ function VendorRegistrationForm() {
               as="select"
               id="turnover"
               name="turnover"
-              className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block bg-white w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -380,7 +381,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* gst numer */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="gst"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -397,7 +398,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* firstName */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="firstName"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -416,7 +417,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* lastName */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="lastName"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -435,7 +436,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* designation */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="designation"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -455,7 +456,7 @@ function VendorRegistrationForm() {
           {/* contact */}
 
           {/* email */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -473,7 +474,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* phone number */}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
             <label
               htmlFor="phone-number"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -513,7 +514,7 @@ function VendorRegistrationForm() {
           </div>
 
           {/* website*/}
-          <div className='col-span-2'>
+          <div className='sm:col-span-3'>
           <TextField id={'website'} title={'Comapny Website'} type={'text'} />
           </div>
 
@@ -552,6 +553,8 @@ function VendorRegistrationForm() {
             </button>
           </div>
         </div>
+          </div>
+
         </Form> 
         )}
       </Formik>

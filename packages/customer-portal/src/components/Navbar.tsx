@@ -14,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 const tools = [
   { name: 'Logistic Explorer', description: ' Use our real-time freight calculator to compare rates ', href: '/bookings', icon: ChartPieIcon },
@@ -51,10 +52,10 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1 z-40">
-          <a href="/" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden z-40">
           <button
@@ -93,10 +94,10 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
                         <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
                       </div>
                       <div className="flex-auto">
-                        <a href={item.href} className="block font-semibold text-gray-900">
+                        <Link href={item.href} className="block font-semibold text-gray-900">
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </Link>
                         <p className="mt-1 text-gray-600">{item.description}</p>
                       </div>
                     </div>
@@ -104,14 +105,14 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
                   {callsToAction.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
                     >
                       <item.icon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </Popover.Panel>
@@ -143,10 +144,10 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5">
                 {company.map((item) => (
                   <div key={item.name} className="relative rounded-lg p-4 hover:bg-gray-50">
-                    <a href={item.href} className="block text-sm font-semibold leading-6 text-gray-900">
+                    <Link href={item.href} className="block text-sm font-semibold leading-6 text-gray-900">
                       {item.name}
                       <span className="absolute inset-0" />
-                    </a>
+                    </Link>
                     <p className="mt-1 text-sm leading-6 text-gray-600">{item.description}</p>
                   </div>
                 ))}
@@ -172,10 +173,10 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5">
                 {company.map((item) => (
                   <div key={item.name} className="relative rounded-lg p-4 hover:bg-gray-50">
-                    <a href={item.href} className="block text-sm font-semibold leading-6 text-gray-900">
+                    <Link href={item.href} className="block text-sm font-semibold leading-6 text-gray-900">
                       {item.name}
                       <span className="absolute inset-0" />
-                    </a>
+                    </Link>
                     <p className="mt-1 text-sm leading-6 text-gray-600">{item.description}</p>
                   </div>
                 ))}
@@ -183,9 +184,15 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
             </Transition>
           </Popover>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-          <a href="/login" className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2">
+            <Link 
+            className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2"
+            href="/login">
             Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+            </Link>
+          {/* <a href="/login"
+           className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2"
+           >
+          </a> */}
         </div>
         </Popover.Group>
 

@@ -3,14 +3,15 @@ import { configureStore } from '@reduxjs/toolkit';
 import formReducer from '../features/login/form-slice';
 import starterSlice from '@/features/starter-form/starter-slice';
 import vendorRegistrationSlice from '@/features/vendorRegForm/vendorReg-slice';
-import selectFormSlice from '@/features/which-form/selectForm-slice';
+import selectFormReducer from '@/features/select-form/selectForm-slice';
 
 export const store = configureStore({
   reducer: {
     form: formReducer,
     starterSlice,
     vendorRegistration: vendorRegistrationSlice,
-    selectForm: selectFormSlice,
+    // selectFormSlice,
+    selectForm: selectFormReducer,
   },
 });
 

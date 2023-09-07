@@ -1,7 +1,7 @@
-
+'use client'
 import StarterForm from '@/components/form components/StarterForm';
 import VendorRegistrationForm from '@/components/form components/VendorRegistrationForm';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 
 // const Registration = () => {
 
@@ -9,11 +9,15 @@ import { useSelector} from 'react-redux';
 // }
 
 function Page() {
+    // const {value} = useSelector((state) => state.counter);
+    const {formName} = useSelector((state: any) => state.selectForm)
+    console.log(formName)
+    
     // const {formName} = useSelector((state):any => state.selectForm);
     return (
         <>
-        <StarterForm />
-        <VendorRegistrationForm />
+        {formName === 'starterForm' && <StarterForm />}
+        {formName === 'I am a Vendor' && <VendorRegistrationForm />}
         </>
     )
 }
