@@ -5,21 +5,22 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-
+import { ConfigService } from '@nestjs/config';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { User } from 'src/user/entity/user.entity';
-import { UserService } from 'src/user/user.service';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
+  constructor(private readonly configService: ConfigService) {}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context).getContext();
+    console.log(ctx.req);
     const authorizationHeader = ctx.req.headers.authorization;
     if (authorizationHeader) {
       const token = authorizationHeader.split(' ')[1];
       try {
-        const user = jwt.verify(token, 'key need to be change');
+        const user = jwt.verify(token, this.configService.get('jwt_key'));
         ctx.user = user;
         console.log(user);
         return true;
@@ -29,8 +30,6 @@ export class JwtGuard implements CanActivate {
           HttpStatus.UNAUTHORIZED,
         );
       }
-    } else {
-      return false;
     }
   }
 }
