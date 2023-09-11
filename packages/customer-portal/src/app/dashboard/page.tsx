@@ -17,6 +17,7 @@ import MenuListing2 from "./components/MenuListing2";
 import Image from "next/image";
 import User from "./components/User";
 import Bookings from "./components/Bookings";
+import Link from "next/link";
 
 const navigation = [
   { name: "Dashboard", href: "user", icon: HomeIcon, current: true },
@@ -123,7 +124,7 @@ export default function Example() {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
+                                <Link
                                   id={item.href}
                                   onClick={handleMenuClick}
                                   href="#"
@@ -144,7 +145,7 @@ export default function Example() {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -156,7 +157,7 @@ export default function Example() {
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
-                                <a
+                                <Link
                                   href={team.href}
                                   className={classNames(
                                     team.current
@@ -176,7 +177,7 @@ export default function Example() {
                                     {team.initial}
                                   </span>
                                   <span className="truncate">{team.name}</span>
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -197,7 +198,7 @@ export default function Example() {
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7 pl-4">
                 <li className="mt-6">
-                  <a
+                  <Link
                     href="#"
                     className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
                   >
@@ -208,7 +209,7 @@ export default function Example() {
                     />
                     <span className="sr-only">Your profile</span>
                     <span aria-hidden="true">Tom Cook</span>
-                  </a>
+                  </Link>
                 </li>
                 <MenuListing1
                   navArray={navigation}
@@ -232,14 +233,14 @@ export default function Example() {
           <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
             Dashboard
           </div>
-          <a href="#">
+          <Link href="#">
             <span className="sr-only">Your profile</span>
             <img
               className="h-8 w-8 rounded-full bg-gray-50"
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt=""
             />
-          </a>
+          </Link>
         </div>
 
         <main className="lg:pl-32">

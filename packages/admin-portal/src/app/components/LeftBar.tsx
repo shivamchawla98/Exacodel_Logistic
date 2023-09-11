@@ -1,4 +1,5 @@
 
+import Link from 'next/link';
 import { FcViewDetails,FcCustomerSupport } from 'react-icons/fc';
 
 function LeftbarUser({change}: any) {
@@ -11,7 +12,7 @@ function LeftbarUser({change}: any) {
         style={{ height: '100vh', paddingTop: '50px' }}
         x-show="asideOpen"
       >
-        <a
+        <Link
           onClick={() => change()}
           href="#"
           className="flex items-center space-x-1 rounded-md px-2 py-3 text-white hover:bg-gray-100 hover:text-blue-600"
@@ -24,8 +25,8 @@ function LeftbarUser({change}: any) {
             />
           </span>
           <span>Admin</span>
-        </a>
-        <a
+        </Link>
+        <Link
           href="#"
           className="text-white flex items-center space-x-1 rounded-md px-2 py-3 hover:bg-gray-100 hover:text-blue-600"
         >
@@ -38,7 +39,7 @@ function LeftbarUser({change}: any) {
             />
           </span>
           <span>Customer</span>
-        </a>
+        </Link>
       </aside>
     </div>
   );

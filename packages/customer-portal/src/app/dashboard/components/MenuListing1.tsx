@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
@@ -19,7 +21,7 @@ const MenuListing1 = ({ navArray, title="" }: any) => {
         <ul role="list" className="-mx-2 space-y-1">
           {navArray.map((item: any) => (
             <li key={item.name} >
-              <a
+              <Link
                 id={item.href} 
                 href="#"
                 className={classNames(
@@ -39,7 +41,7 @@ const MenuListing1 = ({ navArray, title="" }: any) => {
                   aria-hidden="true"
                 />
                 {item.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

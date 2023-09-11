@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(' ');
   }
@@ -12,7 +14,7 @@ const MenuListing2 = ({ navArray, title }: any) => {
         <ul role="list" className="-mx-2 mt-2 space-y-1">
           {navArray.map((nav: any) => (
             <li key={nav.name}>
-              <a
+              <Link
                 href={nav.href}
                 className={classNames(
                   nav.current
@@ -32,7 +34,7 @@ const MenuListing2 = ({ navArray, title }: any) => {
                   {nav.initial}
                 </span>
                 <span className="truncate">{nav.name}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

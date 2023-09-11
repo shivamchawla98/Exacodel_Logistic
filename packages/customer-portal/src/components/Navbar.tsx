@@ -118,13 +118,13 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <a href="#" className="text-sm font-semibold leading-6  pt-2 text-gray-900">
+          <Link href="#" className="text-sm font-semibold leading-6  pt-2 text-gray-900">
             Services
-          </a>
+          </Link>
   
-          <a href="#" className="text-sm font-semibold leading-6 pt-2 z-40 text-gray-900">
+          <Link href="#" className="text-sm font-semibold leading-6 pt-2 z-40 text-gray-900">
             References
-          </a>
+          </Link>
 
           <Popover className="relative flex align-middle z-40">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
@@ -189,10 +189,10 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
             href="/login">
             Log in <span aria-hidden="true">&rarr;</span>
             </Link>
-          {/* <a href="/login"
+          {/* <Link href="/login"
            className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2"
            >
-          </a> */}
+          </Link> */}
         </div>
         </Popover.Group>
 
@@ -205,14 +205,14 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 flex w-full flex-col justify-between overflow-y-auto bg-white sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="p-6">
             <div className="flex items-center justify-between">
-              <a href="/" className="-m-1.5 p-1.5">
+              <Link href="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
                 <img
                   className="h-8 w-auto"
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
                   alt=""
                 />
-              </a>
+              </Link>
               <button
                 type="button"
                 className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -226,7 +226,7 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               <div className="-my-6 divide-y divide-gray-500/10">
                 <div className="space-y-2 py-6">
                   {tools.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className="group -mx-3 flex items-center gap-x-6 rounded-lg p-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
@@ -235,53 +235,53 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
                         <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
                       </div>
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
                 <div className="space-y-2 py-6">
-                  <a
+                  <Link
                     href="#"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Services
-                  </a>
-                  <a
+                  </Link>
+                  <Link
                     href="#"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Refrences
-                  </a>
+                  </Link>
 
                   {company.map((item) => (
-                    <a
+                    <Link
                       key={item.name}
                       href={item.href}
                       className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       {item.name}
-                    </a>
+                    </Link>
                   ))}
                 </div>
                 <div className="py-6">
-                  <a
+                  <Link
                     href="/login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Log in
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
           </div>
           <div className="sticky bottom-0 grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50 text-center">
             {callsToAction.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className="p-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </Dialog.Panel>

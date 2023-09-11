@@ -4,6 +4,8 @@
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import { Progress, Typography } from "@material-tailwind/react";
+import companyImage from "../assest/images/download.png"
+import Image from "next/image";
 import {
   Bars3Icon,
   BellIcon,
@@ -25,6 +27,7 @@ import Chart from "./components/PieChart";
 import LineChart from "./components/LineChart";
 // import BarCharts from "./components/BarChart";
 import UserProfileStats from "./components/UserProfileStats";
+import Link from "next/link";
 
 const navigation = [
   { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
@@ -82,8 +85,9 @@ function Transaction () {
 }
 
 function MonthlyStats () {
+  
  return (
-  <div className="w-full">
+  <div className="w-full px-10">
                           <div className="w-full p-4">
                       <div className="mb-2 flex items-center justify-between gap-4">
                         <Typography color="blue-gray" variant="h6">
@@ -147,6 +151,7 @@ function ShipmentDelivery () {
 
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [yourProfileOpen, setYourProfileOpen] = useState(false)
 
   return (
     <>
@@ -212,7 +217,7 @@ export default function Example() {
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-4">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-sky-600 px-6 pb-4">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
@@ -226,7 +231,7 @@ export default function Example() {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
+                                <Link
                                   href={item.href}
                                   className={classNames(
                                     item.current
@@ -245,19 +250,19 @@ export default function Example() {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="text-xs font-semibold leading-6 text-indigo-200">
                             Your teams
                           </div>
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
-                                <a
+                                <Link
                                   href={team.href}
                                   className={classNames(
                                     team.current
@@ -270,13 +275,13 @@ export default function Example() {
                                     {team.initial}
                                   </span>
                                   <span className="truncate">{team.name}</span>
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
-                        </li>
+                        </li> */}
                         <li className="mt-auto">
-                          <a
+                          <Link
                             href="#"
                             className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-sky-700 hover:text-white"
                           >
@@ -285,7 +290,7 @@ export default function Example() {
                               aria-hidden="true"
                             />
                             Settings
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>
@@ -306,7 +311,7 @@ export default function Example() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(
                             item.current
@@ -325,7 +330,7 @@ export default function Example() {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -337,7 +342,7 @@ export default function Example() {
                   <ul role="list" className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
-                        <a
+                        <Link
                           href={team.href}
                           className={classNames(
                             team.current
@@ -350,13 +355,13 @@ export default function Example() {
                             {team.initial}
                           </span>
                           <span className="truncate">{team.name}</span>
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </li>
                 <li className="mt-auto">
-                  <a
+                  <Link
                     href="#"
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-indigo-200 hover:bg-sky-700 hover:text-white"
                   >
@@ -365,7 +370,7 @@ export default function Example() {
                       aria-hidden="true"
                     />
                     Settings
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -425,12 +430,12 @@ export default function Example() {
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
+                    <Image
                       className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={companyImage}
                       alt=""
                     />
-                    <span className="hidden lg:flex lg:items-center">
+                    <span onClick={() => setYourProfileOpen(yourProfileOpen)} className="hidden lg:flex lg:items-center">
                       <span
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                         aria-hidden="true"
@@ -456,7 +461,8 @@ export default function Example() {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
+                            <Link
+                              
                               href={item.href}
                               className={classNames(
                                 active ? "bg-gray-50" : "",
@@ -464,7 +470,7 @@ export default function Example() {
                               )}
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       ))}
@@ -476,7 +482,7 @@ export default function Example() {
           </div>
 
           {/* main dashboard content */}
-          <section className="flex justify-spacevenly">
+          <section className="flex justify-spacevenly flex-wrap lg:flex-nowrap">
             <main className="py-10 lg:w-4/5">
               <div className="px-4 sm:px-6 lg:px-8">
                 <Stats />
@@ -559,12 +565,14 @@ export default function Example() {
               </div>
             </main>
 
-            <main className="lg:w-2/5 shadow-md">
+           {/* {yourProfileOpen &&  */}
+            <main className="lg:w-2/5 shadow-md md:w-full">
               <ProfileCard />
               <Transaction />
               <MonthlyStats />
               <ShipmentDelivery />
             </main>
+            {/* } */}
           </section>
         </div>
       </div>
