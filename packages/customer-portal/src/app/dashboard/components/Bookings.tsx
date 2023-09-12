@@ -325,7 +325,7 @@ const TrackingTable = () => {
 
 function Bookings() {
   return (
-    <div className="xl:px-44">
+    <div className="xl:pl-44">
       <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
         <div className="flex justify-between">
           <SearchBar />
@@ -337,18 +337,18 @@ function Bookings() {
             Booking list
           </button>
           <div className="w-1/2 mt-2 flex justify-evenly items-center">
-            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-4 border  rounded-sm ">
+            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 border  rounded-sm ">
               <BsFillChatFill className="text-sky-600 " size={20} />
-              <p className="px-4 pt-1">Chat</p>
+              <p className="px-4 pt-1 text-xs">Chat</p>
             </button>
             <button className="flex justify-between"></button>
-            <button className="bg-white hover:bg-gray-100 text-gray-800 font-medium py-2 px-4 border  rounded-sm ">
+            <button className="bg-white hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 border text-xs  rounded-sm ">
               Reject
             </button>
-            <button className="bg-white flex hover:bg-gray-100 text-green-500 font-medium py-2 px-4 border  rounded-sm ">
+            <button className="bg-white flex hover:bg-gray-100 text-green-500 font-medium py-2 px-2 text-xs border  rounded-sm ">
               Send to RO
             </button>
-            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-4 border  rounded-sm ">
+            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 text-xs border  rounded-sm ">
               Accept
             </button>
           </div>

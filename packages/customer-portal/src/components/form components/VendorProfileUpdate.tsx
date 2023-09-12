@@ -228,7 +228,7 @@ function VendorProfileUpdate() {
     console.log(values);
   };
   return (
-    <>
+    <div >
       <h2 className="text-xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
         Vendor Profile Update
       </h2>
@@ -238,21 +238,22 @@ function VendorProfileUpdate() {
         onSubmit={handleSubmit}
       >
         <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
-          <div className="flex justify-evenly col-span-3">
-            <h2 className="text-base font-semibold text-gray-900">
+          <div className=" flex justify-between col-span-3">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Is Corporate is same as Billing Address ?
             </h2>
-            <label>
+            <div>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowAdressField(false)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 px-5 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                 type="radio"
                 name="billingAddress"
                 value="yes"
               />
               Yes
             </label>
-            <label>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowAdressField(true)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -262,7 +263,7 @@ function VendorProfileUpdate() {
               />
               No
             </label>
-
+            </div>
             <ErrorMessage name="billingAddress" component="div" />
           </div>
 
@@ -271,11 +272,12 @@ function VendorProfileUpdate() {
           {showAddressField && <Address prefix="address1" />}
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
           {/*  Ware house address*/}
-          <div className="flex justify-evenly col-span-3">
-            <h2 className="text-base font-semibold text-gray-900">
+          <div className="flex justify-between col-span-3">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Do you have warehouse
             </h2>
-            <label>
+            <div>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowWarehouseAddress(true)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -285,7 +287,7 @@ function VendorProfileUpdate() {
               />
               Yes
             </label>
-            <label>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowWarehouseAddress(false)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -295,6 +297,8 @@ function VendorProfileUpdate() {
               />
               No
             </label>
+            </div>
+
 
             <ErrorMessage name="warehouseAddress" component="div" />
           </div>
@@ -303,7 +307,7 @@ function VendorProfileUpdate() {
 
           {/* Warehose details form component */}
           <div className="col-span-3">
-            <h2 className="text-base font-semibold col-span-3 text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Warehouse Details
             </h2>
             <WarehouseDetails prefix="warehouse1" />
@@ -312,7 +316,7 @@ function VendorProfileUpdate() {
 
           {/* Transporter  */}
           <div className="flex justify-evenly col-span-2">
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Are you a Transporter ?
             </h2>
             <label>
@@ -347,7 +351,7 @@ function VendorProfileUpdate() {
 
           {/* LTL  */}
           <div className="flex justify-evenly col-span-2">
-            <h2 className="text-base font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Do you have LTL Service ?
             </h2>
             <label>
@@ -382,7 +386,7 @@ function VendorProfileUpdate() {
 
           {/* company contact */}
           <div className="col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Add company contact
             </h2>
             <CompanyContact prefix="companyContact1" />
@@ -390,14 +394,14 @@ function VendorProfileUpdate() {
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* Upload section */}
-          <h2 className="text-base font-semibold text-gray-900 col-span-3">
+          <h2 className="text-xl font-medium leading-7 text-gray-700">
             Upload Any Four Documents
           </h2>
           <UploadComponent />
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* Airport details section */}
-          <h2 className="text-base font-semibold text-gray-900 col-span-3">
+          <h2 className="text-xl font-medium leading-7 text-gray-700">
             Upload Domestic AirRates
           </h2>
           <AirportDetails prefix={'airport1'} />
@@ -430,20 +434,20 @@ function VendorProfileUpdate() {
             </div>
             <button
               type="submit"
-              className="mt-8 mr-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="mt-8 mr-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
               Back
             </button>
             <button
               type="submit"
-              className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
               Submit
             </button>
           </div>
         </Form>
       </Formik>
-    </>
+    </div>
   );
 }
 

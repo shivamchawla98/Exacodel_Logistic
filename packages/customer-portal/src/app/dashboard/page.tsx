@@ -11,17 +11,22 @@ import {
   XMarkIcon,
   PaperAirplaneIcon,
   InboxIcon,
+  IdentificationIcon,
+  UserGroupIcon,
+  QueueListIcon,
 } from "@heroicons/react/24/outline";
 import MenuListing1 from "./components/MenuListing1";
 import MenuListing2 from "./components/MenuListing2";
 import Image from "next/image";
 import User from "./components/User";
 import Bookings from "./components/Bookings";
+import VendorProfileUpdate from "@/components/form components/VendorProfileUpdate";
+import CustomerProfileUpdate from "@/components/form components/CustomerProfileUpdate";
+import OverseasAgentProfileUpdate from "@/components/form components/OverseasAgentProfileUpdate";
 
 const navigation = [
   { name: "Dashboard", href: "user", icon: HomeIcon, current: true },
   { name: "Inbox", href: "inbox", icon: InboxIcon, current: false },
-  { name: "AI Assistant", href: "#", icon: RocketLaunchIcon, current: false },
   { name: "My Request", href: "#", icon: BookmarkIcon, current: false },
   {
     name: "Bookings",
@@ -29,6 +34,25 @@ const navigation = [
     icon: PaperAirplaneIcon,
     current: false,
   },
+  {
+    name: "Vendor Profile Update",
+    href: "vendor",
+    icon: IdentificationIcon,
+    current: false,
+  },
+  {
+    name: "Customer Profile Update",
+    href: "customer",
+    icon: UserGroupIcon,
+    current: false,
+  },
+  {
+    name: "Overseas Profile Update",
+    href: "overseas",
+    icon: QueueListIcon,
+    current: false,
+  },
+
 ];
 const teams = [
   { id: 1, name: "Apps", href: "#", initial: "A", current: false },
@@ -43,9 +67,11 @@ function classNames(...classes: any[]) {
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [dashSection, setDashSection] = useState("user");
+
   const handleMenuClick = (e: any) => {
-    
-    setDashSection(e.target.id);
+  setDashSection(e.target.id);
+  console.log(e.target.id);
+  
     navigation.map((item) => {
       if(item.href != e.target.id) {
         item.current = false
@@ -122,11 +148,11 @@ export default function Example() {
                         <li>
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
-                              <li key={item.name}>
-                                <a
+                              <li onClick={handleMenuClick} key={item.name}>
+                                <button
                                   id={item.href}
                                   onClick={handleMenuClick}
-                                  href="#"
+                                  type="button"
                                   className={classNames(
                                     item.current
                                       ? "bg-gray-50 text-indigo-600"
@@ -144,7 +170,7 @@ export default function Example() {
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </button>
                               </li>
                             ))}
                           </ul>
@@ -156,8 +182,9 @@ export default function Example() {
                           <ul role="list" className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
-                                <a
-                                  href={team.href}
+                                <button
+                                  onClick={handleMenuClick}
+                                  id={team.href}
                                   className={classNames(
                                     team.current
                                       ? "bg-gray-50 text-indigo-600"
@@ -176,7 +203,7 @@ export default function Example() {
                                     {team.initial}
                                   </span>
                                   <span className="truncate">{team.name}</span>
-                                </a>
+                                </button>
                               </li>
                             ))}
                           </ul>
@@ -214,7 +241,7 @@ export default function Example() {
                   navArray={navigation}
                   onClickHandler={handleMenuClick}
                 />
-                <MenuListing2 navArray={teams} title="overview" />
+              {/* <MenuListing2 navArray={teams} title="overview" /> */}
               </ul>
             </nav>
           </div>
@@ -242,9 +269,15 @@ export default function Example() {
           </a>
         </div>
 
-        <main className="lg:pl-32">
+        <main className="lg:pl-32 w-full mx-auto">
           {dashSection === "user" && <User />}
           {dashSection === "booking" && <Bookings />}
+          <div className="xl:px-44">
+          {dashSection === "vendor" && <VendorProfileUpdate />}
+          {dashSection === "customer" && <CustomerProfileUpdate />}
+          {dashSection === "overseas" && <OverseasAgentProfileUpdate />}          
+
+          </div>
         </main>
       </div>
     </>

@@ -106,7 +106,7 @@ function CustomerProfileUpdate() {
       >
         <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           <div className="flex justify-evenly col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Is Corporate is same as Billing Address
             </h2>
             <label>
@@ -139,7 +139,7 @@ function CustomerProfileUpdate() {
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
           {/*  Ware house address*/}
           <div className="flex justify-evenly col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Do you have warehouse
             </h2>
             <label>
@@ -170,7 +170,7 @@ function CustomerProfileUpdate() {
 
           {/* company contact */}
           <div className="col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Add company contact
             </h2>
             <CompanyContact />

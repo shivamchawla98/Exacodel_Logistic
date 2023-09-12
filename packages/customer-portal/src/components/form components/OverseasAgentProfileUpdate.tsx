@@ -77,7 +77,7 @@ function OverseasAgentProfileUpdate() {
       >
         <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           <div className="flex justify-evenly col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Is Corporate is same as Billing Address
             </h2>
             <label>
@@ -110,7 +110,7 @@ function OverseasAgentProfileUpdate() {
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
           {/*  Ware house address*/}
           <div className="flex justify-evenly col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-medium leading-7 text-gray-700">
               Do you have Branch Offices
             </h2>
             <label>
@@ -219,13 +219,13 @@ function OverseasAgentProfileUpdate() {
             </div>
             <button
               type="submit"
-              className="mt-8 mr-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="mt-8 mr-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Back
             </button>
             <button
               type="submit"
-              className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Submit
             </button>
