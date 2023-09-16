@@ -1,15 +1,12 @@
 
 import './globals.css';
-import { Poppins } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ReduxProvider from '@/features/Provider';
-import { Provider } from 'react-redux';
-import store from './store';
-
-const popin = Poppins({
-   weight: ["200", "400", "500"],
-   subsets: ['latin'],
+const inter = Inter({
+  weight: ["200", "400", "500"],
+  subsets: ['latin'],
   });
 
 export const metadata = {
@@ -30,7 +27,7 @@ const navAndFotterHidingRoute = ["/dashboard"];
   return (
         // <Provider store={store}>
     <html lang="en">
-      <body className={popin.className}>
+      <body className={inter.className}>
         <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
       <ReduxProvider>
           {children}

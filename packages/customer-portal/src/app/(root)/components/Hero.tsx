@@ -1,7 +1,8 @@
-import SearchBar from "./SearchBar";
+// import SearchBar from "./SearchBar";
 import map from '../../../asset/images/map.jpg'
 import globe from '../../../asset/images/Globe .png'
 import Image from "next/image";
+import ShippingFilter from '@/components/ShippingFilter';
 
 function Hero() {
   return (
@@ -14,16 +15,8 @@ function Hero() {
       />
 
 <div className="lg:h-52  lg:w-10/12  my-auto flex justify-center align-middle absolute top-1/2 bg z-50">
-      <SearchBar />
+      <ShippingFilter />
 
-</div>
-<div>
-  <Image 
-      className="absolute top-1/4 lg:right-14 z-10 "
-        src={globe}
-        alt="background image"
-
-  />
 </div>
     </section>
   )

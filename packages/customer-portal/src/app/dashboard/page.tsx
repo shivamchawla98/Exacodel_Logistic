@@ -20,9 +20,12 @@ import MenuListing2 from "./components/MenuListing2";
 import Image from "next/image";
 import User from "./components/User";
 import Bookings from "./components/Bookings";
-import VendorProfileUpdate from "@/components/form components/VendorProfileUpdate";
-import CustomerProfileUpdate from "@/components/form components/CustomerProfileUpdate";
-import OverseasAgentProfileUpdate from "@/components/form components/OverseasAgentProfileUpdate";
+// import VendorProfileUpdate from "@/components/form components/VendorProfileUpdate";
+import VendorProfileUpdateCopy from "@/components/form components/VendorProfileUpdate copy";
+// import CustomerProfileUpdate from "@/components/form components/CustomerProfileUpdate";
+// import OverseasAgentProfileUpdate from "@/components/form components/OverseasAgentProfileUpdate";
+import CustomerProfileUpdateCopy from "@/components/form components/CustomerProfileUpdate copy";
+import OverseasAgentProfileUpdateCopy from "@/components/form components/OverseasAgentProfileUpdate copy";
 
 const navigation = [
   { name: "Dashboard", href: "user", icon: HomeIcon, current: true },
@@ -269,13 +272,13 @@ export default function Example() {
           </a>
         </div>
 
-        <main className="lg:pl-32 w-full mx-auto">
+        <main className="lg:pl-32 sm:px-auto sm:pl-0 w-full mx-auto">
           {dashSection === "user" && <User />}
           {dashSection === "booking" && <Bookings />}
-          <div className="xl:px-44">
-          {dashSection === "vendor" && <VendorProfileUpdate />}
-          {dashSection === "customer" && <CustomerProfileUpdate />}
-          {dashSection === "overseas" && <OverseasAgentProfileUpdate />}          
+          <div className="xl:px-44 sm:px-auto sm:pl-0">
+          {dashSection === "vendor" && <VendorProfileUpdateCopy />}
+          {dashSection === "customer" && <CustomerProfileUpdateCopy />}
+          {dashSection === "overseas" && <OverseasAgentProfileUpdateCopy />}          
 
           </div>
         </main>

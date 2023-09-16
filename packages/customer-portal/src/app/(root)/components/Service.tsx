@@ -5,6 +5,7 @@ import { FiMonitor } from 'react-icons/fi';
 import { MdSupportAgent } from 'react-icons/md';
 import ServicesCard from './ServicesCard';
 
+
 function Service() {
   return (
     <section className="py-16 h-full bg-sky-100">
@@ -19,10 +20,10 @@ function Service() {
           <ServicesCard icons={<BsGlobeAmericas size={30} color="#007FFF" />} />
           <ServicesCard icons={<FaTools size={30} color="#722f37" />} />
         </div>
-        <div className=" mx-auto flex justify-evenly p-2 pb-10 md:m-7 lg:m-9 flex-wrap">
+        <div className="mx-auto flex justify-evenly p-2 pb-10 md:m-7 lg:m-9 flex-wrap">
           <ServicesCard icons={<FiMonitor size={30} color="#922724" />} />
           <ServicesCard icons={<MdSupportAgent size={30} color="purple" />} />
-          <div className="w-96 invisible lg:visible"></div>
+          <ServicesCard icons={<MdSupportAgent size={30} color="purple" />} />
         </div>
       </div>
     </section>

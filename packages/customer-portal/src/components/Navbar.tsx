@@ -15,6 +15,7 @@ import {
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Button from './Button'
 
 const tools = [
   { name: 'Logistic Explorer', description: ' Use our real-time freight calculator to compare rates ', href: '/bookings', icon: ChartPieIcon },
@@ -118,11 +119,11 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <a href="#" className="text-sm font-semibold leading-6  pt-2 text-gray-900">
+          <a href="#" className="text-sm font-semibold leading-6 pt-1 z-40 text-gray-900">
             Services
           </a>
   
-          <a href="#" className="text-sm font-semibold leading-6 pt-2 z-40 text-gray-900">
+          <a href="#" className="text-sm font-semibold leading-6 pt-1 z-40 text-gray-900">
             References
           </a>
 
@@ -184,11 +185,12 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
             </Transition>
           </Popover>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-            <Link 
+            <Button title="Log in" href="/login" />
+            {/* <Link 
             className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2"
             href="/login">
             Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            </Link> */}
           {/* <a href="/login"
            className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2"
            >
@@ -232,7 +234,7 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
                       className="group -mx-3 flex items-center gap-x-6 rounded-lg p-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
+                        <item.icon className="h-6 w-6 text-gray-600 group-hover:text-sky-600" aria-hidden="true" />
                       </div>
                       {item.name}
                     </a>

@@ -7,6 +7,7 @@ import { MdOutlineArrowForwardIos } from "react-icons/md";
 import container from "../../../asset/images/container1.png";
 import Image from "next/image";
 
+
 const arr = [1, 2, 3, 4];
 const tabs = [
   {
@@ -154,46 +155,46 @@ const SearchBar = () => {
 const BookingDetails = () => {
   return (
     <div className="w-full shadow-sm rounded-sm grid grid-cols-1 items-center mt-6">
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between items-center w-full">
         <div className="lg:w-1/2 flex justify-evenly pt-6">
           <p className="text-gray-600 font-medium text-lg">867453</p>
           <div className="flex justify-evenly">
-            <p className="text-gray-700 font-bold text-lg pr-4">Ningbo, CN</p>
+            <p className="text-lg text-gray-800 my-auto  font-medium mr-2">Ningbo, CN</p>
             <MdOutlineArrowForwardIos
               size={17}
               className="text-gray-600 mt-1"
             />
-            <p className="text-gray-700 font-bold text-lg pl-4">Ningbo, CN</p>
+            <p className="text-lg text-gray-800 my-auto  font-medium ml-2">Ningbo, CN</p>
           </div>
         </div>
-        <div className="w-1/2 flex justify-end ">
-          <button className="text-purple-500 w-24 h-10 text-lg shadow-md rounded-sm font-medium mr-5 mt-2">
+        <div className="flex justify-end ">
+          <button className="text-sm font-semibold leading-6 h-8 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-1">
             New
           </button>
         </div>
       </div>
       <div className="w-full flex justify-evenly">
         <div className="flex justify-between w-2/5">
-          <div className="grid grid-cols-1 ml-14">
-            <Image src={container} alt="container Image" width={120} />
-            <p className="ml-10 mt-4">
+          <div className="grid grid-cols-1  ml-10">
+            <Image src={container} alt="container Image" width={90} />
+            <p className="text-center text-xs my-2">
               <strong>FCL </strong> 1 X 40&apos;
             </p>
           </div>
 
           <div className="grid grid-cols-1 space-y-0 h-14 ml-10 w-50 my-auto">
             <p className="text-sm font-light">
-              <span className="mr-2 text-base font-normal">
+              <span className=" text-xs  font-medium">
                 Commodity Name :
               </span>{" "}
               chair
             </p>
             <p className="text-sm font-light">
-              <span className="mr-2 text-base font-normal">Cargo Ready :</span>{" "}
+              <span className=" text-xs  font-medium">Cargo Ready :</span>{" "}
               28/08/2023
             </p>
             <p className="text-sm font-light">
-              <span className="mr-2 text-base font-normal">
+              <span className="text-xs  font-medium">
                 Shipping Line :
               </span>{" "}
               Maersk
@@ -224,13 +225,13 @@ const Tabs = () => {
   }
 
   return (
-    <ul className="flex mt-4">
+    <ul className="flex mt-4 shadow-md px-2">
       {tabs.map((item) => {
         return (
           <li className="flex-1 mr-2" key={item.name} id={item.name} onClick={tabHandler}>
           <a
           id={item.name}
-            className={`text-center block borderpy-2 py-2 px-4 ${
+            className={`text-center text-sm font-medium block borderpy-2 py-2 px-4 ${
               item.current
                 ? "border-sky-500 rounded  bg-sky-500 hover:bg-sky-700 text-white"
                 : "border-white rounded hover:border-gray-200 text-sky-500 hover:bg-gray-200"
@@ -266,7 +267,7 @@ const TrackingTable = () => {
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <button
             type="button"
-            className="block rounded-md bg-sky-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="block rounded-md bg-sky-500 px-3 py-2 text-center text-sm font-medium text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add
           </button>
@@ -323,6 +324,16 @@ const TrackingTable = () => {
   )
 }
 
+function Button({title, href}: any) {
+  return (
+    <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
+        <Link href={href} className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-1" type="button">
+            {title}
+        </Link>
+    </div>
+  )
+}
+
 function Bookings() {
   return (
     <div className="xl:pl-44">
@@ -336,19 +347,19 @@ function Bookings() {
             <IoIosArrowBack className="text-sky-700" size={34} />
             Booking list
           </button>
-          <div className="w-1/2 mt-2 flex justify-evenly items-center">
-            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 border  rounded-sm ">
-              <BsFillChatFill className="text-sky-600 " size={20} />
-              <p className="px-4 pt-1 text-xs">Chat</p>
+          <div className="w-1/2 mt-2 flex justify-center items-center">
+            <button className="bg-white flex justify-center items-center hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 border  rounded-md shadow-sm mx-1 ">
+              <BsFillChatFill className="text-sky-600 " size={10} />
+              <p className="px-4  text-xs">Chat</p>
             </button>
             <button className="flex justify-between"></button>
-            <button className="bg-white hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 border text-xs  rounded-sm ">
+            <button className="bg-white hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 border text-xs  rounded-md shadow-sm mx-1 ">
               Reject
             </button>
-            <button className="bg-white flex hover:bg-gray-100 text-green-500 font-medium py-2 px-2 text-xs border  rounded-sm ">
+            <button className="bg-white flex hover:bg-gray-100 rounded-md shadow-sm text-sky-500 font-medium py-2 px-2 text-xs border mx-1 ">
               Send to RO
             </button>
-            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 text-xs border  rounded-sm ">
+            <button className="bg-white flex hover:bg-gray-100 text-gray-800 font-medium py-2 px-2 text-xs border  rounded-md shadow-sm mx-1 ">
               Accept
             </button>
           </div>

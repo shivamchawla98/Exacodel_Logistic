@@ -3,8 +3,8 @@ import country_list from '../data/country';
 
 function CompanyContact({ prefix }: any) {
   return (
-    <div className="mt-10 grid grid-cols-1 col-span-3 gap-x-6 gap-y-8 sm:grid-cols-6">
-      <div className="sm:col-span-2">
+    <div className="mt-10 grid grid-cols-2  gap-x-6 gap-y-8 ">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.firstName`}
           className="block text-sm font-medium leading-6 text-gray-900"
@@ -22,12 +22,12 @@ function CompanyContact({ prefix }: any) {
         </div>
       </div>
 
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.lastName`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
-          Name
+          Last Name
         </label>
         <div className="mt-2">
           <Field
@@ -40,7 +40,7 @@ function CompanyContact({ prefix }: any) {
         </div>
       </div>
 
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.designation`}
           className="block text-sm font-medium leading-6 text-gray-900"
@@ -58,7 +58,7 @@ function CompanyContact({ prefix }: any) {
         </div>
       </div>
 
-      <div className="sm:col-span-3">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.email`}
           className="block text-sm font-medium leading-6 text-gray-900"
@@ -76,7 +76,7 @@ function CompanyContact({ prefix }: any) {
         </div>
       </div>
 
-      <div className="sm:col-span-3">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.phoneNumber`}
           className="block text-sm font-medium leading-6 text-gray-900"

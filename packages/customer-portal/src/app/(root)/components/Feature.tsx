@@ -1,112 +1,58 @@
-import OurProductCard from "@/components/OurProductCard";
-import OurProductShortCard from "@/components/OurProductShortCard";
-import { BsFillBoxSeamFill } from "react-icons/bs";
-
-const incentives = [
-  {
-    name: "Ocean Freight",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/cargo-ship.png",
-    description:
-      "Managing the transportation of goods by sea, including container shipping",
-  },
-  {
-    name: "Freight Forwarding",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/port.png",
-    description:
-      "Coordinating the transportation of goods by various modes such as road, rail, sea, or air.",
-  },
-  {
-    name: "Trucking and Shipping",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/partially-shipped.png",
-    description:
-      "Providing trucking and shipping services for transporting goods locally or internationally.",
-  },
-];
-
-const warehousing = [
-  {
-    name: "Warehousing ",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/warehouse-1.png",
-    description:
-      "Storage and inventory management services, including pick, pack, and ship operations.",
-  },
-  {
-    name: "Cross-Docking",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/horizontal-docking.png",
-    description:
-      "Transferring goods directly from inbound to outbound shipments with minimal storage",
-  },
-];
-
-const supplyChain = [
-  {
-    name: "Demand Forecasting",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/strike.png",
-    description:
-      "Predicting future demand to optimize inventory and production planning",
-  },
-  {
-    name: "Vendor Management",
-    imageSrc:
-      "https://img.icons8.com/ios-filled/50/commercial-development-management.png",
-    description:
-      "Coordinating with suppliers to ensure a smooth flow of materials and products",
-  },
-];
+import delivery from '../../../asset/icons/delivery.png'
+import callCenter from '../../../asset/icons/call-center.png'
+import distribution from '../../../asset/icons/distribution.png'
+import truck from '../../../asset/icons/truck.png'
 
 
-function Feature() {
+
+const perks = [
+  {
+    name: 'Transportation Services',
+    imageSrc: 'https://tailwindui.com/img/ecommerce/icons/icon-delivery-light.svg',
+    description:
+      "At our logistics company, we take pride in our vital role as the backbone of supply chains, quietly ensuring that goods flow smoothly from manufacturers to customers.",
+  },
+  {
+    name: 'Warehousing and Distribution',
+    imageSrc: 'https://tailwindui.com/img/ecommerce/icons/icon-warranty-light.svg',
+    description:
+      "Warehouses are the cornerstone of efficient inventory management. Our logistics team ensures your products are readily available for distribution, fostering your business's confidence in our reliable services.",
+  },
+  {
+    name: 'Supply Chain Management',
+    imageSrc: 'https://img.icons8.com/external-icongeek26-outline-gradient-icongeek26/64/external-logistic-logistics-delivery-icongeek26-outline-gradient-icongeek26-16.png',
+    description:
+      'We understand that when your product arrives you might not particularly like it, or you ordered the wrong thing. Conditions apply here.',
+  },
+  {
+    name: 'Customs and Compliance',
+    imageSrc: 'https://tailwindui.com/img/ecommerce/icons/icon-planet-light.svg',
+    description:
+      "We handle customs and compliance seamlessly, ensuring your shipments meet all regulations with ease.",
+  },
+]
+
+export default function Example() {
   return (
-    <section className="relative pt-16 bg-sky-100">
-      <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl text-center mb-6">
-        Our Products
-      </h1>
-      <div className="w-11/12 flex justify-center flex-col">
-        <div className="ml-8 lg:w-1/6 bg-sky-500 rounded-tr-lg rounded-tl-lg md:ml-20 lg:ml-20 ">
-          <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-            Transportation Services
-          </h2>
-        </div>
-        <div className="w-screen flex justify-center items-center">
-          <OurProductCard itemsArray={incentives} />
-        </div>
-
-        <div className="w-screen flex justify-evenly items-center flex-wrap">
-          <div className="lg:w-1/2">
-            <div className="mt-12 flex justify-center">
-            <div className="w-80 bg-sky-500 rounded-tr-lg rounded-tl-lg">
-              <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-                Warehousing and Distribution
-              </h2>
+    <div className="bg-gray-50">
+      <h2 className="sr-only">Our perks</h2>
+      <div className="mx-auto max-w-7xl py-24 sm:px-2 sm:py-32 lg:px-4">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-12 px-4 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
+          {perks.map((perk) => (
+            <div key={perk.name} className="sm:flex">
+              <div className="sm:flex-shrink-0">
+                <div className="flow-root">
+                  <img className="h-24 w-28" src={perk.imageSrc} alt="" />
+                </div>
+              </div>
+              <div className="mt-3 sm:ml-3 sm:mt-0">
+                <h3 className="text-sm font-medium text-gray-900">{perk.name}</h3>
+                <p className="mt-2 text-sm text-gray-500">{perk.description}</p>
+              </div>
             </div>
-            </div>
-            <div className="mb-12  flex justify-center items-center ">
-              <OurProductShortCard itemsArray={warehousing} />
-            </div>
-          </div>
-
-          <div className="lg:w-1/2">
-            <div className="mt-12 flex justify-center">
-            <div className="w-80 bg-sky-500 rounded-tr-lg rounded-tl-lg">
-              <h2 className="text-white ml-45  py-2  weight-bold text-xl  text-center ">
-                Supply Chain Management
-              </h2>
-            </div>
-            </div>
-            <div className="mb-12  flex justify-center items-center ">
-              <OurProductShortCard itemsArray={supplyChain.slice(0,2)} />
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-    </section>
-  );
+    </div>
+  )
 }
-
-export default Feature;

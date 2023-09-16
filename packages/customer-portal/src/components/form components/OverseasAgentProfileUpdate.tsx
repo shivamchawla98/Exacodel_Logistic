@@ -76,11 +76,13 @@ function OverseasAgentProfileUpdate() {
         onSubmit={handleSubmit}
       >
         <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
-          <div className="flex justify-evenly col-span-3">
-            <h2 className="text-xl font-medium leading-7 text-gray-700">
+          <div className="flex justify-between col-span-3 px-6">
+            <h2 className="text-base font-medium leading-7 text-gray-700">
               Is Corporate is same as Billing Address
             </h2>
-            <label>
+
+            <div>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowAdressField(false)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -90,7 +92,7 @@ function OverseasAgentProfileUpdate() {
               />
               Yes
             </label>
-            <label>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowAdressField(true)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -100,6 +102,8 @@ function OverseasAgentProfileUpdate() {
               />
               No
             </label>
+            </div>
+
 
             <ErrorMessage name="billingAddress" component="div" />
           </div>
@@ -109,11 +113,13 @@ function OverseasAgentProfileUpdate() {
           {showAddressField && <Address prefix="address1" />}
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
           {/*  Ware house address*/}
-          <div className="flex justify-evenly col-span-3">
-            <h2 className="text-xl font-medium leading-7 text-gray-700">
+          <div className="flex justify-between col-span-3 px-6">
+            <h2 className="text-base font-medium leading-7 text-gray-700">
               Do you have Branch Offices
             </h2>
-            <label>
+
+            <div>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowWarehouseAddress(true)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -123,7 +129,7 @@ function OverseasAgentProfileUpdate() {
               />
               Yes
             </label>
-            <label>
+            <label className='mx-6'>
               <Field
                 onClick={() => setShowWarehouseAddress(false)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -132,7 +138,9 @@ function OverseasAgentProfileUpdate() {
                 value="no"
               />
               No
-            </label>
+            </label >
+
+            </div>
 
             <ErrorMessage name="warehouseAddress" component="div" />
           </div>
@@ -140,42 +148,42 @@ function OverseasAgentProfileUpdate() {
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* check box specialization*/}
-          <h2 className="text-xl col-span-3 font-semibold text-gray-900">
+          <h2 className="text-base col-span-3 font-semibold text-gray-900">
             Service Details
           </h2>
-          <ServiceDetailsOverseasUpdate />
+            <ServiceDetailsOverseasUpdate />
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* check box specialization */}
-          <h2 className="text-xl col-span-3 font-semibold text-gray-900">
+          <h2 className="text-base col-span-3 font-semibold text-gray-900">
             Specialization Details
           </h2>
           <SpecializationDetailsOverseas />
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* check box Network and membership */}
-          <h2 className="text-xl col-span-3 font-semibold text-gray-900">
+          <h2 className="text-base col-span-3 font-semibold text-gray-900">
             Network And Membership Details
           </h2>
           <NetworkMembershipDetailsOvarseasUpdate />
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* airport details */}
-          <h2 className="text-xl col-span-3 font-semibold text-gray-900">
+          <h2 className="text-base col-span-3 font-semibold text-gray-900">
             Network And Membership Details
           </h2>
           <AirportDetails prefix={'airport1'} />
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* clearence Charges */}
-          <h2 className="text-xl col-span-3 font-semibold text-gray-900">
+          <h2 className="text-base col-span-3 font-semibold text-gray-900">
             Upload clearence Chareges
           </h2>
           <UploadClearenceChargesOverseasUpdate prefix={'clearenceChareges1'} />
           <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
 
           {/* Upload Domestic Trucking */}
-          <h2 className="text-xl col-span-3 font-semibold text-gray-900">
+          <h2 className="text-base col-span-3 font-semibold text-gray-900">
             Upload Domestic Trucking
           </h2>
           <UploadDomesticTruking prefix={"trucking1"} />
@@ -183,7 +191,7 @@ function OverseasAgentProfileUpdate() {
 
           {/* company contact */}
           <div className="col-span-3">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className=" text-base col-span-3 font-semibold text-gray-900">
               Add company contact
             </h2>
             <CompanyContact />

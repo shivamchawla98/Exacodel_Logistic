@@ -8,13 +8,13 @@ interface AirportDetailProps {
 
 const AirportDetails: React.FC<AirportDetailProps> = ({ prefix }) => {
   return (
-  <>
+  <div className='mt-10 grid grid-cols-2  col-span-3 gap-x-6 gap-y-8'>
   {/* airportOfOrigin */}
-  <div>
+  <div className='sm:col-span-2 lg:col-span-1'>
     <SelectComponet options={["Adelide", "Brisbane"]} id={`${prefix}.airportOfOrigin`} title={'Airport Of Origin'} />
   </div>
 
-  <div>
+  <div className='sm:col-span-2 lg:col-span-1'>
     <SelectComponet options={["Adelide", "Brisbane"]} id={`${prefix}.airportOfDestination`} title={'Airport Of Destination'} />
   </div>
 
@@ -37,7 +37,7 @@ const AirportDetails: React.FC<AirportDetailProps> = ({ prefix }) => {
   <TextField id={`${prefix}.routing`} title={'Routing'} type={'text'} />
   <TextField id={`${prefix}.transitTime`} title={'Transit Time'} type='datetime-local' />
   
-  </>)
+  </div>)
 }
 
 export default AirportDetails;

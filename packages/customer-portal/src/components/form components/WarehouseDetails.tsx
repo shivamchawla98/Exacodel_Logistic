@@ -44,7 +44,7 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({ prefix }) => {
   const [hazardSelection, setHazardSelection] = useState(false);
 
   return (
-    <div className="mt-10 grid grid-cols-1 col-span-3 gap-x-6 gap-y-8 sm:grid-cols-6">
+    <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8">
       <WarehouseCapacity
         id={`${prefix}.totalStorageArea`}
         labelTitle="Total Storage Area"
@@ -74,14 +74,14 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({ prefix }) => {
       />
 
       {/* coldStorage */}
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.coldStorage`}
           className="block text-sm font-medium leading-6 text-gray-900"
         >
           Storage Type
         </label>
-        <div className="flex justify-evenly">
+    
           <div className="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
             <Field
               onClick={() => setTempSelection(!tempSelection)}
@@ -116,11 +116,10 @@ const WarehouseDetails: React.FC<WarehouseDetailsProps> = ({ prefix }) => {
               />
             </div>
           )}
-        </div>
       </div>
 
       {/* hazardousWarehouse  */}
-      <div className="sm:col-span-2">
+      <div className="sm:col-span-2 lg:col-span-1">
         <label
           htmlFor={`${prefix}.hazardousWarehouse`}
           className="block text-sm font-medium leading-6 text-gray-900"

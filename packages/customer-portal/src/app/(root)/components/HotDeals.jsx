@@ -1,7 +1,6 @@
 import { FireIcon } from "@heroicons/react/24/outline";
 import DealCard from "./DealCard";
 import IndianFlag from "../indiaFlag.png";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 function HotDeals() {
   const testDataForOffer = [1, 2, 3, 4];

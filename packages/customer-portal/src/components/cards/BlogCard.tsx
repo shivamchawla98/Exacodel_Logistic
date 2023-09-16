@@ -6,7 +6,7 @@ function BlogCard({id, imageUrl, datetime, date, href, title}: any) {
   return (
     <article
     key={id}
-    className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
+    className="h-64 relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
   >
     <img src={imageUrl} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
     <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
