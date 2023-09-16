@@ -317,7 +317,18 @@ function OverseasAgentProfileUpdate() {
                         {formik.values.branchOffices.map((branchOffices, index) => (
                           <>
                             <div className='col-span-3 grid grid-cols-2 gap-x-6 gap-y-8' key={index}>
-                              <h2 className='col-span-3 mt-10  text-sm font-semibold py-4  text-gray-700'>Branch Office<strong className='px-2'>{index + 1}</strong> </h2>
+                              <div className='col-span-3 flex justify-end'>
+                              {
+                                formik.values.branchOffices.length > 1 && <button
+                                  onClick={() => arrayHelpers.remove(index)}
+                                  type="button"
+                                  className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                                >
+                                  Remove X
+                                </button>
+                              }
+                              </div>
+                              <h2 className='col-span-3 -mt-10  text-sm font-semibold py-4  text-gray-700'>Branch Office<strong className='px-2'>{index + 1}</strong> </h2>
 
                               {/* country */}
                               <div className="">
@@ -409,17 +420,6 @@ function OverseasAgentProfileUpdate() {
                           >
                             Add
                           </button>
-
-                          {
-
-                            formik.values.branchOffices.length > 1 && <button
-                              onClick={() => arrayHelpers.remove(formik.values.branchOffices.length - 1)}
-                              type="button"
-                              className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                            >
-                              Remove
-                            </button>
-                          }
 
                         </div>
                       </div>
@@ -544,7 +544,18 @@ function OverseasAgentProfileUpdate() {
                 <div className='col-span-3'>
                   {formik.values.airportDetails.map((service, index) => (
                     <>
-                      <h2 className='col-span-3 mt-10  text-sm font-semibold pt-4  text-gray-700'>Air Rate<strong className='px-2'>{index + 1}</strong> </h2>
+                      <div className='col-span-3 flex justify-end'>
+                        {
+                          formik.values.airportDetails.length > 1 && <button
+                            onClick={() => arrayHelpers.remove(index)}
+                            type="button"
+                            className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                          >
+                            Remove X
+                          </button>
+                        }
+                      </div>
+                      <h2 className='col-span-3 -mt-10 pl-1  text-sm font-semibold pt-4  text-gray-700'>Air Rate<strong className='px-2'>{index + 1}</strong> </h2>
                       <AirportDetails key={index} prefix={`airportDetails.${index}`} />
                       <hr className="my-12 col-span-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:opacity-100" />
                     </>
@@ -556,19 +567,8 @@ function OverseasAgentProfileUpdate() {
                       type="button"
                       className="mx-4 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
                     >
-                      Add
+                      Add +
                     </button>
-
-                    {
-
-                      formik.values.airportDetails.length > 1 && <button
-                        onClick={() => arrayHelpers.remove(formik.values.airportDetails.length - 1)}
-                        type="button"
-                        className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                      >
-                        Remove
-                      </button>
-                    }
 
                   </div>
                 </div>
@@ -587,7 +587,18 @@ function OverseasAgentProfileUpdate() {
                 <div className='col-span-3 grid'>
                   {formik.values.clearenceCharges.map((service, index) => (
                     <>
-                      <h2 className='col-span-3 mt-10  text-sm font-semibold py-6  text-gray-700'>Clearence charge<strong className='px-2'>{index + 1}</strong> </h2>
+                      <div className='col-span-3 flex justify-end'>
+                        {
+                          formik.values.clearenceCharges.length > 1 && <button
+                            onClick={() => arrayHelpers.remove(index)}
+                            type="button"
+                            className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                          >
+                            Remove X
+                          </button>
+                        }
+                      </div>
+                      <h2 className='col-span-3  text-sm font-semibold py-6  text-gray-700'>Clearence charge<strong className='px-2'>{index + 1}</strong> </h2>
                       <UploadClearenceChargesOverseasUpdate key={index} prefix={`clearenceCharges.${index}`} />
                       <hr className="my-12 col-span-3 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:opacity-100" />
 
@@ -600,20 +611,8 @@ function OverseasAgentProfileUpdate() {
                       type="button"
                       className="mx-4 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
                     >
-                      Add
+                      Add +
                     </button>
-
-                    {
-
-                      formik.values.clearenceCharges.length > 1 && <button
-                        onClick={() => arrayHelpers.remove(formik.values.clearenceCharges.length - 1)}
-                        type="button"
-                        className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                      >
-                        Remove
-                      </button>
-                    }
-
                   </div>
                 </div>
               }
@@ -630,7 +629,18 @@ function OverseasAgentProfileUpdate() {
                 <div className='col-span-3 grid'>
                   {formik.values.trucking.map((service, index) => (
                     <>
-                      <h2 className='col-span-3 mt-10  text-sm font-semibold py-6  text-gray-700'>Trucking charge <strong className='px-2'>{index + 1}</strong> </h2>
+                                          <div className='col-span-3 flex justify-end'>
+                        {
+                          formik.values.trucking.length > 1 && <button
+                            onClick={() => arrayHelpers.remove(index)}
+                            type="button"
+                            className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                          >
+                            Remove X
+                          </button>
+                        }
+                      </div>
+                      <h2 className='col-span-3   text-sm font-semibold py-6  text-gray-700'>Trucking charge <strong className='px-2'>{index + 1}</strong> </h2>
 
                       <UploadDomesticTruking key={index} prefix={`trucking.${index}`} />
                       <hr className="my-12 col-span-3 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:opacity-100" />
@@ -643,19 +653,8 @@ function OverseasAgentProfileUpdate() {
                       type="button"
                       className="mx-4 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
                     >
-                      Add
+                      Add +
                     </button>
-
-                    {
-
-                      formik.values.trucking.length > 1 && <button
-                        onClick={() => arrayHelpers.remove(formik.values.trucking.length - 1)}
-                        type="button"
-                        className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                      >
-                        Remove
-                      </button>
-                    }
 
                   </div>
                 </div>
@@ -677,7 +676,19 @@ function OverseasAgentProfileUpdate() {
                       formik.values.companyContacts.map((contact, index) => (
 
                         <div className="grid col-span-3 grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-8 " key={index}>
-                          <h2 className="col-span-2 mt-12 text-xs font-semibold py-4">Company Contact {index + 1}</h2>
+                        {
+                          formik.values.companyContacts.length > 2 && 
+                          <div className='col-span-2 flex justify-end'>
+                          <button
+                          onClick={() => arrayHelpers.remove(index)}
+                            type="button"
+                            className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                          >
+                            Remove X
+                          </button>
+                      </div>
+                        }
+                          <h2 className="col-span-2 mt-4 text-xs font-semibold py-4">Company Contact {index + 1}</h2>
 
                           <div className="">
                             <label
@@ -799,7 +810,7 @@ function OverseasAgentProfileUpdate() {
                         type="button"
                         className="mx-4 rounded-md bg-sky-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
                       >
-                        Add
+                        Add +
                       </button>
 
                       {

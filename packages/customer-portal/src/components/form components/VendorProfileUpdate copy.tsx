@@ -251,7 +251,18 @@ function VendorProfileUpdate() {
                         {formik.values.warehouses.map((warehouse, index) => (
                           <>
                             <div className='grid grid-cols-1 col-span-3 gap-x-6 gap-y-8' key={index}>
-
+                            {
+                            formik.values.warehouses.length > 1 &&
+                            <div className='col-span-3 flex justify-end'>
+                              <button
+                                onClick={() => arrayHelpers.remove(index)}
+                                type="button"
+                                className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                              >
+                                Remove X
+                              </button>
+                            </div>
+                          }
                           <h2 className='col-span-3  text-sm font-semibold pb-4  text-gray-700'>Warehouse<strong className='px-2'>{index + 1}</strong> </h2>
 
                               {/* country */}
@@ -498,16 +509,7 @@ function VendorProfileUpdate() {
                             Add
                           </button>
 
-                          {
 
-                            formik.values.warehouses.length > 1 && <button
-                              onClick={() => arrayHelpers.remove(formik.values.warehouses.length - 1)}
-                              type="button"
-                              className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                            >
-                              Remove
-                            </button>
-                          }
 
                         </div>
                       </div>
@@ -569,7 +571,19 @@ function VendorProfileUpdate() {
                           formik.values.transporters.map((tansporter, index) => {
                             return (
                               <div className='grid grid-cols-1 lg:grid-cols-2 col-span-3 gap-x-6 gap-y-8' key={index}>
-                                <h2 className='col-span-2 mt-12 text-xs font-semibold py-4  text-gray-700'>Transport <strong className='px-2'>{index + 1}</strong> </h2>
+                                                          {
+                            formik.values.transporters.length > 1 &&
+                            <div className='col-span-2 flex justify-end'>
+                              <button
+                                onClick={() => arrayHelpers.remove(index)}
+                                type="button"
+                                className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                              >
+                                Remove X
+                              </button>
+                            </div>
+                          }
+                                <h2 className='col-span-2 text-xs font-semibold py-4  text-gray-700'>Transport <strong className='px-2'>{index + 1}</strong> </h2>
 
                                 {/* typesOfTransport */}
                                 <div>
@@ -704,17 +718,6 @@ function VendorProfileUpdate() {
                             Add
                           </button>
 
-                          {
-
-                            formik.values.transporters.length > 1 && <button
-                              onClick={() => arrayHelpers.remove(formik.values.transporters.length - 1)}
-                              type="button"
-                              className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                            >
-                              Remove
-                            </button>
-                          }
-
                         </div>
                       </div>
                     }
@@ -775,7 +778,19 @@ function VendorProfileUpdate() {
                           formik.values.ltls.map(
                             (ltl, index) => (
                               <div className='col-span-3 grid grid-cols-2 gap-x-6 gap-y-8' key={index}>
-                                <h2 className="col-span-2 mt-12 text-xs font-semibold py-4">Upload LTL Rates {index + 1}</h2>
+                                                          {
+                            formik.values.ltls.length > 1 &&
+                            <div className='col-span-2 flex justify-end'>
+                              <button
+                                onClick={() => arrayHelpers.remove(index)}
+                                type="button"
+                                className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                              >
+                                Remove X
+                              </button>
+                            </div>
+                          }
+                                <h2 className="col-span-2 text-xs font-semibold py-4">Upload LTL Rates {index + 1}</h2>
 
                                 {/* typesOfTransport */}
                                 <div>
@@ -868,17 +883,6 @@ function VendorProfileUpdate() {
                         Add
                       </button>
 
-                      {
-
-                        formik.values.ltls.length > 1 && <button
-                          onClick={() => arrayHelpers.remove(formik.values.ltls.length - 1)}
-                          type="button"
-                          className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                        >
-                          Remove
-                        </button>
-                      }
-
                     </div>
                   </div>
                 )}
@@ -901,7 +905,19 @@ function VendorProfileUpdate() {
                       formik.values.companyContacts.map((contact, index) => (
 
                         <div className="mt-10 grid grid-cols-2  gap-x-6 gap-y-8 " key={index}>
-                          <h2 className="col-span-2 mt-12 text-xs font-semibold py-4">Company Contact {index + 1}</h2>
+                                                    {
+                            formik.values.companyContacts.length > 2 &&
+                            <div className='col-span-2 flex justify-end'>
+                              <button
+                                onClick={() => arrayHelpers.remove(index)}
+                                type="button"
+                                className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                              >
+                                Remove X
+                              </button>
+                            </div>
+                          }
+                          <h2 className="col-span-2 text-xs font-semibold py-4">Company Contact {index + 1}</h2>
 
                           <div className="sm:col-span-2 lg:col-span-1">
                             <label
@@ -1026,17 +1042,6 @@ function VendorProfileUpdate() {
                         Add
                       </button>
 
-                      {
-
-                        formik.values.companyContacts.length > 2 && <button
-                          onClick={() => arrayHelpers.remove(formik.values.companyContacts.length - 1)}
-                          type="button"
-                          className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                        >
-                          Remove
-                        </button>
-                      }
-
                     </div>
                   </div>
                 )}
@@ -1084,7 +1089,19 @@ function VendorProfileUpdate() {
                     {
                       formik.values.airRates.map((airRates, index) => (
                         <div className='col-span-3' key={index}>
-                          <h2 className='col-span-2 mt-10 text-xs font-semibold py-4'>Input Air Rates {index+1}</h2>
+                          {
+                            formik.values.airRates.length > 1 &&
+                            <div className='col-span-2 flex justify-end'>
+                              <button
+                                onClick={() => arrayHelpers.remove(index)}
+                                type="button"
+                                className="mx-4 mt-10 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+                              >
+                                Remove X
+                              </button>
+                            </div>
+                          }
+                          <h2 className='col-span-2 text-xs font-semibold py-4'>Input Air Rates {index+1}</h2>
                           <div className='mt-4 grid grid-cols-2  col-span-3 gap-x-6 gap-y-8'>
                             {/* airportOfOrigin */}
                             <div className='sm:col-span-2 lg:col-span-1'>
@@ -1128,17 +1145,6 @@ function VendorProfileUpdate() {
                       >
                         Add
                       </button>
-
-                      {
-
-                        formik.values.airRates.length > 1 && <button
-                          onClick={() => arrayHelpers.remove(formik.values.airRates.length - 1)}
-                          type="button"
-                          className="mx-4 rounded-md bg-rose-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
-                        >
-                          Remove
-                        </button>
-                      }
 
                     </div>
                   </div>
