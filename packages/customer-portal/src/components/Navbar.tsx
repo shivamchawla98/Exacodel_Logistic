@@ -11,11 +11,15 @@ import {
   FingerPrintIcon,
   SquaresPlusIcon,
   XMarkIcon,
+  ArrowLongRightIcon
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Button from './Button'
+import { useDispatch, useSelector } from 'react-redux'
+import {updateSignUpclicked} from '../features/select-form/selectForm-slice'
+
 
 const tools = [
   { name: 'Logistic Explorer', description: ' Use our real-time freight calculator to compare rates ', href: '/bookings', icon: ChartPieIcon },
@@ -43,15 +47,16 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname();
   const hideRoutePresent = navAndFotterHidingRoute.find((item: any) => item == pathname)
+  const {signUpClicked} = useSelector((state: any) => state.selectForm)
   const show = hideRoutePresent === undefined ? true : false;
-  
+  const dispatch = useDispatch();
   
 
   return (
     <>
     {show && 
     <header className="bg-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <nav className=" flex max-w-7xl items-center justify-between py-6 lg:px-6" aria-label="Global">
         <div className="flex lg:flex-1 z-40">
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
@@ -171,7 +176,7 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5">
+              <Popover.Panel className="absolute -left-24 top-full z-10 mt-3 w-96 rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-900/5">
                 {company.map((item) => (
                   <div key={item.name} className="relative rounded-lg p-4 hover:bg-gray-50">
                     <Link href={item.href} className="block text-sm font-semibold leading-6 text-gray-900">
@@ -184,8 +189,18 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
-            <Button title="Log in" href="/login" />
+          <div className="hidden w-48 lg:flex lg:flex-1 lg:justify-end ">
+            <Button title="Log in"  href="/login" />
+                <div 
+                  onClick={() => {
+                    dispatch(updateSignUpclicked(!signUpClicked))
+                  }}
+                className="hidden lg:flex lg:flex-1 lg:justify-end ">
+                  <button type="button" className="text-sm font-semibold  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-sky-500  text-gray-700 hover:bg-gray-100 hover:scale-95 py-1" type="button">
+                    Sign up
+                    {/* <ArrowLongRightIcon className='text-sky-500 w-6 h-2'/> */}
+                  </button>
+                </div>
             {/* <Link 
             className="text-sm font-semibold leading-6 z-40 bg-sky-500 px-3 rounded-md shadow-sm  text-white hover:bg-sky-400 hover:scale-95 py-2"
             href="/login">
@@ -265,25 +280,34 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
                   ))}
                 </div>
                 <div className="py-6">
-                  <a
+                  <Link
                     href="/login"
                     className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     Log in
-                  </a>
+                  </Link>
+                  <div
+
+                    onClick={() => {
+                      dispatch(updateSignUpclicked(!signUpClicked))
+                    }}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Sign up
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <div className="sticky bottom-0 grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50 text-center">
             {callsToAction.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
                 className="p-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-100"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </Dialog.Panel>

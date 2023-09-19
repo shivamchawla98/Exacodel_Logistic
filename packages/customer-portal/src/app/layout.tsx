@@ -28,8 +28,8 @@ const navAndFotterHidingRoute = ["/dashboard"];
         // <Provider store={store}>
     <html lang="en">
       <body className={inter.className}>
-        <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
       <ReduxProvider>
+        <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
           {children}
         </ReduxProvider>
 

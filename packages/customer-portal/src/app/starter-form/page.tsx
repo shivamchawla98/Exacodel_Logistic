@@ -4,7 +4,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import * as Yup from "yup";
 import countries from "../../components/data/country";
-import companyType from "@/app/vendor-registration/data/typeOfCompany";
+import { companyTypes } from "@/components/data/dropdownData";
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateIdentification,
@@ -155,7 +155,7 @@ function Page() {
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               >
                 <option value="">Select a user type</option>
-                {companyType.map((type) => (
+                {companyTypes.map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>

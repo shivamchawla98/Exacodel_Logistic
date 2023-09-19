@@ -7,6 +7,31 @@ import SubmitButtons from './SubmitButtons';
 import SelectComponet from './SelectComponent';
 import { companyTypes, industryTypes, turnOver, typeOfCompanies } from '../data/dropdownData';
 import TextField from './TextField';
+import { useDispatch, useSelector } from 'react-redux';
+import {    setBillingCode,
+  setUserType,
+  setCompanyType,
+  setIndustryType,
+  setCompanyName,
+  setCompanyRegNum,
+  setCountry,
+  setStreetAddress,
+  setCity,
+  setState,
+  setPostalCode,
+  setCompanyPanNum,
+  setAnnualTurnover,
+  setGstNum,
+  setFirstName,
+  setLastName,
+  setDesignation,
+  setEmail,
+  setPhoneNum,
+  setPhnCountryCode,
+  setCompanyWebsite,
+  setTermAndCondition,
+  reset} from '../../features/customerRegForm/customerRegForm-slice'
+
 
 const validationSchema = Yup.object({
   postalCode: Yup.string()
@@ -27,11 +52,11 @@ const validationSchema = Yup.object({
     streetAddress: Yup.string().required('Street Address is required'),
     city: Yup.string().required('City is required'),
     region: Yup.string().required('Region is required'),
-    panNumber: Yup.string().matches(/^[A-Z]{5}\d{4}[A-Z]$/, 'Invalid PAN Number').required('PAN Number is required'),
+    panNumber: Yup.string().matches(/^[A-Z]{5}\d{4}[A-Z]$/, 'Invalid PAN Number').required("pan number is required"),
     firstName: Yup.string().required('First Name is required'),
     lastName: Yup.string().required('Last Name is required'),
     designation: Yup.string().required("Fill the Degisnation here"),
-    phoneNumber: Yup.string().required('Phone Number is required'),
+    phnNumber: Yup.string().required('Phone Number is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     website: Yup.string().url('Invalid URL'),
     checkBox: Yup.boolean().oneOf([true], 'Please accept the terms and conditions'),
@@ -40,6 +65,7 @@ const validationSchema = Yup.object({
 function CustomerRegistrationForm() {
   const initialValues = {
     companyBillingCode: '',
+    companyRegistrationNumber: '',
     userType: '',
     companyType: '',
     industryType: '',
@@ -49,7 +75,7 @@ function CustomerRegistrationForm() {
     city: '',
     region: '',
     postalCode: '',
-    panNumer: '',
+    panNumber: '',
     gst: '',
     firstName: '',
     lastName: '',
@@ -57,16 +83,53 @@ function CustomerRegistrationForm() {
     phnNumber: '',
     email: '',
     website: '',
-    checkBox: '',
+    checkBox: false,
+    countryPhnCode: '91',
   };
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values: any) => {
-    // Handle form submission
+  const handleSubmit = async (values: any, actions: any) => {
+
+    try {
+      // Validate the form data using Yup schema
+      await validationSchema.validate(values, { abortEarly: false });
+
+      // If validation succeeds, you can proceed with the form submission
+      // Place your form submission logic here
+      console.log('Form submitted successfully');
+    } catch (validationErrors) {}
+
+     // Dispatch actions for each field with the corresponding values
+        dispatch(setBillingCode(values.companyBillingCode));
+        dispatch(setUserType(values.userType));
+        dispatch(setCompanyType(values.companyType));
+        dispatch(setIndustryType(values.industryType));
+        dispatch(setCompanyName(values.companyName));
+        dispatch(setCompanyRegNum(values.companyRegistrationNumber));
+        dispatch(setCountry(values.country));
+        dispatch(setStreetAddress(values.streetAddress));
+        dispatch(setCity(values.city));
+        dispatch(setState(values.state));
+        dispatch(setPostalCode(values.postalCode));
+        dispatch(setCompanyPanNum(values.panNumber));
+        dispatch(setAnnualTurnover(values.annualTurnover));
+        dispatch(setGstNum(values.gst));
+        dispatch(setFirstName(values.firstName));
+        dispatch(setLastName(values.lastName));
+        dispatch(setDesignation(values.designation));
+        dispatch(setEmail(values.email));
+        dispatch(setPhoneNum(values.phnNumber));
+        dispatch(setPhnCountryCode(values.countryPhnCode));
+        dispatch(setCompanyWebsite(values.website));
+        dispatch(setTermAndCondition(values.checkBox));
+    
+        // Reset the form or perform any other necessary actions
+        // actions.resetForm();
     console.log(values);
   };
 
   return (
-    <>
+    <div className='lg:w-2/3 mx-auto'>
       <h2 className="text-xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
         Customer Registration Form
       </h2>
@@ -75,7 +138,7 @@ function CustomerRegistrationForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
+        <Form className="mt-2 lg:p-16 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           {/* billing Code of a company */}
           <div>
             <label
@@ -88,7 +151,7 @@ function CustomerRegistrationForm() {
               type="text"
               id="companyBillingCode"
               name="companyBillingCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
             <ErrorMessage name="companyBillingCode" component="span" />
           </div>
@@ -134,7 +197,7 @@ function CustomerRegistrationForm() {
               type="text"
               id="companyRegistrationNumber"
               name="companyRegistrationNumber"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
             <ErrorMessage name="companyRegistrationNumber" component="span" />
           </div>
@@ -153,7 +216,7 @@ function CustomerRegistrationForm() {
               as="select"
               id="country"
               name="country"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -177,12 +240,12 @@ function CustomerRegistrationForm() {
             >
               Street address
             </label>
-            <input
+            <Field
               type="text"
               name="streetAddress"
               id="streetAddress"
               autoComplete="streetAddress"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
             <ErrorMessage
               name="streetAddress"
@@ -199,12 +262,12 @@ function CustomerRegistrationForm() {
             >
               City
             </label>
-            <input
+            <Field
               type="text"
               name="city"
               id="city"
               autoComplete="address-level2"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
             <ErrorMessage name="city" component="span" />
           </div>
@@ -217,12 +280,12 @@ function CustomerRegistrationForm() {
             >
               State / Province
             </label>
-            <input
+            <Field
               type="text"
               name="region"
               id="region"
               autoComplete="address-level1"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
             <ErrorMessage name="region" component="span" />
           </div>
@@ -235,12 +298,11 @@ function CustomerRegistrationForm() {
             >
               ZIP / Postal code
             </label>
-            <input
+            <Field
               type="text"
               name="postalCode"
-              id="postalCode"
               autoComplete="postalCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
             <ErrorMessage name="postalCode" component="span" />
           </div>
@@ -250,18 +312,17 @@ function CustomerRegistrationForm() {
           {/* company pan number panNumer*/}
           <div>
             <label
-              htmlFor="panNumer"
+              htmlFor="panNumber"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
               Company Pan Number
             </label>
             <Field
               type="text"
-              id="panNumer"
-              name="panNumer"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              name="panNumber"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
             />
-            <ErrorMessage name="panNumer" component="span" />
+            <ErrorMessage name="panNumber" component="span" />
           </div>
 
           {/* Annual Turn Over */}
@@ -310,26 +371,22 @@ function CustomerRegistrationForm() {
             </label>
             <div className="relative mt-2 rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 flex items-center">
-                <label htmlFor="country" className="sr-only">
-                  Country
-                </label>
-                <select
-                  id="countryPhnCode"
+                <Field
+                  as="select"
                   name="countryPhnCode"
                   autoComplete="countryPhnCode"
                   className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 >
-                  <option>US</option>
-                  <option>CA</option>
-                  <option>EU</option>
-                </select>
+                  <option>+91</option>
+                  <option>+1</option>
+                  <option>+11</option>
+                </Field>
                 <ErrorMessage name="countryPhnCode" component="span" />
               </div>
-              <input
+              <Field
                 type="text"
                 name="phnNumber"
-                id="phnNumber"
-                className="block w-full rounded-md border-0 py-1.5 pl-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 pl-24 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 placeholder="      +1 (555) 987-6543"
               />
               <ErrorMessage
@@ -350,12 +407,12 @@ function CustomerRegistrationForm() {
           {/* buttons */}
           <div className="end-end-2">
             <div className="flex items-center">
-              <input
+              <Field
                 id="checkbox"
                 name='checkBox'
                 type="checkbox"
                 defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                className="w-4 h-4 text-sky-600 bg-gray-100 border-gray-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
                 htmlFor="link-checkbox"
@@ -364,23 +421,26 @@ function CustomerRegistrationForm() {
                 I agree with the{' '}
                 <a
                   href="#"
-                  className="text-blue-600 dark:text-blue-500 hover:underline"
+                  className="text-sky-600 dark:text-sky-500 hover:underline"
                 >
                   terms and conditions
                 </a>
                 .
               </label>
             </div>
-            <SubmitButtons
-              id1={'back'}
-              title1={'Back'}
-              id2={'submit'}
-              title2={'Submit'}
-            />
+            <div className="col-span-3">
+              <button
+              // onClick={handleSubmit}
+                type="submit"
+                className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+              >
+                submit
+              </button>
+            </div>
           </div>
         </Form>
       </Formik>
-    </>
+    </div>
   );
 }
 

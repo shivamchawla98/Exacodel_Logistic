@@ -1,49 +1,72 @@
 'use client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
 import SelectComponet from './SelectComponent';
 import { companyTypes, industryTypes, typeOfCompanies } from '../data/dropdownData';
 import TextField from './TextField';
-
+import {    setBillingCode,
+  setUserType,
+  setCompanyType,
+  setIndustryType,
+  setCompanyName,
+  setCompanyRegNum,
+  setCountry,
+  setStreetAddress,
+  setCity,
+  setState,
+  setPostalCode,
+  setCompanyTaxIdNum,
+  setAnnualTurnover, 
+  setMajorTradeLane,
+  setFirstName,
+  setLastName,
+  setDesignation,
+  setEmail,
+  setPhoneNum,
+  setPhnCountryCode,
+  setCompanyWebsite,
+  reset,
+  setTermAndCondition,} from '../../features/overseasRegForm/overseasReg-slice'
+ 
 const validationSchema = Yup.object({
-  companyBillingCode: Yup.string().required('Enter Billing Code'),
-  userType: Yup.string().required('Select user type'),
-  company: Yup.string().required('Enter company name'),
-  industryType: Yup.string().required('Select Industry type'),
-  country: Yup.string().required('Enter Country name'),
-  streetAddress: Yup.string().required('Enter street address'),
-  city: Yup.string().required('Enter city'),
-  region: Yup.string().required('Enter region'),
-  companyTaxIdNumber: Yup.string().required('Enter Company Tax Id Number'),
   postalCode: Yup.string()
-    .required('Enter postal code')
-    .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'Enter valid postal code'),
-  panNumer: Yup.string()
-    .required('Enter PAN number')
-    .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Enter valid PAN number'),
-  gst: Yup.string()
-    .required('Enter GST number or choose alternate')
-    .matches(
-      /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
-      'Enter valid GST number'
-    ),
+    .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'Enter valid postal code').required('Enter postal code'),
+    companyTaxIdNumber: Yup.string()
+    .required('Enter gst if you have or choose alternate'),
+    companyBillingCode: Yup.string(),
+    userType: Yup.string().required('User Type is required'),
+    companyType: Yup.string().required('Company Type is required'),
+    industryType: Yup.string().required('Industry Type is required'),
+    country: Yup.string().required('Country is required'),
+    companyName: Yup.string().required('Company Name is required'),
+    streetAddress: Yup.string().required('Street Address is required'),
+    city: Yup.string().required('City is required'),
+    region: Yup.string().required('Region is required'),
+    majorTradeLane: Yup.string().required("please select lane"),
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    designation: Yup.string().required("Fill the Degisnation here"),
+    phnNumber: Yup.string().required('Phone Number is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    website: Yup.string().url('Invalid URL'),
+    checkBox: Yup.boolean().oneOf([true], 'Please accept the terms and conditions'),
+    countryPhnCode: Yup.string().required("Enter Country phone code")
 });
 
 function OverseasRegistrationForm() {
   const initialValues = {
     companyBillingCode: '',
     userType: '',
-    company: '',
+    companyName: '',
     industryType: '',
     country: '',
     streetAddress: '',
     city: '',
     region: '',
     postalCode: '',
-    panNumer: '',
-    gst: '',
     companyTaxIdNumber: '',
     companyRegistrationNumber: '',
     turnover: '',
@@ -52,19 +75,45 @@ function OverseasRegistrationForm() {
     lastName: '',
     designation: '',
     email: '',
-    countryPhnCode: '',
+    countryPhnCode: 91,
     phnNumber: '',
     website: '',
+    checkBox: false,
   };
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (values: any) => {
     // Handle form submission
+        // Dispatch actions for each field or action
+        dispatch(setBillingCode(values.billingCode));
+        dispatch(setUserType(values.userType));
+        dispatch(setCompanyType(values.companyType));
+        dispatch(setIndustryType(values.industryType));
+        dispatch(setCompanyName(values.companyName));
+        dispatch(setCompanyRegNum(values.companyRegNum));
+        dispatch(setCountry(values.country));
+        dispatch(setStreetAddress(values.streetAddress));
+        dispatch(setCity(values.city));
+        dispatch(setState(values.state));
+        dispatch(setPostalCode(values.postalCode));
+        dispatch(setCompanyTaxIdNum(values.companyTaxIdNum));
+        dispatch(setAnnualTurnover(values.annualTurnover));
+        dispatch(setMajorTradeLane(values.majorTradeLane));
+        dispatch(setFirstName(values.firstName));
+        dispatch(setLastName(values.lastName));
+        dispatch(setDesignation(values.designation));
+        dispatch(setEmail(values.email));
+        dispatch(setPhoneNum(values.phoneNum));
+        dispatch(setPhnCountryCode(values.phnCountryCode));
+        dispatch(setCompanyWebsite(values.companyWebsite));
+        dispatch(setTermAndCondition(values.termAndCondition));
     console.log(values);
   };
 
   return (
     <>
-      <h2 className="text-xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
+      <h2 className="text-xl lg:w-3/4 mx-auto font-semibold leading-7 text-gray-900 pl-11 pt-11">
         Overseas Registration 
       </h2>
       <Formik
@@ -72,7 +121,7 @@ function OverseasRegistrationForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="mt-2 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
+        <Form className="mt-2 lg:w-3/4 mx-auto grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           {/* billing Code of a company */}
           <div>
             <label
@@ -85,7 +134,7 @@ function OverseasRegistrationForm() {
               type="text"
               id="companyBillingCode"
               name="companyBillingCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="companyBillingCode" component="span" />
           </div>
@@ -131,7 +180,7 @@ function OverseasRegistrationForm() {
               type="text"
               id="companyRegistrationNumber"
               name="companyRegistrationNumber"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="companyRegistrationNumber" component="span" />
           </div>
@@ -150,7 +199,7 @@ function OverseasRegistrationForm() {
               as="select"
               id="country"
               name="country"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -174,12 +223,12 @@ function OverseasRegistrationForm() {
             >
               Street address
             </label>
-            <input
+            <Field
               type="text"
               name="streetAddress"
               id="streetAddress"
               autoComplete="streetAddress"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage
               name="streetAddress"
@@ -196,12 +245,12 @@ function OverseasRegistrationForm() {
             >
               City
             </label>
-            <input
+            <Field
               type="text"
               name="city"
               id="city"
               autoComplete="address-level2"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="city" component="span" />
           </div>
@@ -214,12 +263,12 @@ function OverseasRegistrationForm() {
             >
               State / Province
             </label>
-            <input
+            <Field
               type="text"
               name="region"
               id="region"
               autoComplete="address-level1"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="region" component="span" />
           </div>
@@ -232,12 +281,11 @@ function OverseasRegistrationForm() {
             >
               ZIP / Postal code
             </label>
-            <input
+            <Field
               type="text"
               name="postalCode"
-              id="postalCode"
               autoComplete="postalCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="postalCode" component="span" />
           </div>
@@ -256,7 +304,7 @@ function OverseasRegistrationForm() {
               type="text"
               id="companyTaxIdNumber"
               name="companyTaxIdNumber"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="companyTaxIdNumber" component="span" />
           </div>
@@ -273,7 +321,7 @@ function OverseasRegistrationForm() {
               as="select"
               id="turnover"
               name="turnover"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -301,7 +349,7 @@ function OverseasRegistrationForm() {
               as="select"
               id="majorTradeLane"
               name="majorTradeLane"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -323,15 +371,15 @@ function OverseasRegistrationForm() {
               htmlFor="firstName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Customer name
+              First name
             </label>
 
-            <input
+            <Field
               type="text"
               name="firstName"
               id="firstName"
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="firstName" component="span" />
           </div>
@@ -342,15 +390,15 @@ function OverseasRegistrationForm() {
               htmlFor="lastName"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Customer name
+              Last name
             </label>
 
-            <input
+            <Field
               type="text"
               name="lastName"
               id="lastName"
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="lastName" component="span" />
           </div>
@@ -363,12 +411,12 @@ function OverseasRegistrationForm() {
             >
               Designation
             </label>
-            <input
+            <Field
               type="text"
               name="designation"
               id="designation"
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="designation" component="span" />
           </div>
@@ -383,12 +431,12 @@ function OverseasRegistrationForm() {
             >
               Email address
             </label>
-            <input
+            <Field
               id="email"
               name="email"
               type="email"
               autoComplete="email"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 outline-none pl-4"
             />
             <ErrorMessage name="email" component="span" />
           </div>
@@ -403,26 +451,23 @@ function OverseasRegistrationForm() {
             </label>
             <div className="relative mt-2 rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 flex items-center">
-                <label htmlFor="country" className="sr-only">
-                  Country
-                </label>
-                <select
-                  id="countryPhnCode"
+              <Field
+                  as="select"
                   name="countryPhnCode"
                   autoComplete="countryPhnCode"
                   className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 >
-                  <option>US</option>
-                  <option>CA</option>
-                  <option>EU</option>
-                </select>
+                  <option>91</option>
+                  <option>01</option>
+                  <option>11</option>
+                </Field>
                 <ErrorMessage name="countryPhnCode" component="span" />
               </div>
-              <input
+              <Field
                 type="text"
                 name="phnNumber"
                 id="phnNumber"
-                className="block w-full rounded-md border-0 py-1.5 pl-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 pl-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 placeholder="      +1 (555) 987-6543"
               />
               <ErrorMessage
@@ -442,21 +487,20 @@ function OverseasRegistrationForm() {
 
           {/* buttons */}
           <div className="end-end-2">
-            <div className="flex items-center">
-              <input
-                id="link-checkbox"
-                type="checkbox"
-                defaultValue=""
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          <div className="flex items-center">
+              <Field
+                name='checkBox'
+                type="checkBox"
+                className="w-4 h-4 text-sky-600 bg-gray-100 border-gray-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
               />
               <label
-                htmlFor="link-checkbox"
+                htmlFor="checkBox"
                 className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
               >
                 I agree with the{' '}
                 <a
                   href="#"
-                  className="text-blue-600 dark:text-blue-500 hover:underline"
+                  className="text-sky-600 dark:text-sky-500 hover:underline"
                 >
                   terms and conditions
                 </a>
@@ -465,13 +509,7 @@ function OverseasRegistrationForm() {
             </div>
             <button
               type="submit"
-              className="mt-8 mr-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Back
-            </button>
-            <button
-              type="submit"
-              className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
               Submit
             </button>
