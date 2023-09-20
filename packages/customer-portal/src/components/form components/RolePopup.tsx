@@ -21,6 +21,7 @@ export default function RolePopup() {
   
   const open = useSelector((state: any) => state.selectForm.signUpClicked);
   const {identification, userType} = useSelector((state: any) => state.starterSlice);
+  const {signUpClicked} = useSelector((state: any) => state.selectForm)
   const router = useRouter();
   const [tabs, setTabs] = useState(identifications) 
 
@@ -55,6 +56,16 @@ export default function RolePopup() {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
             
+            <div className="flex justify-end w-full">
+              <div
+                 onClick={() => {
+                        dispatch(updateSignUpclicked(!signUpClicked))
+                  }}
+              className="w-10 h-10 flex justify-center items-center bg-sky-200 rounded-full cursor-pointer">
+                <XMarkIcon className='w-6 h-6 text-sky-400 hover:text-sky-500' />
+              </div>
+            </div>
+
               <div
 
                 className='border-sky-500 group inline-flex items-center border-b-2 py-2 px-1 text-base font-medium mb-10'

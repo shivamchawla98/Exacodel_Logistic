@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateEmail, updatePassword } from '@/features/login/form-slice';
 import Link from 'next/link';
+import RolePopup from '@/components/form components/RolePopup';
+import { updateSignUpclicked } from '@/features/select-form/selectForm-slice';
 
 
 const validationSchema = Yup.object().shape({
@@ -16,8 +18,8 @@ const validationSchema = Yup.object().shape({
 });
 
 function Page() {
-
   const { email, password } = useSelector((state: any) => state.form);
+  const {signUpClicked} = useSelector((state: any) => state.selectForm)
   const initialValues = {
     email: email || '', // Ensure a default value if email is undefined
     password: password || '', // Ensure a default value if password is undefined
@@ -35,6 +37,7 @@ function Page() {
 
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
+      <RolePopup />
     <div className="relative py-3 sm:max-w-xl sm:mx-auto">
       <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
       <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -56,7 +59,7 @@ function Page() {
                       id="email"
                       name="email"
                       type="text"
-                      className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-500"
+                      className="peer placeholder-transparent text-sm h-10 w-full border-b-2 border-gray-300 text-gray-700 focus:outline-none focus:border-sky-500"
                       placeholder="Email address"
                       // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(email, e.target.value) }
                     // value={email}
@@ -99,21 +102,34 @@ function Page() {
                   <div className="relative">
                     <button
                       type="submit"
-                      className="bg-sky-500 hover:bg-sky-700 text-white rounded-md px-2 py-1"
+                      className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? 'Submitting...' : 'Submit'}
                     </button>
                   </div>
                   <div>
-                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                      Don&apos;t have an account?{' '}
+                    <p className="mb-0 mt-2 pt-1 text-sm font-medium">
                       <Link
                         href="/registration"
+                        className="text-danger transition text-xs duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
+                      >
+                        Forget password !
+                      </Link>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
+                      Don&apos;t have an account?{' '}
+                      <button
+                        type='button'
+                        onClick={() => {
+                          dispatch(updateSignUpclicked(!signUpClicked))
+                        }}
                         className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
                       >
                         Register
-                      </Link>
+                      </button>
                     </p>
                   </div>
                 </div>
