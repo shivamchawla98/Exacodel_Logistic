@@ -96,7 +96,7 @@ function OtpVerification() {
                   onClick={() => {
                       dispatch(updateFormName("passCreation"))
                   }}
-                 className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-sky-700 border-none text-white text-sm shadow-sm">
+                 className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-sky-600 border-none text-white text-sm shadow-sm">
                   Verify Account
                 </button>
               </div>

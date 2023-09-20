@@ -140,7 +140,7 @@ function VendorRegistrationForm() {
 
   return (
     <div className='lg:w-2/3 mx-auto shadow-md rounded-lg my-10'>
-      <h2 className="text-xl font-semibold leading-7 text-gray-700 pl-11 pt-11">
+      <h2 className="text-xl font-semibold leading-7 text-gray-700 text-center pt-11">
         Vendor Registration Form
       </h2>
     <Formik

@@ -96,7 +96,7 @@ function PasswordCreation() {
                   <div className="relative">
                     <button
                       type="submit"
-                      className="bg-sky-500 hover:bg-sky-700 text-white rounded-md px-2 py-1"
+                      className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-2 py-1"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? 'Submitting...' : 'Create Password'}
