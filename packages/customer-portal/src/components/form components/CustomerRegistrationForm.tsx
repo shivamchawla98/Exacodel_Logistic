@@ -129,8 +129,8 @@ function CustomerRegistrationForm() {
   };
 
   return (
-    <div className='lg:w-2/3 mx-auto'>
-      <h2 className="text-xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
+    <div className='lg:w-2/3 mx-auto shadow-md rounded-lg my-10'>
+      <h2 className="text-xl font-semibold leading-7 text-gray-700 pl-11 pt-11">
         Customer Registration Form
       </h2>
       <Formik
@@ -138,12 +138,12 @@ function CustomerRegistrationForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="mt-2 lg:p-16 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
+        <Form className=" lg:p-16 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           {/* billing Code of a company */}
           <div>
             <label
               htmlFor="companyBillingCode"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               Billing Code of Company
             </label>
@@ -151,9 +151,9 @@ function CustomerRegistrationForm() {
               type="text"
               id="companyBillingCode"
               name="companyBillingCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="companyBillingCode" component="span" />
+            <ErrorMessage name="companyBillingCode" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* user type */}
@@ -189,7 +189,7 @@ function CustomerRegistrationForm() {
           <div>
             <label
               htmlFor="companyRegistrationNumber"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               Company Registration Number (C.R.N)
             </label>
@@ -197,9 +197,9 @@ function CustomerRegistrationForm() {
               type="text"
               id="companyRegistrationNumber"
               name="companyRegistrationNumber"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="companyRegistrationNumber" component="span" />
+            <ErrorMessage name="companyRegistrationNumber" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* address */}
@@ -208,7 +208,7 @@ function CustomerRegistrationForm() {
           <div>
             <label
               htmlFor="country"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               Country
             </label>
@@ -216,7 +216,7 @@ function CustomerRegistrationForm() {
               as="select"
               id="country"
               name="country"
-              className="block w-full rounded-md border-0 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             >
               <option value="">Select a country</option>
               {countries.map((country) => (
@@ -228,7 +228,7 @@ function CustomerRegistrationForm() {
             <ErrorMessage
               name="country"
               component="span"
-              className="error-message"
+              className="text-xs text-rose-600"
             />
           </div>
 
@@ -236,7 +236,7 @@ function CustomerRegistrationForm() {
           <div>
             <label
               htmlFor="streetAddress"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               Street address
             </label>
@@ -245,12 +245,12 @@ function CustomerRegistrationForm() {
               name="streetAddress"
               id="streetAddress"
               autoComplete="streetAddress"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
             <ErrorMessage
               name="streetAddress"
               component="span"
-              className="error-message"
+              className="text-xs text-rose-600"
             />
           </div>
 
@@ -258,7 +258,7 @@ function CustomerRegistrationForm() {
           <div>
             <label
               htmlFor="city"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               City
             </label>
@@ -267,16 +267,16 @@ function CustomerRegistrationForm() {
               name="city"
               id="city"
               autoComplete="address-level2"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="city" component="span" />
+            <ErrorMessage name="city" component="span"  className='text-xs text-rose-600'/>
           </div>
 
           {/* region */}
           <div>
             <label
               htmlFor="region"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               State / Province
             </label>
@@ -285,16 +285,16 @@ function CustomerRegistrationForm() {
               name="region"
               id="region"
               autoComplete="address-level1"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="region" component="span" />
+            <ErrorMessage name="region" component="span" className='text-xs text-rose-600'/>
           </div>
 
           {/* postal code */}
           <div>
             <label
               htmlFor="postalCode"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               ZIP / Postal code
             </label>
@@ -302,9 +302,9 @@ function CustomerRegistrationForm() {
               type="text"
               name="postalCode"
               autoComplete="postalCode"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="postalCode" component="span" />
+            <ErrorMessage name="postalCode" component="span" className='text-xs text-rose-600'/>
           </div>
 
           {/* adress end */}
@@ -313,16 +313,16 @@ function CustomerRegistrationForm() {
           <div>
             <label
               htmlFor="panNumber"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               Company Pan Number
             </label>
             <Field
               type="text"
               name="panNumber"
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 outline-none sm:text-sm sm:leading-6"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="panNumber" component="span" />
+            <ErrorMessage name="panNumber" component="span" className='text-xs text-rose-600'/>
           </div>
 
           {/* Annual Turn Over */}
@@ -365,11 +365,11 @@ function CustomerRegistrationForm() {
           <div>
             <label
               htmlFor="phnNumber"
-              className="block text-sm font-medium leading-6 text-gray-900"
+              className="block text-sm font-medium leading-6 text-gray-600"
             >
               Phone Number
             </label>
-            <div className="relative mt-2 rounded-md shadow-sm">
+            <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 flex items-center">
                 <Field
                   as="select"
@@ -386,7 +386,7 @@ function CustomerRegistrationForm() {
               <Field
                 type="text"
                 name="phnNumber"
-                className="block w-full rounded-md border-0 py-1.5 pl-24 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
                 placeholder="      +1 (555) 987-6543"
               />
               <ErrorMessage
@@ -416,7 +416,7 @@ function CustomerRegistrationForm() {
               />
               <label
                 htmlFor="link-checkbox"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ml-2 text-sm font-medium text-gray-600 dark:text-gray-300"
               >
                 I agree with the{' '}
                 <a

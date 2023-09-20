@@ -21,9 +21,9 @@ const TextField: React.FC<TextFieldProps> = ({id, title, type}) => {
         type={type}
         id={id}
         name={id}
-        className="block w-full focus:outline-none rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2  focus:ring-sky-600 sm:text-sm sm:leading-6"
+        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-600 text-sm pl-2"
       />
-      <ErrorMessage name={id} component="div" className='text-rose-600'/>
+      <ErrorMessage name={id} component="div" className='text-xs text-rose-600'/>
     </div>
   );
 };

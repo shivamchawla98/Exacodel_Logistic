@@ -19,22 +19,19 @@ function Page() {
     
     // const {formName} = useSelector((state: any) => state.selectForm)
     // console.log(formName)
-    const userType = useSelector((state: any) => state.starterSlice.userType)
-    console.log(userType);
+    const {identification} = useSelector((state: any) => state.starterSlice)
+    console.log(identification);
     
     
-    // const {formName} = useSelector((state):any => state.selectForm);
+    const {formName} = useSelector((state):any => state.selectForm);
     return (
-        <>
-        {/* <RolePopup />
-        <OtpVerification />
-        <PasswordCreation /> */}
-        <CustomerRegistrationForm />
-        {/* {userType === 'starterForm' && <StarterForm />} */}
-        {/* {userType === 'vendor' && <VendorRegistrationForm />} */}
-        {/* {formName === 'I am a Customer' && <CustomerRegistrationForm />} */}
-        {/* {formName === 'I am a Overseas Agent' && <OverseasRegistrationForm />}  */}
-        </>
+        <div className=''>
+        { formName === 'otp' && <OtpVerification />}
+        {formName === 'passCreation' && <PasswordCreation />}
+        { formName === 'registration' && identification === 'customer' && <CustomerRegistrationForm />}
+        { formName === 'registration' && identification === 'vendor' && <VendorRegistrationForm />}
+        { formName === 'registration' && identification === 'overseas' && <OverseasRegistrationForm />}
+        </div>
     )
 }
 

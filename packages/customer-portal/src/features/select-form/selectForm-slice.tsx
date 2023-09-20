@@ -6,7 +6,7 @@ interface SelectFormState {
 }
 
 const initialState: SelectFormState = {
-    formName: 'starterForm',
+    formName: 'otp',
     signUpClicked: false,
 }
 
