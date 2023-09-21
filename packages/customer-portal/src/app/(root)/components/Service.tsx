@@ -15,15 +15,16 @@ function Service() {
       <div className="pl-5 pr-5 ">
         <div className=" mx-auto flex justify-evenly p-2 md:m-7 lg:m-9 flex-wrap">
           <ServicesCard
-            icons={<MdDirectionsBoatFilled size={30} color="#6699CC" />}
+            icons={<MdDirectionsBoatFilled size={30} color="#6699CC"  />}
+            title='Freight Services'
           />
-          <ServicesCard icons={<BsGlobeAmericas size={30} color="#007FFF" />} />
-          <ServicesCard icons={<FaTools size={30} color="#722f37" />} />
+          <ServicesCard icons={<BsGlobeAmericas size={30} color="#007FFF" />} title='Shipping & Logistics' />
+          <ServicesCard icons={<FaTools size={30} color="#722f37" />} title='Business services' />
         </div>
         <div className="mx-auto flex justify-evenly p-2 pb-10 md:m-7 lg:m-9 flex-wrap">
-          <ServicesCard icons={<FiMonitor size={30} color="#922724" />} />
-          <ServicesCard icons={<MdSupportAgent size={30} color="purple" />} />
-          <ServicesCard icons={<MdSupportAgent size={30} color="purple" />} />
+          <ServicesCard icons={<FiMonitor size={30} color="#922724" />} title='Digital Technologies'  />
+          <ServicesCard icons={<MdSupportAgent size={30} color="purple" />} title='24/7 Support'  />
+          <ServicesCard icons={<MdSupportAgent size={30} color="purple" />}  title='24/7 Support'  />
         </div>
       </div>
     </section>

@@ -27,12 +27,12 @@ export default function Header() {
             onClick={toggleDropdown}
             className="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none"
           >
-            <Image
+            {/* <Image
               src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400"
               alt="User Avatar"
               width={30}
               height={30}
-            />
+            /> */}
           </button>
           {isOpen && (
             <>
