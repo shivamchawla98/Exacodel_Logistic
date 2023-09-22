@@ -196,7 +196,7 @@ export default function Navbar({navAndFotterHidingRoute}: any) {
                     dispatch(updateSignUpclicked(!signUpClicked))
                   }}
                 className="hidden lg:flex lg:flex-1 lg:justify-end ">
-                  <button type="button" className="text-sm font-semibold  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-sky-500  text-gray-700 hover:bg-gray-100 hover:scale-95 py-1" type="button">
+                  <button type="button" className="text-sm font-semibold  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-sky-500  text-gray-700 hover:bg-gray-100 hover:scale-95 py-1" >
                     Sign up
                     {/* <ArrowLongRightIcon className='text-sky-500 w-6 h-2'/> */}
                   </button>

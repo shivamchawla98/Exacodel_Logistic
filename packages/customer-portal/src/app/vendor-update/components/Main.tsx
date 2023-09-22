@@ -5,7 +5,7 @@ import Addresses from './Addresses';
 import Contact from './Contact';
 import UploadForm from './UploadForm';
 import CustomClearenceFCLAdminInput from '@/components/form components/CustomClearenceFCLAdminInput';
-import VendorProfileUpdate from '@/components/form components/VendorProfileUpdate';
+// import VendorProfileUpdate from '@/components/form components/VendorProfileUpdate';
 
 export default function Main({ showForm }: any) {
   let componentToShow;
@@ -15,7 +15,7 @@ export default function Main({ showForm }: any) {
       componentToShow = <CompanyBasicInfo />;
       break;
     case 2:
-      componentToShow = <VendorProfileUpdate />
+      // componentToShow = <VendorProfileUpdate />
       break;
 
     default:

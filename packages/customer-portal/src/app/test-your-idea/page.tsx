@@ -5,7 +5,7 @@ import CustomerRegistrationForm from '@/components/form components/CustomerRegis
 import VendorRegistrationForm from '@/components/form components/VendorRegistrationForm'
 import OverseasRegistrationForm from '@/components/form components/OverseasRegistrationForm'
 import CustomerProfileUpdate from '@/components/form components/CustomerProfileUpdate'
-import VendorProfileUpdate from '@/components/form components/VendorProfileUpdate'
+// import VendorProfileUpdate from '@/components/form components/VendorProfileUpdate'
 import OverseasAgentProfileUpdate from '@/components/form components/OverseasAgentProfileUpdate'
 import SeaFclRateInputByAdmin from '@/components/form components/SeaFclRateInputByAdmin'
 import AirRateInputByAdmin from '@/components/form components/AirRateInputByAdmin'
@@ -28,7 +28,7 @@ function page() {
     <VendorRegistrationForm />
     <OverseasRegistrationForm />
     <CustomerProfileUpdate />
-    <VendorProfileUpdate /> 
+    {/* <VendorProfileUpdate />  */}
     <OverseasAgentProfileUpdate /> 
 
     {/* Downward forms are refactored  */}

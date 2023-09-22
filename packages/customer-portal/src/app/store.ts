@@ -7,6 +7,7 @@ import selectFormReducer from '@/features/select-form/selectForm-slice';
 import customerRegFormSlice from '@/features/customerRegForm/customerRegForm-slice';
 import overseasRegSlice from '@/features/overseasRegForm/overseasReg-slice';
 import userSlice from '@/features/user/user-slice';
+import registrationConfSlice from '@/features/registrationConf/registrationConf-slice';
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     customerReg: customerRegFormSlice,
     overseasReg: overseasRegSlice,
     user: userSlice,
+    registerConfSlice: registrationConfSlice,
   },
 });
 

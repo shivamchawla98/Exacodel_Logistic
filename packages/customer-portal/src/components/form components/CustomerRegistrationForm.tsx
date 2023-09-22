@@ -8,6 +8,7 @@ import SelectComponet from './SelectComponent';
 import { companyTypes, industryTypes, turnOver, typeOfCompanies } from '../data/dropdownData';
 import TextField from './TextField';
 import { useDispatch, useSelector } from 'react-redux';
+import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice'
 import {    setBillingCode,
   setUserType,
   setCompanyType,
@@ -122,6 +123,9 @@ function CustomerRegistrationForm() {
         dispatch(setPhnCountryCode(values.countryPhnCode));
         dispatch(setCompanyWebsite(values.website));
         dispatch(setTermAndCondition(values.checkBox));
+
+        // to show registration confirmed popup
+        dispatch(updatesRegisterButtonClicked(true))
     
         // Reset the form or perform any other necessary actions
         // actions.resetForm();
@@ -386,7 +390,7 @@ function CustomerRegistrationForm() {
               <Field
                 type="text"
                 name="phnNumber"
-                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+                className="peer pl-4 text-center placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm"
                 placeholder="      +1 (555) 987-6543"
               />
               <ErrorMessage

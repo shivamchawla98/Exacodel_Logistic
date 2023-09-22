@@ -13,7 +13,7 @@ const identifications = [
   { name: "I'm Vendor", value: 'vendor', current: false },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 

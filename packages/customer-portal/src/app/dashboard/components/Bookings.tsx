@@ -6,6 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import container from "../../../asset/images/container1.png";
 import Image from "next/image";
+import Link from "next/link";
 
 
 const arr = [1, 2, 3, 4];

@@ -1063,7 +1063,7 @@ function VendorProfileUpdate() {
                   {
                     formik.values.documentsUpload.map((document, index) => {
                       return (
-                        <div className="col-span-3 ">
+                        <div key={index} className="col-span-3 ">
                           <div className="w-full my-6">
                             <label htmlFor={`documentsUpload.${index}`}>File {index + 1}</label>
                             <Field name={`documentsUpload.${index}`} component={UploadComponentUnit} />

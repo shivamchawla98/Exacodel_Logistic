@@ -31,6 +31,7 @@ import {
 } from '../data/dropdownData';
 import TextField from '../form components/TextField';
 import FormWrapper from '@/components/FormWrapper';
+import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice';
 
 const validationSchema = Yup.object({
   companyBillingCode: Yup.string().required('Enter Billing Code'),
@@ -134,6 +135,8 @@ function VendorRegistrationForm() {
     dispatch(updateWebsite(values.website));
     dispatch(updateCheckBox(values.checkBox));
 
+       // to show registration confirmed popup
+       dispatch(updatesRegisterButtonClicked(true))
     // Handle form submission
 
   };

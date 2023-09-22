@@ -8,6 +8,7 @@ import RolePopup from '@/components/form components/RolePopup';
 import { useState } from 'react';
 import OtpVerification from '@/components/form components/OtpVerification';
 import PasswordCreation from '@/components/form components/PasswordCreation';
+import RegistrationConfPopup from '@/components/cards/RegistrationConfPopup';
 
 // const Registration = () => {
 
@@ -16,6 +17,7 @@ import PasswordCreation from '@/components/form components/PasswordCreation';
 
 function Page() {
     const [open, setOpen] = useState(true)
+    const registerButtonClicked = useSelector( (state: any) => state.registerConfSlice.registerButtonClicked)
     
     // const {formName} = useSelector((state: any) => state.selectForm)
     // console.log(formName)
@@ -23,7 +25,7 @@ function Page() {
     console.log(identification);
     
     
-    const {formName} = useSelector((state):any => state.selectForm);
+    const {formName} = useSelector((state: any) => state.selectForm);
     return (
         <div className=''>
         { formName === 'otp' && <OtpVerification />}
@@ -31,6 +33,8 @@ function Page() {
         { formName === 'registration' && identification === 'customer' && <CustomerRegistrationForm />}
         { formName === 'registration' && identification === 'vendor' && <VendorRegistrationForm />}
         { formName === 'registration' && identification === 'overseas' && <OverseasRegistrationForm />}
+        <RolePopup />
+        {registerButtonClicked && <RegistrationConfPopup />}
         </div>
     )
 }

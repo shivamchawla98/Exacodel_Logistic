@@ -30,6 +30,7 @@ import {    setBillingCode,
   setCompanyWebsite,
   reset,
   setTermAndCondition,} from '../../features/overseasRegForm/overseasReg-slice'
+import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice';
  
 const validationSchema = Yup.object({
   postalCode: Yup.string()
@@ -108,6 +109,8 @@ function OverseasRegistrationForm() {
         dispatch(setPhnCountryCode(values.phnCountryCode));
         dispatch(setCompanyWebsite(values.companyWebsite));
         dispatch(setTermAndCondition(values.termAndCondition));
+           // to show registration confirmed popup
+           dispatch(updatesRegisterButtonClicked(true))
     console.log(values);
   };
 
@@ -469,7 +472,6 @@ function OverseasRegistrationForm() {
               <ErrorMessage
                 name="phnNumber"
                  component="span" className="text-xs text-rose-600"
-                className="text-rose-400"
               />
             </div>
           </div>
