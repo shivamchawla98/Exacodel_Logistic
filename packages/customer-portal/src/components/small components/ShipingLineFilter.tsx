@@ -4,20 +4,20 @@ import { useState } from 'react';
 
 const Listings = ({ id, line, handleClick, active }: any) => {
   return (
-    <div className="flex items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+    <div className="flex text-sm items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
       <input
         id={id}
         type="checkbox"
         defaultValue=""
         name="bordered-checkbox"
-        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-4 h-4 text-sky-600 bg-gray-100 border-gray-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         checked={active.includes(line)} // Check if the line is active (exists in the active array)
         onChange={() => handleClick(line)} // Pass the line as an argument to handleClick
       />
       <label
         htmlFor={id}
-        className={`p-4 font-semibold ${
-          active.includes(line) ? 'text-gray-900' : 'text-gray-600'
+        className={`p-4 font-medium ${
+          active.includes(line) ? 'text-gray-700 font-semibold' : 'text-gray-600'
         } `}
       >
         {line}
@@ -40,8 +40,8 @@ function ShipingLineFilter() {
   };
 
   return (
-    <div className="flex justify-center flex-col mt-11 md:ml-8 rounded-lg shadow-lg">
-      <p className="text-2xl font-semibold text-gray-900 dark:text-white text-center pb-4 pt-4">
+    <div className="flex justify-center flex-col mt-11 md:ml-8 rounded-lg ">
+      <p className="text-xl font-medium text-gray-900 dark:text-white text-center pb-4 pt-4">
         Shipping Lines
       </p>
       {shippingLines.slice(0, 4).map((line, index) => (

@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ReduxProvider from '@/features/Provider';
+import ApolloWrapper from '@/lib/apollo-wrapper';
 const inter = Inter({
   weight: ["200", "400", "500"],
   subsets: ['latin'],
@@ -30,7 +31,9 @@ const navAndFotterHidingRoute = ["/dashboard"];
       <body className={inter.className}>
       <ReduxProvider>
         <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
+        <ApolloWrapper>
           {children}
+        </ApolloWrapper>
         </ReduxProvider>
 
         <Footer navAndFotterHidingRoute={navAndFotterHidingRoute}/>

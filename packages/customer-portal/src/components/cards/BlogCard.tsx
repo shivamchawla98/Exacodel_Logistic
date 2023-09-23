@@ -1,30 +1,36 @@
 /* eslint-disable @next/next/no-img-element */
-import { BsArrowRight } from 'react-icons/bs'
-import lady from '../../asset/images/lady.png'
+import { BsArrowRight } from 'react-icons/bs';
+import lady from '../../asset/images/lady.png';
 
-function BlogCard({id, imageUrl, datetime, date, href, title}: any) {
+function BlogCard({ id, imageUrl, datetime, date, href, title }: any) {
   return (
     <article
-    key={id}
-    className="h-64 relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
-  >
-    <img src={imageUrl} alt="" className="absolute inset-0 -z-10 h-full w-full object-cover" />
-    <div className="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40" />
-    <div className="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10" />
+      key={id}
+      className="relative h-72 sm:h-96 lg:h-80 overflow-hidden rounded-2xl shadow-lg bg-gray-900"
+    >
+      <img
+        src={imageUrl}
+        alt=""
+        className="absolute inset-0 h-full w-full object-cover z-0"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 z-10" />
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10 z-20" />
 
-    <div className="flex flex-wrap items-center gap-y-1 text-sm leading-6 text-gray-300">
-      <time dateTime={datetime} className="mr-8">
-        {date}
-      </time>
-    </div>
-    <h3 className="mt-3 text-lg font-semibold leading-6 text-white">
-      <a href={href}>
-        <span className="absolute inset-0" />
-        {title}
+      <div className="absolute bottom-4 left-4 sm:left-6 lg:left-8 z-30">
+        <time dateTime={datetime} className="text-gray-300 text-xs">
+          {date}
+        </time>
+      </div>
+      <h3 className="absolute bottom-14 left-4 sm:left-6 lg:left-8 z-30 text-lg font-semibold leading-6 text-white">
+        <a href={href} className="hover:underline">
+          {title}
+        </a>
+      </h3>
+      <a href={href} className="absolute bottom-4 right-4 sm:right-6 lg:right-8 z-30 text-gray-300 hover:text-white">
+        <BsArrowRight className="inline-block mr-1" /> Read More
       </a>
-    </h3>
-  </article>
-  )
+    </article>
+  );
 }
 
 export default BlogCard;

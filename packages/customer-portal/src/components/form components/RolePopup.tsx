@@ -8,9 +8,9 @@ import { useRouter } from 'next/navigation';
 import { companyTypes } from '../data/dropdownData'
 
 const identifications = [
-  { name: "I'm Customer", value: 'customer', current: true },
-  { name: "I'm Overseas Agent", value: 'overseas', current: false },
-  { name: "I'm Vendor", value: 'vendor', current: false },
+  { name: "I'm Customer", value: 'CUSTOMER', current: true },
+  { name: "I'm Overseas Agent", value: 'OVERSEAS_AGENT', current: false },
+  { name: "I'm Vendor", value: 'VENDOR', current: false },
 ]
 
 function classNames(...classes: any[]) {

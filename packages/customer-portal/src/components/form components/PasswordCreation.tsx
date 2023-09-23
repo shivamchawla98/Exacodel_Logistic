@@ -4,12 +4,25 @@ import * as Yup from 'yup'
 import { useDispatch } from 'react-redux';
 import { updatePassword } from '@/features/user/user-slice';
 import { updateFormName } from '@/features/select-form/selectForm-slice';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
 
 // Define your initial values
 const initialValues = {
     password: '',
     passwordCheck: '',
   };
+
+
+  const SAVE_PASSWORD_MUTATION = gql`
+  mutation SavePassword($passwordInput: Password!, $userId: Float!) {
+    savePassword(passwordInput: $passwordInput, userId: $userId) {
+      email
+      username
+      # Other user fields
+    }
+  }
+`;
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
@@ -25,8 +38,26 @@ const initialValues = {
   });
 
 function PasswordCreation() {
+  const [savePassword, { loading, error, data }] = useMutation(SAVE_PASSWORD_MUTATION);
     const dispatch = useDispatch();
-    const handleSubmit = (value: any) => {
+
+
+    const handleSubmit = async (value: any) => {
+      try {
+        const response = await savePassword({
+          variables: {
+            passwordInput: {
+              password: 'hyperx',
+              confirmPassword: 'hyperx',
+            },
+            userId: 113, // Replace with the actual user ID
+          },
+        });
+  
+        console.log('Password saved:', response);
+      } catch (error) {
+        console.error('Error saving password:', error);
+      }
         console.log(value);
         dispatch(updatePassword(value.password))
         dispatch(updateFormName("registration"))

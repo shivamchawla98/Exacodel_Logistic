@@ -18,14 +18,14 @@ function page() {
       <section className="bg-white dark:bg-gray-900 h-full">
           <ShippingFilter />
           <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
-          <h1 className="mx-auto text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl text-center">
+          <h3 className="mx-auto text-lg font-semibold tracking-tight text-gray-600 sm:text-2xl text-center">
               You Have Booked form <strong className='text-sky-400'>{from} </strong> to <strong className='text-rose-400'>{to}</strong>
-            </h1>
+            </h3>
           </div>
       </section>
 
       <div className="md:flex md:justify-evenly">
-        <div className="p-7 md:ml-7 lg:ml-7 shadow-lg">
+        <div className="p-2 ml-2 shadow-sm">
           <ContainerFilter />
           <ShipingLineFilter />
         </div>

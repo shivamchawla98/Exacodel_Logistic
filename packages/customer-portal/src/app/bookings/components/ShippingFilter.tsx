@@ -113,7 +113,7 @@ function ShippingFilter() {
   }
 
   return (
-    <form onClick={closeSuggestion} className=" shadow-md flex-wrap flex justify-center item-center pt-12 pb-12 bg-white w-auto">
+    <form onClick={closeSuggestion} className=" shadow-md flex-wrap flex justify-center item-center pt-12 px-2 pb-12 bg-white w-auto">
 
       <div className='flex justify-evenly'>
 

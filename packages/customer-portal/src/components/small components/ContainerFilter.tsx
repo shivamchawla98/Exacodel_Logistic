@@ -19,7 +19,7 @@ const Listings = ({containerSize, active, handleClick}: any) => {
       />
       <label
         htmlFor={containerSize}
-        className={`p-4 font-semibold ${active == containerSize ?  "text-gray-900" : "text-gray-600"}`}
+        className={`p-4 font-medium ${active == containerSize ?  "text-gray-800 font-semibold" : "text-gray-600"}`}
         onClick={() => handleClick(containerSize)}
       >
         {containerSize}
@@ -31,26 +31,30 @@ const Listings = ({containerSize, active, handleClick}: any) => {
 
 
 function ContainerFilter() {
-  const [active, setActive] = useState(null)
+  const [active, setActive] = useState(null);
+
   const handleClick = (containerSize: any) => {
-    setActive(containerSize)
-  }
-  
+    setActive(containerSize);
+  };
 
   return (
-    <>
-    <ul className="mt-14 w-50 pt-6 m-4 md:ml-8 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-    <p className="p-1 text-xl font-semibold text-gray-900 dark:text-white text-center">
-      Choose Container Size
-    </p>
-      {containerTypes.map((containerType, i) => 
-      <Listings 
-      key={i} containerSize ={containerType} active={active}
-      handleClick={handleClick}
-      />)}
-    </ul>
-  </>
+    <div className="mt-4 bg-white rounded-sm">
+      <p className="text-xl font-medium text-gray-700 text-center mb-4">
+        Choose Container Size
+      </p>
+      <ul className="text-sm font-medium text-gray-600 dark:text-white">
+        {containerTypes.map((containerType, i) => (
+          <Listings
+            key={i}
+            containerSize={containerType}
+            active={active}
+            handleClick={handleClick}
+          />
+        ))}
+      </ul>
+    </div>
   );
 }
+
 
 export default ContainerFilter;
