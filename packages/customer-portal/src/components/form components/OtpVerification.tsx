@@ -13,7 +13,7 @@ const SEND_OTP_MUTATION = gql`
   `;
 
 const INITIAL_REGISTRATION_MUTATION = gql`
-    mutation InitialRegistration($userInput: UserInput!, $emailInput: EmailInput!) {
+    mutation InitialRegistration($userInput: SelectUserTypeAndSubtypeInput!, $emailInput: EmailInput!) {
       initialRegistration(userInput: $userInput, emailInput: $emailInput) {
         userType
         customerSubType
@@ -42,7 +42,9 @@ function OtpVerification() {
   const [sendOTPMutation] = useMutation(SEND_OTP_MUTATION);
   const [initialRegistration] = useMutation(
     INITIAL_REGISTRATION_MUTATION
-  );
+  );  
+  // Log the GraphQL query
+  console.log("GraphQL Query:", INITIAL_REGISTRATION_MUTATION?.loc?.source?.body);
 
   const handleOtpChange = (e, index) => {
     const value = e.target.value;
@@ -74,8 +76,8 @@ function OtpVerification() {
             overseasAgentSubType: null, // Example values, replace with your state values
           },
           emailInput: {
-            email: "shivam.chawla@xpressword.com",
-            otp: "3101"
+            email: "chawlas123456@gmail.com",
+            otp: "0799"
           },
         },
       });
@@ -87,6 +89,7 @@ function OtpVerification() {
 
       // Data contains the response from the mutation
       console.log('Registration Data:', response);
+      dispatch(updateFormName("passCreation"))
     } catch (error: any) {
       // Handle any errors that occur during the mutation
       console.error('Error during registration:', error);
@@ -200,9 +203,8 @@ function OtpVerification() {
                 <button
                   // type="button"
                   onClick={(e) => {
-                    // e.preventDefault();
-                    // verifyAccount();
-                    dispatch(updateFormName("passCreation"))
+                    e.preventDefault();
+                    verifyAccount();
                   }}
                   className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-sky-600 border-none text-white text-sm shadow-sm"
                 >
