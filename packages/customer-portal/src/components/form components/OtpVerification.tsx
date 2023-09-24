@@ -6,25 +6,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-function OtpVerification() {
-  const email = useSelector((state) => state.user.email);
-  // const { identification, userType } = useSelector((state) => state.starterSlice);
-  const [sendOtpClicked, setSendOtpClicked] = useState(false);
-  const [resendDisabled, setResendDisabled] = useState(false);
-
-  const dispatch = useDispatch();
-  const inputRefs = useRef(Array(4).fill(0).map(() => React.createRef()));
-
-  const [Email, setEmail] = useState('');
-  const [Otp, setOtp] = useState('');
-
-  const SEND_OTP_MUTATION = gql`
+const SEND_OTP_MUTATION = gql`
     mutation SendOTP($email: String!) {
       sendOTP(email: $email)
     }
   `;
 
-  const INITIAL_REGISTRATION_MUTATION = gql`
+const INITIAL_REGISTRATION_MUTATION = gql`
     mutation InitialRegistration($userInput: UserInput!, $emailInput: EmailInput!) {
       initialRegistration(userInput: $userInput, emailInput: $emailInput) {
         userType
@@ -38,12 +26,21 @@ function OtpVerification() {
     }
   `;
 
+function OtpVerification() {
+  const email = useSelector((state) => state.user.email);
+  // const { identification, userType } = useSelector((state) => state.starterSlice);
+  const [sendOtpClicked, setSendOtpClicked] = useState(false);
+  const [resendDisabled, setResendDisabled] = useState(false);
 
+  const dispatch = useDispatch();
+  const inputRefs = useRef(Array(4).fill(0).map(() => React.createRef()));
 
+  const [Email, setEmail] = useState('');
+  const [Otp, setOtp] = useState('');
 
 
   const [sendOTPMutation] = useMutation(SEND_OTP_MUTATION);
-  const [initialRegistration, { data, loading, error }] = useMutation(
+  const [initialRegistration] = useMutation(
     INITIAL_REGISTRATION_MUTATION
   );
 
@@ -82,9 +79,14 @@ function OtpVerification() {
           },
         },
       });
-  
-    // Data contains the response from the mutation
-    console.log('Registration Data:', data);
+      // const response = await sendOTPMutation({
+      //   variables: {
+      //     email: "chawlas12456@gmail.com"
+      //   }
+      // })
+
+      // Data contains the response from the mutation
+      console.log('Registration Data:', response);
     } catch (error: any) {
       // Handle any errors that occur during the mutation
       console.error('Error during registration:', error);
@@ -107,32 +109,32 @@ function OtpVerification() {
                   validationSchema={validationSchema}
                   onSubmit={
                     async (values, { setSubmitting }) => {
-                    dispatch(updateEmail(values.email));
-                    setEmail(values.email);
+                      dispatch(updateEmail(values.email));
+                      setEmail(values.email);
 
-                    try {
-                      const response = await sendOTPMutation({
-                        variables: {
-                          email: values.email,
-                        },
-                      });
+                      try {
+                        const response = await sendOTPMutation({
+                          variables: {
+                            email: values.email,
+                          },
+                        });
 
-                      console.log(response?.data?.sendOTP);
-                      
+                        console.log(response?.data?.sendOTP);
 
-                      if (response?.data?.sendOTP === "OTP sent successfully") {
-                        setSendOtpClicked(true);
-                        setResendDisabled(true);
-                        setTimeout(() => {
-                          setResendDisabled(false);
-                        }, 120000); // 2 minutes
+
+                        if (response?.data?.sendOTP === "OTP sent successfully") {
+                          setSendOtpClicked(true);
+                          setResendDisabled(true);
+                          setTimeout(() => {
+                            setResendDisabled(false);
+                          }, 120000); // 2 minutes
+                        }
+                      } catch (error) {
+                        console.log(error);
                       }
-                    } catch (error) {
-                      console.log(error);
-                    }
 
-                    setSubmitting(false);
-                  }}
+                      setSubmitting(false);
+                    }}
                 >
                   {({ isSubmitting }) => (
                     <Form>
@@ -196,10 +198,10 @@ function OtpVerification() {
               </div>
               <div>
                 <button
-                // type="button"
+                  // type="button"
                   onClick={(e) => {
                     // e.preventDefault();
-                    verifyAccount();
+                    // verifyAccount();
                     dispatch(updateFormName("passCreation"))
                   }}
                   className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-sky-600 border-none text-white text-sm shadow-sm"

@@ -8,7 +8,7 @@ import ApolloWrapper from '@/lib/apollo-wrapper';
 const inter = Inter({
   weight: ["200", "400", "500"],
   subsets: ['latin'],
-  });
+});
 
 export const metadata = {
   title: 'Customer Portal',
@@ -17,28 +17,28 @@ export const metadata = {
 
 
 
-export default function RootLayout({ 
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-const navAndFotterHidingRoute = ["/dashboard"];
-  
+  const navAndFotterHidingRoute = ["/dashboard"];
+
 
   return (
-        // <Provider store={store}>
+    // <Provider store={store}>
     <html lang="en">
       <body className={inter.className}>
-      <ReduxProvider>
-        <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute}/>
-        <ApolloWrapper>
-          {children}
-        </ApolloWrapper>
+        <ReduxProvider>
+          <Navbar navAndFotterHidingRoute={navAndFotterHidingRoute} />
+          <ApolloWrapper>
+            {children}
+          </ApolloWrapper>
         </ReduxProvider>
 
-        <Footer navAndFotterHidingRoute={navAndFotterHidingRoute}/>
+        <Footer navAndFotterHidingRoute={navAndFotterHidingRoute} />
       </body>
     </html>
-        // </Provider>
+    // </Provider>
   );
 }
