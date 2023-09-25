@@ -27,11 +27,14 @@ import {    updateCompanyBillingCode,
 import {
   companyTypes,
   industryTypes,
+  turnOver,
   typeOfCompanies,
 } from '../data/dropdownData';
 import TextField from '../form components/TextField';
 import FormWrapper from '@/components/FormWrapper';
 import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
 
 const validationSchema = Yup.object({
   companyBillingCode: Yup.string().required('Enter Billing Code'),
@@ -61,59 +64,77 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email('Enter a valid email address')
     .required('Enter email address'),
-  website: Yup.string().url('Enter a valid URL'),
+  website: Yup.string().required('Enter a webiste'),
   checkBox: Yup.boolean().oneOf(
     [true],
     'You must agree to the terms and conditions'
   ),
 });
 
+const FINAL_REGISTRATION_MUTATION = gql`
+mutation FinalRegistration(
+  $input: Finalreg!
+  $userId: Float!
+  $userInput: UpdateUsertype!
+) {
+  finalreg(input: $input, userId: $userId, userInput: $userInput) {
+    id
+    companyName
+  }
+}
+`;
 
 
 function VendorRegistrationForm() {
     const dispatch = useDispatch();
-    const {  companyBillingCode,
-        companyRegistrationNumber,
-        userType,
-        company,
-        industryType,
-        country,
-        streetAddress,
-        city,
-        region,
-        postalCode,
-        panNumber,
-        gst,
-        firstName,
-        lastName,
-        designation,
-        phnNumber,
-        email,
-        website,
-        checkBox, } = useSelector((state: any) => state.vendorRegistration);
+    const { userType, identification } = useSelector((state: any) => state.starterSlice)
+    const { email, userId } = useSelector((state: any) => state.user)
+    // const {  companyBillingCode,
+    //     companyRegistrationNumber,
+    //     userType,
+    //     company,
+    //     industryType,
+    //     country,
+    //     streetAddress,
+    //     city,
+    //     region,
+    //     postalCode,
+    //     panNumber,
+    //     gst,
+    //     firstName,
+    //     lastName,
+    //     designation,
+    //     phnNumber,
+    //     email,
+    //     website,
+    //     checkBox, } = useSelector((state: any) => state.vendorRegistration);
   const initialValues = {
-    companyBillingCode,
-    userType,
-    companyRegistrationNumber,
-    company,
-    industryType,
-    country,
-    streetAddress,
-    city,
-    region,
-    postalCode,
-    panNumber,
-    gst,
-    firstName,
-    lastName,
-    designation,
-    phnNumber,
-    email,
-    website,
-    checkBox,
+    companyBillingCode: '',
+    userType: userType,
+    companyRegistrationNumber: '',
+    company: '',
+    industryType: '',
+    country: '',
+    streetAddress: '',
+    city: '',
+    region: '',
+    postalCode: '',
+    panNumber: '',
+    gst: '',
+    firstName: '',
+    lastName: '',
+    designation: '',
+    phnNumber: '',
+    email: email,
+    website: '',
+    checkBox: false,
   };
 
-  const handleSubmit = (values: any) => {
+  const [finalRegistration] = useMutation(
+    FINAL_REGISTRATION_MUTATION
+  );
+
+  const handleSubmit = async (values: any) => {
     
     dispatch(updateCompanyBillingCode(values.companyBillingCode));
     dispatch(updateCompanyRegistrationNumber(values.companyRegistrationNumber));
@@ -134,7 +155,37 @@ function VendorRegistrationForm() {
     dispatch(updateEmail(values.email));
     dispatch(updateWebsite(values.website));
     dispatch(updateCheckBox(values.checkBox));
-
+    try {
+      const response = await finalRegistration({
+        variables: {
+          input: {
+            companyType: values.companyType,
+            industryType: values.industryType,
+            state: values.state,
+            city: values.city,
+            country: values.country,
+            company_reg_no: values.companyRegNum,
+            annualTurnover: values.annualTurnover,
+            gst_no: values.gst,
+            first_name: values.firstName,
+            last_name: values.lastName,
+            Designation: values.designation,
+            mobile: values.phoneNum,
+            website: values.companyWebsite,
+          },
+          userId: userId * 1,
+          userInput: {
+            userType: identification,
+          }
+        }
+      })
+      console.log("final resopnse : ", response.data);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+    console.log(values);
        // to show registration confirmed popup
        dispatch(updatesRegisterButtonClicked(true))
     // Handle form submission
@@ -371,7 +422,7 @@ function VendorRegistrationForm() {
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             >
               <option value="">Select a country</option>
-              {countries.map((country) => (
+              {turnOver.map((country) => (
                 <option key={country} value={country}>
                   {country}
                 </option>
@@ -506,7 +557,7 @@ function VendorRegistrationForm() {
                 type="text"
                 name="phnNumber"
                 id="phnNumber"
-                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+                className="peer text-center placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
                 placeholder="      +1 (555) 987-6543"
               />
               <ErrorMessage

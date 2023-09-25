@@ -30,9 +30,9 @@ function Page() {
         <div className=''>
         { formName === 'otp' && <OtpVerification />}
         {formName === 'passCreation' && <PasswordCreation />}
-        { formName === 'registration' && identification === 'customer' && <CustomerRegistrationForm />}
-        { formName === 'registration' && identification === 'vendor' && <VendorRegistrationForm />}
-        { formName === 'registration' && identification === 'overseas' && <OverseasRegistrationForm />}
+        { formName === 'registration' && identification === 'CUSTOMER' && <CustomerRegistrationForm />}
+        { formName === 'registration' && identification === 'VENDOR' && <VendorRegistrationForm />}
+        { formName === 'registration' && identification === 'OVERSEAS_AGENT' && <OverseasRegistrationForm />}
         <RolePopup />
         {registerButtonClicked && <RegistrationConfPopup />}
         </div>

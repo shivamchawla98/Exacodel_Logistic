@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updatePassword } from '@/features/user/user-slice';
 import { updateFormName } from '@/features/select-form/selectForm-slice';
 import gql from 'graphql-tag';
@@ -34,23 +34,28 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Passwords must match')
     .required('Please confirm your password'),
 });
-
 function PasswordCreation() {
   const [savePassword, { loading, error, data }] = useMutation(SAVE_PASSWORD_MUTATION);
+  let {userId} = useSelector((state: any) => state.user);
+  console.log("userId ", userId);
   // Log the GraphQL query
-  console.log("GraphQL Query:", SAVE_PASSWORD_MUTATION?.loc?.source?.body);
+  // console.log("GraphQL Query:", SAVE_PASSWORD_MUTATION?.loc?.source?.body);
   const dispatch = useDispatch();
-
+ 
 
   const handleSubmit = async (value: any) => {
+    console.log(value.password);
+   
+    
+    
     try {
       const response = await savePassword({
         variables: {
           passwordInput: {
-            password: "hyperx",
-            confirmPassword: "hyperx",
+            password: value.password,
+            confirmPassword: value.passwordCheck,
           },
-          userId: 2, // Replace with the actual user ID
+          userId: userId, // Replace with the actual user ID
         },
       });
 
@@ -60,7 +65,7 @@ function PasswordCreation() {
     }
     console.log(value);
     // dispatch(updatePassword(value.password))
-    // dispatch(updateFormName("registration"))
+    dispatch(updateFormName("registration"))
   }
 
   return (

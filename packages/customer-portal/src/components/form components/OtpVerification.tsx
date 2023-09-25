@@ -5,6 +5,7 @@ import { updateFormName } from "@/features/select-form/selectForm-slice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { updateUserId } from "@/features/user/user-slice";
 
 const SEND_OTP_MUTATION = gql`
     mutation SendOTP($email: String!) {
@@ -15,12 +16,6 @@ const SEND_OTP_MUTATION = gql`
 const INITIAL_REGISTRATION_MUTATION = gql`
     mutation InitialRegistration($userInput: SelectUserTypeAndSubtypeInput!, $emailInput: EmailInput!) {
       initialRegistration(userInput: $userInput, emailInput: $emailInput) {
-        userType
-        customerSubType
-        vendorSubType
-        overseasAgentSubType
-        email
-        otp
         id
       }
     }
@@ -28,7 +23,7 @@ const INITIAL_REGISTRATION_MUTATION = gql`
 
 function OtpVerification() {
   const email = useSelector((state) => state.user.email);
-  // const { identification, userType } = useSelector((state) => state.starterSlice);
+  const { identification, userType } = useSelector((state) => state.starterSlice);
   const [sendOtpClicked, setSendOtpClicked] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
 
@@ -65,19 +60,22 @@ function OtpVerification() {
 
   // verify account 
   const verifyAccount = async () => {
+    let otp = inputRefs.current.map(ref => ref.current.value).join('');
+    console.log("otp", otp);
+    
     try {
       console.log("hello");
       const response = await initialRegistration({
         variables: {
           userInput: {
-            userType: 'VENDOR', // Example values, replace with your state values
-            customerSubType: 'MANUFACTURER_EXPORTER', // Example values, replace with your state values
+            userType: identification, // Example values, replace with your state values
+            customerSubType: userType, // Example values, replace with your state values
             vendorSubType: null, // Example values, replace with your state values
             overseasAgentSubType: null, // Example values, replace with your state values
           },
           emailInput: {
-            email: "chawlas123456@gmail.com",
-            otp: "0799"
+            email: Email,
+            otp: otp,
           },
         },
       });
@@ -88,7 +86,9 @@ function OtpVerification() {
       // })
 
       // Data contains the response from the mutation
-      console.log('Registration Data:', response);
+      console.log('Registration Data:', response.data.initialRegistration.id);
+      dispatch(updateUserId( response.data.initialRegistration.id*1))
+      
       dispatch(updateFormName("passCreation"))
     } catch (error: any) {
       // Handle any errors that occur during the mutation

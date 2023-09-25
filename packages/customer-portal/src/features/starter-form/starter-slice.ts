@@ -9,7 +9,7 @@ interface StarterForm {
 }
 
 const initialState: StarterForm = {
-  identification: "",
+  identification: "CUSTOMER",
   userType: "",
   country: "",
   gstNumber: "",

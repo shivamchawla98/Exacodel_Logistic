@@ -5,9 +5,10 @@ import React from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
 import SelectComponet from './SelectComponent';
-import { companyTypes, industryTypes, typeOfCompanies } from '../data/dropdownData';
+import { companyTypes, industryTypes, turnOver, typeOfCompanies } from '../data/dropdownData';
 import TextField from './TextField';
-import {    setBillingCode,
+import {
+  setBillingCode,
   setUserType,
   setCompanyType,
   setIndustryType,
@@ -19,7 +20,7 @@ import {    setBillingCode,
   setState,
   setPostalCode,
   setCompanyTaxIdNum,
-  setAnnualTurnover, 
+  setAnnualTurnover,
   setMajorTradeLane,
   setFirstName,
   setLastName,
@@ -29,38 +30,48 @@ import {    setBillingCode,
   setPhnCountryCode,
   setCompanyWebsite,
   reset,
-  setTermAndCondition,} from '../../features/overseasRegForm/overseasReg-slice'
+  setTermAndCondition,
+} from '../../features/overseasRegForm/overseasReg-slice'
 import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice';
- 
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
+
 const validationSchema = Yup.object({
-  postalCode: Yup.string()
-    .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'Enter valid postal code').required('Enter postal code'),
-    companyTaxIdNumber: Yup.string()
-    .required('Enter gst if you have or choose alternate'),
-    companyBillingCode: Yup.string(),
-    userType: Yup.string().required('User Type is required'),
-    companyType: Yup.string().required('Company Type is required'),
-    industryType: Yup.string().required('Industry Type is required'),
-    country: Yup.string().required('Country is required'),
-    companyName: Yup.string().required('Company Name is required'),
-    streetAddress: Yup.string().required('Street Address is required'),
-    city: Yup.string().required('City is required'),
-    region: Yup.string().required('Region is required'),
-    majorTradeLane: Yup.string().required("please select lane"),
-    firstName: Yup.string().required('First Name is required'),
-    lastName: Yup.string().required('Last Name is required'),
-    designation: Yup.string().required("Fill the Degisnation here"),
-    phnNumber: Yup.string().required('Phone Number is required'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    website: Yup.string().url('Invalid URL'),
-    checkBox: Yup.boolean().oneOf([true], 'Please accept the terms and conditions'),
-    countryPhnCode: Yup.string().required("Enter Country phone code")
+  // postalCode: Yup.string()
+  //   .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'Enter valid postal code').required('Enter postal code'),
+  // companyTaxIdNumber: Yup.string()
+  //   .required('Enter gst if you have or choose alternate'),
+  // companyBillingCode: Yup.string(),
+  // userType: Yup.string().required('User Type is required'),
+  // companyType: Yup.string().required('Company Type is required'),
+  // industryType: Yup.string().required('Industry Type is required'),
+  // country: Yup.string().required('Country is required'),
+  // companyName: Yup.string().required('Company Name is required'),
+  // streetAddress: Yup.string().required('Street Address is required'),
+  // city: Yup.string().required('City is required'),
+  // region: Yup.string().required('Region is required'),
+  // // majorTradeLane: Yup.string().required("please select lane"),
+  // firstName: Yup.string().required('First Name is required'),
+  // lastName: Yup.string().required('Last Name is required'),
+  // designation: Yup.string().required("Fill the Degisnation here"),
+  // phnNumber: Yup.string().required('Phone Number is required'),
+  // email: Yup.string().email('Invalid email').required('Email is required'),
+  // website: Yup.string().required('Webiste Require'),
+  // checkBox: Yup.boolean().oneOf([true], 'Please accept the terms and conditions'),
+  // countryPhnCode: Yup.string().required("Enter Country phone code"),
+  // gst: Yup.string().required("Enter gst if you have or choose alternate")
+  //   .matches(
+  //     /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/,
+  //     "Enter valid gst number"
+  //   ),
 });
 
 function OverseasRegistrationForm() {
+  const { userType, identification } = useSelector((state: any) => state.starterSlice)
+  const { email, userId } = useSelector((state: any) => state.user)
   const initialValues = {
     companyBillingCode: '',
-    userType: '',
+    userType: userType,
     companyName: '',
     industryType: '',
     country: '',
@@ -71,53 +82,101 @@ function OverseasRegistrationForm() {
     companyTaxIdNumber: '',
     companyRegistrationNumber: '',
     turnover: '',
-    majorTradeLane: '',
+    // majorTradeLane: '',
     firstName: '',
     lastName: '',
     designation: '',
-    email: '',
+    email: email,
     countryPhnCode: 91,
     phnNumber: '',
     website: '',
     checkBox: false,
+    gst: '',
   };
+  const FINAL_REGISTRATION_MUTATION = gql`
+  mutation FinalRegistration(
+    $input: Finalreg!
+    $userId: Float!
+    $userInput: UpdateUsertype!
+  ) {
+    finalreg(input: $input, userId: $userId, userInput: $userInput) {
+      id
+      companyName
+    }
+  }
+`;
+
+  const [finalRegistration] = useMutation(
+    FINAL_REGISTRATION_MUTATION
+  );
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     // Handle form submission
-        // Dispatch actions for each field or action
-        dispatch(setBillingCode(values.billingCode));
-        dispatch(setUserType(values.userType));
-        dispatch(setCompanyType(values.companyType));
-        dispatch(setIndustryType(values.industryType));
-        dispatch(setCompanyName(values.companyName));
-        dispatch(setCompanyRegNum(values.companyRegNum));
-        dispatch(setCountry(values.country));
-        dispatch(setStreetAddress(values.streetAddress));
-        dispatch(setCity(values.city));
-        dispatch(setState(values.state));
-        dispatch(setPostalCode(values.postalCode));
-        dispatch(setCompanyTaxIdNum(values.companyTaxIdNum));
-        dispatch(setAnnualTurnover(values.annualTurnover));
-        dispatch(setMajorTradeLane(values.majorTradeLane));
-        dispatch(setFirstName(values.firstName));
-        dispatch(setLastName(values.lastName));
-        dispatch(setDesignation(values.designation));
-        dispatch(setEmail(values.email));
-        dispatch(setPhoneNum(values.phoneNum));
-        dispatch(setPhnCountryCode(values.phnCountryCode));
-        dispatch(setCompanyWebsite(values.companyWebsite));
-        dispatch(setTermAndCondition(values.termAndCondition));
-           // to show registration confirmed popup
-           dispatch(updatesRegisterButtonClicked(true))
+    // Dispatch actions for each field or action
+    
+    dispatch(setBillingCode(values.billingCode));
+    dispatch(setUserType(values.userType));
+    dispatch(setCompanyType(values.companyType));
+    dispatch(setIndustryType(values.industryType));
+    dispatch(setCompanyName(values.companyName));
+    dispatch(setCompanyRegNum(values.companyRegNum));
+    dispatch(setCountry(values.country));
+    dispatch(setStreetAddress(values.streetAddress));
+    dispatch(setCity(values.city));
+    dispatch(setState(values.state));
+    dispatch(setPostalCode(values.postalCode));
+    dispatch(setCompanyTaxIdNum(values.companyTaxIdNum));
+    dispatch(setAnnualTurnover(values.annualTurnover));
+    // dispatch(setMajorTradeLane(values.majorTradeLane));
+    dispatch(setFirstName(values.firstName));
+    dispatch(setLastName(values.lastName));
+    dispatch(setDesignation(values.designation));
+    dispatch(setEmail(values.email));
+    dispatch(setPhoneNum(values.phoneNum));
+    dispatch(setPhnCountryCode(values.phnCountryCode));
+    dispatch(setCompanyWebsite(values.companyWebsite));
+    dispatch(setTermAndCondition(values.termAndCondition));
+    // to show registration confirmed popup
+    dispatch(updatesRegisterButtonClicked(true))
+    try {
+      const response = await finalRegistration({
+        variables: {
+          input: {
+            companyType: values.companyType,
+            industryType: values.industryType,
+            state: values.state,
+            city: values.city,
+            country: values.country,
+            company_reg_no: values.companyRegNum,
+            annualTurnover: values.annualTurnover,
+            gst_no: values.gst,
+            first_name: values.firstName,
+            last_name: values.lastName,
+            Designation: values.designation,
+            mobile: values.phoneNum,
+            website: values.companyWebsite,
+          },
+          userId: userId * 1,
+          userInput: {
+            userType: identification,
+          }
+        }
+      })
+      console.log("final resopnse : ", response.data);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
     console.log(values);
   };
 
   return (
     <div className='lg:w-2/3 mx-auto shadow-md rounded-lg my-10'>
       <h2 className="text-xl font-semibold leading-7 text-gray-700 text-center pt-11">
-        Overseas Registration 
+        Overseas Registration
       </h2>
       <Formik
         initialValues={initialValues}
@@ -139,7 +198,7 @@ function OverseasRegistrationForm() {
               name="companyBillingCode"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="companyBillingCode"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="companyBillingCode" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* user type */}
@@ -154,7 +213,7 @@ function OverseasRegistrationForm() {
           {/* companyType */}
           <div>
 
-         <SelectComponet options={typeOfCompanies} id={'companyType'} title={'Type Of Company'} />
+            <SelectComponet options={typeOfCompanies} id={'companyType'} title={'Type Of Company'} />
           </div>
 
           {/* Industry Type */}
@@ -185,7 +244,7 @@ function OverseasRegistrationForm() {
               name="companyRegistrationNumber"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="companyRegistrationNumber"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="companyRegistrationNumber" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* address */}
@@ -209,11 +268,11 @@ function OverseasRegistrationForm() {
                 <option key={country} value={country}>
                   {country}
                 </option>
-              ))}
+              ))} 
             </Field>
             <ErrorMessage
               name="country"
-               component="span" className="text-xs text-rose-600"
+              component="span" className="text-xs text-rose-600"
             />
           </div>
 
@@ -234,7 +293,7 @@ function OverseasRegistrationForm() {
             />
             <ErrorMessage
               name="streetAddress"
-               component="span" className="text-xs text-rose-600"
+              component="span" className="text-xs text-rose-600"
             />
           </div>
 
@@ -253,7 +312,7 @@ function OverseasRegistrationForm() {
               autoComplete="address-level2"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="city"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="city" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* region */}
@@ -271,7 +330,7 @@ function OverseasRegistrationForm() {
               autoComplete="address-level1"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="region"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="region" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* postal code */}
@@ -288,7 +347,7 @@ function OverseasRegistrationForm() {
               autoComplete="postalCode"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="postalCode"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="postalCode" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* adress end */}
@@ -307,7 +366,28 @@ function OverseasRegistrationForm() {
               name="companyTaxIdNumber"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="companyTaxIdNumber"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="companyTaxIdNumber" component="span" className="text-xs text-rose-600" />
+          </div>
+
+          {/* GST number */}
+          <div>
+            <label
+              htmlFor="gst"
+              className="block text-sm font-medium leading-6 text-gray-600"
+            >
+              GST Number
+            </label>
+            <Field
+              type="text"
+              id="gst"
+              name="gst"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+            />
+            <ErrorMessage
+              name="gst"
+              component="span"
+              className="text-rose-600"
+            />
           </div>
 
           {/* Annual Turn Over */}
@@ -325,7 +405,7 @@ function OverseasRegistrationForm() {
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             >
               <option value="">Select a country</option>
-              {countries.map((country) => (
+              {turnOver.map((country) => (
                 <option key={country} value={country}>
                   {country}
                 </option>
@@ -333,12 +413,12 @@ function OverseasRegistrationForm() {
             </Field>
             <ErrorMessage
               name="country"
-               component="span" className="text-xs text-rose-600"
+              component="span" className="text-xs text-rose-600"
             />
           </div>
 
-          {/* Major trade lane */}
-          <div>
+          {/* Major trade lane see in the future */}
+          {/* <div>
             <label
               htmlFor="majorTradeLane"
               className="block text-sm font-medium leading-6 text-gray-600"
@@ -360,9 +440,9 @@ function OverseasRegistrationForm() {
             </Field>
             <ErrorMessage
               name="majorTradeLane"
-               component="span" className="text-xs text-rose-600"
+              component="span" className="text-xs text-rose-600"
             />
-          </div>
+          </div> */}
 
           {/* firstName */}
           <div>
@@ -380,7 +460,7 @@ function OverseasRegistrationForm() {
               autoComplete="given-name"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="firstName"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="firstName" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* lastName */}
@@ -399,7 +479,7 @@ function OverseasRegistrationForm() {
               autoComplete="given-name"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="lastName"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="lastName" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* designation */}
@@ -417,7 +497,7 @@ function OverseasRegistrationForm() {
               autoComplete="given-name"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="designation"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="designation" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* contact */}
@@ -437,7 +517,7 @@ function OverseasRegistrationForm() {
               autoComplete="email"
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
-            <ErrorMessage name="email"  component="span" className="text-xs text-rose-600" />
+            <ErrorMessage name="email" component="span" className="text-xs text-rose-600" />
           </div>
 
           {/* phone number */}
@@ -450,7 +530,7 @@ function OverseasRegistrationForm() {
             </label>
             <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 flex items-center">
-              <Field
+                <Field
                   as="select"
                   name="countryPhnCode"
                   autoComplete="countryPhnCode"
@@ -460,32 +540,32 @@ function OverseasRegistrationForm() {
                   <option>01</option>
                   <option>11</option>
                 </Field>
-                <ErrorMessage name="countryPhnCode"  component="span" className="text-xs text-rose-600" />
+                <ErrorMessage name="countryPhnCode" component="span" className="text-xs text-rose-600" />
               </div>
               <Field
                 type="text"
                 name="phnNumber"
                 id="phnNumber"
-                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+                className="peer placeholder-transparent text-center h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
                 placeholder="      +1 (555) 987-6543"
               />
               <ErrorMessage
                 name="phnNumber"
-                 component="span" className="text-xs text-rose-600"
+                component="span" className="text-xs text-rose-600"
               />
             </div>
           </div>
 
           {/* website*/}
           <div>
-          <TextField id={'website'} title={'Comapny Website'} type={'text'} />
+            <TextField id={'website'} title={'Comapny Website'} type={'text'} />
           </div>
 
           {/* contact end */}
 
           {/* buttons */}
-          <div className="end-end-2">
-          <div className="flex items-center">
+          <div className="end-end-2 col-span-2 flex justify-evenly">
+            <div className="flex items-center">
               <Field
                 name='checkBox'
                 type="checkBox"

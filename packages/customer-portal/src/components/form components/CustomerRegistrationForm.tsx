@@ -32,6 +32,22 @@ import {    setBillingCode,
   setCompanyWebsite,
   setTermAndCondition,
   reset} from '../../features/customerRegForm/customerRegForm-slice'
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/client';
+
+
+  const FINAL_REGISTRATION_MUTATION = gql`
+  mutation FinalRegistration(
+    $input: Finalreg!
+    $userId: Float!
+    $userInput: UpdateUsertype!
+  ) {
+    finalreg(input: $input, userId: $userId, userInput: $userInput) {
+      id
+      companyName
+    }
+  }
+`;
 
 
 const validationSchema = Yup.object({
@@ -59,15 +75,20 @@ const validationSchema = Yup.object({
     designation: Yup.string().required("Fill the Degisnation here"),
     phnNumber: Yup.string().required('Phone Number is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    website: Yup.string().url('Invalid URL'),
+    website: Yup.string().required('webiste required'),
     checkBox: Yup.boolean().oneOf([true], 'Please accept the terms and conditions'),
 });
 
 function CustomerRegistrationForm() {
+  const { userType, identification } = useSelector((state: any) => state.starterSlice)
+  const { email, userId } = useSelector((state: any) => state.user)
+  const [finalRegistration] = useMutation(
+    FINAL_REGISTRATION_MUTATION
+  );
   const initialValues = {
     companyBillingCode: '',
     companyRegistrationNumber: '',
-    userType: '',
+    userType: userType,
     companyType: '',
     industryType: '',
     country: '',
@@ -82,7 +103,7 @@ function CustomerRegistrationForm() {
     lastName: '',
     designation: '',
     phnNumber: '',
-    email: '',
+    email: email,
     website: '',
     checkBox: false,
     countryPhnCode: '91',
@@ -126,6 +147,37 @@ function CustomerRegistrationForm() {
 
         // to show registration confirmed popup
         dispatch(updatesRegisterButtonClicked(true))
+
+        try {
+          const response = await finalRegistration({
+            variables: {
+              input: {
+                companyType: values.companyType,
+                industryType: values.industryType,
+                state: values.state,
+                city: values.city,
+                country: values.country,
+                company_reg_no: values.companyRegNum,
+                annualTurnover: values.annualTurnover,
+                gst_no: values.gst,
+                first_name: values.firstName,
+                last_name: values.lastName,
+                Designation: values.designation,
+                mobile: values.phoneNum,
+                website: values.companyWebsite,
+              },
+              userId: userId * 1,
+              userInput: {
+                userType: identification,
+              }
+            }
+          })
+          console.log("final resopnse : ", response.data);
+          
+        } catch (error) {
+          console.log(error);
+          
+        }
     
         // Reset the form or perform any other necessary actions
         // actions.resetForm();

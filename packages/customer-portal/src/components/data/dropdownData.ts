@@ -68,46 +68,21 @@ const vehicleDimension: Array<string> = [
     ]
 
 const industryTypes: Array<string> = [
-    "Automobile, Parts & Spares",
-    "Apparel & Garments",
-    "Building & Construction",
-    "Electronic & Electrical",
-    "Drug & Pharm",
-    "Industrial Machinery", 
-    "Industrial Supplies", 
-    "Food & Beverages",
-    "Hospital & Medical Supplies", 
-    "Packaging Machines & Goods",
-    "Chemicals, Dyes & Solvents",
-    "Mechanical Parts & Spares",
-    "Lab Instruments & Supplies",
-    "Furniture & Supplies",
-    "Agriculture & Farming",
-    "Housewares & Supplies",
-    "Metals, Alloys & Minerals",
-    "Hand & Machine Tools",
-    "Handicrafts & Decoratives",
-    "Kitchen Utensils & Appliances",
-    "Textiles, Yarn & Fabrics",
-    "Books & Stationery",
-    "Cosmetics & Personal Care",
-    "Home Textile & Furnishing",
-    "Engineering Goods ",
-    "Gems, Jewelry & Astrology",
-    "Computer & IT Products ",
-    "Fashion Accessories & Gear",
-    "Herbal & Ayurvedic Product",
-    "Security Systems & Services",
-    "Sports Goods, Toys & Games",
-    "IT & Telecom Equipment ",
-    "Paper & Paper Products",
-    "Marble, Granite & Stones",
-    "Leather Products",
-    "Services",
-    "Other"
+  "Apparels_and_garments",
+  "Building_and_Construction",
+  "Electronic_and_Electical",
+  "Drugs_and_pharms",
+  "Industrial_Machines",
+  "Industrial_suppplies",
+  "Food_and_Beverages",
+  "Hospital_and_Medicalsupplies"
     ]
 
     const companyTypes = [
+      "MANUFACTURER",
+"MERCHANT_TRADER",
+"MANUFACTURER_EXPORTER",
+"MERCHANT_EXPORTER",
       "Manufacturer / OEM",
       "Merchant / Trader",
       "Manufacturer Exporter",
@@ -124,19 +99,14 @@ const industryTypes: Array<string> = [
     ];
 
     const typeOfCompanies: Array<string> = [
-"Propritership",
-"Partnership",
-"Private Limited ",
-"Public Limited",
-"Limited Libality Partnership (LLP)",
-"Non-Profit Corporation (NGO)",
-"Inc. ",
-"Corporation",
-"LLC.",
-"S.P.A  / S.R.L",
-"Pty Ltd. ",
-"S. Corporation", 
-"C. Corporation ",
+     "Partnership",
+     "private_limited",
+     "public_limited",
+     "limited_liability_partnership",
+     "Non_profit_cooperation",
+     "Inc",
+     "Cooperation",
+     "LLC",
 
     ]
 
@@ -350,16 +320,16 @@ const storageType: Array<string> = [  "General Warehouse",  "Cold Storage Facili
 
 
 const turnOver: Array<string> = [
-    "$1 - $10,000",
-    "$10,000 - $50,000",
-    "$150,000 - $100,000",
-    "$100,000 - $500,000",
-    "$500,000 - $1,000,000",
-    "$1,000,000 - $1,500,000",
-    "$1,500,000 - $2,500,000",
-    "$2,500,000 - $5,000,000",
-    "$5,000,000 - $10,000,000",
-    "Above $10,000,000"
+  "UP_TO_10000",
+  "FROM_10000_TO_50000",
+  "FROM_50000_TO_100000",
+  "FROM_100000_TO_500000",
+  "FROM_500000_TO_1000000",
+  "FROM_1000000_TO_1500000",
+  "FROM_1500000_TO_2500000",
+  "FROM_2500000_TO_5000000",
+  "FROM_5000000_TO_10000000",
+  "ABOVE_10000000"
   ];
   
   const overseasAgent: Array<string> = [  "WCA",  "WWPC",  "PLN",  "CLN",  "WPA",  "W3LN",  "FNC",  "JC Trans",  "BLING",  "TWIG",  "PARNITY",  "PPL",  "AMERICAS ALLIANCE",  "LATAM",  "OTHER"];
