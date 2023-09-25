@@ -42,6 +42,7 @@ function classNames(...classes: any[]) {
 export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [approval, setApproval] = useState(false)
+  const [approvalIndex, setApprovalIndex] = useState(0);
 
   return (
     <>
@@ -175,8 +176,8 @@ export default function Example() {
                         navigation.map((nav) => {nav.name === e.currentTarget.id ? nav.current = true : nav.current = false})
                       }}
                       key={item.name}>
-                        <a
-                          href={item.href}
+                        <button
+                          onClick={() =>setApproval(false) }
                           className={classNames(
                             item.current
                               ? 'bg-gray-50 text-sky-600'
@@ -192,7 +193,7 @@ export default function Example() {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -279,15 +280,16 @@ export default function Example() {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
-                              href={item.href}
+                            <button
+                              type="button"
+                              onClick={() =>  setApproval(!approval) }
                               className={classNames(
                                 active ? 'bg-gray-50' : '',
                                 'block px-3 py-1 text-sm leading-6 text-gray-900'
                               )}
                             >
                               {item.name}
-                            </a>
+                            </button>
                           )}
                         </Menu.Item>
                       ))}
@@ -300,8 +302,8 @@ export default function Example() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-               {!approval && <Vendors onApprovalClick={() => setApproval(!approval)} />}
-               { approval && <Approval />}
+               {!approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
+               { approval && <Approval index={approvalIndex} />}
             </div>
           </main>
         </div>

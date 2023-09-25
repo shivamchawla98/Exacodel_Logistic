@@ -116,47 +116,53 @@ function OverseasRegistrationForm() {
     // Handle form submission
     // Dispatch actions for each field or action
     
-    dispatch(setBillingCode(values.billingCode));
+    dispatch(setBillingCode(values.companyBillingCode));
     dispatch(setUserType(values.userType));
     dispatch(setCompanyType(values.companyType));
     dispatch(setIndustryType(values.industryType));
     dispatch(setCompanyName(values.companyName));
-    dispatch(setCompanyRegNum(values.companyRegNum));
+    dispatch(setCompanyRegNum(values.companyRegistrationNumber));
     dispatch(setCountry(values.country));
     dispatch(setStreetAddress(values.streetAddress));
     dispatch(setCity(values.city));
-    dispatch(setState(values.state));
+    dispatch(setState(values.region));
     dispatch(setPostalCode(values.postalCode));
     dispatch(setCompanyTaxIdNum(values.companyTaxIdNum));
-    dispatch(setAnnualTurnover(values.annualTurnover));
+    dispatch(setAnnualTurnover(values.turnover));
     // dispatch(setMajorTradeLane(values.majorTradeLane));
     dispatch(setFirstName(values.firstName));
     dispatch(setLastName(values.lastName));
     dispatch(setDesignation(values.designation));
     dispatch(setEmail(values.email));
-    dispatch(setPhoneNum(values.phoneNum));
+    dispatch(setPhoneNum(values.phnNumber));
     dispatch(setPhnCountryCode(values.phnCountryCode));
-    dispatch(setCompanyWebsite(values.companyWebsite));
+    dispatch(setCompanyWebsite(values.website));
     dispatch(setTermAndCondition(values.termAndCondition));
     // to show registration confirmed popup
     dispatch(updatesRegisterButtonClicked(true))
+
+
+    console.log(values.phnNumber);
+    
+
+
     try {
       const response = await finalRegistration({
         variables: {
           input: {
             companyType: values.companyType,
             industryType: values.industryType,
-            state: values.state,
+            state: values.region,
             city: values.city,
             country: values.country,
-            company_reg_no: values.companyRegNum,
-            annualTurnover: values.annualTurnover,
+            company_reg_no: values.companyRegistrationNumber,
+            annualTurnover: values.turnover,
             gst_no: values.gst,
             first_name: values.firstName,
             last_name: values.lastName,
             Designation: values.designation,
-            mobile: values.phoneNum,
-            website: values.companyWebsite,
+            mobile: values.phnNumber,
+            website: values.website,
           },
           userId: userId * 1,
           userInput: {
@@ -170,7 +176,7 @@ function OverseasRegistrationForm() {
       console.log(error);
       
     }
-    console.log(values);
+    // console.log(values);
   };
 
   return (

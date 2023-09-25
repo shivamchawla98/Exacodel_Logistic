@@ -1,7 +1,8 @@
 "use client"
 
+import { gql, useQuery } from '@apollo/client';
 import { PaperClipIcon } from '@heroicons/react/20/solid'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Data {
     [key: string]: string;
@@ -15,33 +16,81 @@ interface Data {
     name: string;
     size: string;
   }
-export default function Example() {
+
+  const WAITING_FOR_APPROVAL_QUERY = gql`
+  query {
+    waitingforapproval {
+    email
+    userType
+    first_name
+    last_name
+    annualTurnover
+    BillingCode
+    companyType
+    industryType
+    companyName
+    state
+    pincode
+    Adress
+    city
+    country
+    company_reg_no
+    company_pan_no
+    Designation
+    mobile
+    website
+    }
+  }
+`;
+
+  
+export default function Example({index}: any) {
+  const { loading, error, data } =  useQuery(WAITING_FOR_APPROVAL_QUERY);
     const [editMode, setEditMode] = useState(false);
-    const [data, setData] = useState({
-      'Full name': 'Margot Foster',
-      'Application for': 'Vendor Registration',
-      'Email address': 'margotfoster@example.com',
-      'Annual Turn Over': '$120,000',
-      'Billing Code of company': 'acd3422vcc',
-      'Type of Company': 'manufacturer',
-      'Industry': 'home ware',
-      'Company Name': 'ABC Inc.',
-      'State': 'California',
-      'Pincode': '90210',
-      'Address': '123 Main St, Los Angeles',
-      'City': 'Los Angeles',
-      'Country': 'USA',
-      'Company Registration Number': '3289235bnsd',
-      'Company Pan Number': 'FEXVB4783',
-      'Designation': 'Manager',
-      'Contact Number': '123-456-7890',
-      'Website': 'www.abc.com',
+    const [formData, setData] = useState({
     });
+    console.log("approval index", index);
+    
 
   
     const handleInputChange = (field: any, value: any) => {
       setData({ ...data, [field]: value });
     };
+
+    useEffect(() => {
+      if (!loading && data && data.waitingforapproval) {
+        const singleApprovalData = data.waitingforapproval[index];
+  
+        // Check if singleApprovalData exists and has the expected structure
+        if (singleApprovalData) {
+          // Map the data from the API to the 'formData' state
+          setData({
+            'Full name': singleApprovalData.first_name + ' ' + singleApprovalData.last_name,
+            'Email address': singleApprovalData.email,
+            'Annual Turn Over': singleApprovalData.annualTurnover,
+            'Billing Code of company': singleApprovalData.BillingCode,
+            'Type of Company': singleApprovalData.companyType,
+            'Industry': singleApprovalData.industryType,
+            'Company Name': singleApprovalData.companyName,
+            'State': singleApprovalData.state,
+            'Pincode': singleApprovalData.pincode,
+            'Address': singleApprovalData.Adress,
+            'City': singleApprovalData.city,
+            'Country': singleApprovalData.country,
+            'Company Registration Number': singleApprovalData.company_reg_no,
+            'Company Pan Number': singleApprovalData.company_pan_no,
+            'Designation': singleApprovalData.Designation,
+            'Contact Number': singleApprovalData.mobile,
+            'Website': singleApprovalData.website,
+          });
+  
+          // Initialize attachments if needed (check if singleApprovalData.attachments exists)
+          if (singleApprovalData.attachments) {
+            setAttachments(singleApprovalData.attachments);
+          }
+        }
+      }
+    }, [loading, data, index]);
 
     const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
@@ -93,7 +142,7 @@ export default function Example() {
                 </div>
                 <div className="border-t border-gray-100">
                      <dl className="divide-y divide-gray-100">
-                     {Object.entries(data).map(([label, value]) => (
+                     {Object.entries(formData).map(([label, value]) => (
             <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
               <div className="col-span-4">
                 <dt className="text-sm font-medium text-gray-900">{label}</dt>

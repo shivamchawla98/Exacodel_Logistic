@@ -128,6 +128,7 @@ function VendorRegistrationForm() {
     email: email,
     website: '',
     checkBox: false,
+    turnover: '',
   };
 
   const [finalRegistration] = useMutation(
@@ -159,19 +160,19 @@ function VendorRegistrationForm() {
       const response = await finalRegistration({
         variables: {
           input: {
-            companyType: values.companyType,
+            companyType: values.company,
             industryType: values.industryType,
-            state: values.state,
+            state: values.region,
             city: values.city,
             country: values.country,
-            company_reg_no: values.companyRegNum,
-            annualTurnover: values.annualTurnover,
+            company_reg_no: values.companyRegistrationNumber,
+            annualTurnover: values.turnover,
             gst_no: values.gst,
             first_name: values.firstName,
             last_name: values.lastName,
             Designation: values.designation,
-            mobile: values.phoneNum,
-            website: values.companyWebsite,
+            mobile: values.phnNumber,
+            website: values.website,
           },
           userId: userId * 1,
           userInput: {

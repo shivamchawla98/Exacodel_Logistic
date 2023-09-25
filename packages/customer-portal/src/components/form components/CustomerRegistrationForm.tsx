@@ -106,6 +106,7 @@ function CustomerRegistrationForm() {
     email: email,
     website: '',
     checkBox: false,
+    turnover: '',
     countryPhnCode: '91',
   };
   const dispatch = useDispatch();
@@ -134,7 +135,7 @@ function CustomerRegistrationForm() {
         dispatch(setState(values.state));
         dispatch(setPostalCode(values.postalCode));
         dispatch(setCompanyPanNum(values.panNumber));
-        dispatch(setAnnualTurnover(values.annualTurnover));
+        dispatch(setAnnualTurnover(values.turnover));
         dispatch(setGstNum(values.gst));
         dispatch(setFirstName(values.firstName));
         dispatch(setLastName(values.lastName));
@@ -154,17 +155,17 @@ function CustomerRegistrationForm() {
               input: {
                 companyType: values.companyType,
                 industryType: values.industryType,
-                state: values.state,
+                state: values.region, // Assuming region corresponds to state
                 city: values.city,
                 country: values.country,
-                company_reg_no: values.companyRegNum,
-                annualTurnover: values.annualTurnover,
+                company_reg_no: values.companyRegistrationNumber,
+                annualTurnover: values.turnover,
                 gst_no: values.gst,
                 first_name: values.firstName,
                 last_name: values.lastName,
                 Designation: values.designation,
-                mobile: values.phoneNum,
-                website: values.companyWebsite,
+                mobile: values.phnNumber,
+                website: values.website,              
               },
               userId: userId * 1,
               userInput: {
@@ -173,6 +174,7 @@ function CustomerRegistrationForm() {
             }
           })
           console.log("final resopnse : ", response.data);
+          console.log(values);
           
         } catch (error) {
           console.log(error);
@@ -181,7 +183,7 @@ function CustomerRegistrationForm() {
     
         // Reset the form or perform any other necessary actions
         // actions.resetForm();
-    console.log(values);
+ 
   };
 
   return (

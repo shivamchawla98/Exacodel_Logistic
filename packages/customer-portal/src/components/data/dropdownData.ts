@@ -83,19 +83,6 @@ const industryTypes: Array<string> = [
 "MERCHANT_TRADER",
 "MANUFACTURER_EXPORTER",
 "MERCHANT_EXPORTER",
-      "Manufacturer / OEM",
-      "Merchant / Trader",
-      "Manufacturer Exporter",
-      "Merchant Exporter",
-      "Buying House",
-      "Dealer / Reseller",
-      "Retailer",
-      "Freight Forwarder",
-      "3PL Logistics Provider",
-      "Packers & Movers",
-      "Relocation Company",
-      "Customs Broker",
-      "Other"
     ];
 
     const typeOfCompanies: Array<string> = [
