@@ -59,7 +59,7 @@ export default function RegistrationConfPopup() {
                          router.push("./")
                          setOpen(false)}}
                   >
-                    Go back to dashboard
+                    Go back to Home Page
                   </button>
                 </div>
               </Dialog.Panel>

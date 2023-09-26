@@ -34,7 +34,7 @@ function Page() {
         { formName === 'registration' && identification === 'VENDOR' && <VendorRegistrationForm />}
         { formName === 'registration' && identification === 'OVERSEAS_AGENT' && <OverseasRegistrationForm />}
         <RolePopup />
-        {/* {registerButtonClicked && <RegistrationConfPopup />} */}
+        {registerButtonClicked && <RegistrationConfPopup />}
         </div>
     )
 }
