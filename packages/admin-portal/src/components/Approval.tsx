@@ -32,7 +32,7 @@ export default function Example({ index }: any) {
   const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
-  const [attachments, setAttachments] = useState<Attachment[]>([
+  const [attachments, setAttachments] = useState<any[]>([
     { name: 'GST_certificate.pdf', size: '2.4mb' },
     { name: 'pan_Card.pdf', size: '4.5mb' },
     { name: 'sample.docx', size: '1.8mb' },
@@ -116,7 +116,7 @@ export default function Example({ index }: any) {
         </div>
         <div className="border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
-            {Object.entries(formData).map(([label, value]) => (
+            {Object.entries(formData).map(([label, value]: any[]) => (
               <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
                 <div className="col-span-4">
                   <dt className="text-sm font-medium text-gray-900">{label}</dt>

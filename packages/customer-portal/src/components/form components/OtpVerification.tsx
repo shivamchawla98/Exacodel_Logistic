@@ -22,13 +22,13 @@ const INITIAL_REGISTRATION_MUTATION = gql`
   `;
 
 function OtpVerification() {
-  const email = useSelector((state) => state.user.email);
-  const { identification, userType } = useSelector((state) => state.starterSlice);
+  const email = useSelector((state: any) => state.user.email);
+  const { identification, userType } = useSelector((state: any) => state.starterSlice);
   const [sendOtpClicked, setSendOtpClicked] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
 
   const dispatch = useDispatch();
-  const inputRefs = useRef(Array(4).fill(0).map(() => React.createRef()));
+  const inputRefs: any = useRef(Array(4).fill(0).map(() => React.createRef()));
 
   const [Email, setEmail] = useState('');
   const [Otp, setOtp] = useState('');
@@ -41,7 +41,7 @@ function OtpVerification() {
   // Log the GraphQL query
   console.log("GraphQL Query:", INITIAL_REGISTRATION_MUTATION?.loc?.source?.body);
 
-  const handleOtpChange = (e, index) => {
+  const handleOtpChange = (e: any, index: any) => {
     const value = e.target.value;
 
     if (value && index < 3) {
@@ -54,13 +54,39 @@ function OtpVerification() {
     email: Yup.string().email("Invalid email").required("Email is required"),
   });
 
-  const logEmail = (values) => {
+  const logEmail = (values: any) => {
     console.log("Email entered:", values.email);
   };
 
+  async function reSend () {
+
+    try {
+      const response = await sendOTPMutation({
+        variables: {
+          email: Email,
+        },
+      });
+
+      console.log(response?.data?.sendOTP);
+
+
+      if (response?.data?.sendOTP === "OTP sent successfully") {
+        setSendOtpClicked(true);
+        setResendDisabled(true);
+        setTimeout(() => {
+          setResendDisabled(false);
+        }, 120000); // 2 minutes
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+   
+  }
+
   // verify account 
   const verifyAccount = async () => {
-    let otp = inputRefs.current.map(ref => ref.current.value).join('');
+    let otp = inputRefs.current.map((ref: any) => ref.current.value).join('');
     console.log("otp", otp);
     
     try {
@@ -111,7 +137,7 @@ function OtpVerification() {
                   initialValues={{ email: "" }}
                   validationSchema={validationSchema}
                   onSubmit={
-                    async (values, { setSubmitting }) => {
+                    async (values, { setSubmitting }: any) => {
                       dispatch(updateEmail(values.email));
                       setEmail(values.email);
 
@@ -212,14 +238,14 @@ function OtpVerification() {
                 </button>
               </div>
               <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-                <p>Didn't receive the code?</p>{" "}
+                <p>Didn&apos;t receive the code?</p>{" "}
                 <button
                   className="flex flex-row items-center text-sky-600"
                   disabled={resendDisabled}
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
-                    refetch({ email: Email });
+                    reSend()
                   }}
                 >
                   Resend

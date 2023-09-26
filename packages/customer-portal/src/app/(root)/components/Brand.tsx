@@ -27,7 +27,7 @@ function Brand() {
     <section className="bg-white py-24">
       <div className="container mx-auto">
         <div className="w-full">
-          <Slider {...sliderSettings}>
+          {/* <Slider {...sliderSettings} > */}
             <div className="px-4">
               <LogoImg
                 href="#"
@@ -65,7 +65,7 @@ function Brand() {
               />
             </div>
             {/* Add more LogoImg components here if needed */}
-          </Slider>
+          {/* </Slider> */}
         </div>
       </div>
     </section>
