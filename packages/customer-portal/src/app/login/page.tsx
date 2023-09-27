@@ -4,7 +4,7 @@ import '../globals.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateEmail, updatePassword } from '@/features/login/form-slice';
+import { updateEmail, updatePassword, updateIsLogedIn } from '@/features/login/form-slice';
 import Link from 'next/link';
 import RolePopup from '@/components/form components/RolePopup';
 import { updateSignUpclicked } from '@/features/select-form/selectForm-slice';
@@ -12,6 +12,10 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import jwt from 'jsonwebtoken';
 import { AnyARecord } from 'dns';
+import jwt_decode from "jwt-decode";
+import { decode } from 'punycode';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation'
 
 const secretKey = 'secret';
 
@@ -33,6 +37,7 @@ const validationSchema = Yup.object().shape({
 });
 
 function Page() {
+  const router = useRouter();
   const { email, password } = useSelector((state: any) => state.form);
   const { signUpClicked } = useSelector((state: any) => state.selectForm);
   const [login] = useMutation(LOGIN_MUTATION);
@@ -55,17 +60,26 @@ function Page() {
           password: values.password,
         },
       });
-      console.log("seceret :",secretKey);
       
       // Handle the response as needed
       console.log("Mutation response:", response.data);
 
 
-      const decoded =  jwt.verify(response?.data.login, `'secret'`);
+      const decoded =  jwt_decode(response?.data?.login);
+      console.log(decoded);
+      Cookies.set('jwtToken', response.data.login, { expires: 7 });
+      dispatch(updateIsLogedIn(true))
+      
       // // 'decoded' now contains the payload of the JWT token.
       // console.log(decoded);
 
-
+      const jwtToken = Cookies.get('jwtToken');
+      console.log("from token : ", jwtToken);
+      if ( Cookies.get('jwtToken')) {
+        router.push("./")
+      }
+      
+    
 
 
 
@@ -149,7 +163,7 @@ function Page() {
                         className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? 'Submitting...' : 'Submit'}
+                        {isSubmitting ? 'Loging in...' : 'Login'}
                       </button>
                     </div>
                     <div>
@@ -165,15 +179,15 @@ function Page() {
                     <div>
                       <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
                         Don&apos;t have an account?{' '}
-                        <button
-                          type='button'
+                        <Link
+                          href="/registration"
                           onClick={() => {
                             dispatch(updateSignUpclicked(!signUpClicked))
                           }}
                           className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
                         >
                           Register
-                        </button>
+                        </Link>
                       </p>
                     </div>
                   </div>

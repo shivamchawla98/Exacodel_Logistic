@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 
 const WAITING_FOR_APPROVAL_QUERY = gql`
   query {
     waitingforapproval {
+      id
       email
       userType
       first_name
@@ -17,6 +18,7 @@ const WAITING_FOR_APPROVAL_QUERY = gql`
       state
       pincode
       Adress
+      gst_no
       city
       country
       company_reg_no
@@ -28,10 +30,24 @@ const WAITING_FOR_APPROVAL_QUERY = gql`
   }
 `;
 
-export default function Example({ index }: any) {
-  const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
+const APPROVE_USER_MUTATION = gql`
+mutation ApproveUser($userId: Int!, $input: UpdateapprovedUsertype!) {
+  approveUser(userId: $userId, input: $input) {
+    id
+    BillingCode
+    userType
+  }
+}
+`;
+
+export default function Approval({ index, onApproveClick, isApproved }: any) {
+  const { loading, error, data } =  useQuery(WAITING_FOR_APPROVAL_QUERY);
   const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData]:any[] = useState({});
+  // these are only for adding non null , undefined value to the approval mutation needs refactor in future
+  const [userType, setUserType] = useState("");
+  const [gst_no, setGstNo] = useState(""); 
+  const [Id, setUserId] = useState<any>("");
   const [attachments, setAttachments] = useState<any[]>([
     { name: 'GST_certificate.pdf', size: '2.4mb' },
     { name: 'pan_Card.pdf', size: '4.5mb' },
@@ -39,10 +55,18 @@ export default function Example({ index }: any) {
     { name: 'sample2.docx', size: '1.8mb' }, // Add more attachments as needed
   ]);
 
+
+  const [approveUser] = useMutation(APPROVE_USER_MUTATION);
+
   useEffect(() => {
     if (!loading && data && data.waitingforapproval) {
       const singleApprovalData = data.waitingforapproval[index];
-
+      setUserId(singleApprovalData.id)
+      setUserType(singleApprovalData.userType)
+      setGstNo(singleApprovalData.gst_no)
+      console.log(Id*1);
+      
+      
       if (singleApprovalData) {
         setFormData({
           'Full name': singleApprovalData.first_name + ' ' + singleApprovalData.last_name,
@@ -72,7 +96,7 @@ export default function Example({ index }: any) {
   }, [loading, data, index]);
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prevData) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       [field]: value,
     }));
@@ -89,6 +113,46 @@ export default function Example({ index }: any) {
       setAttachments(newAttachments);
     }
   };
+
+  const handleApprove = async() => {
+    console.log("user id : ", Id*1);
+    try {
+      const { data: approvalData } = await approveUser({
+        variables: {
+          userId: (Id*1),
+          input: {
+              userType: userType,
+              companyType: formData['Type of Company'],
+              industryType: formData['Industry'],
+              state: formData['State'],
+              city: formData['City'],
+              country: formData['Country'],
+              company_reg_no: formData['Company Registration Number'],
+              annualTurnover: formData['Annual Turn Over'],
+              gst_no: gst_no, // Assuming 'Company Pan Number' corresponds to GST Number
+              first_name: formData['Full name'].split(' ')[0], // Extract first name
+              last_name: formData['Full name'].split(' ')[1], // Extract last name
+              Designation: formData['Designation'],
+              mobile: formData['Contact Number'],
+              website: formData['Website'],
+              // // email: formData['Email address'],
+              // BillingCode: formData['Billing Code of company'],
+              // companyName: formData['Company Name'],
+              // pincode: formData['Pincode'],
+              // Address: formData['Address'],
+              // company_pan_no: formData['Company Pan Number'], // Assuming it's different from GST Number
+          },
+        },
+      });
+      isApproved()
+      console.log("aaproval data : ", approvalData);
+      
+
+    } catch (error) {
+      console.error(error);
+    }
+    console.log("GraphQL Query:", APPROVE_USER_MUTATION?.loc?.source?.body);
+  }
 
   return (
     <div className=' '>
@@ -108,7 +172,12 @@ export default function Example({ index }: any) {
         <div className="px-4 py-6 sm:px-6 ">
           <div className='w-full flex justify-between items-center'>
             <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
-            <button type="button" className="bg-sky-600 hover:bg-sky-700 text-white rounded-md shadow-md py-2 px-2">
+            <button
+            onClick={() => {
+              handleApprove()
+              // onApproveClick()
+            }}
+            type="button" className="bg-sky-600 hover:bg-sky-700 text-white rounded-md shadow-md py-2 px-2">
               Approve<span className="sr-only">, Approve </span>
             </button>
           </div>

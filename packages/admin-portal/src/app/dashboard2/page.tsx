@@ -16,6 +16,7 @@ import {
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Vendors from './components/Vendors'
 import Approval from '@/components/Approval'
+import ApprovedPopup from './components/ApprovedPopup'
 
 const navigation = [
   { name: 'Vendor', href: '#', icon: HomeIcon, current: true },
@@ -43,6 +44,7 @@ export default function Example() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [approval, setApproval] = useState(false)
   const [approvalIndex, setApprovalIndex] = useState(0);
+  const [aprroved, setApproved] = useState(false)
 
   return (
     <>
@@ -303,7 +305,9 @@ export default function Example() {
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
                {!approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               { approval && <Approval index={approvalIndex} />}
+               { approval && <Approval index={approvalIndex} isApproved = {setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+                />}
+               {aprroved && <ApprovedPopup/>}
             </div>
           </main>
         </div>
