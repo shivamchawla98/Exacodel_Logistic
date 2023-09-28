@@ -16,7 +16,7 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     // https://studio.apollographql.com/public/splacex-l4uc6p/
-    uri: "http://localhost:3006/graphql",
+    uri: "https://api.globxtrade.co.in/graphql",
   });
 
   return new NextSSRApolloClient({

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { BiErrorCircle } from 'react-icons/bi';
+// import { useRouter } from 'next/router';
 
 const WAITING_FOR_APPROVAL_QUERY = gql`
   query {
@@ -28,12 +29,16 @@ const WAITING_FOR_APPROVAL_QUERY = gql`
       Designation
       mobile
       website
+      password
+      customerSubType
+      vendorSubType
+      overseasAgentSubType
     }
   }
 `;
 
 const APPROVE_USER_MUTATION = gql`
-mutation ApproveUser($userId: Int!, $input: UpdateapprovedUsertype!) {
+mutation approveUser($userId: Int!, $input: Updateapproved!) {
   approveUser(userId: $userId, input: $input) {
     id
     BillingCode
@@ -46,6 +51,7 @@ mutation ApproveUser($userId: Int!, $input: UpdateapprovedUsertype!) {
 
 export default function Approval({ index, onApproveClick, isApproved }: any) {
   const { loading, error, data } =  useQuery(WAITING_FOR_APPROVAL_QUERY);
+  console.log("GraphQL Query:", WAITING_FOR_APPROVAL_QUERY?.loc?.source?.body);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData]:any[] = useState({});
   // these are only for adding non null , undefined value to the approval mutation needs refactor in future
@@ -53,12 +59,13 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
   const [gst_no, setGstNo] = useState(""); 
   const [Id, setUserId] = useState<any>("");
   const [showAlert, setShowAlert] = useState(false);
-  const [attachments, setAttachments] = useState<any[]>([
-    { name: 'GST_certificate.pdf', size: '2.4mb' },
-    { name: 'pan_Card.pdf', size: '4.5mb' },
-    { name: 'sample.docx', size: '1.8mb' },
-    { name: 'sample2.docx', size: '1.8mb' }, // Add more attachments as needed
-  ]);
+  // const router = useRouter();
+  // const [attachments, setAttachments] = useState<any[]>([
+  //   { name: 'GST_certificate.pdf', size: '2.4mb' },
+  //   { name: 'pan_Card.pdf', size: '4.5mb' },
+  //   { name: 'sample.docx', size: '1.8mb' },
+  //   { name: 'sample2.docx', size: '1.8mb' }, // Add more attachments as needed
+  // ]);
 
   function Alert() {
     return (
@@ -88,8 +95,11 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
 
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
+  console.log("GraphQL Query:", APPROVE_USER_MUTATION?.loc?.source?.body);  
 
   useEffect(() => {
+    console.log(data);
+    
     if (!loading && data && data.waitingforapproval) {
       const singleApprovalData = data.waitingforapproval[index];
       setUserId(singleApprovalData.id)
@@ -100,13 +110,19 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
       
       if (singleApprovalData) {
         setFormData({
+          'Company Name': singleApprovalData.companyName,
+          'GST Number': singleApprovalData.gst_no,
           'Full name': singleApprovalData.first_name + ' ' + singleApprovalData.last_name,
           'Email address': singleApprovalData.email,
+          'Password': singleApprovalData.password,
           'Annual Turn Over': singleApprovalData.annualTurnover,
           'Billing Code of company': singleApprovalData.BillingCode,
+          "User Type": singleApprovalData.userType,
           'Type of Company': singleApprovalData.companyType,
           'Industry': singleApprovalData.industryType,
-          'Company Name': singleApprovalData.companyName,
+          // 'Customer Type': singleApprovalData.customerSubType,
+          // 'Vendor Type': singleApprovalData.vendorSubType,
+          // 'Overseas Type': singleApprovalData.overseasSubType,
           'State': singleApprovalData.state,
           'Pincode': singleApprovalData.pincode,
           'Address': singleApprovalData.Adress,
@@ -117,11 +133,12 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
           'Designation': singleApprovalData.Designation,
           'Contact Number': singleApprovalData.mobile,
           'Website': singleApprovalData.website,
+
         });
 
-        if (singleApprovalData.attachments) {
-          setAttachments(singleApprovalData.attachments);
-        }
+        // if (singleApprovalData.attachments) {
+        //   setAttachments(singleApprovalData.attachments);
+        // }
       }
     }
   }, [loading, data, index]);
@@ -133,17 +150,17 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
     }));
   };
 
-  const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const newAttachments = [...attachments];
-      newAttachments[index] = {
-        name: files[0].name,
-        size: (files[0].size / 1024 / 1024).toFixed(2) + 'mb',
-      };
-      setAttachments(newAttachments);
-    }
-  };
+  // const handleFileChange = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const files = event.target.files;
+  //   if (files && files.length > 0) {
+  //     const newAttachments = [...attachments];
+  //     newAttachments[index] = {
+  //       name: files[0].name,
+  //       size: (files[0].size / 1024 / 1024).toFixed(2) + 'mb',
+  //     };
+  //     setAttachments(newAttachments);
+  //   }
+  // };
 
   const handleApprove = async() => {
     console.log("user id : ", Id*1);
@@ -152,21 +169,26 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
         variables: {
           userId: (Id*1),
           input: {
-              userType: userType,
-              companyType: formData['Type of Company'],
-              industryType: formData['Industry'],
-              state: formData['State'],
-              city: formData['City'],
-              country: formData['Country'],
-              company_reg_no: formData['Company Registration Number'],
-              annualTurnover: formData['Annual Turn Over'],
-              gst_no: gst_no, // Assuming 'Company Pan Number' corresponds to GST Number
-              first_name: formData['Full name'].split(' ')[0], // Extract first name
-              last_name: formData['Full name'].split(' ')[1], // Extract last name
-              Designation: formData['Designation'],
-              mobile: formData['Contact Number'],
-              website: formData['Website'],
-              // // email: formData['Email address'],
+
+            companyType: formData['Type of Company'],
+            industryType: formData['Industry'],
+            state: formData['State'],
+            city: formData['City'],
+            country: formData['Country'],
+            company_reg_no: formData['Company Registration Number'],
+            annualTurnover: formData['Annual Turn Over'],
+            gst_no: gst_no, // Assuming 'Company Pan Number' corresponds to GST Number
+            first_name: formData['Full name'].split(' ')[0], // Extract first name
+            last_name: formData['Full name'].split(' ')[1], // Extract last name
+            Designation: formData['Designation'],
+            mobile: formData['Contact Number'],
+            website: formData['Website'],
+            email: formData['Email address'],
+            password: formData['Password'],
+            userType: userType,
+            customerSubType: formData["Customer Type"],
+            vendorSubType: formData["Vendor Type"],
+            overseasSubType: formData["Overseas Type"],
               // BillingCode: formData['Billing Code of company'],
               // companyName: formData['Company Name'],
               // pincode: formData['Pincode'],
@@ -178,7 +200,7 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
       isApproved()
       onApproveClick()
       console.log("aaproval data : ", approvalData);
- 
+      // router.reload();
 
     } catch (error) {
       setShowAlert(true);
@@ -233,7 +255,7 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
                 </div>
               </div>
             ))}
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
               <dt className="text-lg font-medium leading-6 text-gray-900">Attachments</dt>
               <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                 <ul role="list" className="divide-y divide-gray-200 rounded-md border border-gray-300 p-3">
@@ -260,7 +282,7 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
                   ))}
                 </ul>
               </dd>
-            </div>
+            </div> */}
           </dl>
         </div>
       </div>

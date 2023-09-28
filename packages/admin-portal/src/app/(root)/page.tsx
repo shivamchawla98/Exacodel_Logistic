@@ -17,6 +17,7 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Vendors from './components/Vendors'
 import Approval from '@/components/Approval'
 import ApprovedPopup from './components/ApprovedPopup'
+import { useRouter } from 'next/navigation'
 
 const navigation = [
   { name: 'Vendor', href: '#', icon: HomeIcon, current: true },
@@ -40,6 +41,7 @@ export default function Home() {
   const [approval, setApproval] = useState(false)
   const [approvalIndex, setApprovalIndex] = useState(0);
   const [aprroved, setApproved] = useState(false)
+  const router = useRouter();
 
   return (
     <>
@@ -302,7 +304,7 @@ export default function Home() {
                {!approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
                { approval && <Approval index={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
                 />}
-               {aprroved && <ApprovedPopup onApprovalClick={() => setApproval(!approval)}/>}
+               {aprroved && <ApprovedPopup onApprovalClick={() => router.refresh()}/>}
             </div>
           </main>
         </div>
