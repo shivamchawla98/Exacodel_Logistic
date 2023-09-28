@@ -36,6 +36,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import axios from 'axios'
 
+const response = [[], ["GST Number", "24AAKCS0993B2ZF"], ["Trade Name", "sarita infotech pvt ltd."], ["State", "Gujarat"], ["Business Type", "Private Limited Company"], ["Legal Name", "SARITA INFOTECH PRIVATE LIMITED"], ["Major Business Nature", "Supplier of Services, Others"], ["Dealer Type", "Regular"], ["Registered on", "13/08/2019"]] 
 
   const FINAL_REGISTRATION_MUTATION = gql`
   mutation FinalRegistration(
@@ -94,7 +95,7 @@ function CustomerRegistrationForm() {
     companyType: '',
     industryType: '',
     country: '',
-    companyName: '',
+    companyName: '', 
     streetAddress: '',
     city: '',
     region: '',
@@ -193,30 +194,32 @@ function CustomerRegistrationForm() {
     // Access formik.values to get the current form values
     
     
-    const options = {
-      method: 'GET',
-      url: 'https://gst-details-api-documentation.p.rapidapi.com/GetGSTDetails',
-      params: {
-        GST: values.gst,
-      },
-      // abhi: c483e89227mshdfc3034632465e6p1b7c58jsna6081d0bc39f key
-      headers: {
-        'X-RapidAPI-Key': '1e813430e5msh40d34a4b2c7d493p14bb1bjsn9c0bf76d2618',
-        'X-RapidAPI-Host': 'gst-details-api-documentation.p.rapidapi.com'
-      }
-    };
+    // const options = {
+    //   method: 'GET',
+    //   url: 'https://gst-details-api-documentation.p.rapidapi.com/GetGSTDetails',
+    //   params: {
+    //     GST: values.gst,
+    //   },
+    //   // abhi: c483e89227mshdfc3034632465e6p1b7c58jsna6081d0bc39f key
+    //   headers: {
+    //     'X-RapidAPI-Key': '1e813430e5msh40d34a4b2c7d493p14bb1bjsn9c0bf76d2618',
+    //     'X-RapidAPI-Host': 'gst-details-api-documentation.p.rapidapi.com'
+    //   }
+    // };
 
-    try {
-      const response = await axios.request(options);
-      console.log(response.data);
+    // try {
+    //   const response = await axios.request(options);
+    //   console.log(response.data);
       if (response) {
-        values.region = response.data[3][1];
-        values.companyName = response.data[5][1];
+        // values.region = response.data[3][1];
+        // values.companyName = response.data[5][1];
+        values.region = response[3][1];
+        values.companyName = response[5][1];
         setApiResponse(true)
       }
-    } catch (error) {
-      console.error(error);
-    }
+    // } catch (error) {
+    //   console.error(error);
+    // }
     // Perform actions with the values as needed
   };
 

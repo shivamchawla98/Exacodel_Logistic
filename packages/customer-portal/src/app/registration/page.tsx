@@ -36,6 +36,7 @@ function Page() {
         <RolePopup />
         {registerButtonClicked && <RegistrationConfPopup />}
         </div>
+
     )
 }
 

@@ -26,6 +26,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
+console.log("GraphQL Query:", LOGIN_MUTATION?.loc?.source?.body);
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()

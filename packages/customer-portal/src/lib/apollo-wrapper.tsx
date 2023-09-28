@@ -16,11 +16,11 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     // https://studio.apollographql.com/public/splacex-l4uc6p/
-    uri: "http://localhost:3006/graphql",
+    uri: "https://api.globxtrade.co.in/graphql",
   });
 
   return new NextSSRApolloClient({
-    cache: new NextSSRInMemoryCache(),
+    cache: new NextSSRInMemoryCache(), 
     link:
       typeof window === "undefined"
         ? ApolloLink.from([
@@ -39,6 +39,8 @@ function makeSuspenseCache() {
 }
 
 export default function ApolloWrapper({ children }: React.PropsWithChildren) {
+  console.log("env",process.env);
+  
   return (
     <ApolloNextAppProvider makeClient= { makeClient }  >
     { children }
