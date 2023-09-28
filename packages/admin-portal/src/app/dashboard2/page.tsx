@@ -305,9 +305,9 @@ export default function Example() {
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
                {!approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               { approval && <Approval index={approvalIndex} isApproved = {setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+               { approval && <Approval index={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
                 />}
-               {aprroved && <ApprovedPopup/>}
+               {aprroved && <ApprovedPopup onApprovalClick={() => setApproval(!approval)}/>}
             </div>
           </main>
         </div>

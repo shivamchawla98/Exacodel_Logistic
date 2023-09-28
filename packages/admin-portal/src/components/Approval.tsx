@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
+import { useRouter } from 'next/navigation';
+import { BiErrorCircle } from 'react-icons/bi';
 
 const WAITING_FOR_APPROVAL_QUERY = gql`
   query {
@@ -40,6 +42,8 @@ mutation ApproveUser($userId: Int!, $input: UpdateapprovedUsertype!) {
 }
 `;
 
+
+
 export default function Approval({ index, onApproveClick, isApproved }: any) {
   const { loading, error, data } =  useQuery(WAITING_FOR_APPROVAL_QUERY);
   const [editMode, setEditMode] = useState(false);
@@ -48,12 +52,39 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
   const [userType, setUserType] = useState("");
   const [gst_no, setGstNo] = useState(""); 
   const [Id, setUserId] = useState<any>("");
+  const [showAlert, setShowAlert] = useState(false);
   const [attachments, setAttachments] = useState<any[]>([
     { name: 'GST_certificate.pdf', size: '2.4mb' },
     { name: 'pan_Card.pdf', size: '4.5mb' },
     { name: 'sample.docx', size: '1.8mb' },
     { name: 'sample2.docx', size: '1.8mb' }, // Add more attachments as needed
   ]);
+
+  function Alert() {
+    return (
+      <div className="rounded-md bg-red-50 p-4 cursor-pointer">
+        <div
+        onClick={() => {
+          setShowAlert(false);
+        }}
+        className="flex">
+          <div className="flex-shrink-0">
+            <BiErrorCircle className="h-5 w-5 text-red-400" aria-hidden="true" />
+          </div>
+          <div className="ml-3">
+            <h3 className="text-sm font-medium text-red-800">Error caused in Approve</h3>
+            <div className="my-2 text-sm text-red-700">
+              <ul role="list" className="list-disc space-y-1 pl-5">
+                <li>Some fields are left for filling</li>
+                <li>Or you have entered wrong inputs in the fields</li>
+              </ul>
+            </div>
+            <h3 className="text-base font-medium text-green-800">Click On alert and continue Approving</h3>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
@@ -145,10 +176,12 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
         },
       });
       isApproved()
+      onApproveClick()
       console.log("aaproval data : ", approvalData);
-      
+ 
 
     } catch (error) {
+      setShowAlert(true);
       console.error(error);
     }
     console.log("GraphQL Query:", APPROVE_USER_MUTATION?.loc?.source?.body);
@@ -156,6 +189,7 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
 
   return (
     <div className=' '>
+       {showAlert && <Alert />}
       <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
         <div
           className="absolute left-1/2 right-0 top-0 -z-10 -ml-24 transform-gpu overflow-hidden blur-3xl lg:ml-24 xl:ml-48"
@@ -175,7 +209,6 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
             <button
             onClick={() => {
               handleApprove()
-              // onApproveClick()
             }}
             type="button" className="bg-sky-600 hover:bg-sky-700 text-white rounded-md shadow-md py-2 px-2">
               Approve<span className="sr-only">, Approve </span>

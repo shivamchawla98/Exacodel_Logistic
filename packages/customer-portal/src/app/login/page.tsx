@@ -36,8 +36,35 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
+import { XCircleIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react';
+
+export function Alert() {
+  const router = useRouter();
+  return (
+    <div className="rounded-md bg-red-50 p-4 cursor-pointer">
+      <div
+      onClick={() => {
+        router.push("./")
+      }}
+      className="flex">
+        <div className="flex-shrink-0">
+          <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+        </div>
+        <div className="ml-3">
+          <h3 className="text-sm font-medium text-red-800">Please wait for your approval, we will send you mail when you are approved</h3>
+          <h3 className="text-sm font-medium text-red-800">If not registered please register to move forward</h3>
+          <h3 className="text-base font-medium text-green-800">Click On alert to move to home page</h3>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
 function Page() {
   const router = useRouter();
+  const [showAlert, setShowAlert] = useState(false)
   const { email, password } = useSelector((state: any) => state.form);
   const { signUpClicked } = useSelector((state: any) => state.selectForm);
   const [login] = useMutation(LOGIN_MUTATION);
@@ -60,6 +87,7 @@ function Page() {
           password: values.password,
         },
       });
+      
       
       // Handle the response as needed
       console.log("Mutation response:", response.data);
@@ -86,6 +114,9 @@ function Page() {
       // You may want to perform actions like setting tokens or redirecting on success
     } catch (error) {
       // Handle any errors
+      // console.log(error);
+      setShowAlert(true);
+
       console.error("Mutation error:", error);
     }
 
@@ -96,6 +127,7 @@ function Page() {
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <RolePopup />
+      {showAlert && <Alert /> }
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -202,3 +234,7 @@ function Page() {
 }
 
 export default Page;
+// function userState(arg0: boolean): [any, any] {
+//   throw new Error('Function not implemented.');
+// }
+
