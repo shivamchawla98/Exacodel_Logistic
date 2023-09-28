@@ -32,7 +32,7 @@ const tools = [
   { name: 'Logistic Map', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
 ]
 
-function classNames(...classes) {
+function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 const callsToAction = [

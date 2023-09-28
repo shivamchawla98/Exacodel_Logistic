@@ -17,8 +17,6 @@ import { decode } from 'punycode';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation'
 
-const secretKey = 'secret';
-
 
 
 
@@ -39,7 +37,7 @@ const validationSchema = Yup.object().shape({
 import { XCircleIcon } from '@heroicons/react/20/solid'
 import { useState } from 'react';
 
-export function Alert() {
+function Alert() {
   const router = useRouter();
   return (
     <div className="rounded-md bg-red-50 p-4 cursor-pointer">
