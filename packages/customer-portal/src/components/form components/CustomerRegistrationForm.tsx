@@ -1,6 +1,6 @@
 'use client';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
-import React from 'react';
+import { ErrorMessage, Field, Form, Formik, useFormikContext } from 'formik';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
 import SubmitButtons from './SubmitButtons';
@@ -34,6 +34,7 @@ import {    setBillingCode,
   reset} from '../../features/customerRegForm/customerRegForm-slice'
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
+import axios from 'axios'
 
 
   const FINAL_REGISTRATION_MUTATION = gql`
@@ -82,6 +83,7 @@ const validationSchema = Yup.object({
 function CustomerRegistrationForm() {
   const { userType, identification } = useSelector((state: any) => state.starterSlice)
   const { email, userId } = useSelector((state: any) => state.user)
+  const [apiResponse, setApiResponse] = useState(false);
   const [finalRegistration] = useMutation(
     FINAL_REGISTRATION_MUTATION
   );
@@ -186,6 +188,38 @@ function CustomerRegistrationForm() {
  
   };
 
+
+  const handleButtonClick = async ( values: any) => {
+    // Access formik.values to get the current form values
+    
+    
+    const options = {
+      method: 'GET',
+      url: 'https://gst-details-api-documentation.p.rapidapi.com/GetGSTDetails',
+      params: {
+        GST: values.gst,
+      },
+      // abhi: c483e89227mshdfc3034632465e6p1b7c58jsna6081d0bc39f key
+      headers: {
+        'X-RapidAPI-Key': '1e813430e5msh40d34a4b2c7d493p14bb1bjsn9c0bf76d2618',
+        'X-RapidAPI-Host': 'gst-details-api-documentation.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      if (response) {
+        values.region = response.data[3][1];
+        values.companyName = response.data[5][1];
+        setApiResponse(true)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    // Perform actions with the values as needed
+  };
+
   return (
     <div className='lg:w-2/3 mx-auto shadow-md rounded-lg my-10'>
       <h2 className="text-xl font-semibold leading-7 text-gray-700 text-center pt-11">
@@ -196,7 +230,29 @@ function CustomerRegistrationForm() {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
+        {({ isSubmitting, values }: any) => (
         <Form className=" lg:p-16 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
+          
+          {/* gst numer */}
+          <div>
+            <TextField id={'gst'} title={'GST Number'} type={'text'} />
+          </div>
+          {!apiResponse &&
+          
+          <button
+      
+            type="button"
+            onClick={() => handleButtonClick(values)}
+            className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+          >
+            Save GST
+          </button>
+          
+          }
+
+{apiResponse &&  (<>
+
+
           {/* billing Code of a company */}
           <div>
             <label
@@ -392,11 +448,6 @@ function CustomerRegistrationForm() {
             />
           </div>
 
-          {/* gst numer */}
-          <div>
-            <TextField id={'gst'} title={'GST Number'} type={'text'} />
-          </div>
-
           {/* firstName */}
           <div>
             <TextField id={'firstName'} title={'First Name'} type={'text'} />
@@ -460,7 +511,7 @@ function CustomerRegistrationForm() {
           <TextField id={'website'} title={'Comapny Website'} type={'text'} />
           </div>
 
-          {/* contact end */}
+                    {/* contact end */}
 
           {/* buttons */}
           <div className="end-end-2">
@@ -496,7 +547,11 @@ function CustomerRegistrationForm() {
               </button>
             </div>
           </div>
-        </Form>
+          </>)
+}
+
+
+        </Form>)}
       </Formik>
     </div>
   );

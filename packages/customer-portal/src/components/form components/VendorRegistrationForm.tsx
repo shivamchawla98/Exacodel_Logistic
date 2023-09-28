@@ -1,7 +1,7 @@
 'use client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import countries from '../../components/data/country';
 import SelectComponet from '../../components/form components/SelectComponent';
@@ -35,6 +35,7 @@ import FormWrapper from '@/components/FormWrapper';
 import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
+import axios from 'axios';
 
 const validationSchema = Yup.object({
   companyBillingCode: Yup.string().required('Enter Billing Code'),
@@ -85,10 +86,12 @@ mutation FinalRegistration(
 `;
 
 
+
 function VendorRegistrationForm() {
     const dispatch = useDispatch();
     const { userType, identification } = useSelector((state: any) => state.starterSlice)
     const { email, userId } = useSelector((state: any) => state.user)
+    const [apiResponse, setApiResponse] = useState(false);
     // const {  companyBillingCode,
     //     companyRegistrationNumber,
     //     userType,
@@ -134,6 +137,39 @@ function VendorRegistrationForm() {
   const [finalRegistration] = useMutation(
     FINAL_REGISTRATION_MUTATION
   );
+
+  const handleButtonClick = async ( values: any) => {
+    // Access formik.values to get the current form values
+    
+    
+    const options = {
+      method: 'GET',
+      url: 'https://gst-details-api-documentation.p.rapidapi.com/GetGSTDetails',
+      params: {
+        GST: values.gst
+      },
+      // abhi : c483e89227mshdfc3034632465e6p1b7c58jsna6081d0bc39f key
+      // abhi : gst-details-api-documentation.p.rapidapi.com host
+      headers: {
+        'X-RapidAPI-Key': '1e813430e5msh40d34a4b2c7d493p14bb1bjsn9c0bf76d2618',
+        'X-RapidAPI-Host': 'gst-details-api-documentation.p.rapidapi.com'
+      }
+    };
+  
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      if (response) {
+        values.region = response.data[3][1];
+        values.company = response.data[5][1];
+        setApiResponse(true)
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    // Perform actions with the values as needed
+  };
+  
 
   const handleSubmit = async (values: any) => {
     
@@ -206,7 +242,36 @@ function VendorRegistrationForm() {
         {({values}) => (
         <Form className="lg:p-16 grid lg:grid-cols-2 gap-6 p-12 gap-y-8">
           {/* billing Code of a company */}
-            
+
+                    {/* gst numer */}
+          <div >
+            <label
+              htmlFor="gst"
+              className="block text-sm font-medium leading-6 text-gray-600"
+            >
+              GST Number
+            </label>
+            <Field
+              type="text"
+              id="gst"
+              name="gst"
+              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+            />
+            <ErrorMessage className='text-xs text-rose-600' name="gst" component="span" />
+          </div>
+          {!apiResponse &&
+          
+          <button
+      
+            type="button"
+            onClick={() => handleButtonClick(values)}
+            className="mt-8 rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+          >
+            Save GST
+          </button>
+          }
+
+{apiResponse &&  (<>
           <div >
             <label
               htmlFor="companyBillingCode"
@@ -436,22 +501,6 @@ function VendorRegistrationForm() {
             />
           </div>
 
-          {/* gst numer */}
-          <div >
-            <label
-              htmlFor="gst"
-              className="block text-sm font-medium leading-6 text-gray-600"
-            >
-              GST Number
-            </label>
-            <Field
-              type="text"
-              id="gst"
-              name="gst"
-              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
-            />
-            <ErrorMessage className='text-xs text-rose-600' name="gst" component="span" />
-          </div>
 
           {/* firstName */}
           <div >
@@ -608,7 +657,7 @@ function VendorRegistrationForm() {
               Submit
             </button>
           </div>
-
+</>)}
         </Form> 
         )}
       </Formik>
