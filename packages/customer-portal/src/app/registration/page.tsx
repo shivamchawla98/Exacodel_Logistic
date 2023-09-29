@@ -15,7 +15,7 @@ import RegistrationConfPopup from '@/components/cards/RegistrationConfPopup';
 //     )
 // }
 
-function Page() {
+function Page() { 
     const [open, setOpen] = useState(true)
     const registerButtonClicked = useSelector( (state: any) => state.registerConfSlice.registerButtonClicked)
     
