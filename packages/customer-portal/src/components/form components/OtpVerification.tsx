@@ -276,7 +276,7 @@ function OtpVerification() {
             </div>
           </div>
           <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-            <p>Didn't receive the code?</p>{" "}
+            <p>Didn&apos;t receive the code?</p>{" "}
             <button
               className="flex flex-row items-center text-sky-600"
               disabled={resendDisabled}
