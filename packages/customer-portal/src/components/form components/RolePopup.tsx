@@ -7,6 +7,15 @@ import { updateSignUpclicked } from '@/features/select-form/selectForm-slice'
 import { useRouter } from 'next/navigation';
 import { companyTypes } from '../data/dropdownData'
 
+const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
+const overseasAgentSubtypes = ["FOREIGN_AGENT"];
+
+const subTypes = {
+  "CUSTOMER": companyTypes,
+  "VENDOR": vendorSubtype,
+  "OVERSEAS_AGENT": overseasAgentSubtypes,
+}
+
 const identifications = [
   { name: "I'm Customer", value: 'CUSTOMER', current: true },
   { name: "I'm Overseas Agent", value: 'OVERSEAS_AGENT', current: false },
@@ -17,7 +26,7 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function RolePopup() {
+export default function RolePopup() { 
   
   const open = useSelector((state: any) => state.selectForm.signUpClicked);
   const {identification, userType} = useSelector((state: any) => state.starterSlice);
@@ -144,7 +153,7 @@ export default function RolePopup() {
                 }}
              >
                 <option value="">Select a user type</option>
-                {companyTypes.map((type) => (
+                {Array.from(subTypes[identification]).map((type: any) => (
                   <option
                    key={type} 
                    value={type}

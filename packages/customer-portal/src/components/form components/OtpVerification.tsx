@@ -130,6 +130,9 @@ function OtpVerification() {
     const verifyAccount = async () => {
       let otp = inputRefs.current.map((ref: any) => ref.current.value).join('');
       console.log("otp", otp);
+      let customerType = identification === "CUSTOMER" ? userType : null;
+      let vendorType = identification === "VENDOR" ? userType : null;
+      let overseasType = identification === "OVERSEAS_AGENT" ? userType : null;
       
       try {
         console.log("hello");
@@ -137,9 +140,9 @@ function OtpVerification() {
           variables: {
             userInput: {
               userType: identification, // Example values, replace with your state values
-              customerSubType: userType, // Example values, replace with your state values
-              vendorSubType: null, // Example values, replace with your state values
-              overseasAgentSubType: null, // Example values, replace with your state values
+              customerSubType: customerType, // Example values, replace with your state values
+              vendorSubType: vendorType, // Example values, replace with your state values
+              overseasAgentSubType: overseasType, // Example values, replace with your state values
             },
             emailInput: {
               email: Email,

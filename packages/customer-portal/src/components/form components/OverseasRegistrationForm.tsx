@@ -157,17 +157,21 @@ function OverseasRegistrationForm() {
           input: {
             companyType: values.companyType,
             industryType: values.industryType,
-            state: values.region,
+            companyName: values.companyName,
+            state: values.region, // Assuming region corresponds to state
             city: values.city,
             country: values.country,
+            pincode: values.postalCode,
+            Address: values.streetAddress,
             company_reg_no: values.companyRegistrationNumber,
+            company_pan_no: values.panNumber,
             annualTurnover: values.turnover,
             gst_no: values.gst,
-            first_name: values.firstName,
+            first_name: values.firstName, 
             last_name: values.lastName,
             Designation: values.designation,
             mobile: values.phnNumber,
-            website: values.website,
+            website: values.website, 
           },
           userId: userId * 1,
           userInput: {
@@ -285,7 +289,7 @@ function OverseasRegistrationForm() {
           {/* user type */}
           <div>
             <SelectComponet
-              options={companyTypes}
+              options={["FOREIGN_AGENT"]}
               id={'userType'}
               title={'Select User Type'}
             />

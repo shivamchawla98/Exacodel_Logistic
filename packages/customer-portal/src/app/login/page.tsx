@@ -19,14 +19,13 @@ import { useRouter } from 'next/navigation'
 
 
 
-
 const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
+  mutation Login($loginUserInput: LoginUserInput!) {
+    login(loginUserInput: $loginUserInput) {
+      access_token
+    }
   }
 `;
-
-console.log("GraphQL Query:", LOGIN_MUTATION?.loc?.source?.body);
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -43,10 +42,10 @@ function Alert() {
   return (
     <div className="rounded-md bg-red-50 p-4 cursor-pointer">
       <div
-      onClick={() => {
-        router.push("./")
-      }}
-      className="flex">
+        onClick={() => {
+          router.push("./")
+        }}
+        className="flex">
         <div className="flex-shrink-0">
           <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
         </div>
@@ -61,12 +60,14 @@ function Alert() {
 }
 
 
-function Page() {
+function page() {
   const router = useRouter();
   const [showAlert, setShowAlert] = useState(false)
   const { email, password } = useSelector((state: any) => state.form);
   const { signUpClicked } = useSelector((state: any) => state.selectForm);
   const [login] = useMutation(LOGIN_MUTATION);
+  console.log(LOGIN_MUTATION?.loc?.source?.body);
+
   const initialValues = {
     email: email || '', // Ensure a default value if email is undefined
     password: password || '', // Ensure a default value if password is undefined
@@ -74,20 +75,24 @@ function Page() {
   const dispatch = useDispatch();
 
 
+
   const handleSubmit = async (values: any) => {
     // Handle form submission logic here
     dispatch(updateEmail(values.email));
     dispatch(updatePassword(values.password));
+    console.log("password : ", values.password);
 
     try {
       const response = await login({
         variables: {
-          email: values.email,
-          password: values.password,
+          loginUserInput: {
+            email: values.email,
+            password: values.password,
+          },
         },
       });
-      
-      
+
+
       // Handle the response as needed
       console.log("Mutation response:", response.data);
 
@@ -96,7 +101,7 @@ function Page() {
       console.log(decoded);
       Cookies.set('jwtToken', response.data.login, { expires: 7 });
       dispatch(updateIsLogedIn(true))
-      
+
       // // 'decoded' now contains the payload of the JWT token.
       // console.log(decoded);
 
@@ -105,8 +110,8 @@ function Page() {
       if ( Cookies.get('jwtToken')) {
         router.push("./")
       }
-      
-    
+
+
 
 
 
@@ -116,7 +121,7 @@ function Page() {
       // console.log(error);
       setShowAlert(true);
 
-      console.error("Mutation error:", error);
+      console.error("Mutation error: ", error);
     }
 
 
@@ -126,7 +131,7 @@ function Page() {
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <RolePopup />
-      {showAlert && <Alert /> }
+      {showAlert && <Alert />}
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -137,7 +142,56 @@ function Page() {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
-              onSubmit={handleSubmit}
+              onSubmit={async (values: any) => {
+                // Handle form submission logic here
+                dispatch(updateEmail(values.email));
+                dispatch(updatePassword(values.password));
+                console.log("password : ", values.password);
+            
+                try {
+                  const response = await login({
+                    variables: {
+                      loginUserInput: {
+                        email: values.email,
+                        password: values.password,
+                      },
+                    },
+                  });
+            
+            
+                  // Handle the response as needed
+                  console.log("Mutation response:", response.data);
+            
+            
+                  const decoded =  jwt_decode(response?.data?.login);
+                  console.log(decoded);
+                  Cookies.set('jwtToken', response.data.login, { expires: 7 });
+                  dispatch(updateIsLogedIn(true))
+            
+                  // // 'decoded' now contains the payload of the JWT token.
+                  // console.log(decoded);
+            
+                  const jwtToken = Cookies.get('jwtToken');
+                  console.log("from token : ", jwtToken);
+                  if ( Cookies.get('jwtToken')) {
+                    router.push("./")
+                  }
+            
+            
+            
+            
+            
+                  // You may want to perform actions like setting tokens or redirecting on success
+                } catch (error) {
+                  // Handle any errors
+                  // console.log(error);
+                  setShowAlert(true);
+            
+                  console.error("Mutation error: ", error);
+                }
+            
+            
+              }}
             >
               {({ setFieldValue, isSubmitting }) => (
                 <Form>
@@ -230,10 +284,8 @@ function Page() {
       </div>
     </div>
   );
+
 }
 
-export default Page;
-// function userState(arg0: boolean): [any, any] {
-//   throw new Error('Function not implemented.');
-// }
 
+export default page;

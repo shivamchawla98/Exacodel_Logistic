@@ -203,19 +203,23 @@ function VendorRegistrationForm() {
       const response = await finalRegistration({
         variables: {
           input: {
-            companyType: values.company,
+            companyType: values.companyType,
             industryType: values.industryType,
-            state: values.region,
+            companyName: values.companyName,
+            state: values.region, // Assuming region corresponds to state
             city: values.city,
             country: values.country,
+            pincode: values.postalCode,
+            Address: values.streetAddress,
             company_reg_no: values.companyRegistrationNumber,
+            company_pan_no: values.panNumber,
             annualTurnover: values.turnover,
             gst_no: values.gst,
             first_name: values.firstName,
             last_name: values.lastName,
             Designation: values.designation,
             mobile: values.phnNumber,
-            website: values.website,
+            website: values.website,    
           },
           userId: userId * 1,
           userInput: {
@@ -298,7 +302,7 @@ function VendorRegistrationForm() {
           {/* user type */}
           <div >
             <SelectComponet
-              options={companyTypes}
+              options={["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"]}
               id={'userType'}
               title={'Select User Type'}
             />

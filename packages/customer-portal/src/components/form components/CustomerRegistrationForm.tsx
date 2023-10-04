@@ -151,17 +151,23 @@ function CustomerRegistrationForm() {
 
         // to show registration confirmed popup
         dispatch(updatesRegisterButtonClicked(true))
-
+        console.log(values);
+        
+        
         try {
           const response = await finalRegistration({
             variables: {
               input: {
                 companyType: values.companyType,
                 industryType: values.industryType,
+                companyName: values.companyName,
                 state: values.region, // Assuming region corresponds to state
                 city: values.city,
                 country: values.country,
+                pincode: values.postalCode,
+                Address: values.streetAddress,
                 company_reg_no: values.companyRegistrationNumber,
+                company_pan_no: values.panNumber,
                 annualTurnover: values.turnover,
                 gst_no: values.gst,
                 first_name: values.firstName,
