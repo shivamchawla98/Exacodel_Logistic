@@ -3,7 +3,7 @@ import image from "../../../asset/images/descript.jpg";
 
 function Descript() {
   return (
-    <main>
+    <main className="relative isolate w-full mx-auto">
     <div className="relative isolate">
       <svg
         className="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-gray-200 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"

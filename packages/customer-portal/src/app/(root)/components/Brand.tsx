@@ -25,49 +25,56 @@ function Brand() {
 
   return (
     <section className="bg-white py-24">
-      <div className="container mx-auto">
+      {/* <div className="container mx-auto"> */}
         <div className="w-full">
           {/* <Slider {...sliderSettings} > */}
-            <div className="px-4">
-              <LogoImg
-                href="#"
-                alt="Brand Image"
-                imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/graygrids.svg"
-                // Use your sky-500 color for background, text, or border
-                className="bg-sky-500 text-white rounded-lg p-4"
-              />
+          <div className="bg-gray-200 py-8">
+            <div className="container mx-auto">
+              <div className="flex justify-center">
+                <div className="logo-slider flex space-x-4 items-center overflow-x-auto">
+                  <div className="logo-item">
+                    <LogoImg
+                      href="#"
+                      alt="Brand Image"
+                      imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/graygrids.svg"
+                      // Use your sky-500 color for background, text, or border
+                      className="bg-sky-500 text-white rounded-lg p-4"
+                    />
+                  </div>
+                  <div className="logo-item">
+                    <LogoImg
+                      href="#"
+                      alt="Brand Image"
+                      imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/lineicons.svg"
+                      // Use your sky-500 color for background, text, or border
+                      className="bg-sky-500 text-white rounded-lg p-4"
+                    />
+                  </div>
+                  <div className="logo-item">
+                    <LogoImg
+                      href="#"
+                      alt="Brand Image"
+                      imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/uideck.svg"
+                      // Use your sky-500 color for background, text, or border
+                      className="bg-sky-500 text-white rounded-lg p-4"
+                    />
+                  </div>
+                  <div className="logo-item">
+                    <LogoImg
+                      href="#"
+                      alt="Brand Image"
+                      imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/ayroui.svg"
+                      // Use your sky-500 color for background, text, or border
+                      className="bg-sky-500 text-white rounded-lg p-4"
+                    />
+                  </div>
+                  {/* Add more LogoImg components here if needed */}
+                </div>
+              </div>
             </div>
-            <div className="px-4">
-              <LogoImg
-                href="#"
-                alt="Brand Image"
-                imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/lineicons.svg"
-                // Use your sky-500 color for background, text, or border
-                className="bg-sky-500 text-white rounded-lg p-4"
-              />
-            </div>
-            <div className="px-4">
-              <LogoImg
-                href="#"
-                alt="Brand Image"
-                imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/uideck.svg"
-                // Use your sky-500 color for background, text, or border
-                className="bg-sky-500 text-white rounded-lg p-4"
-              />
-            </div>
-            <div className="px-4">
-              <LogoImg
-                href="#"
-                alt="Brand Image"
-                imgSrc="https://cdn.tailgrids.com/1.0/assets/images/brands/ayroui.svg"
-                // Use your sky-500 color for background, text, or border
-                className="bg-sky-500 text-white rounded-lg p-4"
-              />
-            </div>
-            {/* Add more LogoImg components here if needed */}
-          {/* </Slider> */}
+            {/* </Slider> */}
+          </div>
         </div>
-      </div>
     </section>
   );
 }

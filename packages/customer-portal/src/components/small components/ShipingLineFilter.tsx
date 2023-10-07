@@ -40,7 +40,7 @@ function ShipingLineFilter() {
   };
 
   return (
-    <div className="flex justify-center flex-col mt-11 md:ml-8 rounded-lg ">
+    <div className="flex justify-center flex-col mt-11 rounded-lg ">
       <p className="text-xl font-medium text-gray-900 dark:text-white text-center pb-4 pt-4">
         Shipping Lines
       </p>

@@ -1,9 +1,47 @@
 import { FireIcon } from "@heroicons/react/24/outline";
 import DealCard from "./DealCard";
 import IndianFlag from "../indiaFlag.png";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 function HotDeals() {
   const testDataForOffer = [1, 2, 3, 4];
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000, // Adjust the autoplay speed (in milliseconds)
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  };
 
   return (
     <section className="pt-40 pb-40 bg-gradient-to-br from-white to-sky-100 w-full">
@@ -16,7 +54,8 @@ function HotDeals() {
         Import Offers
       </h3>
 
-      <div className="flex justify-center flex-wrap">
+      <div className="blog-card-slider w-full">
+      <Slider {...settings} className="lg:w-11/12 mx-auto flex justify-center">
         {testDataForOffer.map((e) => (
           <DealCard
             key={e}
@@ -26,13 +65,16 @@ function HotDeals() {
             amount={40}
           />
         ))}
+         </Slider>
       </div>
 
       {/* export offer */}
       <h3 className="mb-4 text-xl font-semibold tracking-tight leading-none md:text-2xl xl:text-2xl text-gray-700 text-center pt-12">
         Export Offers
       </h3>
-      <div className="flex justify-center flex-wrap">
+      <div className="blog-card-slider w-full">
+         
+      <Slider {...settings} className="lg:w-11/12 mx-auto flex justify-center">
         {testDataForOffer.map((e) => (
           <DealCard
             key={e}
@@ -42,6 +84,7 @@ function HotDeals() {
             amount={40}
           />
         ))}
+         </Slider>
       </div>
     </section>
   );

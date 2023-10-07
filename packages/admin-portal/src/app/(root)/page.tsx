@@ -12,15 +12,20 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
+  CursorArrowRaysIcon,
+  UserGroupIcon,
+  
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import Vendors from './components/Vendors'
 import Approval from '@/components/Approval'
 import ApprovedPopup from './components/ApprovedPopup'
 import { useRouter } from 'next/navigation'
+import Approved from '@/components/Approved'
 
 const navigation = [
-  { name: 'Vendor', href: '#', icon: HomeIcon, current: true },
+  { name: 'Vendor', href: '#', icon: CursorArrowRaysIcon, current: true },
+  { name: 'Approved', href: '#', icon: UserGroupIcon, current: false },
 ]
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
@@ -42,6 +47,14 @@ export default function Home() {
   const [approvalIndex, setApprovalIndex] = useState(0);
   const [aprroved, setApproved] = useState(false)
   const router = useRouter();
+  const [activeNavItem, setActiveNavItem] = useState('vendor'); // Initial active menu item
+  const [isVendor, setIsVendor] = useState(true);
+  const [isApproved, setIsApproved] = useState(false);
+
+  const handleMenuItemClick = (itemName: any) => {
+    setActiveNavItem(itemName);
+    setApproval(false);
+  };
 
   return (
     <>
@@ -168,33 +181,51 @@ export default function Home() {
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
-                    {navigation.map((item) => (
-                      <li
-                      id={item.name}
-                      onClick={(e) => {
-                        navigation.map((nav) => {nav.name === e.currentTarget.id ? nav.current = true : nav.current = false})
-                      }}
-                      key={item.name}>
+                   
+                      <li>
                         <button
-                          onClick={() =>setApproval(false) }
-                          className={classNames(
-                            item.current
-                              ? 'bg-gray-50 text-sky-600'
-                              : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50',
-                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full'
-                          )}
+                          onClick={() => {
+                            setActiveNavItem("vendor")
+                            setIsVendor(true);
+                            setIsApproved(false)
+                            setApproval(false) }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "vendor"  ? 'bg-gray-50 text-sky-600'
+                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
                         >
-                          <item.icon
+                          <CursorArrowRaysIcon
                             className={classNames(
-                              item.current ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                              activeNavItem === "vendor" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
                               'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
                           />
-                          {item.name}
+                          Vendors
                         </button>
                       </li>
-                    ))}
+
+
+                      <li>
+                        <button
+                          onClick={() => {
+                            setActiveNavItem("approved")
+                            setIsVendor(false);
+                            setIsApproved(true);
+                           }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "approved"  ? 'bg-gray-50 text-sky-600'
+                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                        >
+                          <UserGroupIcon
+                            className={classNames(
+                              activeNavItem === "approved" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                              'h-6 w-6 shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                          Approved
+                        </button>
+                      </li>
                   </ul>
                 </li>
                 <li className="mt-auto">
@@ -224,8 +255,8 @@ export default function Home() {
             {/* Separator */}
             <div className="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              <form className="relative flex flex-1" action="#" method="GET">
+            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
+              {/* <form className="relative flex flex-1" action="#" method="GET">
                 <label htmlFor="search-field" className="sr-only">
                   Search
                 </label>
@@ -240,7 +271,7 @@ export default function Home() {
                   type="search"
                   name="search"
                 />
-              </form>
+              </form> */}
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                   <span className="sr-only">View notifications</span>
@@ -301,10 +332,13 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-               {!approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               { approval && <Approval index={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
-                />}
-               {aprroved && <ApprovedPopup onApprovalClick={() => router.refresh()}/>}
+               {isVendor && !approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
+               {isVendor && approval && <Approval index={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+                />} 
+               {isVendor && aprroved && <ApprovedPopup onApprovalClick={() => router.refresh()}/>}
+
+               {isApproved && <Approved />}
+            
             </div>
           </main>
         </div>
