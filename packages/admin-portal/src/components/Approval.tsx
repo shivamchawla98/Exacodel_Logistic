@@ -91,7 +91,7 @@ const userTypes = [
 
 
 export default function Approval({ index, onApproveClick, isApproved }: any) {
-  
+
   const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
@@ -109,12 +109,11 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
 
   useEffect(() => {
     if (!loading && data && data.listInitialRegistrations) {
-      console.log(data.listInitialRegistrations);
+
+      const listInitialRegistrations = data.listInitialRegistrations[index * 1];
+      console.log("list of intitial users ", listInitialRegistrations.id);
       
-      const listInitialRegistrations = data.listInitialRegistrations[index*1];
-      console.log("list of data : ", listInitialRegistrations);
-      
-      setUserId(listInitialRegistrations.id);
+      setUserId(listInitialRegistrations.id * 1);
       setUserType(listInitialRegistrations.userType);
       setGstNo(listInitialRegistrations.gst_no);
 
@@ -185,17 +184,24 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
   }
 
   const handleApprove = async () => {
+    console.log("Id : ", Id);  
+    
     try {
       const { data: approvalData } = await approveUser({
         variables: {
           userId: Id * 1,
           input: {
             companyType: selectedCompanyType,
+            Approveduser: "Approved",
             industryType: selectedIndustryType,
             state: formData['State'],
+            pincode: formData['Pincode'],
+            Address: formData['Address'],
             city: formData['City'],
             country: formData['Country'],
             company_reg_no: formData['Company Registration Number'],
+            company_name: 'Sample Company Name',
+            company_pan_no: formData['Company Pan Number'],
             annualTurnover: selectedAnnualTurnover,
             gst_no: gst_no,
             first_name: formData['Full name'].split(' ')[0],
@@ -208,15 +214,20 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
             userType: userType,
             customerSubType: formData['Customer Type'],
             vendorSubType: formData['Vendor Type'],
-            overseasSubType: formData['Overseas Type'],
+            overseasAgentSubType: formData['Overseas Type'],
+            remarks: 'Sample Remarks',
           },
         },
       });
+      console.log("GraphQL Query:", APPROVE_USER_MUTATION?.loc?.source?.body);
       isApproved();
+      console.log("this is : ", data);
+
+
       onApproveClick();
     } catch (error) {
       setShowAlert(true);
-      console.error(error);
+      console.error("error : ",error);
     }
   }
 

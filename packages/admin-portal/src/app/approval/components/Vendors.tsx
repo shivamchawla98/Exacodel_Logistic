@@ -30,7 +30,7 @@ const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORT
 const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
 const overseasSubtype = ["FOREIGN_AGENT"];
 
-function Vendors({ onApprovalClick, setApprovalIndex }: any) {
+function Vendors({ onApprovalClick, setApprovalIndex}: any) {
   const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
   const [isLoading, setIsLoading] = useState(true);
   const [userTypeFilter, setUserTypeFilter] = useState("All");
@@ -195,7 +195,7 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
                               <button
                                 onClick={() => {
                                   console.log("vendor : ",index);
-                                  
+                        
                                   setApprovalIndex(index);
                                   onApprovalClick();
                                 }}
