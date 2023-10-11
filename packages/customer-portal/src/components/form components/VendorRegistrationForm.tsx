@@ -204,22 +204,22 @@ function VendorRegistrationForm() {
         variables: {
           input: {
             companyType: values.companyType,
-            industryType: values.industryType,
+            industryType:  values.industryType,
             companyName: values.companyName,
-            state: values.region, // Assuming region corresponds to state
-            city: values.city,
-            country: values.country,
+            state: values.region,
             pincode: values.postalCode,
             Address: values.streetAddress,
+            city: values.city,
+            country: values.country,
             company_reg_no: values.companyRegistrationNumber,
             company_pan_no: values.panNumber,
-            annualTurnover: values.turnover,
-            gst_no: values.gst,
+            gst_no:  values.gst,
             first_name: values.firstName,
             last_name: values.lastName,
+            annualTurnover:  values.turnover,
             Designation: values.designation,
             mobile: values.phnNumber,
-            website: values.website,    
+            website: values.website, 
           },
           userId: userId * 1,
           userInput: {
@@ -299,14 +299,14 @@ function VendorRegistrationForm() {
             <ErrorMessage className='text-xs text-rose-600' name="companyBillingCode" component="span" />
           </div>
 
-          {/* user type */}
+          {/* user type
           <div >
             <SelectComponet
               options={["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"]}
               id={'userType'}
               title={'Select User Type'}
             />
-          </div>
+          </div> */}
 
           {/* companyType */}
           <div >

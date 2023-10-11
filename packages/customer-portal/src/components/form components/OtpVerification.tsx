@@ -6,10 +6,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { updateUserId } from "@/features/user/user-slice";
-import { updateSignUpclicked } from '@/features/select-form/selectForm-slice'
+import { updateSignUpclicked, updateSendOtpClicked } from '@/features/select-form/selectForm-slice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the styles
-
 
 const SEND_OTP_MUTATION = gql`
   mutation SendOTP($email: String!) {
@@ -25,6 +24,38 @@ const INITIAL_REGISTRATION_MUTATION = gql`
   }
 `;
 
+const CountdownTimer = ({ timer }: any) => {
+  const [countdown, setCountdown] = useState(timer);
+
+  useEffect(() => {
+    let interval;
+
+    if (countdown > 0) {
+      interval = setInterval(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [countdown]);
+
+  return (
+    <div className="flex w-full justify-evenly mt-4 items-center mx-auto text-sm font-semibold">
+      <div className="w-8 h-8 rounded-full flex justify-center items-center bg-sky-500 text-white font-semibold text-center">
+        {countdown > 0 ? countdown : ""}
+      </div>
+      {countdown > 0 ? (
+        <span className="text-sky-500">seconds remaining</span>
+      ) : (
+        <span className="text-sky-500">Resend available</span>
+      )}
+    </div>
+  );
+};
+
+
 function OtpVerification() {
   const email = useSelector((state: any) => state.user.email);
   const { identification, userType } = useSelector((state: any) => state.starterSlice);
@@ -32,7 +63,7 @@ function OtpVerification() {
   const [resendDisabled, setResendDisabled] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [verificationLoading, setVerificationLoading] = useState(false);
-  // const signupclicked = useSelector((state: any) => state.selectForm.signUpClicked)
+  const [timer, setTimer] = useState(0); // Added timer state
 
   const dispatch = useDispatch();
   const inputRefs: any = useRef(Array(4).fill(0).map(() => React.createRef()));
@@ -43,9 +74,25 @@ function OtpVerification() {
   const [sendOTPMutation] = useMutation(SEND_OTP_MUTATION);
   const [initialRegistration] = useMutation(INITIAL_REGISTRATION_MUTATION);
 
-  const [isEmailSubmitting, setIsEmailSubmitting] = useState(false); // Added state for email submission loading
+  const [isEmailSubmitting, setIsEmailSubmitting] = useState(false);
 
-  console.log("GraphQL Query:", INITIAL_REGISTRATION_MUTATION?.loc?.source?.body);
+  useEffect(() => {
+    if (resendDisabled) {
+      const timerInterval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      return () => {
+        clearInterval(timerInterval);
+      };
+    }
+  }, [resendDisabled]);
+
+  useEffect(() => {
+    if (timer <= 0) {
+      setResendDisabled(false);
+    }
+  }, [timer]);
 
   const handleOtpChange = (e: any, index: any) => {
     const value = e.target.value;
@@ -63,7 +110,9 @@ function OtpVerification() {
     console.log("Email entered:", values.email);
   };
 
+  // resend functionality
   async function reSend() {
+    clearOtpFields();
     try {
       const response = await sendOTPMutation({
         variables: {
@@ -71,15 +120,16 @@ function OtpVerification() {
         },
       });
 
+      console.log("Email : ", Email);
+
       console.log(response?.data?.sendOTP);
 
       if (response?.data?.sendOTP === "OTP sent successfully") {
         setSendOtpClicked(true);
         setResendDisabled(true);
+
         setOtpSent(true);
-        setTimeout(() => {
-          setResendDisabled(false);
-        }, 120000); // 2 minutes
+        setTimer(120); // Set the timer to 2 minutes
       }
     } catch (error) {
       console.log(error);
@@ -87,15 +137,12 @@ function OtpVerification() {
   }
 
   const handleEmailSubmit = async (values: any) => {
-
-
     if (userType === '') {
       dispatch(updateSignUpclicked(true));
-      alert("Please Enter Indentification and User type")
-      return
+      alert("Please Enter Identification and User type");
+      return;
     }
-    setIsEmailSubmitting(true); // Start email submission loading
-
+    setIsEmailSubmitting(true);
 
     dispatch(updateEmail(values.email));
     setEmail(values.email);
@@ -110,76 +157,67 @@ function OtpVerification() {
       console.log(response?.data?.sendOTP);
 
       if (response?.data?.sendOTP === "OTP sent successfully") {
+        dispatch(updateSendOtpClicked(true));
         setSendOtpClicked(true);
         setResendDisabled(true);
         setOtpSent(true);
-        setTimeout(() => {
-          setResendDisabled(false);
-        }, 120000); // 2 minutes
+        setTimer(120); // Set the timer to 2 minutes
       }
     } catch (error) {
       console.log(error);
-      
     } finally {
-      setIsEmailSubmitting(false); // Stop email submission loading
+      setIsEmailSubmitting(false);
     }
   };
 
+  const verifyAccount = async () => {
+    let otp = inputRefs.current.map((ref: any) => ref.current.value).join('');
+    console.log("otp", otp);
+    let customerType = identification === "CUSTOMER" ? userType : null;
+    let vendorType = identification === "VENDOR" ? userType : null;
+    let overseasType = identification === "OVERSEAS_AGENT" ? userType : null;
 
-    // verify account 
-    const verifyAccount = async () => {
-      let otp = inputRefs.current.map((ref: any) => ref.current.value).join('');
-      console.log("otp", otp);
-      let customerType = identification === "CUSTOMER" ? userType : null;
-      let vendorType = identification === "VENDOR" ? userType : null;
-      let overseasType = identification === "OVERSEAS_AGENT" ? userType : null;
-      
-      try {
-        console.log("hello");
-        const response = await initialRegistration({
-          variables: {
-            userInput: {
-              userType: identification, // Example values, replace with your state values
-              customerSubType: customerType, // Example values, replace with your state values
-              vendorSubType: vendorType, // Example values, replace with your state values
-              overseasAgentSubType: overseasType, // Example values, replace with your state values
-            },
-            emailInput: {
-              email: Email,
-              otp: otp,
-            },
+    try {
+      const response = await initialRegistration({
+        variables: {
+          userInput: {
+            userType: identification,
+            customerSubType: customerType,
+            vendorSubType: vendorType,
+            overseasAgentSubType: overseasType,
           },
-        });
-        // const response = await sendOTPMutation({
-        //   variables: {
-        //     email: "chawlas12456@gmail.com"
-        //   }
-        // })
-  
-        // Data contains the response from the mutation
-        console.log('Registration Data:', response.data.initialRegistration.id);
-        dispatch(updateUserId( response.data.initialRegistration.id*1))
-        
-        dispatch(updateFormName("passCreation"))
-      } catch (error: any) {
-        // Handle any errors that occur during the mutation
-        toast.error('OTP not matched', {
-          position: toast.POSITION.TOP_CENTER,
-        });
+          emailInput: {
+            email: Email,
+            otp: otp,
+          },
+        },
+      });
 
-        console.error('Error during registration:', error);
+      dispatch(updateUserId(response.data.initialRegistration.id * 1));
+      dispatch(updateFormName("passCreation"));
+    } catch (error: any) {
+      toast.error('OTP not matched', {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      console.error('Error during registration:', error);
+    }
+  };
+
+  const clearOtpFields = () => {
+    // Loop through the inputRefs and set the value of each input to an empty string
+    inputRefs.current.forEach((inputRefs: any) => {
+      if (inputRefs.current) {
+        inputRefs.current.value = '';
       }
-    };
-  
-
-  
+    });
+  };
 
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <ToastContainer />
       <div className="relative py-3 sm:max-w-lg sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+        <div className="absolute max-w-md inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="relative px-4 max-w-md  py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="flex flex-col items-center justify-center text-center space-y-2">
             <div className="font-semibold text-3xl">
               <p>Email Verification</p>
@@ -212,13 +250,28 @@ function OtpVerification() {
                             </div>
                           ))}
                         </div>
+                        <div className={`flex flex-row items-center mt-4 justify-evenly text-center text-sm font-medium space-x-1 ${resendDisabled ? "text-gray-300" : "text-gray-500"}`}>
+                          <p>Didn&apos;t receive the code?</p>{" "}
+                          <button
+                            className={`flex flex-row items-center ${resendDisabled ? "text-sky-200" : "text-sky-600"} `}
+                            disabled={resendDisabled}
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+
+                              reSend();
+                            }}
+                          >
+                            Resend
+                          </button>
+                        </div>
                         <div>
                           <button
                             type="submit"
-                            className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-sky-600 border-none text-white text-sm shadow-sm"
+                            className="flex flex-row items-center mt-4 justify-center text-center px-4 mx-auto border rounded-lg outline-none py-4 bg-sky-600 border-none text-white text-sm font-semibold shadow-sm"
                             disabled={verificationLoading}
                           >
-                            {verificationLoading ? "Verifying..." : "Verify Account"}
+                            {isSubmitting ? "Verifying..." : "Verify Account"}
                           </button>
                         </div>
                       </Form>
@@ -255,7 +308,7 @@ function OtpVerification() {
                           className={` mt-4 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 sm:ml-3 sm:w-auto ${resendDisabled ? "bg-sky-200" : "bg-sky-500 hover:bg-sky-400"
                             }`}
                         >
-                          {isEmailSubmitting && resendDisabled ? (
+                          {isSubmitting  ? (
                             <div className="flex space-x-1 items-center">
                               <div>Loading</div>
                               <div className="animate-bounce">...</div>
@@ -278,19 +331,12 @@ function OtpVerification() {
               )}
             </div>
           </div>
-          <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
-            <p>Didn&apos;t receive the code?</p>{" "}
-            <button
-              className="flex flex-row items-center text-sky-600"
-              disabled={resendDisabled}
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                reSend();
-              }}
-            >
-              Resend
-            </button>
+
+          <div>
+            {resendDisabled && (
+              <CountdownTimer timer={timer} />
+            )}
+
           </div>
         </div>
       </div>

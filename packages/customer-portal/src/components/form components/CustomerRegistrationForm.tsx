@@ -151,30 +151,30 @@ function CustomerRegistrationForm() {
 
         // to show registration confirmed popup
         dispatch(updatesRegisterButtonClicked(true))
-        console.log(values);
+        console.log(values.companyName);
         
         
         try {
           const response = await finalRegistration({
             variables: {
               input: {
-                companyType: values.companyType,
-                industryType: values.industryType,
-                companyName: values.companyName,
-                state: values.region, // Assuming region corresponds to state
-                city: values.city,
-                country: values.country,
-                pincode: values.postalCode,
-                Address: values.streetAddress,
-                company_reg_no: values.companyRegistrationNumber,
-                company_pan_no: values.panNumber,
-                annualTurnover: values.turnover,
-                gst_no: values.gst,
-                first_name: values.firstName,
-                last_name: values.lastName,
-                Designation: values.designation,
-                mobile: values.phnNumber,
-                website: values.website,              
+                 companyType: values.companyType,
+                 industryType:  values.industryType,
+                 companyName: values.companyName,
+                 state: values.region,
+                 pincode: values.postalCode,
+                 Address: values.streetAddress,
+                 city: values.city,
+                 country: values.country,
+                 company_reg_no: values.companyRegistrationNumber,
+                 company_pan_no: values.panNumber,
+                 gst_no:  values.gst,
+                 first_name: values.firstName,
+                 last_name: values.lastName,
+                 annualTurnover:  values.turnover,
+                 Designation: values.designation,
+                 mobile: values.phnNumber,
+                 website: values.website,
               },
               userId: userId * 1,
               userInput: {
@@ -262,7 +262,7 @@ function CustomerRegistrationForm() {
 {apiResponse &&  (<>
 
 
-          {/* billing Code of a company */}
+          {/* billing Code of a company
           <div>
             <label
               htmlFor="companyBillingCode"
@@ -277,16 +277,16 @@ function CustomerRegistrationForm() {
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
             <ErrorMessage name="companyBillingCode" component="span" className="text-xs text-rose-600" />
-          </div>
+          </div> */}
 
-          {/* user type */}
+          {/* user type
           <div>
             <SelectComponet
               options={companyTypes}
               id={'userType'}
               title={'Select User Type'}
             />
-          </div>
+          </div> */}
 
           {/* companyType */}
           <div>
@@ -474,10 +474,10 @@ function CustomerRegistrationForm() {
 
           {/* contact */}
 
-          {/* email */}
+          {/* email
           <div>
             <TextField id={'email'} title={'E-Mail'} type={'text'} />
-          </div>
+          </div> */}
 
           {/* phnNumber */}
           <div>

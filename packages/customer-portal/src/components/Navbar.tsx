@@ -54,7 +54,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname();
   const hideRoutePresent = navAndFotterHidingRoute.find((item: any) => item == pathname)
-  const { signUpClicked } = useSelector((state: any) => state.selectForm)
+  const { signUpClicked, sendOtpClicked } = useSelector((state: any) => state.selectForm)
   const { isLogedIn } = useSelector((state: any) => state.form);
   const show = hideRoutePresent === undefined ? true : false;
   const dispatch = useDispatch();
@@ -299,16 +299,21 @@ console.log("isLogedIn : ", isLogedIn);
                     Log in
                   </Link>
                 </div>
-                <div
-                  onClick={() => {
-                    dispatch(updateSignUpclicked(!signUpClicked))
-                  }}
-                  className="hidden lg:flex lg:flex-1 lg:justify-end ">
-                  <button type="button" className="text-sm font-semibold  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-sky-500  text-gray-700 hover:bg-gray-100 hover:scale-95 py-1" >
-                    Sign up
-                    {/* <ArrowLongRightIcon className='text-sky-500 w-6 h-2'/> */}
-                  </button>
-                </div>
+               {
+                  !sendOtpClicked && (
+                    <div
+                    onClick={() => {
+                      dispatch(updateSignUpclicked(!signUpClicked))
+                    }}
+                    className="hidden lg:flex lg:flex-1 lg:justify-end ">
+                    <button type="button" className="text-sm font-semibold  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-sky-500  text-gray-700 hover:bg-gray-100 hover:scale-95 py-1" >
+                      Sign up
+                      {/* <ArrowLongRightIcon className='text-sky-500 w-6 h-2'/> */}
+                    </button>
+                  </div>
+                  )
+               } 
+
                 
                 </>
                 }
@@ -470,15 +475,19 @@ console.log("isLogedIn : ", isLogedIn);
                           >
                             Log in
                           </Link>
-                          <div
+                          {
+                            sendOtpClicked && (
+                              <div
+                              onClick={() => {
+                                dispatch(updateSignUpclicked(!signUpClicked))
+                              }}
+                              className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                            >
+                              Sign up
+                            </div>
+                            )
+                          }
 
-                            onClick={() => {
-                              dispatch(updateSignUpclicked(!signUpClicked))
-                            }}
-                            className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                          >
-                            Sign up
-                          </div>
                         </>)
                       }
 

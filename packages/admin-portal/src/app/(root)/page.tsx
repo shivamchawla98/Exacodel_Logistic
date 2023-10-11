@@ -1,348 +1,180 @@
-"use client"
-import { Fragment, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
-import {
-  Bars3Icon,
-  BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
-  Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  XMarkIcon,
-  CursorArrowRaysIcon,
-  UserGroupIcon,
-  
-} from '@heroicons/react/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import Vendors from './components/Vendors'
-import Approval from '@/components/Approval'
-import ApprovedPopup from './components/ApprovedPopup'
-import { useRouter } from 'next/navigation'
-import Approved from '@/components/Approved'
+'use client';
 
-const navigation = [
-  { name: 'Vendor', href: '#', icon: CursorArrowRaysIcon, current: true },
-  { name: 'Approved', href: '#', icon: UserGroupIcon, current: false },
-]
-const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
-const userNavigation = [
-  { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
+import '../globals.css';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { XCircleIcon } from '@heroicons/react/20/solid'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(' ')
+
+
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  password: Yup.string().required('Password is required'),
+});
+
+const initialValues = {
+    "email": "",
+    "password": "",
 }
 
-export default function Home() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [approval, setApproval] = useState(false)
-  const [approvalIndex, setApprovalIndex] = useState(0);
-  const [aprroved, setApproved] = useState(false)
+// types for login cred
+interface LOGIN_CRED{
+    email: string,
+    password: string,
+}
+
+// mock data
+const loginCred: LOGIN_CRED = {
+    "email": "abhishekbharti9910@gmail.com",
+    "password": "Jpbharti36@"
+}
+
+
+
+
+function Alert() {
   const router = useRouter();
-  const [activeNavItem, setActiveNavItem] = useState('vendor'); // Initial active menu item
-  const [isVendor, setIsVendor] = useState(true);
-  const [isApproved, setIsApproved] = useState(false);
-
-  const handleMenuItemClick = (itemName: any) => {
-    setActiveNavItem(itemName);
-    setApproval(false);
-  };
-
   return (
-    <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
-      <div>
-        <Transition.Root show={sidebarOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
-            <Transition.Child
-              as={Fragment}
-              enter="transition-opacity ease-linear duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity ease-linear duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <div className="fixed inset-0 bg-gray-900/80" />
-            </Transition.Child>
-
-            <div className="fixed inset-0 flex">
-              <Transition.Child
-                as={Fragment}
-                enter="transition ease-in-out duration-300 transform"
-                enterFrom="-translate-x-full"
-                enterTo="translate-x-0"
-                leave="transition ease-in-out duration-300 transform"
-                leaveFrom="translate-x-0"
-                leaveTo="-translate-x-full"
-              >
-                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-in-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in-out duration-300"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                      <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
-                        <span className="sr-only">Close sidebar</span>
-                        <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
-                      </button>
-                    </div>
-                  </Transition.Child>
-                  {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-                    <div className="flex h-16 shrink-0 items-center">
-                      <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=sky&shade=600"
-                        alt="Your Company"
-                      />
-                    </div>
-                    <nav className="flex flex-1 flex-col">
-                      <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                        <li>
-                          <ul role="list" className="-mx-2 space-y-1">
-                            {navigation.map((item) => (
-                              <li key={item.name}>
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    item.current
-                                      ? 'bg-gray-50 text-sky-600'
-                                      : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                  )}
-                                >
-                                  <item.icon
-                                    className={classNames(
-                                      item.current ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                                      'h-6 w-6 shrink-0'
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </li>
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
-                        </li>
-                      </ul>
-                    </nav>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </Dialog>
-        </Transition.Root>
-
-        {/* Static sidebar for desktop */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=sky&shade=600"
-                alt="Your Company"
-              />
-            </div>
-            <nav className="flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                   
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("vendor")
-                            setIsVendor(true);
-                            setIsApproved(false)
-                            setApproval(false) }}
-
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "vendor"  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
-                        >
-                          <CursorArrowRaysIcon
-                            className={classNames(
-                              activeNavItem === "vendor" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          Vendors
-                        </button>
-                      </li>
-
-
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("approved")
-                            setIsVendor(false);
-                            setIsApproved(true);
-                           }}
-
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "approved"  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
-                        >
-                          <UserGroupIcon
-                            className={classNames(
-                              activeNavItem === "approved" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          Approved
-                        </button>
-                      </li>
-                  </ul>
-                </li>
-                <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
-                  >
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600"
-                      aria-hidden="true"
-                    />
-                    Settings
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
+    <div className="rounded-md bg-red-50 p-4 cursor-pointer">
+      <div
+        onClick={() => {
+          router.push("./")
+        }}
+        className="flex">
+        <div className="flex-shrink-0">
+          <XCircleIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
         </div>
-
-        <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-            <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
-              <span className="sr-only">Open sidebar</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            </button>
-
-            {/* Separator */}
-            <div className="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
-
-            <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
-              {/* <form className="relative flex flex-1" action="#" method="GET">
-                <label htmlFor="search-field" className="sr-only">
-                  Search
-                </label>
-                <MagnifyingGlassIcon
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-                <input
-                  id="search-field"
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                  placeholder="Search..."
-                  type="search"
-                  name="search"
-                />
-              </form> */}
-              <div className="flex items-center gap-x-4 lg:gap-x-6">
-                <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
-                {/* Separator */}
-                <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200" aria-hidden="true" />
-
-                {/* Profile dropdown */}
-                <Menu as="div" className="relative">
-                  <Menu.Button className="-m-1.5 flex items-center p-1.5">
-                    <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
-                    <span className="hidden lg:flex lg:items-center">
-                      <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
-                        Tom Cook
-                      </span>
-                      <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                    </span>
-                  </Menu.Button>
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-100"
-                    enterFrom="transform opacity-0 scale-95"
-                    enterTo="transform opacity-100 scale-100"
-                    leave="transition ease-in duration-75"
-                    leaveFrom="transform opacity-100 scale-100"
-                    leaveTo="transform opacity-0 scale-95"
-                  >
-                    <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      {userNavigation.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <button
-                              type="button"
-                              onClick={() =>  setApproval(!approval) }
-                              className={classNames(
-                                active ? 'bg-gray-50' : '',
-                                'block px-3 py-1 text-sm leading-6 text-gray-900'
-                              )}
-                            >
-                              {item.name}
-                            </button>
-                          )}
-                        </Menu.Item>
-                      ))}
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-
-          <main className="py-10">
-            <div className="px-4 sm:px-6 lg:px-8">
-               {isVendor && !approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               {isVendor && approval && <Approval index={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
-                />} 
-               {isVendor && aprroved && <ApprovedPopup onApprovalClick={() => router.refresh()}/>}
-
-               {isApproved && <Approved />}
-            
-            </div>
-          </main>
+        <div className="ml-3">
+          <h3 className="text-sm font-medium text-red-800">Please wait for your approval, we will send you mail when you are approved</h3>
+          <h3 className="text-sm font-medium text-red-800">If not registered please register to move forward</h3>
+          <h3 className="text-base font-medium text-green-800">Click On alert to move to home page</h3>
         </div>
       </div>
-    </>
+    </div>
   )
 }
+
+
+
+
+function page() {
+  const router = useRouter();
+  const [showAlert, setShowAlert] = useState(false)
+  const { email, password } = loginCred;
+
+
+
+  // api login logic ends and login ui starts
+
+  return (
+    <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
+      {showAlert && <Alert />}
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+          <div className="max-w-md mx-auto">
+            <div>
+              <h1 className="text-2xl font-semibold">Login Form</h1>
+            </div>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={async (values: any) => {
+                
+                if (email == values.email && password === values.password) {
+                    router.push("/approval")
+                }
+                else {
+                    setShowAlert(true)
+                }
+            
+              }}
+            >
+              {({ setFieldValue, isSubmitting }) => (
+                <Form>
+                  <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                    <div className="relative">
+                      <Field
+                        autoComplete="off"
+                        id="email"
+                        name="email"
+                        type="text"
+                        className="peer placeholder-transparent text-sm h-10 w-full border-b-2 border-gray-300 text-gray-700 focus:outline-none focus:border-sky-500"
+                        placeholder="Email address"
+                      // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(email, e.target.value) }
+                      // value={email}
+                      />
+                      <label
+                        htmlFor="email"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        Email Address
+                      </label>
+                      <ErrorMessage
+                        name="email"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
+                    </div>
+                    <div className="relative">
+                      <Field
+                        autoComplete="off"
+                        id="password"
+                        name="password"
+                        type="password"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-500"
+                        placeholder="Password"
+                      // value={password}
+                      // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(password, e.target.value) }
+                      />
+                      <label
+                        htmlFor="password"
+                        className="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
+                      >
+                        Password
+                      </label>
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="text-red-500 text-sm"
+                      />
+                    </div>
+                    <div className="relative">
+                      <button
+                        type="submit"
+                        className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? 'Loging in...' : 'Login'}
+                      </button>
+                    </div>
+                    <div>
+                      <p className="mb-0 mt-2 pt-1 text-sm font-medium">
+                        <Link
+                          href="/registration"
+                          className="text-danger transition text-xs duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
+                        >
+                          Forget password !
+                        </Link>
+                      </p>
+                    </div>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+}
+
+
+export default page;

@@ -18,8 +18,8 @@ const subTypes = {
 
 const identifications = [
   { name: "I'm Customer", value: 'CUSTOMER', current: true },
-  { name: "I'm Overseas Agent", value: 'OVERSEAS_AGENT', current: false },
   { name: "I'm Vendor", value: 'VENDOR', current: false },
+  // { name: "I'm Overseas Agent", value: 'OVERSEAS_AGENT', current: false },
 ]
 
 function classNames(...classes: any[]) {

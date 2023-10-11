@@ -156,22 +156,22 @@ function OverseasRegistrationForm() {
         variables: {
           input: {
             companyType: values.companyType,
-            industryType: values.industryType,
+            industryType:  values.industryType,
             companyName: values.companyName,
-            state: values.region, // Assuming region corresponds to state
-            city: values.city,
-            country: values.country,
+            state: values.region,
             pincode: values.postalCode,
             Address: values.streetAddress,
+            city: values.city,
+            country: values.country,
             company_reg_no: values.companyRegistrationNumber,
             company_pan_no: values.panNumber,
-            annualTurnover: values.turnover,
-            gst_no: values.gst,
-            first_name: values.firstName, 
+            gst_no:  values.gst,
+            first_name: values.firstName,
             last_name: values.lastName,
+            annualTurnover:  values.turnover,
             Designation: values.designation,
-            mobile: values.phnNumber,
-            website: values.website, 
+            mobile: values.countryPhnCode+ " " +values.phnNumber,
+            website: values.website,
           },
           userId: userId * 1,
           userInput: {
@@ -286,14 +286,14 @@ function OverseasRegistrationForm() {
             <ErrorMessage name="companyBillingCode" component="span" className="text-xs text-rose-600" />
           </div>
 
-          {/* user type */}
+          {/* user type
           <div>
             <SelectComponet
               options={["FOREIGN_AGENT"]}
               id={'userType'}
               title={'Select User Type'}
             />
-          </div>
+          </div> */}
 
           {/* companyType */}
           <div>

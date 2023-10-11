@@ -20,11 +20,11 @@ const WarehousePricing = ({openModal}: any) => {
 
   return (
     <div className="">
-      <div className="container mx-auto  px-4 mt-8">
-        <div className="">
+      <div className="container mx-auto  px-4 mt-8 w-full flex justify-center">
+        <div className="lg:w-2/3">
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="flex">
-              <img src="https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg" alt="ware house image" className=' w-2/6'/>
+            <div className="flex items-center">
+              <img src="https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg" alt="ware house image" className='w-28 h-28 md:h-full lg:h-full md:w-52 lg:w-52 rounded'/>
               <div className="w-1/2 p-4">
                 <h2 className="text-xl font-semibold mb-2">New Ohio</h2>
                 <h2 className=" text-base font-semibold">{tabs[activeTab].title}</h2>

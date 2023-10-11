@@ -51,8 +51,8 @@ const BookModal = ({ isOpen, closeModal }: any) => {
         <Form>
           <div className={`fixed inset-0 z-50 overflow-auto ${isOpen ? '' : 'hidden'}`}>
             <div className="flex items-center justify-center min-h-screen p-4">
-              <div className="bg-white w-full md:w-1/2 lg:w-11/12 lg:px-16 py-12 grid grid-cols-2 gap-4 rounded-lg shadow-md p-4">
-                <h2 className="text-2xl font-semibold mb-4 col-span-2">Warehouse Details</h2>
+              <div className="bg-white w-full md:w-1/2 lg:w-11/12 lg:px-16 py-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 rounded-lg shadow-md p-4">
+                <h2 className="text-2xl font-semibold mb-4 col-span-2 md:col-span-3 lg:col-span-3">Warehouse Details</h2>
                 <div className="mb-4">
                   <label htmlFor="warehouseType" className="block font-semibold text-gray-700 mb-2">
                     Type of Warehouse

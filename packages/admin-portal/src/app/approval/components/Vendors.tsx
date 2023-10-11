@@ -1,16 +1,26 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
 
 const WAITING_FOR_APPROVAL_QUERY = gql`
   query {
-    waitingforapproval {
+    listInitialRegistrations {
       email
       userType
       first_name
       customerSubType
       vendorSubType
       overseasAgentSubType
+      id
+    }
+  }
+`;
+
+const REJECT_USER_MUTATION = gql`
+  mutation RejectUser($userId: Int!) {
+    rejectUser(userId: $userId) {
+      id
+      # Include other User fields you want in the response...
     }
   }
 `;
@@ -27,7 +37,23 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
   const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4; // Number of items to display per page
+  const itemsPerPage = 28; // Number of items to display per page
+
+  const [rejectUser] = useMutation(REJECT_USER_MUTATION);
+
+  const handleRejectUser = async (userId: any) => {
+    try {
+      const { data } = await rejectUser({
+        variables: {
+          userId: userId,
+        },
+      });
+
+      console.log('User rejected:', data.rejectUser);
+    } catch (error) {
+      console.error('Error rejecting user:', error);
+    }
+  };
 
   useEffect(() => {
     if (!loading) {
@@ -40,10 +66,10 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const totalPages = Math.ceil(data?.waitingforapproval.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.listInitialRegistrations.length / itemsPerPage);
 
   // Filter data based on search query
-  const filteredData = data?.waitingforapproval.filter((person: any) => {
+  const filteredData = data?.listInitialRegistrations.filter((person: any) => {
     const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
     return fullName.includes(searchQuery.toLowerCase());
   });
@@ -168,6 +194,8 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               <button
                                 onClick={() => {
+                                  console.log("vendor : ",index);
+                                  
                                   setApprovalIndex(index);
                                   onApprovalClick();
                                 }}
@@ -180,6 +208,7 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
                             <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                               <button
                                 type="button"
+                                onClick={(userId = person.id) =>  handleRejectUser(userId)}
                                 className="bg-rose-400 hover:bg-rose-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-rose-200"
                               >
                                 Reject<span className="sr-only">, {person.first_name}</span>

@@ -5,32 +5,32 @@ import { BiErrorCircle } from 'react-icons/bi';
 
 const WAITING_FOR_APPROVAL_QUERY = gql`
   query {
-    waitingforapproval {
+    listInitialRegistrations {
       id
-      email
-      userType
-      first_name
-      last_name
-      annualTurnover
       BillingCode
+      userType
+      customerSubType
+      vendorSubType
+      overseasAgentSubType
+      email
+      password
       companyType
       industryType
       companyName
       state
       pincode
       Adress
-      gst_no
       city
       country
       company_reg_no
       company_pan_no
+      gst_no
+      first_name
+      last_name
+      annualTurnover
       Designation
       mobile
       website
-      password
-      customerSubType
-      vendorSubType
-      overseasAgentSubType
     }
   }
 `;
@@ -91,6 +91,7 @@ const userTypes = [
 
 
 export default function Approval({ index, onApproveClick, isApproved }: any) {
+  
   const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
@@ -107,38 +108,42 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
 
   useEffect(() => {
-    if (!loading && data && data.waitingforapproval) {
-      const singleApprovalData = data.waitingforapproval[index];
-      setUserId(singleApprovalData.id);
-      setUserType(singleApprovalData.userType);
-      setGstNo(singleApprovalData.gst_no);
+    if (!loading && data && data.listInitialRegistrations) {
+      console.log(data.listInitialRegistrations);
+      
+      const listInitialRegistrations = data.listInitialRegistrations[index*1];
+      console.log("list of data : ", listInitialRegistrations);
+      
+      setUserId(listInitialRegistrations.id);
+      setUserType(listInitialRegistrations.userType);
+      setGstNo(listInitialRegistrations.gst_no);
 
-      if (singleApprovalData) {
-        setSelectedAnnualTurnover(singleApprovalData.annualTurnover);
-        setSelectedCompanyType(singleApprovalData.companyType);
-        setSelectedUserType(singleApprovalData.userType);
-        setSelectedIndustryType(singleApprovalData.industryType)
+      if (listInitialRegistrations) {
+        setSelectedAnnualTurnover(listInitialRegistrations.annualTurnover);
+        setSelectedCompanyType(listInitialRegistrations.companyType);
+        setSelectedUserType(listInitialRegistrations.userType);
+        setSelectedIndustryType(listInitialRegistrations.industryType)
         setFormData({
-          'Company Name': singleApprovalData.companyName,
-          'GST Number': singleApprovalData.gst_no,
-          'Full name': singleApprovalData.first_name + ' ' + singleApprovalData.last_name,
-          'Email address': singleApprovalData.email,
-          'Password': singleApprovalData.password,
+          'Company Name': listInitialRegistrations.companyName,
+          'GST Number': listInitialRegistrations.gst_no,
+          'Full name': listInitialRegistrations.first_name + ' ' + listInitialRegistrations.last_name,
+          'Email address': listInitialRegistrations.email,
+          'Password': listInitialRegistrations.password,
           'Annual Turn Over': selectedAnnualTurnover,
-          'Billing Code of company': singleApprovalData.BillingCode,
+          'Billing Code of company': listInitialRegistrations.BillingCode,
           'User Type': selectedUserType,
           'Type of Company': selectedCompanyType,
           'Industry': selectedIndustryType,
-          'State': singleApprovalData.state,
-          'Pincode': singleApprovalData.pincode,
-          'Address': singleApprovalData.Adress,
-          'City': singleApprovalData.city,
-          'Country': singleApprovalData.country,
-          'Company Registration Number': singleApprovalData.company_reg_no,
-          'Company Pan Number': singleApprovalData.company_pan_no,
-          'Designation': singleApprovalData.Designation,
-          'Contact Number': singleApprovalData.mobile,
-          'Website': singleApprovalData.website,
+          'State': listInitialRegistrations.state,
+          'Pincode': listInitialRegistrations.pincode,
+          'Address': listInitialRegistrations.Adress,
+          'City': listInitialRegistrations.city,
+          'Country': listInitialRegistrations.country,
+          'Company Registration Number': listInitialRegistrations.company_reg_no,
+          'Company Pan Number': listInitialRegistrations.company_pan_no,
+          'Designation': listInitialRegistrations.Designation,
+          'Contact Number': listInitialRegistrations.mobile,
+          'Website': listInitialRegistrations.website,
         });
 
 
