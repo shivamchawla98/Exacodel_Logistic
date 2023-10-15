@@ -333,7 +333,7 @@ export default function Home() {
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
                {isVendor && !approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               {isVendor && approval && <Approval index={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+               {isVendor && approval && <Approval Id={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
                 />} 
                {isVendor && aprroved && <ApprovedPopup onApprovalClick={() => router.refresh()}/>}
 

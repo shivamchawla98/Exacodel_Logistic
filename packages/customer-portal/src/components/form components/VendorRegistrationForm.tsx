@@ -48,7 +48,7 @@ const validationSchema = Yup.object({
   region: Yup.string().required('Enter region'),
   postalCode: Yup.string()
     .required('Enter postal code')
-    .matches(/^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$/, 'Enter valid postal code'),
+    .matches(/^[0-9]{6}$/, 'PIN code must be a 6-digit number'),
   panNumber: Yup.string()
     .required('Enter PAN number')
     .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, 'Enter valid PAN number'),
@@ -283,7 +283,7 @@ function VendorRegistrationForm() {
           }
 
 {apiResponse &&  (<>
-          <div >
+          {/* <div >
             <label
               htmlFor="companyBillingCode"
               className="block text-sm font-medium leading-6 text-gray-600"
@@ -297,7 +297,7 @@ function VendorRegistrationForm() {
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
             <ErrorMessage className='text-xs text-rose-600' name="companyBillingCode" component="span" />
-          </div>
+          </div> */}
 
           {/* user type
           <div >

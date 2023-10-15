@@ -1,18 +1,19 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 
-const WAITING_FOR_APPROVAL_QUERY = gql`
+const LIST_INITIAL_REGISTRATION = gql`
   query {
-    waitingforapproval {
+    listInitialRegistrations {
       email
       userType
       first_name
+      isapproved
     }
   }
 `;
 
 function Approved({ onApprovalClick, setApprovalIndex }: any) {
-  const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
+  const { loading, error, data } = useQuery(LIST_INITIAL_REGISTRATION);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -58,7 +59,7 @@ function Approved({ onApprovalClick, setApprovalIndex }: any) {
             <tbody className="divide-y divide-gray-200 bg-white">
               {!error &&
                 !loading &&
-                Array.from(data.waitingforapproval)?.map((person: any, index) => (
+                Array.from(data.listInitialRegistrations)?.map((person: any, index) => person.isapproved === "Approved" && (
                   <tr key={person.email}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {person.first_name}
@@ -71,7 +72,7 @@ function Approved({ onApprovalClick, setApprovalIndex }: any) {
                           setApprovalIndex(index);
                           onApprovalClick();
                         }}
-                        type="button" className="bg-green-400 hover:bg-green-500 text-xs text-white rounded-md shadow-md py-2 px-2">
+                        type="button" className="bg-green-400  text-xs text-white rounded  cursor-default  py-2 px-2">
                         Approved<span className="sr-only">, {person.first_name}</span>
                       </button>
                     </td>

@@ -9,23 +9,36 @@ import Link from 'next/link';
 import RolePopup from '@/components/form components/RolePopup';
 import { updateSignUpclicked } from '@/features/select-form/selectForm-slice';
 import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import jwt from 'jsonwebtoken';
 import { AnyARecord } from 'dns';
 import jwt_decode from "jwt-decode";
 import { decode } from 'punycode';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation'
+import { Fragment, useState } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { CheckIcon } from '@heroicons/react/24/outline'
+import { XCircleIcon, CogIcon, XMarkIcon } from '@heroicons/react/20/solid'
 
 
 
 const LOGIN_MUTATION = gql`
-  mutation Login($loginUserInput: LoginUserInput!) {
-    login(loginUserInput: $loginUserInput) {
-      access_token
-    }
+mutation Login($loginUserInput:LoginUserInput!){
+  login(loginUserInput:$loginUserInput) {
+    access_token
   }
+}
 `;
+
+const GET_USER_BY_ID = gql`
+query GET_USER_ID($id: Int!){
+  getUserById(userId: $id) {
+    isapproved
+    first_name
+  }
+}
+`
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -34,8 +47,7 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required('Password is required'),
 });
 
-import { XCircleIcon } from '@heroicons/react/20/solid'
-import { useState } from 'react';
+
 
 function Alert() {
   const router = useRouter();
@@ -59,14 +71,130 @@ function Alert() {
   )
 }
 
+const LoginStatus = ({id, open, setOpen}: any) => {
+  const router = useRouter();
+  const { loading, error, data } = useQuery(GET_USER_BY_ID, {
+    variables: {
+      id: id,
+    },
+  });
+
+  try {
+    const jwtToken: any = Cookies.get('jwtToken');
+    console.log("from token : ", jwtToken);
+    const decoded:any = jwt_decode(jwtToken)
+  
+    console.log(" getUserById Data ", decoded);
+    // if (typeof (decoded?.id) === 'number') {
+    //   setOpen(false)
+    //   router.push("/")
+    //   return;
+    // }
+  } catch (error) {
+    console.log();
+    
+  }
+
+  
+
+  return (
+    <Transition.Root show={open} as={Fragment}>
+      <Dialog as="div" className="relative " onClose={() => setOpen(true)}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
+                <div>
+                  {loading ? (
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
+                      {/* Replace the following with your loader component or Tailwind CSS loader */}
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+                    </div>
+                  ) : (
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+                      {(data?.getUserById?.isapproved === 'Approval_pending') && <CogIcon className="h-6 w-6 text-gray-600" aria-hidden="true" />}
+                      {(data?.getUserById?.isapproved === 'Rejected') && <CogIcon className="h-6 w-6 text-rose-600" aria-hidden="true" />}
+                      {(data?.getUserById?.isapproved === 'Approved') && <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />}
+                      
+                    </div>
+                  )}
+
+                  <div className="mt-3 text-center sm:mt-5">
+                    <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                      {loading ? "Loading..." : data?.getUserById?.isapproved}
+                    </Dialog.Title>
+                    {loading ? (
+                      <div className="mt-2">
+                        {/* You can customize the loading message */}
+                        <p className="text-sm text-gray-500">Hi {data?.getUserById.first_name}</p>
+                      </div>
+                    ) : (
+                      <div className="mt-2">
+                        
+                        {(data?.getUserById.isapproved === 'Approval_pending') && <p className="text-sm text-gray-500">Your Approval is Pendeing please wait for some time to be approved, You'll get Confirmation message on your email</p>}
+                      {(data?.getUserById.isapproved === 'Rejected') && <p className="text-sm text-gray-500">Rejected by admin due to some wrong data entered by you please check mail for reentering info </p>}
+                      {(data?.getUserById.isapproved === 'Approved') && <p className="text-sm text-gray-500">You are approved User</p>}
+                        
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-5 sm:mt-6">
+                  <button
+                    type="button"
+                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={() =>{
+                       setOpen(false)
+                       if (data.getUserById.isapproved === 'Approval_pending' || data?.getUserById.isapproved === 'Rejected') {
+                        router.push("/")
+                       }
+                    }
+                      }
+                  >
+                    Go back to dashboard
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition.Root>
+  );
+}
+
 
 function page() {
   const router = useRouter();
   const [showAlert, setShowAlert] = useState(false)
   const { email, password } = useSelector((state: any) => state.form);
   const { signUpClicked } = useSelector((state: any) => state.selectForm);
+  const [open, setOpen] = useState(true);
+  const [id, setId] = useState('');
   const [login] = useMutation(LOGIN_MUTATION);
-  console.log(LOGIN_MUTATION?.loc?.source?.body);
+  // console.log(LOGIN_MUTATION?.loc?.source?.body);
+
 
   const initialValues = {
     email: email || '', // Ensure a default value if email is undefined
@@ -75,62 +203,12 @@ function page() {
   const dispatch = useDispatch();
 
 
-
-  const handleSubmit = async (values: any) => {
-    // Handle form submission logic here
-    dispatch(updateEmail(values.email));
-    dispatch(updatePassword(values.password));
-    console.log("password : ", values.password);
-
-    try {
-      const response = await login({
-        variables: {
-          loginUserInput: {
-            email: values.email,
-            password: values.password,
-          },
-        },
-      });
-
-
-      // Handle the response as needed
-      console.log("Mutation response:", response.data);
-
-
-      const decoded =  jwt_decode(response?.data?.login);
-      console.log(decoded);
-      Cookies.set('jwtToken', response.data.login, { expires: 7 });
-      dispatch(updateIsLogedIn(true))
-
-      // // 'decoded' now contains the payload of the JWT token.
-      // console.log(decoded);
-
-      const jwtToken = Cookies.get('jwtToken');
-      console.log("from token : ", jwtToken);
-      if ( Cookies.get('jwtToken')) {
-        router.push("./")
-      }
-
-
-
-
-
-      // You may want to perform actions like setting tokens or redirecting on success
-    } catch (error) {
-      // Handle any errors
-      // console.log(error);
-      setShowAlert(true);
-
-      console.error("Mutation error: ", error);
-    }
-
-
-  };
   // api login logic ends and login ui starts
 
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <RolePopup />
+      <LoginStatus id={id} open={open} setOpen={setOpen} />
       {showAlert && <Alert />}
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
@@ -147,6 +225,8 @@ function page() {
                 dispatch(updateEmail(values.email));
                 dispatch(updatePassword(values.password));
                 console.log("password : ", values.password);
+                console.log("email : ", values.email);
+                
             
                 try {
                   const response = await login({
@@ -159,12 +239,10 @@ function page() {
                   });
             
             
-                  // Handle the response as needed
-                  console.log("Mutation response:", response.data);
             
             
-                  const decoded =  jwt_decode(response?.data?.login);
-                  console.log(decoded);
+                  const decoded: any =  jwt_decode(response?.data?.login.access_token);
+                  console.log(decoded.id);
                   Cookies.set('jwtToken', response.data.login, { expires: 7 });
                   dispatch(updateIsLogedIn(true))
             
@@ -173,8 +251,13 @@ function page() {
             
                   const jwtToken = Cookies.get('jwtToken');
                   console.log("from token : ", jwtToken);
-                  if ( Cookies.get('jwtToken')) {
-                    router.push("./")
+                  
+                  if (decoded?.id) {
+                    if (typeof (decoded?.id) === 'number') {
+                      setOpen(true);
+                      setId(decoded?.id)
+                    }
+                    // router.push("./")
                   }
             
             

@@ -13,7 +13,6 @@ import RolePopup from '@/components/form components/RolePopup'
 
 export default function Home() {
   const signupclicked = useSelector((state: any) => state.selectForm.signUpClicked)
-  console.log(process.env.BACKEND_ENDPOINT);
   
   return (
     <>

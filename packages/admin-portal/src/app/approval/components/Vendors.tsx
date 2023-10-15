@@ -2,7 +2,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
 
-const WAITING_FOR_APPROVAL_QUERY = gql`
+const LIST_INITIAL_REGISTRATION = gql`
   query {
     listInitialRegistrations {
       email
@@ -12,6 +12,7 @@ const WAITING_FOR_APPROVAL_QUERY = gql`
       vendorSubType
       overseasAgentSubType
       id
+      isapproved
     }
   }
 `;
@@ -20,7 +21,7 @@ const REJECT_USER_MUTATION = gql`
   mutation RejectUser($userId: Int!) {
     rejectUser(userId: $userId) {
       id
-      # Include other User fields you want in the response...
+      
     }
   }
 `;
@@ -30,8 +31,8 @@ const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORT
 const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
 const overseasSubtype = ["FOREIGN_AGENT"];
 
-function Vendors({ onApprovalClick, setApprovalIndex}: any) {
-  const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
+function Vendors({ onApprovalClick, setApprovalIndex }: any) {
+  const { loading, error, data } = useQuery(LIST_INITIAL_REGISTRATION);
   const [isLoading, setIsLoading] = useState(true);
   const [userTypeFilter, setUserTypeFilter] = useState("All");
   const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
@@ -66,7 +67,9 @@ function Vendors({ onApprovalClick, setApprovalIndex}: any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const totalPages = Math.ceil(data?.listInitialRegistrations.length / itemsPerPage);
+  let approvedUsers = data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending');
+
+  const totalPages = Math.ceil(data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending').length / itemsPerPage);
 
   // Filter data based on search query
   const filteredData = data?.listInitialRegistrations.filter((person: any) => {
@@ -167,12 +170,13 @@ function Vendors({ onApprovalClick, setApprovalIndex}: any) {
               <tbody className="divide-y divide-gray-200 bg-white">
                 {!error &&
                   !loading &&
-                  filteredData
+                  approvedUsers
                     .slice(startIndex, endIndex)
                     .map((person: any, index: any) => (
                       <>
-                        {console.log("customer ", person.customerSubType)}
-                        {(userTypeFilter === person.userType && (
+                        {console.log("isApproved : ", person.isapproved)}
+
+                        {((userTypeFilter === person.userType && (
                           userTypeFilter === "CUSTOMER" &&
                           subUserTypeFilter === person.customerSubType ||
                           userTypeFilter === "VENDOR" &&
@@ -180,42 +184,42 @@ function Vendors({ onApprovalClick, setApprovalIndex}: any) {
                           userTypeFilter === "OVERSEAS_AGENT" &&
                           subUserTypeFilter === person.overseasAgentSubType ||
                           subUserTypeFilter === "All"
-                        )) || userTypeFilter === "All" ? (
-                          <tr key={person.email}>
-                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                              {person.first_name}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {person.userType}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              {person.email}
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              <button
-                                onClick={() => {
-                                  console.log("vendor : ",index);
-                        
-                                  setApprovalIndex(index);
-                                  onApprovalClick();
-                                }}
-                                type="button"
-                                className="bg-sky-400 hover:bg-sky-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-sky-200"
-                              >
-                                Approve<span className="sr-only">, {person.first_name}</span>
-                              </button>
-                            </td>
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                              <button
-                                type="button"
-                                onClick={(userId = person.id) =>  handleRejectUser(userId)}
-                                className="bg-rose-400 hover:bg-rose-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-rose-200"
-                              >
-                                Reject<span className="sr-only">, {person.first_name}</span>
-                              </button>
-                            </td>
-                          </tr>
-                        ) : null}
+                        )) || userTypeFilter === "All") && (
+                            <tr key={person.email}>
+                              <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+                                {person.first_name}
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {person.userType}
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {person.email}
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <button
+                                  onClick={() => {
+                                    console.log("vendor : ", person.id);
+
+                                    setApprovalIndex(person.id);
+                                    onApprovalClick();
+                                  }}
+                                  type="button"
+                                  className="bg-gray-400 hover:bg-gray-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-sky-200"
+                                >
+                                  More Info<span className="sr-only">, {person.first_name}</span>
+                                </button>
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <button
+                                  type="button"
+                                  onClick={(userId = person.id) => handleRejectUser(userId)}
+                                  className="bg-rose-400 hover:bg-rose-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-rose-200"
+                                >
+                                  Reject<span className="sr-only">, {person.first_name}</span>
+                                </button>
+                              </td>
+                            </tr>
+                          )}
                       </>
                     ))}
               </tbody>
@@ -232,7 +236,7 @@ function Vendors({ onApprovalClick, setApprovalIndex}: any) {
                 </button>
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={endIndex >= filteredData.length}
+                  disabled={endIndex >= approvedUsers.length}
                   className="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md font-medium shadow-md py-1 px-4 mx-2"
                 >
                   Next

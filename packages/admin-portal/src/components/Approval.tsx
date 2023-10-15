@@ -3,9 +3,9 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import { PaperClipIcon } from '@heroicons/react/20/solid';
 import { BiErrorCircle } from 'react-icons/bi';
 
-const WAITING_FOR_APPROVAL_QUERY = gql`
-  query {
-    listInitialRegistrations {
+const GET_USER_ID = gql`
+query GET_USER_ID($userId: Int!) {
+  getUserById(userId: $userId) {
       id
       BillingCode
       userType
@@ -90,14 +90,18 @@ const userTypes = [
 
 
 
-export default function Approval({ index, onApproveClick, isApproved }: any) {
+export default function Approval({ Id, onApproveClick, isApproved }: any) {
+console.log("Id :", Id);
 
-  const { loading, error, data } = useQuery(WAITING_FOR_APPROVAL_QUERY);
+  const { loading, error, data } = useQuery(GET_USER_ID, {
+    variables: {
+      userId: Id*1
+    },
+  });
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
   const [userType, setUserType] = useState('');
   const [gst_no, setGstNo] = useState('');
-  const [Id, setUserId] = useState<any>('');
   const [showAlert, setShowAlert] = useState(false);
 
   const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState('');
@@ -108,47 +112,50 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
 
   useEffect(() => {
-    if (!loading && data && data.listInitialRegistrations) {
+    
+    if (!loading && data && data.getUserById) {
+      console.log("data", data);
+      console.log("loading", error);
+      let user =  data.getUserById;
 
-      const listInitialRegistrations = data.listInitialRegistrations[index * 1];
-      console.log("list of intitial users ", listInitialRegistrations.id);
-      
-      setUserId(listInitialRegistrations.id * 1);
-      setUserType(listInitialRegistrations.userType);
-      setGstNo(listInitialRegistrations.gst_no);
+      console.log("list of intitial users ",  user.id);
+    
+      setUserType(user.userType);
+      setGstNo(user.gst_no);
 
-      if (listInitialRegistrations) {
-        setSelectedAnnualTurnover(listInitialRegistrations.annualTurnover);
-        setSelectedCompanyType(listInitialRegistrations.companyType);
-        setSelectedUserType(listInitialRegistrations.userType);
-        setSelectedIndustryType(listInitialRegistrations.industryType)
+      if (user) {
+        setSelectedAnnualTurnover(user.annualTurnover);
+        setSelectedCompanyType(user.companyType);
+        setSelectedUserType(user.userType);
+        setSelectedIndustryType(user.industryType)
         setFormData({
-          'Company Name': listInitialRegistrations.companyName,
-          'GST Number': listInitialRegistrations.gst_no,
-          'Full name': listInitialRegistrations.first_name + ' ' + listInitialRegistrations.last_name,
-          'Email address': listInitialRegistrations.email,
-          'Password': listInitialRegistrations.password,
+          'Company Name': user.companyName,
+          'GST Number': user.gst_no,
+          'Full name': user.first_name + ' ' + user.last_name,
+          'Email address': user.email,
+          // 'Password': user.password,
           'Annual Turn Over': selectedAnnualTurnover,
-          'Billing Code of company': listInitialRegistrations.BillingCode,
+          // 'Billing Code of company': user.BillingCode,
           'User Type': selectedUserType,
           'Type of Company': selectedCompanyType,
           'Industry': selectedIndustryType,
-          'State': listInitialRegistrations.state,
-          'Pincode': listInitialRegistrations.pincode,
-          'Address': listInitialRegistrations.Adress,
-          'City': listInitialRegistrations.city,
-          'Country': listInitialRegistrations.country,
-          'Company Registration Number': listInitialRegistrations.company_reg_no,
-          'Company Pan Number': listInitialRegistrations.company_pan_no,
-          'Designation': listInitialRegistrations.Designation,
-          'Contact Number': listInitialRegistrations.mobile,
-          'Website': listInitialRegistrations.website,
+          'State': user.state,
+          'Pincode': user.pincode,
+          'Address': user.Adress,
+          'City': user.city,
+          'Country': user.country,
+          'Company Registration Number': user.company_reg_no,
+          'Company Pan Number': user.company_pan_no,
+          'Designation': user.Designation,
+          'Contact Number': user.mobile,
+          'Website': user.website,
+          'Remarks': "",
         });
 
 
       }
     }
-  }, [loading, data, index]);
+  }, [loading, data, Id]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData: any) => ({
@@ -183,7 +190,7 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
     )
   }
 
-  const handleApprove = async () => {
+  const handleApprove = async (approvedOrReject: String) => {
     console.log("Id : ", Id);  
     
     try {
@@ -192,7 +199,7 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
           userId: Id * 1,
           input: {
             companyType: selectedCompanyType,
-            Approveduser: "Approved",
+            Approveduser: approvedOrReject,
             industryType: selectedIndustryType,
             state: formData['State'],
             pincode: formData['Pincode'],
@@ -200,22 +207,22 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
             city: formData['City'],
             country: formData['Country'],
             company_reg_no: formData['Company Registration Number'],
-            company_name: 'Sample Company Name',
+            company_name: formData['Company Name'],
             company_pan_no: formData['Company Pan Number'],
             annualTurnover: selectedAnnualTurnover,
-            gst_no: gst_no,
+            gst_no: formData['GST Number'],
             first_name: formData['Full name'].split(' ')[0],
             last_name: formData['Full name'].split(' ')[1],
             Designation: formData['Designation'],
             mobile: formData['Contact Number'],
             website: formData['Website'],
             email: formData['Email address'],
-            password: formData['Password'],
+            // password: formData['Password'],
             userType: userType,
             customerSubType: formData['Customer Type'],
             vendorSubType: formData['Vendor Type'],
             overseasAgentSubType: formData['Overseas Type'],
-            remarks: 'Sample Remarks',
+            remarks: formData['Remarks'],
           },
         },
       });
@@ -238,13 +245,24 @@ export default function Approval({ index, onApproveClick, isApproved }: any) {
         <div className="px-4 py-6 sm:px-6">
           <div className='w-full flex justify-between items-center'>
             <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
+
+            <div className='flex justify-evenly w-1/2'>
             <button
               onClick={() => {
-                handleApprove()
+                handleApprove("Rejected")
+              }}
+              type="button" className="bg-rose-400 hover:bg-rose-500 text-white rounded-md shadow-md py-2 px-2">
+              Reject<span className="sr-only">, Reject </span>
+            </button>
+            <button
+              onClick={() => {
+                handleApprove("Approved")
               }}
               type="button" className="bg-sky-600 hover:bg-sky-700 text-white rounded-md shadow-md py-2 px-2">
               Approve<span className="sr-only">, Approve </span>
             </button>
+
+            </div>
           </div>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
         </div>
