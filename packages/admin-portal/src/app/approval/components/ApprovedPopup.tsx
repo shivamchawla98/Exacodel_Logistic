@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
 
-export default function ApprovedPopup({onApprovalClick}: any) {
+export default function ApprovedPopup({onApprovalClick, name, operation}: any) {
   const [open, setOpen] = useState(true)
 
   return (
@@ -38,7 +38,7 @@ export default function ApprovedPopup({onApprovalClick}: any) {
                   </div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                      User Added Sucessfully
+                      User {name} {operation} Sucessfully
                     </Dialog.Title>
                   </div>
                 </div>

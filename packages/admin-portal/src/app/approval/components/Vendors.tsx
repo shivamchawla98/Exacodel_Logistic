@@ -31,8 +31,8 @@ const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORT
 const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
 const overseasSubtype = ["FOREIGN_AGENT"];
 
-function Vendors({ onApprovalClick, setApprovalIndex }: any) {
-  const { loading, error, data } = useQuery(LIST_INITIAL_REGISTRATION);
+function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
+  const { loading, error, data, refetch} = useQuery(LIST_INITIAL_REGISTRATION);
   const [isLoading, setIsLoading] = useState(true);
   const [userTypeFilter, setUserTypeFilter] = useState("All");
   const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
@@ -40,21 +40,6 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 28; // Number of items to display per page
 
-  const [rejectUser] = useMutation(REJECT_USER_MUTATION);
-
-  const handleRejectUser = async (userId: any) => {
-    try {
-      const { data } = await rejectUser({
-        variables: {
-          userId: userId,
-        },
-      });
-
-      console.log('User rejected:', data.rejectUser);
-    } catch (error) {
-      console.error('Error rejecting user:', error);
-    }
-  };
 
   useEffect(() => {
     if (!loading) {
@@ -62,7 +47,12 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
     }
   }, [loading]);
 
+  useEffect(() => {
+    refetch();
+  }, isApproved)
+
   console.log(data);
+
 
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -209,15 +199,7 @@ function Vendors({ onApprovalClick, setApprovalIndex }: any) {
                                   More Info<span className="sr-only">, {person.first_name}</span>
                                 </button>
                               </td>
-                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                <button
-                                  type="button"
-                                  onClick={(userId = person.id) => handleRejectUser(userId)}
-                                  className="bg-rose-400 hover:bg-rose-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-rose-200"
-                                >
-                                  Reject<span className="sr-only">, {person.first_name}</span>
-                                </button>
-                              </td>
+                    
                             </tr>
                           )}
                       </>

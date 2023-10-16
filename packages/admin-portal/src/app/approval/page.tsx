@@ -16,22 +16,21 @@ import {
   UserGroupIcon,
   
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, MagnifyingGlassIcon, ArchiveBoxXMarkIcon } from '@heroicons/react/20/solid'
 import Vendors from './components/Vendors'
 import Approval from '@/components/Approval'
 import ApprovedPopup from './components/ApprovedPopup'
 import { useRouter } from 'next/navigation'
 import Approved from '@/components/Approved'
+import RejectedUsers from '@/components/RejectedUsers'
+
 
 const navigation = [
   { name: 'Vendor', href: '#', icon: CursorArrowRaysIcon, current: true },
   { name: 'Approved', href: '#', icon: UserGroupIcon, current: false },
+  { name: 'Rejected', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
 ]
-const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
-]
+
 const userNavigation = [
   { name: 'Your profile', href: '#' },
   { name: 'Sign out', href: '#' },
@@ -50,6 +49,9 @@ export default function Home() {
   const [activeNavItem, setActiveNavItem] = useState('vendor'); // Initial active menu item
   const [isVendor, setIsVendor] = useState(true);
   const [isApproved, setIsApproved] = useState(false);
+  const [rejected, setIsRejected] = useState(false);
+  const [name, setName] = useState('');
+  const [operation, setOperation] = useState('')
 
   const handleMenuItemClick = (itemName: any) => {
     setActiveNavItem(itemName);
@@ -226,6 +228,29 @@ export default function Home() {
                           Approved
                         </button>
                       </li>
+
+                      <li>
+                        <button
+                          onClick={() => {
+                            setActiveNavItem("rejected")
+                            setIsVendor(false);
+                            setIsRejected(true);
+                            setIsApproved(false)
+                           }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "rejected"  ? 'bg-gray-50 text-sky-600'
+                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                        >
+                          <ArchiveBoxXMarkIcon
+                            className={classNames(
+                              activeNavItem === "rejected" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                              'h-6 w-6 shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                          Rejected
+                        </button>
+                      </li>
                   </ul>
                 </li>
                 <li className="mt-auto">
@@ -256,22 +281,6 @@ export default function Home() {
             <div className="h-6 w-px bg-gray-200 lg:hidden" aria-hidden="true" />
 
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-end">
-              {/* <form className="relative flex flex-1" action="#" method="GET">
-                <label htmlFor="search-field" className="sr-only">
-                  Search
-                </label>
-                <MagnifyingGlassIcon
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-                  aria-hidden="true"
-                />
-                <input
-                  id="search-field"
-                  className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                  placeholder="Search..."
-                  type="search"
-                  name="search"
-                />
-              </form> */}
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                   <span className="sr-only">View notifications</span>
@@ -332,10 +341,11 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-               {isVendor && !approval && <Vendors setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               {isVendor && approval && <Approval Id={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+               {isVendor && !approval && <Vendors isApproved={isApproved} setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
+               {isVendor && approval && <Approval setName={setName} setOperation={setOperation} Id={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
                 />} 
-               {isVendor && aprroved && <ApprovedPopup onApprovalClick={() => router.refresh()}/>}
+               {isVendor && aprroved && <ApprovedPopup name={name} operation={operation} onApprovalClick={() => router.refresh()}/>}
+               {!isVendor && !isApproved && rejected && <RejectedUsers />}
 
                {isApproved && <Approved />}
             

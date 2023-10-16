@@ -90,16 +90,14 @@ const userTypes = [
 
 
 
-export default function Approval({ Id, onApproveClick, isApproved }: any) {
-console.log("Id :", Id);
-
+export default function Approval({setName, setOperation, Id, onApproveClick, isApproved }: any) {
   const { loading, error, data } = useQuery(GET_USER_ID, {
     variables: {
       userId: Id*1
     },
   });
   const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<any>({});
   const [userType, setUserType] = useState('');
   const [gst_no, setGstNo] = useState('');
   const [showAlert, setShowAlert] = useState(false);
@@ -226,11 +224,10 @@ console.log("Id :", Id);
           },
         },
       });
-      console.log("GraphQL Query:", APPROVE_USER_MUTATION?.loc?.source?.body);
       isApproved();
       console.log("this is : ", data);
-
-
+      setName(formData['Full name']);
+      setOperation(approvedOrReject)
       onApproveClick();
     } catch (error) {
       setShowAlert(true);

@@ -190,9 +190,14 @@ function page() {
   const [showAlert, setShowAlert] = useState(false)
   const { email, password } = useSelector((state: any) => state.form);
   const { signUpClicked } = useSelector((state: any) => state.selectForm);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [id, setId] = useState('');
   const [login] = useMutation(LOGIN_MUTATION);
+  const {loading, error, data, refetch} = useQuery(GET_USER_BY_ID, {
+    variables: {
+      id: id,
+    }
+  });
   // console.log(LOGIN_MUTATION?.loc?.source?.body);
 
 
@@ -224,8 +229,6 @@ function page() {
                 // Handle form submission logic here
                 dispatch(updateEmail(values.email));
                 dispatch(updatePassword(values.password));
-                console.log("password : ", values.password);
-                console.log("email : ", values.email);
                 
             
                 try {
@@ -243,27 +246,26 @@ function page() {
             
                   const decoded: any =  jwt_decode(response?.data?.login.access_token);
                   console.log(decoded.id);
+                  
+                  
+                  setId(decoded.id)
+                  const {data} = await refetch(
+                    {
+                      id: decoded.id
+                    }
+                  )
+                  const user = data.getUserById
+                  setId(decoded.id)
+                  
+                  console.log(user);
+                if (user.isapproved === 'Approved') {
+                  router.push("/")
                   Cookies.set('jwtToken', response.data.login, { expires: 7 });
                   dispatch(updateIsLogedIn(true))
-            
-                  // // 'decoded' now contains the payload of the JWT token.
-                  // console.log(decoded);
-            
-                  const jwtToken = Cookies.get('jwtToken');
-                  console.log("from token : ", jwtToken);
+                } else if (user.isapproved === 'Approval_pending' || user.isapproved === 'Rejected' ) {
+                  setOpen(true)
+                }
                   
-                  if (decoded?.id) {
-                    if (typeof (decoded?.id) === 'number') {
-                      setOpen(true);
-                      setId(decoded?.id)
-                    }
-                    // router.push("./")
-                  }
-            
-            
-            
-            
-            
                   // You may want to perform actions like setting tokens or redirecting on success
                 } catch (error) {
                   // Handle any errors

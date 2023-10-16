@@ -16,7 +16,8 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     // https://studio.apollographql.com/public/splacex-l4uc6p/
-    uri: "http://localhost:3000/graphql",
+    // uri: "http://localhost:3000/graphql",
+    uri: process.env.BACKEND_ENDPOINT,
   });
 
   return new NextSSRApolloClient({
@@ -39,7 +40,7 @@ function makeSuspenseCache() {
 }
 
 export default function ApolloWrapper({ children }: React.PropsWithChildren) {
-  console.log("env",process.env);
+  // console.log("env",process.env);
   
   return (
     <ApolloNextAppProvider makeClient= { makeClient }  >
