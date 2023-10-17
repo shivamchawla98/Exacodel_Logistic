@@ -84,7 +84,7 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
               All
             </option>
             {userType.map((type: any) => (
-              <option className="text-left text-sm tex font-medium text-gray-900" value={type}>
+              <option key={type} className="text-left text-sm tex font-medium text-gray-900" value={type}>
                 {type}
               </option>
             ))}
@@ -104,7 +104,7 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
               All
             </option>
             {[...customerSubtype, ...vendorSubtype, ...overseasSubtype].map((type) => (
-              <option className="text-left text-sm tex font-medium text-gray-900" value={type}>
+              <option key={type} className="text-left text-sm tex font-medium text-gray-900" value={type}>
                 {type}
               </option>
             ))}
@@ -186,6 +186,7 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
                                 {person.email}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+
                                 <button
                                   onClick={() => {
                                     console.log("vendor : ", person.id);
@@ -194,9 +195,9 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
                                     onApprovalClick();
                                   }}
                                   type="button"
-                                  className="bg-gray-400 hover:bg-gray-500 text-white text-xs rounded-md shadow-sm py-2 px-2 transition-transform transform hover:scale-105 focus:outline-none focus:ring focus:ring-sky-200"
+                                  className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
                                 >
-                                  More Info<span className="sr-only">, {person.first_name}</span>
+                                  More Info
                                 </button>
                               </td>
                     
@@ -212,20 +213,20 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
                 <button
                   onClick={() => setCurrentPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md font-medium shadow-md py-1 px-4 mx-2"
+                  className=" underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
                   disabled={endIndex >= approvedUsers.length}
-                  className="bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md font-medium shadow-md py-1 px-4 mx-2"
+                  className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
                 >
                   Next
                 </button>
               </div>
-              <div className="pr-2">
-                Page {currentPage} of {totalPages}
+              <div className="pr-2 shadow-sm text-xs  text-gray-600 rounded-md font-medium  py-2 px-4 mx-2">
+                Page <strong> {currentPage} </strong> of {totalPages}
               </div>
             </div>
           </>

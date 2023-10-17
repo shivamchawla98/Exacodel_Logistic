@@ -3,45 +3,49 @@ import TextField from './TextField';
 
 function AdminInputWarehouseDetail({ prefix }: any) {
   return (
-    <>
+    
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6' >
+                  <h2 className="font-semibold text-gray-900 col-span-3">
+        Warehouse Details
+      </h2>
       <SelectComponet
         options={['cold Storage', 'Warm Storage']}
-        id={`${prefix}.typeOfWarehoue`}
+        id={`typeOfWarehoue`}
         title={'Type Of Warehouse'}
       />
       <TextField
-        id={`${prefix}.totalStorageArea`}
+        id={`totalStorageArea`}
         title={'Total Storage Area (Sq Feet)'}
         type={'number'}
       />
       <TextField
-        id={`${prefix}.totalAvailableArea`}
+        id={`totalAvailableArea`}
         title={'Total Available Area (Sq Feet)'}
         type={'number'}
       />
       <TextField
-        id={`${prefix}.occupiedSpace`}
+        id={`occupiedSpace`}
         title={'Occupied Space (Sq Feet)'}
         type={'number'}
       />
       <TextField
-        id={`${prefix}.unOccupiedSpace`}
+        id={`unOccupiedSpace`}
         title={'Un-Occupied Space (Sq Feet)'}
         type={'number'}
       />
       <TextField
-        id={`${prefix}.rackedSpace`}
+        id={`rackedSpace`}
         title={'Racked Space (Sq Feet)'}
         type={'number'}
       />
       <SelectComponet
         options={['Yes', 'No']}
-        id={`${prefix}.wareHouseInsurance`}
+        id={`wareHouseInsurance`}
         title={'Warehouse Insurance'}
       />
       <SelectComponet
         options={['Active', 'Passive']}
-        id={`${prefix}.activePassive`}
+        id={`activePassive`}
         title={'Temperature Capcity (Active/Passive)'}
       />
       <SelectComponet
@@ -51,7 +55,7 @@ function AdminInputWarehouseDetail({ prefix }: any) {
           '-20 to +20 Deg Cel.',
           '+15 to 25 Deg Cel.',
         ]}
-        id={`${prefix}.temperatureCapacity`}
+        id={`temperatureCapacity`}
         title={'Temperature Capcity'}
       />
       <SelectComponet
@@ -68,40 +72,41 @@ function AdminInputWarehouseDetail({ prefix }: any) {
           'Class 1 to 9',
           'OTHER',
         ]}
-        id={`${prefix}.hazardousStorageCapacity`}
+        id={`hazardousStorageCapacity`}
         title={'Hazardous Storage Capacity'}
       />
         <TextField
-        id={`${prefix}.storageChargesPerSqFt`}
+        id={`storageChargesPerSqFt`}
         title={'Storage Charges (Sq. ft)'}
         type={'number'}
       />
               <TextField
-        id={`${prefix}.storageChargesPerPallet`}
+        id={`storageChargesPerPallet`}
         title={'Storage Charges (per pellet)'}
         type={'number'}
       />
                     <TextField
-        id={`${prefix}.minimumStorageAreaPerSqFt`}
+        id={`minimumStorageAreaPerSqFt`}
         title={'Minimum Storage Area (Sq. ft)'}
         type={'number'}
         />
         <TextField
-        id={`${prefix}.minimumStorageAreaPerPallet`}
+        id={`minimumStorageAreaPerPallet`}
         title={'Minimum Storage Area (per pellet)'}
         type={'number'}
       />
               <TextField
-        id={`${prefix}.minimumStorageRentPerSqFt`}
+        id={`minimumStorageRentPerSqFt`}
         title={'Minimum Storage Rent (Sq. ft)'}
         type={'number'}
         />
         <TextField
-        id={`${prefix}.minimumStorageChargesPerPallet`}
+        id={`minimumStorageChargesPerPallet`}
         title={'Minimum Storage Rent Charges (per pallet)'}
         type={'number'}
       />
-    </>
+      <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-300 col-span-full"></hr>
+    </div>
   );
 }
 

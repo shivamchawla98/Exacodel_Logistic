@@ -16,13 +16,17 @@ import {
   UserGroupIcon,
   
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, MagnifyingGlassIcon, ArchiveBoxXMarkIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, HomeModernIcon, ArchiveBoxXMarkIcon, TruckIcon } from '@heroicons/react/20/solid'
 import Vendors from './components/Vendors'
 import Approval from '@/components/Approval'
 import ApprovedPopup from './components/ApprovedPopup'
 import { useRouter } from 'next/navigation'
 import Approved from '@/components/Approved'
 import RejectedUsers from '@/components/RejectedUsers'
+ import { useSelector } from 'react-redux'
+import { loginState } from '@/features/login/login-slice'
+import AdminInputWarehouse from '@/components/WarehouseForm'
+import Trucking from '@/components/Trucking'
 
 
 const navigation = [
@@ -50,13 +54,16 @@ export default function Home() {
   const [isVendor, setIsVendor] = useState(true);
   const [isApproved, setIsApproved] = useState(false);
   const [rejected, setIsRejected] = useState(false);
-  const [name, setName] = useState('');
+  const [isWarehouse, setIsWarehouse] = useState(false);
+  const [isTrucking, setIsTrucking] = useState(false)
+  const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
-
+  const {firstName, lastName} = useSelector((state: any) => state.loginSlice)
   const handleMenuItemClick = (itemName: any) => {
     setActiveNavItem(itemName);
     setApproval(false);
   };
+  
 
   return (
     <>
@@ -234,8 +241,8 @@ export default function Home() {
                           onClick={() => {
                             setActiveNavItem("rejected")
                             setIsVendor(false);
-                            setIsRejected(true);
                             setIsApproved(false)
+                            setIsRejected(true);
                            }}
 
                           className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "rejected"  ? 'bg-gray-50 text-sky-600'
@@ -249,6 +256,56 @@ export default function Home() {
                             aria-hidden="true"
                           />
                           Rejected
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          onClick={() => {
+                            setActiveNavItem("warehouse")
+                            setIsVendor(false);
+                            setIsApproved(false);
+                            setIsRejected(false);
+                            setIsWarehouse(true);
+                           }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "warehouse"  ? 'bg-gray-50 text-sky-600'
+                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                        >
+                          <HomeModernIcon
+                            className={classNames(
+                              activeNavItem === "warehouse" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                              'h-6 w-6 shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                          Add Warehouse
+                        </button>
+                      </li>
+
+                      <li>
+                        <button
+                          onClick={() => {
+                            setActiveNavItem("trucking")
+                            setIsVendor(false);
+                            setIsApproved(false);
+                            setIsRejected(false);
+                            setIsWarehouse(false);
+                            setIsTrucking(true);
+
+                           }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "trucking"  ? 'bg-gray-50 text-sky-600'
+                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                        >
+                          <TruckIcon
+                            className={classNames(
+                              activeNavItem === "trucking" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                              'h-6 w-6 shrink-0'
+                            )}
+                            aria-hidden="true"
+                          />
+                          Add Trucking
                         </button>
                       </li>
                   </ul>
@@ -300,8 +357,8 @@ export default function Home() {
                       alt=""
                     />
                     <span className="hidden lg:flex lg:items-center">
-                      <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
-                        Tom Cook
+                      <span className="ml-4 text-sm font-semibold leading-6 text-gray-900 capitalize" aria-hidden="true">
+                        {firstName} {" "} {lastName}
                       </span>
                       <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
@@ -342,10 +399,12 @@ export default function Home() {
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
                {isVendor && !approval && <Vendors isApproved={isApproved} setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               {isVendor && approval && <Approval setName={setName} setOperation={setOperation} Id={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+               {isVendor && approval && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
                 />} 
-               {isVendor && aprroved && <ApprovedPopup name={name} operation={operation} onApprovalClick={() => router.refresh()}/>}
+               {isVendor && aprroved && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => router.refresh()}/>}
                {!isVendor && !isApproved && rejected && <RejectedUsers />}
+               {!isVendor && !isApproved && !rejected && isWarehouse && <AdminInputWarehouse />}
+               {!isVendor && !isApproved && !rejected && !isWarehouse && isTrucking && <Trucking />}
 
                {isApproved && <Approved />}
             

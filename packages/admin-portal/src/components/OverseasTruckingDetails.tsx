@@ -1,18 +1,12 @@
-import SelectComponet from './SelectComponent';
-import TextField from './TextField';
-import {
-  truckName,
-  maxPayLoad,
-  states,
-  pincode,
-  basisOfCharges,
-} from '../data/dropdownData';
+import { basisOfCharges, maxPayLoad, pincode, states, truckTypes } from "./data/dropdownData";
+import SelectComponet from "./SelectComponent";
+import TextField from "./TextField";
 
-function DomesticTransportFTLDetails(prefix: any) {
+function OverseasTruckingDetails({prefix}: any) {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6'>
-      <h2 className="font-semibold text-gray-900 col-span-full">
-        Uploading Trucking Rates (FTL)
+    <>
+     <h2 className="font-semibold text-gray-900 col-span-full">
+        Uploading Trucking Rates Overseas
       </h2>
       <SelectComponet
         options={['FTL', 'LTL']}
@@ -20,14 +14,14 @@ function DomesticTransportFTLDetails(prefix: any) {
         title={'Type Of Transport'}
       />
       <SelectComponet
-        options={truckName}
+        options={truckTypes}
         id={`${prefix}.typeOfVehicle`}
         title={'Type Of Vehicle'}
       />
-      <SelectComponet
+        <SelectComponet
         options={maxPayLoad}
-        id={`${prefix}.maxPayload`}
-        title={'Max Acceptable Payload'}
+        id={`${prefix}.acceptablePayload`}
+        title={'Acceptable Payload'}
       />
       <SelectComponet
         options={states}
@@ -59,8 +53,8 @@ function DomesticTransportFTLDetails(prefix: any) {
         id={`${prefix}.basisOfCharges`}
         title={'Type Of Transport'}
       />
-    </div>
-  );
+    </>
+  )
 }
 
-export default DomesticTransportFTLDetails;
+export default OverseasTruckingDetails;

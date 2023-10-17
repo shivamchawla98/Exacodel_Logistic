@@ -151,7 +151,7 @@ const LoginStatus = ({id, open, setOpen}: any) => {
                     ) : (
                       <div className="mt-2">
                         
-                        {(data?.getUserById.isapproved === 'Approval_pending') && <p className="text-sm text-gray-500">Your Approval is Pendeing please wait for some time to be approved, You'll get Confirmation message on your email</p>}
+                        {(data?.getUserById.isapproved === 'Approval_pending') && <p className="text-sm text-gray-500">Your Approval is Pendeing please wait for some time to be approved, You&apos;ll get Confirmation message on your email</p>}
                       {(data?.getUserById.isapproved === 'Rejected') && <p className="text-sm text-gray-500">Rejected by admin due to some wrong data entered by you please check mail for reentering info </p>}
                       {(data?.getUserById.isapproved === 'Approved') && <p className="text-sm text-gray-500">You are approved User</p>}
                         
@@ -185,7 +185,7 @@ const LoginStatus = ({id, open, setOpen}: any) => {
 }
 
 
-function page() {
+function Page() {
   const router = useRouter();
   const [showAlert, setShowAlert] = useState(false)
   const { email, password } = useSelector((state: any) => state.form);
@@ -373,4 +373,4 @@ function page() {
 }
 
 
-export default page;
+export default Page;

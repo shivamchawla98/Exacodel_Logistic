@@ -8,8 +8,8 @@ import {
 
 function DomesticTransporLTLtDetails(prefix: any) {
   return (
-    <>
-      <h2 className="font-semibold text-gray-900 col-span-3">
+    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6'>
+      <h2 className="font-semibold text-gray-900 col-span-full">
         Uploading Trucking Rates (LTL)
       </h2>
       <SelectComponet
@@ -47,7 +47,7 @@ function DomesticTransporLTLtDetails(prefix: any) {
         id={`${prefix}.basisOfCharges`}
         title={'Type Of Transport'}
       />
-    </>
+    </div>
   );
 }
 

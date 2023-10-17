@@ -2,19 +2,17 @@
 
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import SubmitButtons from './SubmitButtons';
+import SubmitButtons from './SubmitButtons'; 
 import Address from './Address';
 import SelectComponet from './SelectComponent';
 import TextField from './TextField';
-import AdminInputWarehouseDetail from './AdminInputWarehouseDetail';
-import DomesticTransportFTLDetails from './DomesticTransportFTLDetails';
-import DomesticTransporLTLtDetails from './DomesticTransportLCLDetails';
+import OverseasTruckingDetails from './OverseasTruckingDetails';
 
 const validationSchema = Yup.object({
   billingAddress: Yup.string(),
 });
 
-function AdminInputDomesticTransport() {
+function AdminInputOverseasTransport() {
   const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
@@ -50,25 +48,23 @@ function AdminInputDomesticTransport() {
 
   return (
     <>
-      <h2 className="text-2xl font-semibold leading-7 text-gray-900 pl-11 pt-11">
-      ADMIN INPUT - WAREHOUSE 
+      <h2 className="text-lg font-semibold capitalize leading-7 text-gray-900 pl-11 pt-11">
+      OVERSEAS TRANSPORT & TRUCKING DETAILS
       </h2>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        <Form className="mt-2 grid lg:grid-cols-3 gap-6 p-12 gap-y-8">
-            <Address />
-            <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-            <DomesticTransportFTLDetails prefix="flt1"/>
-            <hr className="my-12 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-            <DomesticTransporLTLtDetails prefix="ltl1" />
+        <Form className="mt-2 grid grid-cols-1 col-span-full lg:grid-cols-3 gap-6 p-12 gap-y-8">
+            <Address prefix={'address1'} />
+            <OverseasTruckingDetails prefix="flt1"/>
             <SubmitButtons id1={'addMoreRates'} title1={"Add More Rates"} id2={'save'} title2={'Save'} />
+            <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
         </Form>
       </Formik>
     </>
   );
 }
 
-export default AdminInputDomesticTransport;
+export default AdminInputOverseasTransport;

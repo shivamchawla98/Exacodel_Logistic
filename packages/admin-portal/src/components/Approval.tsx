@@ -248,14 +248,14 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
               onClick={() => {
                 handleApprove("Rejected")
               }}
-              type="button" className="bg-rose-400 hover:bg-rose-500 text-white rounded-md shadow-md py-2 px-2">
+              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
               Reject<span className="sr-only">, Reject </span>
             </button>
             <button
               onClick={() => {
                 handleApprove("Approved")
               }}
-              type="button" className="bg-sky-600 hover:bg-sky-700 text-white rounded-md shadow-md py-2 px-2">
+              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
               Approve<span className="sr-only">, Approve </span>
             </button>
 

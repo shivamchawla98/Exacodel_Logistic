@@ -23,17 +23,17 @@ import AdminInputOverseasTransport from '@/components/form components/AdminInput
 function page() {
   return (
     <>
-     <StarterForm />
+     {/* <StarterForm />
     <CustomerRegistrationForm />
-    <VendorRegistrationForm />
-    <OverseasRegistrationForm />
+    <VendorRegistrationForm /> */}
+    {/* <OverseasRegistrationForm /> */}
     <CustomerProfileUpdate />
     {/* <VendorProfileUpdate />  */}
     <OverseasAgentProfileUpdate /> 
 
     {/* Downward forms are refactored  */}
     
-    <SeaFclRateInputByAdmin />
+    {/* <SeaFclRateInputByAdmin />
     <AirRateInputByAdmin />
     <LCLRateInputByAdmin />
     <AirDomesticRateInputByAdmin />
@@ -42,7 +42,7 @@ function page() {
     <CustomClearenceBrockerageLCLByAdmin />
     <AdminInputWarehouse />
     <AdminInputDomesticTransport />
-    <AdminInputOverseasTransport />
+    <AdminInputOverseasTransport /> */}
     </>
   )
 }

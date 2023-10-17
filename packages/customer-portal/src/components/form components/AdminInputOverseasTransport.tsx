@@ -2,13 +2,8 @@
 
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import SubmitButtons from './SubmitButtons';
+import SubmitButtons from './SubmitButtons'; 
 import Address from './Address';
-import SelectComponet from './SelectComponent';
-import TextField from './TextField';
-import AdminInputWarehouseDetail from './AdminInputWarehouseDetail';
-import DomesticTransportFTLDetails from './DomesticTransportFTLDetails';
-import DomesticTransporLTLtDetails from './DomesticTransportLCLDetails';
 import OverseasTruckingDetails from './OverseasTruckingDetails';
 
 const validationSchema = Yup.object({

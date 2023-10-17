@@ -6,12 +6,12 @@ import {
   states,
   pincode,
   basisOfCharges,
-} from '../data/dropdownData';
+} from './data/dropdownData';
 
 function DomesticTransportFTLDetails(prefix: any) {
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6'>
-      <h2 className="font-semibold text-gray-900 col-span-full">
+    <>
+      <h2 className="font-semibold text-gray-900 col-span-3">
         Uploading Trucking Rates (FTL)
       </h2>
       <SelectComponet
@@ -59,7 +59,7 @@ function DomesticTransportFTLDetails(prefix: any) {
         id={`${prefix}.basisOfCharges`}
         title={'Type Of Transport'}
       />
-    </div>
+    </>
   );
 }
 

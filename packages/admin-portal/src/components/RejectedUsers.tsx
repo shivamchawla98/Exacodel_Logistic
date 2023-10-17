@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
+import {XMarkIcon} from '@heroicons/react/20/solid'
 
 const LIST_INITIAL_REGISTRATION = gql`
   query {
@@ -68,12 +69,12 @@ function Approved({ onApprovalClick, setApprovalIndex }: any) {
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.email}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       <button
-                        onClick={() => {
-                          setApprovalIndex(index);
-                          onApprovalClick();
-                        }}
-                        type="button" className="bg-rose-400  text-xs text-white rounded  cursor-default  py-2 px-2">
-                        Approved<span className="sr-only">, {person.first_name}</span>
+                    
+                        type="button"
+                        className=" flex justify-center"
+                      >
+                        <XMarkIcon className="mr-4 h-5 w-5 text-rose-300" aria-hidden="true" />
+                        Rejected<span className="sr-only">, {person.first_name}</span>
                       </button>
                     </td>
                   </tr>

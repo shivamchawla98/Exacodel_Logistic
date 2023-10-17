@@ -9,9 +9,9 @@ import { useEffect, useState } from "react";
 
 
 
-function page() {
+function Page() {
   const [showFilters, setShowFilters] = useState(false);
-  const isSmallScreen = window.innerWidth < 768; 
+  // const isSmallScreen = window.innerWidth < 768; 
   let from = "porbandar";
   let to = "china";
   from = from.toUpperCase();
@@ -19,9 +19,9 @@ function page() {
   let testArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   
-  useEffect(() => {
-    setShowFilters(!isSmallScreen);
-  }, [isSmallScreen]);
+  // useEffect(() => {
+  //   setShowFilters(!isSmallScreen);
+  // }, [isSmallScreen]);
 
   const toggleFilters = () => {
     setShowFilters(!showFilters);
@@ -40,14 +40,14 @@ function page() {
 
       <div className="md:flex md:justify-evenly">
       <div className={`p-2 ml-2 shadow-sm`}>
-          {isSmallScreen && (
+          
             <button
-              className="block bg-sky-500 text-white p-2 rounded-md"
+              className="block bg-sky-500 text-white p-2 rounded-md lg:hidden"
               onClick={toggleFilters}
             >
               Toggle Filters
             </button>
-          )}
+        
           <div
             className={`transition-transform transform ${
               showFilters ? 'translate-x-0' : '-translate-x-full'
@@ -67,4 +67,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

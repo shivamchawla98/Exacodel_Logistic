@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
+import { CheckIcon } from '@heroicons/react/20/solid'
 
 const LIST_INITIAL_REGISTRATION = gql`
   query {
@@ -72,7 +73,10 @@ function Approved({ onApprovalClick, setApprovalIndex }: any) {
                           setApprovalIndex(index);
                           onApprovalClick();
                         }}
-                        type="button" className="bg-green-400  text-xs text-white rounded  cursor-default  py-2 px-2">
+                        type="button"
+                        className="flex justify-center"
+                      >
+                        <CheckIcon className="mr-6 h-5 w-5 text-green-300" aria-hidden="true" />
                         Approved<span className="sr-only">, {person.first_name}</span>
                       </button>
                     </td>

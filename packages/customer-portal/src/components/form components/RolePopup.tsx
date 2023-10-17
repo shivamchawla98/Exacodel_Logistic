@@ -10,7 +10,7 @@ import { companyTypes } from '../data/dropdownData'
 const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
 const overseasAgentSubtypes = ["FOREIGN_AGENT"];
 
-const subTypes = {
+const subTypes: any = {
   "CUSTOMER": companyTypes,
   "VENDOR": vendorSubtype,
   "OVERSEAS_AGENT": overseasAgentSubtypes,

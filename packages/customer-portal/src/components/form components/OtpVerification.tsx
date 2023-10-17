@@ -28,7 +28,7 @@ const CountdownTimer = ({ timer }: any) => {
   const [countdown, setCountdown] = useState(timer);
 
   useEffect(() => {
-    let interval;
+    let interval: any;
 
     if (countdown > 0) {
       interval = setInterval(() => {

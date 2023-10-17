@@ -29,7 +29,7 @@ const SearchBar = () => {
     );
   };
 
-function page() {
+function Page() {
     const [isOpen, setIsOpen] = useState(false)
     const closeModal = () => {
         setIsOpen(false)
@@ -42,10 +42,10 @@ function page() {
         <main className="bg-white my-6">
                   <BookModal  isOpen= {isOpen} closeModal= {closeModal} />
                 <SearchBar />
-                {arr.map((index: any) => <Card openModal={openModal} />)}
+                {arr.map((index: any) => <Card key={index} openModal={openModal} />)}
 
         </main>
     )
 }
 
-export default page
+export default Page

@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -35,7 +35,7 @@ const BookModal = ({ isOpen, closeModal }: any) => {
     warehouseInsurance: Yup.string().required('Warehouse Insurance is required'),
   });
 
-  const handleSubmit = (values) => {
+  const handleSubmit = (values: any) => {
     // Handle form submission logic here
     console.log('Form values:', values);
     closeModal();

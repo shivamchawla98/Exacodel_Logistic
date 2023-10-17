@@ -16,8 +16,8 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     // https://studio.apollographql.com/public/splacex-l4uc6p/
-    // uri: "http://localhost:3000/graphql",
-    uri: process.env.BACKEND_ENDPOINT,
+    uri: "http://localhost:3000/graphql",
+    // uri: process.env.BACKEND_ENDPOINT,
   });
 
   return new NextSSRApolloClient({

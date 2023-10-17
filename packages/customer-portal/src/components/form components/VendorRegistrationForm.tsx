@@ -165,8 +165,8 @@ function VendorRegistrationForm() {
       if (response) {
         // values.region = response.data[3][1];
         // values.company = response.data[5][1];
-        values.region = response[3][1];
-        values.companyName = response[5][1];
+        // values.region = response[3][1];
+        // values.companyName = response[5][1];
         console.log("company: ", values);
         
         setApiResponse(true)
@@ -205,7 +205,7 @@ function VendorRegistrationForm() {
           input: {
             companyType: values.companyType,
             industryType:  values.industryType,
-            companyName: values.companyName,
+            companyName: values.company,
             state: values.region,
             pincode: values.postalCode,
             Address: values.streetAddress,
