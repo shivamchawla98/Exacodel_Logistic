@@ -9,14 +9,14 @@ const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORT
 const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
 const overseasSubtype = ["FOREIGN_AGENT"];
 
-function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
+function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
   const { loading, error, data, refetch} = useQuery(LIST_INITIAL_REGISTRATION);
   const [isLoading, setIsLoading] = useState(true);
   const [userTypeFilter, setUserTypeFilter] = useState("All");
   const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 28; // Number of items to display per page
+  const itemsPerPage = 10; // Number of items to display per page
 
 
   useEffect(() => {
@@ -214,4 +214,4 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
   );
 }
 
-export default Vendors;
+export default TruckingReview;

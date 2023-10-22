@@ -50,7 +50,7 @@ const userTypes = [
 
 
 
-export default function Approval({setName, setOperation, Id, onApproveClick, isApproved }: any) {
+export default function TruckingEdit({setName, setOperation, Id, onApproveClick, isApproved }: any) {
   const { loading, error, data } = useQuery(GET_USER_ID, {
     variables: {
       userId: Id*1

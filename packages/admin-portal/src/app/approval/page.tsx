@@ -24,15 +24,50 @@ import { useRouter } from 'next/navigation'
 import Approved from '@/components/Approved'
 import RejectedUsers from '@/components/RejectedUsers'
  import { useSelector } from 'react-redux'
-import { loginState } from '@/features/login/login-slice'
 import AdminInputWarehouse from '@/components/WarehouseForm'
 import Trucking from '@/components/Trucking'
+import AllWarehouse from './components/AllWarehouse'
+import {FaWarehouse} from 'react-icons/fa'
+import WarehouseInfo from './components/WarehouseInfo'
+import WarehouseActionCenter from './components/WarehouseActionCenter'
+import WarehouseReview from './components/WarehouseEdit'
+import TruckingReview from './components/TruckingReview'
+import TruckingEdit from './components/TruckingEdit'
+import AllTruckingInfo from './components/AllTrucking'
+import TruckingInfo from './components/TruckingInfo'
 
 
 const navigation = [
-  { name: 'Vendor', href: '#', icon: CursorArrowRaysIcon, current: true },
-  { name: 'Approved', href: '#', icon: UserGroupIcon, current: false },
-  { name: 'Rejected', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+  {
+    name: 'Vendor', href: '#', icon: CursorArrowRaysIcon, current: true,
+    subNav:
+      [
+        { name: 'Vendor Review', href: '#', icon: CursorArrowRaysIcon, current: false },
+        { name: 'Approved', href: '#', icon: UserGroupIcon, current: false },
+        { name: 'Rejected', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+      ],
+  },
+
+  {
+    name: 'Warehouse', href: '#', icon: FaWarehouse, current: true,
+    subNav:
+      [
+        { name: 'Warehouse Review', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+        { name: 'Add Warehouse', href: '#', icon: UserGroupIcon, current: false },
+        { name: 'All warehouses', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+      ],
+  },
+
+  {
+    name: 'Trucking', href: '#', icon: CursorArrowRaysIcon, current: true,
+    subNav:
+      [
+        { name: 'Trucking Review', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+        { name: 'Add Trucking', href: '#', icon: UserGroupIcon, current: false },
+        { name: 'All Trucking', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+      ],
+  },
+
 ]
 
 const userNavigation = [
@@ -48,23 +83,15 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [approval, setApproval] = useState(false)
   const [approvalIndex, setApprovalIndex] = useState(0);
-  const [aprroved, setApproved] = useState(false)
-  const router = useRouter();
-  const [activeNavItem, setActiveNavItem] = useState('vendor'); // Initial active menu item
-  const [isVendor, setIsVendor] = useState(true);
+
+ 
   const [isApproved, setIsApproved] = useState(false);
-  const [rejected, setIsRejected] = useState(false);
-  const [isWarehouse, setIsWarehouse] = useState(false);
-  const [isTrucking, setIsTrucking] = useState(false)
   const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
+  const [activeItem, setActiveItem] = useState('Vendor Review');
   const {firstName, lastName} = useSelector((state: any) => state.loginSlice)
-  const handleMenuItemClick = (itemName: any) => {
-    setActiveNavItem(itemName);
-    setApproval(false);
-  };
   
-
+  {console.log(activeItem)}
   return (
     <>
       {/*
@@ -177,7 +204,7 @@ export default function Home() {
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          {/* Sidebar component, swap this element with another sidebar if you like */}
+         
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
@@ -188,128 +215,73 @@ export default function Home() {
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
-                <li>
-                  <ul role="list" className="-mx-2 space-y-1">
-                   
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("vendor")
-                            setIsVendor(true);
-                            setIsApproved(false)
-                            setApproval(false) }}
+                {
+                  navigation.map((navItems, index : any) => {
 
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "vendor"  ? 'bg-gray-50 text-sky-600'
+                    return (
+                      <li key={navItems.name}>
+                    
+                        <button
+                          id={navItems.name}
+                          onClick={(e) => {
+                            setActiveItem(e.currentTarget.id)
+                            console.log("herre : ", e.currentTarget.id);
+                            
+                             }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 -mx-2 space-y-1 text-sm leading-6 font-medium w-full ${activeItem === navItems.name  ? 'bg-gray-50 text-sky-600'
                           : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
                         >
-                          <CursorArrowRaysIcon
+                          <navItems.icon
                             className={classNames(
-                              activeNavItem === "vendor" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                              activeItem === navItems.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
                               'h-6 w-6 shrink-0'
                             )}
                             aria-hidden="true"
                           />
-                          Vendors
+                          {navItems.name}
                         </button>
-                      </li>
+                    
 
-
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("approved")
-                            setIsVendor(false);
-                            setIsApproved(true);
-                           }}
-
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "approved"  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                      <ul key={index} role="list" className="ml-4">
+                      {
+                        navigation[index].subNav.map((childNav: any) => {
+                        return  ( <li
+                        key={childNav.name}
                         >
-                          <UserGroupIcon
-                            className={classNames(
-                              activeNavItem === "approved" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          Approved
-                        </button>
+                          <button
+                          id={childNav.name}
+                            onClick={(e: any) => {
+                              setActiveItem(e.currentTarget.id)
+                             }}
+  
+                            className={`group flex gap-x-3 rounded-md  text-sm leading-6  font-normal w-full ${activeItem === childNav.name  ? 'bg-gray-50 text-sky-600'
+                            : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                          >
+                            {
+                             childNav.icon && <childNav.icon
+                              className={classNames(
+                                activeItem === childNav.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                                'h-4 w-4 shrink-0'
+                              )}
+                              aria-hidden="true"
+                            />
+                            }
+                            {childNav.name}
+                          </button>
+                        </li>)
+                        })
+                      }
+
+                      </ul>
+
                       </li>
+                    )
 
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("rejected")
-                            setIsVendor(false);
-                            setIsApproved(false)
-                            setIsRejected(true);
-                           }}
-
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "rejected"  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
-                        >
-                          <ArchiveBoxXMarkIcon
-                            className={classNames(
-                              activeNavItem === "rejected" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          Rejected
-                        </button>
-                      </li>
-
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("warehouse")
-                            setIsVendor(false);
-                            setIsApproved(false);
-                            setIsRejected(false);
-                            setIsWarehouse(true);
-                           }}
-
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "warehouse"  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
-                        >
-                          <HomeModernIcon
-                            className={classNames(
-                              activeNavItem === "warehouse" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          Add Warehouse
-                        </button>
-                      </li>
-
-                      <li>
-                        <button
-                          onClick={() => {
-                            setActiveNavItem("trucking")
-                            setIsVendor(false);
-                            setIsApproved(false);
-                            setIsRejected(false);
-                            setIsWarehouse(false);
-                            setIsTrucking(true);
-
-                           }}
-
-                          className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold w-full ${activeNavItem === "trucking"  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
-                        >
-                          <TruckIcon
-                            className={classNames(
-                              activeNavItem === "trucking" ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
-                            )}
-                            aria-hidden="true"
-                          />
-                          Add Trucking
-                        </button>
-                      </li>
-                  </ul>
-                </li>
+                  })
+                }
+                  
+                
                 <li className="mt-auto">
                   <a
                     href="#"
@@ -326,6 +298,7 @@ export default function Home() {
             </nav>
           </div>
         </div>
+
 
         <div className="lg:pl-72">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
@@ -398,16 +371,26 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-               {isVendor && !approval && <Vendors isApproved={isApproved} setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setApproval(!approval)} />}
-               {isVendor && approval && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved = {() => setApproved(true)} onApproveClick={() =>{ setApproval(!approval)    } } 
+               {activeItem === 'Vendor Review' && <Vendors isApproved={isApproved} setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
+               {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved = {() => setActiveItem("approved popup")} onApproveClick={() =>{ setActiveItem("Vendor Review")    } } 
                 />} 
-               {isVendor && aprroved && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => router.refresh()}/>}
-               {!isVendor && !isApproved && rejected && <RejectedUsers />}
-               {!isVendor && !isApproved && !rejected && isWarehouse && <AdminInputWarehouse />}
-               {!isVendor && !isApproved && !rejected && !isWarehouse && isTrucking && <Trucking />}
-
-               {isApproved && <Approved />}
-            
+               {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={()=> setActiveItem("Vendor Review")} />}
+               {activeItem === 'Approved' && <Approved />}
+               {activeItem === 'Rejected' && <RejectedUsers />}
+              
+              {/* warehouse */}
+               {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem}/>}
+               {activeItem === 'Warehouse Review' && <WarehouseActionCenter setApprovalIndex = {setApprovalIndex} Id={approvalIndex}  setActiveItem={setActiveItem} />}
+               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem}/>}
+               {activeItem === 'All warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex = {setApprovalIndex}  />}
+               {activeItem === 'warehouseInfo' && <WarehouseInfo  Id={approvalIndex}/>}
+             
+             {/* trucking */}
+               {activeItem === 'Trucking Review' && <TruckingReview  setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
+               {activeItem === 'truckingEdit' && <TruckingEdit Id={approvalIndex} setActiveItem={setActiveItem}/>}
+               {activeItem === 'Add Trucking' && <Trucking />}
+               {activeItem === 'All Trucking' && <AllTruckingInfo setActiveItem={setActiveItem} setApprovalIndex = {setApprovalIndex}/>}
+               {activeItem === 'truckingInfo' && <TruckingInfo Id={approvalIndex} />}
             </div>
           </main>
         </div>

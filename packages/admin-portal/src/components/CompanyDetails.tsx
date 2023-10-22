@@ -18,7 +18,7 @@ function CompanyDetails({prefix}: any) {
       </div>
 
       {/* billingCode */}
-      <div>
+      {/* <div>
         <label
           htmlFor={`billingCode`}
           className="block text-sm font-medium leading-6 text-gray-600"
@@ -27,7 +27,7 @@ function CompanyDetails({prefix}: any) {
         </label>
         <Field type="text" id={`billingCode`} name={`billingCode`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
         <ErrorMessage name={`billingCode`} component="div" />
-      </div>
+      </div> */}
 
       {/* gstNumber */}
       <div>

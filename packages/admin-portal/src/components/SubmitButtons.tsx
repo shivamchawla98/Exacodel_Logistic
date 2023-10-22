@@ -1,4 +1,4 @@
-function SubmitButtons({id1, title1, id2, title2}: any) {
+function SubmitButtons({id1, title1}: any) {
     return (
       <>
         {/* buttons */}
@@ -10,14 +10,6 @@ function SubmitButtons({id1, title1, id2, title2}: any) {
             className="rounded-lg bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 ml-4"
           >
             {title1}
-          </button>
-          <button
-            type="button"
-            id={id2}
-            name={id2}
-            className="rounded-lg bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 ml-4"
-          >
-            {title2}
           </button>
         </div>
       </>

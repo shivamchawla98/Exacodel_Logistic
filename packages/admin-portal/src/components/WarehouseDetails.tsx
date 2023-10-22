@@ -9,8 +9,16 @@ function AdminInputWarehouseDetail({ prefix }: any) {
         Warehouse Details
       </h2>
       <SelectComponet
-        options={['cold Storage', 'Warm Storage']}
-        id={`typeOfWarehoue`}
+        options={[
+          'coldStorageFacility',
+          'generalWarehouse',
+          'referigeratedWarehouse',
+          'fullFilmentCenter',
+          'petroleumWarehouse',
+          'bondedWarehouse',
+          'hazCargoWarehouse'
+        ]}
+        id={`typeOfWarehouse`}
         title={'Type Of Warehouse'}
       />
       <TextField
@@ -50,27 +58,24 @@ function AdminInputWarehouseDetail({ prefix }: any) {
       />
       <SelectComponet
         options={[
-          '-18 to +20 Deg Cel.',
-          '-2 to -8 Deg Cel.',
-          '-20 to +20 Deg Cel.',
-          '+15 to 25 Deg Cel.',
+            "MINUS_Eighteen_Degree_to_twenty_degree_celcius",
+            "MINUS_Two_Degree_to_MINUS_Eight_degree_celcius",
+            "MINUS_Twenty_Degree_to_twenty_degree_celcius",
+            "fifteen_Degree_to_twentyfive_degree_celcius"
         ]}
         id={`temperatureCapacity`}
         title={'Temperature Capcity'}
       />
       <SelectComponet
         options={[
-          'Class 1',
-          'Class 2',
-          'Class 3',
-          'Class 4',
-          'Class 5',
-          'Class 6',
-          'Class 7',
-          'Class 8',
-          'Class 9 ',
-          'Class 1 to 9',
-          'OTHER',
+          "Class1",
+          "Class2",
+          "Class3",
+          "Class4",
+          "Class5",
+          "Class6",
+          "Class7",
+          "Class8"
         ]}
         id={`hazardousStorageCapacity`}
         title={'Hazardous Storage Capacity'}
@@ -105,7 +110,7 @@ function AdminInputWarehouseDetail({ prefix }: any) {
         title={'Minimum Storage Rent Charges (per pallet)'}
         type={'number'}
       />
-      <hr className="h-px my-3 bg-gray-200 border-0 dark:bg-gray-300 col-span-full"></hr>
+      <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
     </div>
   );
 }

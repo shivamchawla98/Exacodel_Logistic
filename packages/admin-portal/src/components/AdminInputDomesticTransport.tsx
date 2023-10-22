@@ -61,7 +61,7 @@ function AdminInputDomesticTransport() {
             <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
             <DomesticTransporLTLtDetails prefix="ltl1" />
             <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-            <SubmitButtons id1={'addMoreRates'} title1={"Add More Rates"} id2={'save'} title2={'Save'} />
+            <SubmitButtons  id1={'save'} title1={'Save'} />
         </Form>
       </Formik>
     </>

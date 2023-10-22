@@ -1,17 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { CheckIcon } from '@heroicons/react/20/solid'
-
-const LIST_INITIAL_REGISTRATION = gql`
-  query {
-    listInitialRegistrations {
-      email
-      userType
-      first_name
-      isapproved
-    }
-  }
-`;
+import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
 
 function Approved({ onApprovalClick, setApprovalIndex }: any) {
   const { loading, error, data } = useQuery(LIST_INITIAL_REGISTRATION);
