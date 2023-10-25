@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { PaperClipIcon } from '@heroicons/react/20/solid';
+'use client'
+
+import  { useState, useEffect } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import { BiErrorCircle } from 'react-icons/bi';
 import GET_USER_ID from '@/graphql/query/getUserById';
 import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
+import ApprovedPopup from '../approval/components/ApprovedPopup';
+import { useSearchParams } from 'next/navigation'
 
 const annualTurnoverOptions = [
   "UP_TO_10000",
@@ -50,12 +53,13 @@ const userTypes = [
 
 
 
-export default function Approval({setName, setOperation, Id, onApproveClick, isApproved }: any) {
+export default function Page() {
   const { loading, error, data } = useQuery(GET_USER_ID, {
     variables: {
-      userId: Id*1
+      userId: 111*1
     },
   });
+  const searchParams = useSearchParams();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<any>({});
   const [userType, setUserType] = useState('');
@@ -66,8 +70,13 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
   const [selectedCompanyType, setSelectedCompanyType] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('');
   const [selectedIndustryType, setSelectedIndustryType] = useState('');
+  const [operation, setOperation] = useState<any>('');
+  const [showSucess, setShowSucess] = useState(false)
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
+  const Id:any = searchParams.get("id");
+  console.log("search params", searchParams.get("id"));
+  
 
   useEffect(() => {
     
@@ -87,6 +96,7 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
         setSelectedUserType(user.userType);
         setSelectedIndustryType(user.industryType)
         setFormData({
+        'Remarks': user.remarks,
           'Company Name': user.companyName,
           'GST Number': user.gst_no,
           'Full name': user.first_name + ' ' + user.last_name,
@@ -107,13 +117,13 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
           'Designation': user.Designation,
           'Contact Number': user.mobile,
           'Website': user.website,
-          'Remarks': "",
         });
 
 
       }
     }
   }, [loading, data, Id]);
+
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData: any) => ({
@@ -148,6 +158,24 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
     )
   }
 
+
+  if (loading) {
+    return (
+        <div className="flex items-center justify-center py-10 h-screen">
+        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+        <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+        <p>Some Error :(</p>
+    )
+  }
+
+
   const handleApprove = async (approvedOrReject: String) => {
     console.log("Id : ", Id);  
     
@@ -180,15 +208,14 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
             customerSubType: formData['Customer Type'],
             vendorSubType: formData['Vendor Type'],
             overseasAgentSubType: formData['Overseas Type'],
-            remarks: formData['Remarks'],
+            // remarks: formData['Remarks'],
           },
         },
       });
       console.log("this is : ", data);
-      setName(formData['Full name']);
+      
       setOperation(approvedOrReject)
-      onApproveClick();
-      isApproved()
+      setShowSucess(true);
     } catch (error) {
       setShowAlert(true);
       console.error("error : ",error);
@@ -198,6 +225,7 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
   return (
     <div className=' '>
       {showAlert && <Alert />}
+      {showSucess && <ApprovedPopup />}
       <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
         <div className="px-4 py-6 sm:px-6">
           <div className='w-full flex justify-between items-center'>
@@ -210,20 +238,6 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
               }}
               type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
               Send for Review<span className="sr-only">, Review </span>
-            </button>
-            <button
-              onClick={() => {
-                handleApprove("Rejected")
-              }}
-              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Reject<span className="sr-only">, Reject </span>
-            </button>
-            <button
-              onClick={() => {
-                handleApprove("Approved")
-              }}
-              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Approve<span className="sr-only">, Approve </span>
             </button>
 
             </div>

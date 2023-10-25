@@ -12,6 +12,7 @@
     "@apollo/client": "^3.8.4",
     "@material-tailwind/react": "^2.1.0",
     "@reduxjs/toolkit": "^1.9.7",
+    "@types/cookie": "^0.5.3",
     "@types/node": "20.2.3",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",

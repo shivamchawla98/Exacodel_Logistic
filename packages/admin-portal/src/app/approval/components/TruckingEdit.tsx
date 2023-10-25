@@ -4,56 +4,64 @@ import { PaperClipIcon } from '@heroicons/react/20/solid';
 import { BiErrorCircle } from 'react-icons/bi';
 import GET_USER_ID from '@/graphql/query/getUserById';
 import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
+import ApprovedPopup from './ApprovedPopup';
 
-const annualTurnoverOptions = [
-  "UP_TO_10000",
-  "FROM_10000_TO_50000",
-  "FROM_50000_TO_100000",
-  "FROM_100000_TO_500000",
-  "FROM_500000_TO_1000000",
-  "FROM_1000000_TO_1500000",
-  "FROM_1500000_TO_2500000",
-  "FROM_2500000_TO_5000000",
-  "FROM_5000000_TO_10000000",
-  "ABOVE_10000000"
-];
+const GET_TRUCK_BY_ID = gql `
+query GET_TRUCK_BY_ID($id: ID!){
+  getTruck(id: $id){
+    companyName
+    Adress
+    State
+    City 
+		Pincode
+    Country
+    transportertype
+    vehicletype
+    maxacceptablepayload
+    pickupcity
+    pickupcitypincode
+    dropcity
+    dropcitypincode
+    transportcharges
+  }
+}
+`
 
-const industryTypeOptions = [
-  "Apparels_and_garments",
-  "Building_and_Construction",
-  "Electronic_and_Electical",
-  "Drugs_and_pharms",
-  "Industrial_Machines",
-  "Industrial_suppplies",
-  "Food_and_Beverages",
-  "Hospital_and_Medicalsupplies"
-];
+const CREATE_TRUCK = gql`
+mutation CREATE_TRUCK($truckData: TruckDTO!) {
+  createTruck(truckData: $truckData) {
+    id
+    companyName
+  }
+}
+`
 
-const companyTypeOptions = [
-  "Partnership",
-  "private_limited",
-  "public_limited",
-  "limited_liability_partnership",
-  "Non_profit_cooperation",
-  "Inc",
-  "Cooperation",
-  "LLC"
-];
+const DELETE_TRUCK_BY_ID  =  gql `mutation DELETE_TRUCK_BY_ID($id: ID!) {
+  deleteTruck(id: $id)
+}`
 
-const userTypes = [
-  "CUSTOMER",
-  "VENDOR",
-  "OVERSEAS_AGENT"
-  // Add more options as needed
-];
+const  transportType =  [  "FTL",  "LTL" ]
+
+const  vehicleType = [ "TataAce",
+  "AshokLeylandDost",
+  "MahindraBoleropickup",
+  "Tata407"]
+
+const maxacceptablePayload = ['Max_load_850_kgs', 'Max_load_1_Tonne', 'Max_load_onehalf_Tonne'];
+
+const pickupCity = ['Assam', 'Bihar', 'Gujarat', 'Rajesthan', 'Haryana', 'Kerala', 'Karnatka'];
+const pickupCityPincode = ['_515004', '_515731', '_515002', '_515766', '_515415', '_515822', '_515455', '_515001'];
+const dropCity = ['Assam', 'Bihar', 'Gujarat', 'Rajesthan', 'Haryana', 'Kerala', 'Karnatka'];
+const dropCityPincode = ['_515004', '_515731', '_515002', '_515766', '_515415', '_515822', '_515455', '_515001'];
 
 
+  
 
 
-export default function TruckingEdit({setName, setOperation, Id, onApproveClick, isApproved }: any) {
-  const { loading, error, data } = useQuery(GET_USER_ID, {
+export default function TruckingEdit({Id, setActiveItem }: any) {
+  const { loading, error, data } = useQuery(GET_TRUCK_BY_ID, {
     variables: {
-      userId: Id*1
+      id: Id*1
     },
   });
   const [editMode, setEditMode] = useState(false);
@@ -62,52 +70,53 @@ export default function TruckingEdit({setName, setOperation, Id, onApproveClick,
   const [gst_no, setGstNo] = useState('');
   const [showAlert, setShowAlert] = useState(false);
 
-  const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState('');
-  const [selectedCompanyType, setSelectedCompanyType] = useState('');
-  const [selectedUserType, setSelectedUserType] = useState('');
-  const [selectedIndustryType, setSelectedIndustryType] = useState('');
+  const [selectedTransportType, setSelectedTransportType] = useState('');
+  const [selectedVehicleType, setSelectedVehicleType] = useState('');
+  const [selectedPayload, setSelectedMaxPayloadType] = useState('');
+  const [selectedPickupCity, setSelectedPickupCity] = useState('');
+  const [selectedPickupCityPincode, setSelectedPickupCityPincode] = useState('');
+  const [selectedDropCity, setSelectedDropCity] = useState('');
+  const [selectedDropCityPincode, setSelectedDropCityPincode] = useState('');
+  const [showSucess, setShowSucess] = useState(false)
+  const [companyName, setCompanyName] = useState('');
+  const [operation, setOperation] = useState<any>("");
 
-  const [approveUser] = useMutation(APPROVE_USER_MUTATION);
+  const [createTruck] = useMutation(CREATE_TRUCK);
+  const [deleteTruck] = useMutation(DELETE_TRUCK_BY_ID);
 
   useEffect(() => {
     
-    if (!loading && data && data.getUserById) {
+    if (!loading && data && data.getTruck) {
       console.log("data", data);
       console.log("loading", error);
-      let user =  data.getUserById;
+      let truck =  data.getTruck;
 
-      console.log("list of intitial users ",  user.id);
+      console.log("list of intitial users ",  truck.id);
     
-      setUserType(user.userType);
-      setGstNo(user.gst_no);
+      setUserType(truck.userType);
+      setGstNo(truck.gst_no);
 
-      if (user) {
-        setSelectedAnnualTurnover(user.annualTurnover);
-        setSelectedCompanyType(user.companyType);
-        setSelectedUserType(user.userType);
-        setSelectedIndustryType(user.industryType)
+      if (truck) {
+        setSelectedTransportType(truck.transportertype);
+        setSelectedVehicleType(truck.vehicletype);
+        setSelectedMaxPayloadType(truck.maxacceptablepayload);
+        setSelectedPickupCity(truck.pickupcity)
+        setSelectedPickupCityPincode(truck.pickupcitypincode)
         setFormData({
-          'Company Name': user.companyName,
-          'GST Number': user.gst_no,
-          'Full name': user.first_name + ' ' + user.last_name,
-          'Email address': user.email,
-          // 'Password': user.password,
-          'Annual Turn Over': selectedAnnualTurnover,
-          // 'Billing Code of company': user.BillingCode,
-          'User Type': selectedUserType,
-          'Type of Company': selectedCompanyType,
-          'Industry': selectedIndustryType,
-          'State': user.state,
-          'Pincode': user.pincode,
-          'Address': user.Adress,
-          'City': user.city,
-          'Country': user.country,
-          'Company Registration Number': user.company_reg_no,
-          'Company Pan Number': user.company_pan_no,
-          'Designation': user.Designation,
-          'Contact Number': user.mobile,
-          'Website': user.website,
-          'Remarks': "",
+         "companyName": truck.companyName,
+         "Adress": truck.Adress,
+         "State": truck.State,
+         "City": truck.City, 
+         "Pincode": truck.Pincode,
+         "Country": truck.Country,
+         "Transporter Type": selectedTransportType,
+         "Vehicle Type": selectedVehicleType,
+         "Max Acceptable Payload": selectedPayload,
+         "Pickup City": selectedPickupCity,
+         "Pickup City Pincode": selectedPickupCityPincode,
+         "Drop City": selectedDropCity,
+         "Drop City Pincode": selectedDropCityPincode,
+         "Transport Charges": truck.transportcharges,
         });
 
 
@@ -151,53 +160,77 @@ export default function TruckingEdit({setName, setOperation, Id, onApproveClick,
   const handleApprove = async (approvedOrReject: String) => {
     console.log("Id : ", Id);  
     
-    try {
-      const { data: approvalData } = await approveUser({
-        variables: {
-          userId: Id * 1,
-          input: {
-            companyType: selectedCompanyType,
-            Approveduser: approvedOrReject,
-            industryType: selectedIndustryType,
-            state: formData['State'],
-            pincode: formData['Pincode'],
-            Address: formData['Address'],
-            city: formData['City'],
-            country: formData['Country'],
-            company_reg_no: formData['Company Registration Number'],
-            company_name: formData['Company Name'],
-            company_pan_no: formData['Company Pan Number'],
-            annualTurnover: selectedAnnualTurnover,
-            gst_no: formData['GST Number'],
-            first_name: formData['Full name'].split(' ')[0],
-            last_name: formData['Full name'].split(' ')[1],
-            Designation: formData['Designation'],
-            mobile: formData['Contact Number'],
-            website: formData['Website'],
-            email: formData['Email address'],
-            // password: formData['Password'],
-            userType: userType,
-            customerSubType: formData['Customer Type'],
-            vendorSubType: formData['Vendor Type'],
-            overseasAgentSubType: formData['Overseas Type'],
-            remarks: formData['Remarks'],
+    if (approvedOrReject === 'Updated') {
+      try {
+        const { data: approvalData } = await createTruck({
+          variables: {
+            id: Id * 1,
+            truckData: {
+            companyName: formData['companyName'],
+            Adress: formData[`Adress`],
+            State: formData[`State`],
+            City: formData[`City`],
+            Pincode: formData[`Pincode`],
+            Country: formData[`Country`],
+            transportertype: selectedTransportType,
+            vehicletype: selectedVehicleType,
+            maxacceptablepayload: selectedTransportType,
+            pickupcity: selectedPickupCity,
+            pickupcitypincode: selectedPickupCityPincode,
+            dropcity: selectedDropCity,
+            dropcitypincode: selectedDropCityPincode,
+            transportcharges: formData['Transport Charges']    
+            }
           },
-        },
-      });
-      console.log("this is : ", data);
-      setName(formData['Full name']);
-      setOperation(approvedOrReject)
-      onApproveClick();
-      isApproved()
-    } catch (error) {
-      setShowAlert(true);
-      console.error("error : ",error);
-    }
+        });
+        console.log("this is : ", data);
+        setCompanyName(formData['companyName']);
+        setOperation(approvedOrReject)
+        setShowSucess(true)
+      } catch (error) {
+        setShowAlert(true);
+        console.error("error in approving : ",error);
+      }
+      
+    } if (approvedOrReject === 'Delete') {
+      try {
+        deleteTruck({
+          variables: {
+            id: Id*1
+          }
+        })
+        setCompanyName(formData['companyName']);
+        setOperation(approvedOrReject)
+        setShowSucess(true)
+      } catch (error2) {
+        console.log("error from delete truck", error2);
+        setShowAlert(true);
+      }
+    } 
+
+
+  }
+
+  if (error) {
+    console.log(data);
+    
+    return <p>Error ; (</p>
+  }
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-10">
+      <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+      <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+      <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+    </div>
+    )
   }
 
   return (
     <div className=' '>
       {showAlert && <Alert />}
+      {showSucess && <ApprovedPopup name={companyName} operation={operation} onApprovalClick={() => setActiveItem('Trucking Review') } />}
       <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
         <div className="px-4 py-6 sm:px-6">
           <div className='w-full flex justify-between items-center'>
@@ -206,17 +239,17 @@ export default function TruckingEdit({setName, setOperation, Id, onApproveClick,
             <div className='flex justify-evenly w-1/2'>
             <button
               onClick={() => {
-                handleApprove("Rejected")
+                handleApprove("Delete")
               }}
               type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
               Reject<span className="sr-only">, Reject </span>
             </button>
             <button
               onClick={() => {
-                handleApprove("Approved")
+                handleApprove("Updated")
               }}
               type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Approve<span className="sr-only">, Approve </span>
+              Update<span className="sr-only">, Update </span>
             </button>
 
             </div>
@@ -232,59 +265,108 @@ export default function TruckingEdit({setName, setOperation, Id, onApproveClick,
                     <dt className="text-sm font-medium text-gray-900">{label}</dt>
                   </div>
                   <div className="col-span-8">
-                    {label === 'Annual Turn Over' ? (
+                    {label === 'Transporter Type' ? (
                       <select
-                        value={selectedAnnualTurnover}
-                        onChange={(e) => setSelectedAnnualTurnover(e.target.value)}
+                        value={selectedTransportType}
+                        onChange={(e) => setSelectedTransportType(e.target.value)}
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
-                        <option value="">Select Annual Turnover</option>
-                        {annualTurnoverOptions.map((option) => (
+                        <option value="">Select Transport Type</option>
+                        {transportType.map((option) => (
                           <option key={option} value={option}>
                             {option}
                           </option>
                         ))}
                       </select>
-                    ) : label === 'Type of Company' ? (
+                    ) : label === 'Vehicle Type' ? (
                       <select
-                        value={selectedCompanyType}
-                        onChange={(e) => setSelectedCompanyType(e.target.value)}
+                        value={selectedVehicleType}
+                        onChange={(e) => setSelectedVehicleType(e.target.value)}
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
-                        <option value="">Select Type of Company</option>
-                        {companyTypeOptions.map((option) => (
+                        <option value="">Select Vehicle type</option>
+                        {vehicleType.map((option) => (
                           <option key={option} value={option}>
                             {option}
                           </option>
                         ))}
                       </select>
-                    ) : label === 'User Type' ? (
+                    ) : label === 'Max Acceptable Payload' ? (
                       <select
-                        value={selectedUserType}
-                        onChange={(e) => setSelectedUserType(e.target.value)}
+                        value={selectedPayload}
+                        onChange={(e) => setSelectedMaxPayloadType(e.target.value)}
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
-                        <option value="">User Types</option>
-                        {userTypes.map((option) => (
+                        <option value="">Select</option>
+                        {maxacceptablePayload.map((option) => (
                           <option key={option} value={option}>
                             {option}
                           </option>
                         ))}
                       </select>
-                    ) : label === 'Industry' ? (
+                    ) : label === 'Pickup City' ? (
                       <select
-                        value={selectedIndustryType}
-                        onChange={(e) => setSelectedIndustryType(e.target.value)}
+                        value={selectedPickupCity}
+                        onChange={(e) => setSelectedPickupCity(e.target.value)}
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
-                        <option value="">Industry</option>
-                        {industryTypeOptions.map((option) => (
+                        <option value="">Select City</option>
+                        {pickupCity.map((option) => (
                           <option key={option} value={option}>
                             {option}
                           </option>
                         ))}
                       </select>
-                    ) : (
+
+                    ) 
+
+                    : label === 'Pickup City Pincode' ? (
+                      <select
+                        value={selectedPickupCityPincode}
+                        onChange={(e) => setSelectedPickupCityPincode(e.target.value)}
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                      >
+                        <option value="">Select Pincode</option>
+                        {pickupCityPincode.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+
+                    ) : label === 'Drop City' ? (
+                      <select
+                        value={selectedDropCity}
+                        onChange={(e) => setSelectedDropCity(e.target.value)}
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                      >
+                        <option value="">Select City</option>
+                        {pickupCity.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+
+                    ) 
+
+                    : label === 'Drop City Pincode' ? (
+                      <select
+                        value={selectedDropCityPincode}
+                        onChange={(e) => setSelectedDropCityPincode(e.target.value)}
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                      >
+                        <option value="">Select Pincode</option>
+                        {pickupCityPincode.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+
+                    )
+                    
+                    : (
                       <input
                         type="text"
                         value={value}

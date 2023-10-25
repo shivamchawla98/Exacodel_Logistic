@@ -4,13 +4,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
   XMarkIcon,
   CursorArrowRaysIcon,
   UserGroupIcon,
@@ -35,6 +29,9 @@ import TruckingReview from './components/TruckingReview'
 import TruckingEdit from './components/TruckingEdit'
 import AllTruckingInfo from './components/AllTrucking'
 import TruckingInfo from './components/TruckingInfo'
+import Cookies from 'js-cookie'
+import GET_USER_BY_ID from '@/graphql/query/getUserById'
+import jwt_decode from "jwt-decode";
 
 
 const navigation = [
@@ -70,11 +67,6 @@ const navigation = [
 
 ]
 
-const userNavigation = [
-  { name: 'Your profile', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
-
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
@@ -83,25 +75,17 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [approval, setApproval] = useState(false)
   const [approvalIndex, setApprovalIndex] = useState(0);
-
- 
   const [isApproved, setIsApproved] = useState(false);
   const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
   const [activeItem, setActiveItem] = useState('Vendor Review');
   const {firstName, lastName} = useSelector((state: any) => state.loginSlice)
+  const router = useRouter();
+
   
   {console.log(activeItem)}
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
@@ -298,8 +282,6 @@ export default function Home() {
             </nav>
           </div>
         </div>
-
-
         <div className="lg:pl-72">
           <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
             <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
@@ -346,22 +328,42 @@ export default function Home() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      {userNavigation.map((item) => (
-                        <Menu.Item key={item.name}>
+                      
+                        <Menu.Item key="yourProfile">
                           {({ active }) => (
                             <button
                               type="button"
-                              onClick={() =>  setApproval(!approval) }
+                              onClick={() =>  {                        
+                                setApproval(!approval) 
+                              }}
                               className={classNames(
                                 active ? 'bg-gray-50' : '',
                                 'block px-3 py-1 text-sm leading-6 text-gray-900'
                               )}
                             >
-                              {item.name}
+                              Your Profile
                             </button>
                           )}
                         </Menu.Item>
-                      ))}
+
+                        <Menu.Item key="signOut">
+                          {({ active }) => (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                router.push("/")
+                                Cookies.remove("jwtToken");
+                              }  }
+                              className={classNames(
+                                active ? 'bg-gray-50' : '',
+                                'block px-3 py-1 text-sm leading-6 text-gray-900'
+                              )}
+                            >
+                              Sign out
+                            </button>
+                          )}
+                        </Menu.Item>
+                    
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -398,3 +400,4 @@ export default function Home() {
     </>
   )
 }
+

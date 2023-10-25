@@ -51,7 +51,7 @@ export default function ApprovedPopup({onApprovalClick, name, operation}: any) {
                       setOpen(false)
                     }}
                   >
-                    Go back to dashboard
+                    Go To Home Page
                   </button>
                 </div>
               </Dialog.Panel>

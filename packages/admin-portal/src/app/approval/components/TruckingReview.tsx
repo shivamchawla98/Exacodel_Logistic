@@ -1,7 +1,15 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
-import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
+
+const GET_ALL_TRUCKS = gql`query GET_ALL_TRUCKS{
+  getAllTrucks{
+    id
+    companyName
+    Country
+    State
+  }
+}`
 
 
 const userType = ["CUSTOMER", "VENDOR", "OVERSEAS_AGENT"];
@@ -9,8 +17,8 @@ const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORT
 const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
 const overseasSubtype = ["FOREIGN_AGENT"];
 
-function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
-  const { loading, error, data, refetch} = useQuery(LIST_INITIAL_REGISTRATION);
+function TruckingReview({ isApproved, onApprovalClick, setApprovalIndex }: any) {
+  const { loading, error, data, refetch } = useQuery(GET_ALL_TRUCKS);
   const [isLoading, setIsLoading] = useState(true);
   const [userTypeFilter, setUserTypeFilter] = useState("All");
   const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
@@ -35,60 +43,18 @@ function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  let approvedUsers = data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending');
+  let allTrucks = data?.getAllTrucks;
 
-  const totalPages = Math.ceil(data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending').length / itemsPerPage);
+  const totalPages = Math.ceil(data?.getAllTrucks / itemsPerPage);
 
   // Filter data based on search query
-  const filteredData = data?.listInitialRegistrations.filter((person: any) => {
-    const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
-    return fullName.includes(searchQuery.toLowerCase());
-  });
+  // const filteredData = data?.getAllTrucks
+  //   const fullName = `${truck.first_name} ${truck.last_name}`.toLowerCase();
+  //   return fullName.includes(searchQuery.toLowerCase());
+  // });
 
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-      <div className="flex justify-between items-center flex-wrap mb-4">
-        <div className="flex items-center space-x-2">
-          <label htmlFor="userTypeFilter" className="text-sm font-semibold">
-            User Type Filter:
-          </label>
-          <select
-            id="userTypeFilter"
-            className="border rounded-md px-2 py-1 text-left text-sm font-semibold text-gray-900"
-            value={userTypeFilter}
-            onChange={(e) => setUserTypeFilter(e.target.value)}
-          >
-            <option className="text-left text-sm tex font-medium text-gray-900" value="All">
-              All
-            </option>
-            {userType.map((type: any) => (
-              <option key={type} className="text-left text-sm tex font-medium text-gray-900" value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex items-center space-x-2">
-          <label htmlFor="subUserTypeFilter" className="text-sm font-semibold">
-            Sub User Type Filter:
-          </label>
-          <select
-            id="subUserTypeFilter"
-            className="border rounded-md px-2 py-1 text-left text-sm font-semibold text-gray-900"
-            value={subUserTypeFilter}
-            onChange={(e) => setSubUserTypeFilter(e.target.value)}
-          >
-            <option className="text-left text-sm tex font-medium text-gray-900" value="All">
-              All
-            </option>
-            {[...customerSubtype, ...vendorSubtype, ...overseasSubtype].map((type) => (
-              <option key={type} className="text-left text-sm tex font-medium text-gray-900" value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
       <div className="mb-4">
         <div className="relative rounded-md shadow-sm">
           <input
@@ -119,16 +85,16 @@ function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                    Name
+                    ID
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    User type
+                    Company Name
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Email
+                    State
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Approval
+                    India
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                     <span className="sr-only">Edit</span>
@@ -138,38 +104,30 @@ function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
               <tbody className="divide-y divide-gray-200 bg-white">
                 {!error &&
                   !loading &&
-                  approvedUsers
+                  allTrucks
                     .slice(startIndex, endIndex)
-                    .map((person: any, index: any) => (
+                    .map((truck: any, index: any) => (
                       <>
-                        {console.log("isApproved : ", person.isapproved)}
-
-                        {((userTypeFilter === person.userType && (
-                          userTypeFilter === "CUSTOMER" &&
-                          subUserTypeFilter === person.customerSubType ||
-                          userTypeFilter === "VENDOR" &&
-                          subUserTypeFilter === person.vendorSubType ||
-                          userTypeFilter === "OVERSEAS_AGENT" &&
-                          subUserTypeFilter === person.overseasAgentSubType ||
-                          subUserTypeFilter === "All"
-                        )) || userTypeFilter === "All") && (
-                            <tr key={person.email}>
+                            <tr key={truck.email}>
                               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                {person.first_name}
+                                {truck.id}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.userType}
+                                {truck.companyName}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.email}
+                                {truck.State}
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {truck.Country}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 
                                 <button
                                   onClick={() => {
-                                    console.log("vendor : ", person.id);
-
-                                    setApprovalIndex(person.id);
+                                    console.log("Truck : ", truck.id);
+                                                 
+                                    setApprovalIndex(truck.id);
                                     onApprovalClick();
                                   }}
                                   type="button"
@@ -178,9 +136,8 @@ function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
                                   Review
                                 </button>
                               </td>
-                    
+
                             </tr>
-                          )}
                       </>
                     ))}
               </tbody>
@@ -197,7 +154,7 @@ function TruckingReview({isApproved, onApprovalClick, setApprovalIndex }: any) {
                 </button>
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={endIndex >= approvedUsers.length}
+                  disabled={endIndex >= allTrucks.length}
                   className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
                 >
                   Next
