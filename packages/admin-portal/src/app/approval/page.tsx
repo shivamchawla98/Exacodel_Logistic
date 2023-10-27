@@ -6,9 +6,14 @@ import {
   BellIcon,
   Cog6ToothIcon,
   CursorArrowRaysIcon,
-  UserGroupIcon,
   EnvelopeIcon,
   PaperAirplaneIcon,
+  TruckIcon,
+  BuildingOfficeIcon,
+  PlusIcon,
+  EyeIcon,
+  WalletIcon,
+  UserCircleIcon
 } from '@heroicons/react/24/outline'
 
 import { ChevronDownIcon, XMarkIcon, ArchiveBoxXMarkIcon, CheckIcon } from '@heroicons/react/20/solid'
@@ -49,22 +54,23 @@ const navigation = [
   },
 
   {
-    name: 'Warehouse', href: '#', icon: FaWarehouse, current: true,
+    name: 'Warehouse', href: '#', icon: BuildingOfficeIcon, current: true,
     subNav:
       [
-        { name: 'Warehouse Review', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
-        { name: 'Add Warehouse', href: '#', icon: UserGroupIcon, current: false },
-        { name: 'All warehouses', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+        { name: 'Warehouse Review', href: '#', icon: EyeIcon, current: false },
+        { name: 'Add Warehouse', href: '#', icon: PlusIcon, current: false },
+        { name: 'All warehouses', href: '#', icon: WalletIcon, current: false },
+        { name: 'My Warehouses', href: '#', icon: UserCircleIcon, current: false },
       ],
   },
 
   {
-    name: 'Trucking', href: '#', icon: CursorArrowRaysIcon, current: true,
+    name: 'Trucking', href: '#', icon: TruckIcon, current: true,
     subNav:
       [
-        { name: 'Trucking Review', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
-        { name: 'Add Trucking', href: '#', icon: UserGroupIcon, current: false },
-        { name: 'All Trucking', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+        { name: 'Trucking Review', href: '#', icon: EyeIcon, current: false },
+        { name: 'Add Trucking', href: '#', icon: PlusIcon, current: false },
+        { name: 'All Trucking', href: '#', icon: WalletIcon, current: false },
       ],
   },
 
@@ -245,7 +251,7 @@ export default function Home() {
               />
             </div>
             <nav className="flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <ul role="list" className="flex flex-1 flex-col gap-y-7 ml-4">
                 {
                   navigation.map((navItems, index: any) => {
 
@@ -293,7 +299,7 @@ export default function Home() {
                                     childNav.icon && <childNav.icon
                                       className={classNames(
                                         activeItem === childNav.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                                        'h-4 w-4 shrink-0'
+                                        'h-5 w-5 shrink-0'
                                       )}
                                       aria-hidden="true"
                                     />
@@ -435,6 +441,7 @@ export default function Home() {
               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem} />}
               {activeItem === 'All warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
               {activeItem === 'warehouseInfo' && <WarehouseInfo Id={approvalIndex} />}
+              {activeItem === 'My Warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
 
               {/* trucking */}
               {activeItem === 'Trucking Review' && <TruckingReview setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
