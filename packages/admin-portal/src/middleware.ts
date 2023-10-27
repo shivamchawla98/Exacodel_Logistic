@@ -33,6 +33,7 @@ export async function middleware(request: any) {
     return response;
   }
 
+
   return NextResponse.next();
 
 }

@@ -35,7 +35,13 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  let approvedUsers = data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending');
+ 
+  
+  let approvedUsers = data?.listInitialRegistrations.filter((user: any) =>{
+    console.log("user remarks : )", user);
+     return (user.isapproved === 'Approval_pending' && (user.remarks === '' || user.remarks === 'remarksUpdated'))
+
+   } );
 
   const totalPages = Math.ceil(data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending').length / itemsPerPage);
 

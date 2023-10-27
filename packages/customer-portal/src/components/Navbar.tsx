@@ -61,7 +61,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
 
     // Check if the user has a valid token on component mount
     useEffect(() => {
-      const jwtToken = Cookies.get('jwtToken');
+      const jwtToken = Cookies.get('jwToken');
       if (jwtToken) {
         // Validate the token on the server-side if needed
         // Update the user state accordingly
@@ -274,7 +274,7 @@ console.log("isLogedIn : ", isLogedIn);
                           {({ active }) => (
                             <button
                               onClick={()=> {
-                                Cookies.remove('jwtToken');
+                                Cookies.remove('jwToken');
                                 dispatch(updateIsLogedIn(false))
                               }}
                               className={classNames(

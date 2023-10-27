@@ -36,18 +36,24 @@ function Page() {
       id: id,
     }
   });
-  // console.log(LOGIN_MUTATION?.loc?.source?.body);
-
+  
 
   const initialValues = {
     email: '', // Ensure a default value if email is undefined
     password: '', // Ensure a default value if password is undefined
   };
   const dispatch = useDispatch();
-
-
-
-
+  const token = Cookies.get('jwtToken');
+  if (token) {
+    const decodedToken: any = jwt_decode(token);
+    const currentTime: any = Date.now() / 1000; 
+          // Check token expiration
+          if (decodedToken?.exp && currentTime < decodedToken?.exp) {
+            // Token is expired, redirect to the login page
+            
+            router.push('/approval'); // Redirect to the login page
+          }
+  }
   // api login logic ends and login ui starts
 
   return (
@@ -82,6 +88,8 @@ function Page() {
                 const payload: any = jwt_decode(newToken);
 
                 console.log(payload?.exp);
+                console.log("payload ",payload);
+                
 
                 setId(payload?.id)
                 const { data } = await refetch(
@@ -92,9 +100,9 @@ function Page() {
                 const user = data.getUserById
                 setId(payload.id)
 
-                console.log(user);
+                console.log("user ",user);
 
-
+                // 
                 if (user?.isapproved === 'Approved' && user?.userType === 'VENDOR') {
                   console.log("data inside approved", user);
                   Cookies.set('jwtToken', newToken, { expires: payload.exp - Math.floor(Date.now() / 1000) });

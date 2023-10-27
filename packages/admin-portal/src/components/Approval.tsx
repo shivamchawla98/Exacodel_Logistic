@@ -4,6 +4,7 @@ import { PaperClipIcon } from '@heroicons/react/20/solid';
 import { BiErrorCircle } from 'react-icons/bi';
 import GET_USER_ID from '@/graphql/query/getUserById';
 import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
+import USER_REVIEW from '@/graphql/mutation/userReview';
 
 const annualTurnoverOptions = [
   "UP_TO_10000",
@@ -50,10 +51,10 @@ const userTypes = [
 
 
 
-export default function Approval({setName, setOperation, Id, onApproveClick, isApproved }: any) {
+export default function Approval({ setName, setOperation, Id, onApproveClick, isApproved }: any) {
   const { loading, error, data } = useQuery(GET_USER_ID, {
     variables: {
-      userId: Id*1
+      id: Id * 1
     },
   });
   const [editMode, setEditMode] = useState(false);
@@ -68,16 +69,17 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
   const [selectedIndustryType, setSelectedIndustryType] = useState('');
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
+  const [userReview] = useMutation(USER_REVIEW);
 
   useEffect(() => {
-    
+
     if (!loading && data && data.getUserById) {
       console.log("data", data);
       console.log("loading", error);
-      let user =  data.getUserById;
+      let user = data.getUserById;
 
-      console.log("list of intitial users ",  user.id);
-    
+      console.log("list of intitial users ", user.id);
+
       setUserType(user.userType);
       setGstNo(user.gst_no);
 
@@ -149,8 +151,8 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
   }
 
   const handleApprove = async (approvedOrReject: String) => {
-    console.log("Id : ", Id);  
-    
+    console.log("Id : ", Id);
+
     try {
       const { data: approvalData } = await approveUser({
         variables: {
@@ -191,40 +193,68 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
       isApproved()
     } catch (error) {
       setShowAlert(true);
-      console.error("error : ",error);
+      console.error("error : ", error);
+    }
+  }
+
+  const handleReviw = async () => {
+    try {
+      const { data: approvalData } = await approveUser({
+        variables: {
+          userId: Id * 1,
+          input: {
+            remarks: formData['Remarks']
+          }
+        }
+      })
+
+      const { data: any } = await userReview({
+        variables: {
+          userId: Id * 1,
+        }
+      })
+
+      console.log("this is : ", data);
+      setName(formData['Full name']);
+      setOperation("Sended Review")
+      onApproveClick();
+      isApproved()
+    } catch (error) {
+      console.log("review error ", error);
+
     }
   }
 
   return (
     <div className=' '>
       {showAlert && <Alert />}
-      <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
+      <div className="overflow-hidden relative my-10  lg:my-16 mx-auto bg-white sm:rounded-lg w-full lg:w-3/4 rounded-md shadow-md">
         <div className="px-4 py-6 sm:px-6">
-          <div className='w-full flex justify-between items-center'>
-            <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
+          <div className='w-full flex justify-start lg:justify-between items-center flex-wrap lg:flex-nowrap'>
+            <h3 className="text-base  font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
 
-            <div className='flex justify-evenly w-1/2'>
-            <button
-              onClick={() => {
-                handleApprove("Review")
-              }}
-              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Send for Review<span className="sr-only">, Review </span>
-            </button>
-            <button
-              onClick={() => {
-                handleApprove("Rejected")
-              }}
-              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Reject<span className="sr-only">, Reject </span>
-            </button>
-            <button
-              onClick={() => {
-                handleApprove("Approved")
-              }}
-              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Approve<span className="sr-only">, Approve </span>
-            </button>
+            <div className='flex justify-end lg:justify-evenly w-full my-6 lg:w-1/2'>
+              <button
+                onClick={() => {
+                  handleReviw()
+                }}
+                type="button" className="rounded-md bg-sky-500 px-3 mx-1 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+                Send for Review<span className="sr-only">, Review </span>
+              </button>
+              <button
+                onClick={() => {
+                  handleApprove("Rejected")
+                }}
+                type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+                Reject<span className="sr-only">, Reject </span>
+              </button>
+              <button
+                onClick={() => {
+                  handleApprove("Approved")
+                }}
+                type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+                Approve<span className="sr-only">, Approve </span>
+              </button>
 
             </div>
           </div>
@@ -291,14 +321,23 @@ export default function Approval({setName, setOperation, Id, onApproveClick, isA
                           </option>
                         ))}
                       </select>
-                    ) : (
+                    ) : label === 'Email address' ? (
                       <input
                         type="text"
                         value={value}
                         onChange={(e) => handleInputChange(label, e.target.value)}
+                        disabled = {true}
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       />
-                    )}
+                    ) : (
+                        <input
+                          type="text"
+                          value={value}
+                          onChange={(e) => handleInputChange(label, e.target.value)}
+                          className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        />
+                      )
+                    }
                   </div>
                 </>
               </div>

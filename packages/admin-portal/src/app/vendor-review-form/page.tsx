@@ -7,6 +7,8 @@ import GET_USER_ID from '@/graphql/query/getUserById';
 import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
 import ApprovedPopup from '../approval/components/ApprovedPopup';
 import { useSearchParams } from 'next/navigation'
+import jwt_decode from "jwt-decode";
+import Modal from './component/Modal';
 
 const annualTurnoverOptions = [
   "UP_TO_10000",
@@ -54,11 +56,7 @@ const userTypes = [
 
 
 export default function Page() {
-  const { loading, error, data } = useQuery(GET_USER_ID, {
-    variables: {
-      userId: 111*1
-    },
-  });
+
   const searchParams = useSearchParams();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<any>({});
@@ -74,9 +72,18 @@ export default function Page() {
   const [showSucess, setShowSucess] = useState(false)
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
-  const Id:any = searchParams.get("id");
-  console.log("search params", searchParams.get("id"));
-  
+  const token:any = searchParams.get("id");
+  const decodedJwt: any = jwt_decode(token)
+  console.log("Top Id", decodedJwt);
+  const Id = decodedJwt?.userID;
+  const [remarks, setRemarks] = useState<any>('');
+  console.log(Id);
+
+  const { loading, error, data } = useQuery(GET_USER_ID, {
+    variables: {
+      id: (Id*1)
+    },
+  });
 
   useEffect(() => {
     
@@ -89,6 +96,9 @@ export default function Page() {
     
       setUserType(user.userType);
       setGstNo(user.gst_no);
+      setRemarks(user?.remarks);
+      console.log("Remarks", user?.remarks);
+      
 
       if (user) {
         setSelectedAnnualTurnover(user.annualTurnover);
@@ -96,7 +106,6 @@ export default function Page() {
         setSelectedUserType(user.userType);
         setSelectedIndustryType(user.industryType)
         setFormData({
-        'Remarks': user.remarks,
           'Company Name': user.companyName,
           'GST Number': user.gst_no,
           'Full name': user.first_name + ' ' + user.last_name,
@@ -134,7 +143,7 @@ export default function Page() {
 
   function Alert() {
     return (
-      <div className="rounded-md bg-red-50 p-4 cursor-pointer">
+      <div className="rounded-md flex justify-center items-center bg-red-50 p-4 cursor-pointer">
         <div
           onClick={() => {
             setShowAlert(false);
@@ -144,14 +153,7 @@ export default function Page() {
             <BiErrorCircle className="h-5 w-5 text-red-400" aria-hidden="true" />
           </div>
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">Error caused in Approve</h3>
-            <div className="my-2 text-sm text-red-700">
-              <ul role="list" className="list-disc space-y-1 pl-5">
-                <li>Some fields are left for filling</li>
-                <li>Or you have entered wrong inputs in the fields</li>
-              </ul>
-            </div>
-            <h3 className="text-base font-medium text-green-800">Click On alert and continue Approving</h3>
+            <h3 className="text-sm font-medium text-red-800">Your Review Url is Expired, Facing any issue please contact us</h3>
           </div>
         </div>
       </div>
@@ -170,14 +172,16 @@ export default function Page() {
   }
 
   if (error) {
+    console.log(error);
     return (
         <p>Some Error :(</p>
+        
     )
   }
 
 
   const handleApprove = async (approvedOrReject: String) => {
-    console.log("Id : ", Id);  
+    console.log("Id : >>>>>>>> ", Id);  
     
     try {
       const { data: approvalData } = await approveUser({
@@ -185,7 +189,7 @@ export default function Page() {
           userId: Id * 1,
           input: {
             companyType: selectedCompanyType,
-            Approveduser: approvedOrReject,
+            Approveduser: "Approval_pending",
             industryType: selectedIndustryType,
             state: formData['State'],
             pincode: formData['Pincode'],
@@ -208,22 +212,23 @@ export default function Page() {
             customerSubType: formData['Customer Type'],
             vendorSubType: formData['Vendor Type'],
             overseasAgentSubType: formData['Overseas Type'],
-            // remarks: formData['Remarks'],
+            remarks: "remarksUpdated",
           },
         },
       });
       console.log("this is : ", data);
-      
       setOperation(approvedOrReject)
       setShowSucess(true);
     } catch (error) {
+      
       setShowAlert(true);
       console.error("error : ",error);
     }
   }
-
+ 
   return (
     <div className=' '>
+      {<Modal review={remarks}/>}
       {showAlert && <Alert />}
       {showSucess && <ApprovedPopup />}
       <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
@@ -234,7 +239,7 @@ export default function Page() {
             <div className='flex justify-evenly w-1/2'>
             <button
               onClick={() => {
-                handleApprove("Review")
+                handleApprove("Reverted_user")
               }}
               type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
               Send for Review<span className="sr-only">, Review </span>
@@ -323,3 +328,5 @@ export default function Page() {
     </div>
   );
 }
+
+

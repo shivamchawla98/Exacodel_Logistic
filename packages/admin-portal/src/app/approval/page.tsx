@@ -5,23 +5,24 @@ import {
   Bars3Icon,
   BellIcon,
   Cog6ToothIcon,
-  XMarkIcon,
   CursorArrowRaysIcon,
   UserGroupIcon,
-  
+  EnvelopeIcon,
+  PaperAirplaneIcon,
 } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, HomeModernIcon, ArchiveBoxXMarkIcon, TruckIcon } from '@heroicons/react/20/solid'
+
+import { ChevronDownIcon, XMarkIcon, ArchiveBoxXMarkIcon, CheckIcon } from '@heroicons/react/20/solid'
 import Vendors from './components/Vendors'
 import Approval from '@/components/Approval'
 import ApprovedPopup from './components/ApprovedPopup'
 import { useRouter } from 'next/navigation'
 import Approved from '@/components/Approved'
 import RejectedUsers from '@/components/RejectedUsers'
- import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import AdminInputWarehouse from '@/components/WarehouseForm'
 import Trucking from '@/components/Trucking'
 import AllWarehouse from './components/AllWarehouse'
-import {FaWarehouse} from 'react-icons/fa'
+import { FaWarehouse } from 'react-icons/fa'
 import WarehouseInfo from './components/WarehouseInfo'
 import WarehouseActionCenter from './components/WarehouseActionCenter'
 import WarehouseReview from './components/WarehouseEdit'
@@ -32,16 +33,18 @@ import TruckingInfo from './components/TruckingInfo'
 import Cookies from 'js-cookie'
 import GET_USER_BY_ID from '@/graphql/query/getUserById'
 import jwt_decode from "jwt-decode";
+import ReviewSendedUser from './components/ReviewSended'
 
 
 const navigation = [
   {
-    name: 'Vendor', href: '#', icon: CursorArrowRaysIcon, current: true,
+    name: 'Vendor', href: '#', icon: PaperAirplaneIcon, current: true,
     subNav:
       [
         { name: 'Vendor Review', href: '#', icon: CursorArrowRaysIcon, current: false },
-        { name: 'Approved', href: '#', icon: UserGroupIcon, current: false },
-        { name: 'Rejected', href: '#', icon: ArchiveBoxXMarkIcon, current: false },
+        { name: 'Approved', href: '#', icon: CheckIcon, current: false },
+        { name: 'Rejected', href: '#', icon: XMarkIcon, current: false },
+        { name: 'Review Sended', href: '#', icon: EnvelopeIcon, current: false },
       ],
   },
 
@@ -79,14 +82,15 @@ export default function Home() {
   const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
   const [activeItem, setActiveItem] = useState('Vendor Review');
-  const {firstName, lastName} = useSelector((state: any) => state.loginSlice)
+  const { firstName, lastName } = useSelector((state: any) => state.loginSlice)
   const router = useRouter();
 
-  
-  {console.log(activeItem)}
+
+  { console.log(activeItem) }
   return (
     <>
       <div>
+        {/* mobile side bar */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <Transition.Child
@@ -141,28 +145,71 @@ export default function Home() {
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
                         <li>
                           <ul role="list" className="-mx-2 space-y-1">
-                            {navigation.map((item) => (
-                              <li key={item.name}>
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    item.current
-                                      ? 'bg-gray-50 text-sky-600'
-                                      : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50',
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold'
-                                  )}
-                                >
-                                  <item.icon
-                                    className={classNames(
-                                      item.current ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                                      'h-6 w-6 shrink-0'
-                                    )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </a>
-                              </li>
-                            ))}
+                            {
+                              navigation.map((navItems, index: any) => {
+
+                                return (
+                                  <li key={navItems.name}>
+
+                                    <button
+                                      id={navItems.name}
+                                      onClick={(e) => {
+                                        setActiveItem(e.currentTarget.id)
+                                        console.log("herre : ", e.currentTarget.id);
+
+                                      }}
+
+                                      className={`group flex gap-x-3 rounded-md p-2 -mx-2 space-y-1 text-sm leading-6 font-medium w-full ${activeItem === navItems.name ? 'bg-gray-50 text-sky-600'
+                                        : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                                    >
+                                      <navItems.icon
+                                        className={classNames(
+                                          activeItem === navItems.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                                          'h-6 w-6 shrink-0'
+                                        )}
+                                        aria-hidden="true"
+                                      />
+                                      {navItems.name}
+                                    </button>
+
+
+                                    <ul key={index} role="list" className="ml-4">
+                                      {
+                                        navigation[index].subNav.map((childNav: any) => {
+                                          return (<li
+                                            key={childNav.name}
+                                          >
+                                            <button
+                                              id={childNav.name}
+                                              onClick={(e: any) => {
+                                                setActiveItem(e.currentTarget.id)
+                                              }}
+
+                                              className={`group flex gap-x-3 rounded-md  text-sm leading-6 items-center  font-normal w-full ${activeItem === childNav.name ? 'bg-gray-50 text-sky-600'
+                                                : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                                            >
+                                              {
+                                                childNav.icon && <childNav.icon
+                                                  className={classNames(
+                                                    activeItem === childNav.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                                                    'h-4 w-4 shrink-0'
+                                                  )}
+                                                  aria-hidden="true"
+                                                />
+                                              }
+                                              {childNav.name}
+                                            </button>
+                                          </li>)
+                                        })
+                                      }
+
+                                    </ul>
+
+                                  </li>
+                                )
+
+                              })
+                            }
                           </ul>
                         </li>
                         <li className="mt-auto">
@@ -188,7 +235,7 @@ export default function Home() {
 
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-         
+
           <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
               <img
@@ -200,21 +247,21 @@ export default function Home() {
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 {
-                  navigation.map((navItems, index : any) => {
+                  navigation.map((navItems, index: any) => {
 
                     return (
                       <li key={navItems.name}>
-                    
+
                         <button
                           id={navItems.name}
                           onClick={(e) => {
                             setActiveItem(e.currentTarget.id)
                             console.log("herre : ", e.currentTarget.id);
-                            
-                             }}
 
-                          className={`group flex gap-x-3 rounded-md p-2 -mx-2 space-y-1 text-sm leading-6 font-medium w-full ${activeItem === navItems.name  ? 'bg-gray-50 text-sky-600'
-                          : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                          }}
+
+                          className={`group flex gap-x-3 rounded-md p-2 -mx-2 space-y-1 text-sm leading-6 font-medium w-full ${activeItem === navItems.name ? 'bg-gray-50 text-sky-600'
+                            : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
                         >
                           <navItems.icon
                             className={classNames(
@@ -225,47 +272,47 @@ export default function Home() {
                           />
                           {navItems.name}
                         </button>
-                    
 
-                      <ul key={index} role="list" className="ml-4">
-                      {
-                        navigation[index].subNav.map((childNav: any) => {
-                        return  ( <li
-                        key={childNav.name}
-                        >
-                          <button
-                          id={childNav.name}
-                            onClick={(e: any) => {
-                              setActiveItem(e.currentTarget.id)
-                             }}
-  
-                            className={`group flex gap-x-3 rounded-md  text-sm leading-6  font-normal w-full ${activeItem === childNav.name  ? 'bg-gray-50 text-sky-600'
-                            : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
-                          >
-                            {
-                             childNav.icon && <childNav.icon
-                              className={classNames(
-                                activeItem === childNav.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                                'h-4 w-4 shrink-0'
-                              )}
-                              aria-hidden="true"
-                            />
-                            }
-                            {childNav.name}
-                          </button>
-                        </li>)
-                        })
-                      }
 
-                      </ul>
+                        <ul key={index} role="list" className="ml-4">
+                          {
+                            navigation[index].subNav.map((childNav: any) => {
+                              return (<li
+                                key={childNav.name}
+                              >
+                                <button
+                                  id={childNav.name}
+                                  onClick={(e: any) => {
+                                    setActiveItem(e.currentTarget.id)
+                                  }}
+
+                                  className={`group flex gap-x-3 rounded-md  text-sm leading-6 items-center  font-normal w-full ${activeItem === childNav.name ? 'bg-gray-50 text-sky-600'
+                                    : 'text-gray-700 hover:text-sky-600 hover:bg-gray-50'} `}
+                                >
+                                  {
+                                    childNav.icon && <childNav.icon
+                                      className={classNames(
+                                        activeItem === childNav.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
+                                        'h-4 w-4 shrink-0'
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                  }
+                                  {childNav.name}
+                                </button>
+                              </li>)
+                            })
+                          }
+
+                        </ul>
 
                       </li>
                     )
 
                   })
                 }
-                  
-                
+
+
                 <li className="mt-auto">
                   <a
                     href="#"
@@ -328,42 +375,42 @@ export default function Home() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      
-                        <Menu.Item key="yourProfile">
-                          {({ active }) => (
-                            <button
-                              type="button"
-                              onClick={() =>  {                        
-                                setApproval(!approval) 
-                              }}
-                              className={classNames(
-                                active ? 'bg-gray-50' : '',
-                                'block px-3 py-1 text-sm leading-6 text-gray-900'
-                              )}
-                            >
-                              Your Profile
-                            </button>
-                          )}
-                        </Menu.Item>
 
-                        <Menu.Item key="signOut">
-                          {({ active }) => (
-                            <button
-                              type="button"
-                              onClick={() => {
-                                router.push("/")
-                                Cookies.remove("jwtToken");
-                              }  }
-                              className={classNames(
-                                active ? 'bg-gray-50' : '',
-                                'block px-3 py-1 text-sm leading-6 text-gray-900'
-                              )}
-                            >
-                              Sign out
-                            </button>
-                          )}
-                        </Menu.Item>
-                    
+                      <Menu.Item key="yourProfile">
+                        {({ active }) => (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setApproval(!approval)
+                            }}
+                            className={classNames(
+                              active ? 'bg-gray-50' : '',
+                              'block px-3 py-1 text-sm leading-6 text-gray-900'
+                            )}
+                          >
+                            Your Profile
+                          </button>
+                        )}
+                      </Menu.Item>
+
+                      <Menu.Item key="signOut">
+                        {({ active }) => (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              router.push("/")
+                              Cookies.remove("jwtToken");
+                            }}
+                            className={classNames(
+                              active ? 'bg-gray-50' : '',
+                              'block px-3 py-1 text-sm leading-6 text-gray-900'
+                            )}
+                          >
+                            Sign out
+                          </button>
+                        )}
+                      </Menu.Item>
+
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -373,26 +420,28 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-               {activeItem === 'Vendor Review' && <Vendors isApproved={isApproved} setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
-               {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved = {() => setActiveItem("approved popup")} onApproveClick={() =>{ setActiveItem("Vendor Review")    } } 
-                />} 
-               {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={()=> setActiveItem("Vendor Review")} />}
-               {activeItem === 'Approved' && <Approved />}
-               {activeItem === 'Rejected' && <RejectedUsers />}
-              
+              {activeItem === 'Vendor Review' && <Vendors isApproved={isApproved} setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
+              {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Vendor Review") }}
+              />}
+              {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Vendor Review")} />}
+              {activeItem === 'Approved' && <Approved />}
+              {activeItem === 'Rejected' && <RejectedUsers />}
+              {activeItem === 'Review Sended' && <ReviewSendedUser />}
+
+
               {/* warehouse */}
-               {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem}/>}
-               {activeItem === 'Warehouse Review' && <WarehouseActionCenter setApprovalIndex = {setApprovalIndex} Id={approvalIndex}  setActiveItem={setActiveItem} />}
-               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem}/>}
-               {activeItem === 'All warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex = {setApprovalIndex}  />}
-               {activeItem === 'warehouseInfo' && <WarehouseInfo  Id={approvalIndex}/>}
-             
-             {/* trucking */}
-               {activeItem === 'Trucking Review' && <TruckingReview  setApprovalIndex = {setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
-               {activeItem === 'truckingEdit' && <TruckingEdit Id={approvalIndex} setActiveItem={setActiveItem}/>}
-               {activeItem === 'Add Trucking' && <Trucking />}
-               {activeItem === 'All Trucking' && <AllTruckingInfo setActiveItem={setActiveItem} setApprovalIndex = {setApprovalIndex}/>}
-               {activeItem === 'truckingInfo' && <TruckingInfo Id={approvalIndex} />}
+              {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem} />}
+              {activeItem === 'Warehouse Review' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {activeItem === 'All warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'warehouseInfo' && <WarehouseInfo Id={approvalIndex} />}
+
+              {/* trucking */}
+              {activeItem === 'Trucking Review' && <TruckingReview setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
+              {activeItem === 'truckingEdit' && <TruckingEdit Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {activeItem === 'Add Trucking' && <Trucking />}
+              {activeItem === 'All Trucking' && <AllTruckingInfo setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'truckingInfo' && <TruckingInfo Id={approvalIndex} />}
             </div>
           </main>
         </div>

@@ -260,7 +260,7 @@ function Page() {
                   console.log(user);
                 if (user.isapproved === 'Approved') {
                   router.push("/")
-                  Cookies.set('jwtToken', response.data.login, { expires: 7 });
+                  Cookies.set('jwToken', response.data.login, { expires: 7 });
                   dispatch(updateIsLogedIn(true))
                 } else if (user.isapproved === 'Approval_pending' || user.isapproved === 'Rejected' ) {
                   setOpen(true)

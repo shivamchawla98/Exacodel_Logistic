@@ -11,6 +11,7 @@ const LIST_INITIAL_REGISTRATION = gql`
       overseasAgentSubType
       id
       isapproved
+      remarks
     }
   }
 `;
