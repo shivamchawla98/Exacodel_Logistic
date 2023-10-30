@@ -50,7 +50,7 @@ function ReviewSendedUser({ onApprovalClick, setApprovalIndex }: any) {
             <tbody className="divide-y divide-gray-200 bg-white">
               {!error &&
                 !loading &&
-                Array.from(data.listInitialRegistrations)?.map((person: any, index) => (person.isapproved === 'Approval_pending' && (person.remarks !== '' || person.remarks !== 'remarksUpdated')) && (
+                Array.from(data.listInitialRegistrations)?.map((person: any, index) => (person.isapproved === 'Approval_pending' && (person.remarks !== '' || person.remarks !== 'remarksUpdated' || person.remarks !== null)) && (
                   <tr key={person.email}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {person.first_name}
@@ -67,7 +67,7 @@ function ReviewSendedUser({ onApprovalClick, setApprovalIndex }: any) {
                         className="flex justify-center"
                       >
                         <EnvelopeIcon className="mr-6 h-5 w-5 text-green-300" aria-hidden="true" />
-                        Approved<span className="sr-only">, {person.first_name}</span>
+                        Review Sended<span className="sr-only">, {person.first_name}</span>
                       </button>
                     </td>
                   </tr>

@@ -10,8 +10,7 @@ import RolePopup from '@/components/form components/RolePopup';
 import { updateSignUpclicked } from '@/features/select-form/selectForm-slice';
 import gql from 'graphql-tag';
 import { useMutation, useQuery } from '@apollo/client';
-import jwt from 'jsonwebtoken';
-import { AnyARecord } from 'dns';
+
 import jwt_decode from "jwt-decode";
 import { decode } from 'punycode';
 import Cookies from 'js-cookie';
@@ -20,7 +19,8 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/24/outline'
 import { XCircleIcon, CogIcon, XMarkIcon } from '@heroicons/react/20/solid'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const LOGIN_MUTATION = gql`
@@ -215,6 +215,7 @@ function Page() {
       <RolePopup />
       <LoginStatus id={id} open={open} setOpen={setOpen} />
       {showAlert && <Alert />}
+      <ToastContainer />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -267,11 +268,19 @@ function Page() {
                 }
                   
                   // You may want to perform actions like setting tokens or redirecting on success
-                } catch (error) {
+                } catch (error: any) {
                   // Handle any errors
                   // console.log(error);
-                  setShowAlert(true);
-            
+                  // setShowAlert(true);
+                  if (error.networkError) {
+                    toast.error('There is network error come after some time', {
+                      position: toast.POSITION.TOP_CENTER,
+                    });
+                  } else {
+                    toast.error('There is some Internal Server error Please Check after some time', {
+                      position: toast.POSITION.TOP_CENTER,
+                    });
+                  }
                   console.error("Mutation error: ", error);
                 }
             

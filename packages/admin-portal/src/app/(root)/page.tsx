@@ -13,9 +13,10 @@ import { useState } from 'react'
 import { updateIsLoggedIn, updateFirstName, updateLastName } from '@/features/login/login-slice';
 import GET_USER_BY_ID from '@/graphql/query/getUserById';
 import LOGIN_MUTATION from '@/graphql/mutation/loginMutation';
-import LoginStatus from '@/components/LoginStatus';
 import Alert from '@/components/Alert';
 import CustomField from '@/components/CustomField';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -58,8 +59,8 @@ function Page() {
 
   return (
     <div className=" flex justify-center items-center sm:py-12 w-full h-screen bg-white">
-      {showAlert && <Alert />}
-
+      {/* {showAlert && <Alert />} */}
+      <ToastContainer />
       {/* <LoginStatus id={id} open={open} setOpen={setOpen} /> */}
       <div className="w-full md:w-10/12 lg:w-10/12 justify-evenly rounded-lg border-8 border-white  flex items-center bg-white ">
         <div className=" w-full md:w-1/3 lg:md:w-1/4 rounded-lg px-6 py-2 mx-auto bg-white">
@@ -117,11 +118,19 @@ function Page() {
                 }
 
                 // You may want to perform actions like setting tokens or redirecting on success
-              } catch (error) {
-                // Handle any errors
-                // console.log(error);
-                setShowAlert(true);
+              } catch (error: any) {
+                if (error.networkError) {
+                  toast.error('There is network error come after some time', {
+                    position: toast.POSITION.TOP_CENTER,
+                  });
+                }
+                 else {
 
+                   toast.error('There must be user name or password entered wrong try again', {
+                     position: toast.POSITION.TOP_CENTER,
+                   });
+
+                 }
                 console.error("Mutation error: ", error);
               }
 

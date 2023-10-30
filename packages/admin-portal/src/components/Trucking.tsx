@@ -14,7 +14,7 @@ function Trucking() {
 
   return (
     <>
-        <Switch.Group as="div" className="flex items-center">
+        {/* <Switch.Group as="div" className="flex items-center">
         <Switch.Label as="span" className="mr-3 text-sm">
         <span className={`font-medium ${isOverseas ?  "text-gray-900" : "text-sky-600"}`}>Domestic Transport</span>{' '}
       </Switch.Label>
@@ -38,7 +38,7 @@ function Trucking() {
         <span className={`font-medium  ${!isOverseas ?  "text-gray-900" : "text-sky-600"}`}>Overseas Transport</span>{' '}
       
       </Switch.Label>
-    </Switch.Group>
+    </Switch.Group> */}
     {isOverseas && <AdminInputOverseasTransport />}
     {!isOverseas && <AdminInputDomesticTransport />}
     </>

@@ -29,7 +29,7 @@ function Page() {
 
   return (
     <>
-      <section className="bg-white dark:bg-gray-900">
+      <section className="bg-white">
           <ShippingFilter />
           <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
           <h3 className="mx-auto text-lg font-semibold tracking-tight text-gray-600 sm:text-2xl text-center">
@@ -52,6 +52,12 @@ function Page() {
             className={`transition-transform transform ${
               showFilters ? 'translate-x-0' : '-translate-x-full'
             } ${showFilters ? '' : 'hidden'}`}
+          >
+            <ContainerFilter />
+            <ShipingLineFilter />
+          </div>
+          <div
+            className={`transition-transform transform hidden lg:block`}
           >
             <ContainerFilter />
             <ShipingLineFilter />

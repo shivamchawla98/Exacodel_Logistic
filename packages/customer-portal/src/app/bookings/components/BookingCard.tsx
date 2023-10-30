@@ -21,7 +21,7 @@ function BookingCard({ img, fromDestination, toDestination }: any) {
 
   return (
 <>
-  <div className="mt-8 w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+  <div className="mt-8 w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 ">
     <div className="w-full flex justify-center border-b-2 border-slate-100 pb-2">
       <Image src={maersk} width={100} height={60} alt="maersk" />
     </div>
@@ -47,7 +47,7 @@ function BookingCard({ img, fromDestination, toDestination }: any) {
   </div>
 
   {showKnowMore && (
-    <div className=" bg-white p-4 rounded-lg shadow border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div className=" bg-white p-4 rounded-lg shadow border border-gray-200">
       <div className="grid grid-cols-1 divide-y">
         {[0, 1, 2, 3].map((step) => (
           <ViewMoreTab

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
-import { PaperClipIcon } from '@heroicons/react/20/solid';
-import { BiErrorCircle } from 'react-icons/bi';
 import GET_USER_ID from '@/graphql/query/getUserById';
 import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
-import USER_REVIEW from '@/graphql/mutation/userReview';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import SEND_TO_REVIEW_USER from '@/graphql/mutation/sendToReviewUser';
 
 const annualTurnoverOptions = [
   "UP_TO_10000",
@@ -61,15 +61,13 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
   const [formData, setFormData] = useState<any>({});
   const [userType, setUserType] = useState('');
   const [gst_no, setGstNo] = useState('');
-  const [showAlert, setShowAlert] = useState(false);
-
   const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState('');
   const [selectedCompanyType, setSelectedCompanyType] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('');
   const [selectedIndustryType, setSelectedIndustryType] = useState('');
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
-  const [userReview] = useMutation(USER_REVIEW);
+  const [sendtoreveiwuser] = useMutation(SEND_TO_REVIEW_USER);
 
   useEffect(() => {
 
@@ -124,32 +122,6 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
     }));
   };
 
-  function Alert() {
-    return (
-      <div className="rounded-md bg-red-50 p-4 cursor-pointer">
-        <div
-          onClick={() => {
-            setShowAlert(false);
-          }}
-          className="flex">
-          <div className="flex-shrink-0">
-            <BiErrorCircle className="h-5 w-5 text-red-400" aria-hidden="true" />
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">Error caused in Approve</h3>
-            <div className="my-2 text-sm text-red-700">
-              <ul role="list" className="list-disc space-y-1 pl-5">
-                <li>Some fields are left for filling</li>
-                <li>Or you have entered wrong inputs in the fields</li>
-              </ul>
-            </div>
-            <h3 className="text-base font-medium text-green-800">Click On alert and continue Approving</h3>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const handleApprove = async (approvedOrReject: String) => {
     console.log("Id : ", Id);
 
@@ -191,8 +163,18 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
       setOperation(approvedOrReject)
       onApproveClick();
       isApproved()
-    } catch (error) {
-      setShowAlert(true);
+    } catch (error: any) {
+      if (error.networkError) {
+        toast.error('There is network error come after some time', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+       else {
+         toast.error('Some Error !', {
+           position: toast.POSITION.TOP_CENTER,
+         });
+
+       }
       console.error("error : ", error);
     }
   }
@@ -208,9 +190,9 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
         }
       })
 
-      const { data: any } = await userReview({
+      const { data: any } = await sendtoreveiwuser({
         variables: {
-          userId: Id * 1,
+          id: Id * 1,
         }
       })
 
@@ -219,15 +201,26 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
       setOperation("Sended Review")
       onApproveClick();
       isApproved()
-    } catch (error) {
+    } catch (error: any) {
       console.log("review error ", error);
+      if (error.networkError) {
+        toast.error('There is network error come after some time', {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
+       else {
 
+         toast.error('Some Error !', {
+           position: toast.POSITION.TOP_CENTER,
+         });
+
+       }
     }
   }
 
   return (
     <div className=' '>
-      {showAlert && <Alert />}
+      <ToastContainer />
       <div className="overflow-hidden relative my-10  lg:my-16 mx-auto bg-white sm:rounded-lg w-full lg:w-3/4 rounded-md shadow-md">
         <div className="px-4 py-6 sm:px-6">
           <div className='w-full flex justify-start lg:justify-between items-center flex-wrap lg:flex-nowrap'>

@@ -4,13 +4,13 @@ import { useState } from 'react';
 
 const Listings = ({ id, line, handleClick, active }: any) => {
   return (
-    <div className="flex text-sm items-center pl-4 border border-gray-200 rounded dark:border-gray-700">
+    <div className="flex text-sm items-center pl-4 border border-gray-200 rounded ">
       <input
         id={id}
         type="checkbox"
         defaultValue=""
         name="bordered-checkbox"
-        className="w-4 h-4 text-sky-600 bg-gray-100 border-gray-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+        className="w-4 h-4 text-sky-600 bg-gray-100 border-gray-300 rounded focus:ring-sky-500 "
         checked={active.includes(line)} // Check if the line is active (exists in the active array)
         onChange={() => handleClick(line)} // Pass the line as an argument to handleClick
       />
@@ -41,7 +41,7 @@ function ShipingLineFilter() {
 
   return (
     <div className="flex justify-center flex-col mt-11 rounded-lg ">
-      <p className="text-xl font-medium text-gray-900 dark:text-white text-center pb-4 pt-4">
+      <p className="text-xl font-medium text-gray-900 text-center pb-4 pt-4">
         Shipping Lines
       </p>
       {shippingLines.slice(0, 4).map((line, index) => (

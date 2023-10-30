@@ -242,7 +242,7 @@ export default function Home() {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
 
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-2">
             <div className="flex h-16 shrink-0 items-center">
               <img
                 className="h-8 w-auto"
@@ -251,7 +251,7 @@ export default function Home() {
               />
             </div>
             <nav className="flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7 ml-4">
+              <ul role="list" className="flex flex-1 flex-col gap-y-5 ml-4">
                 {
                   navigation.map((navItems, index: any) => {
 
@@ -272,7 +272,7 @@ export default function Home() {
                           <navItems.icon
                             className={classNames(
                               activeItem === navItems.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                              'h-6 w-6 shrink-0'
+                              'h-5 w-5 shrink-0'
                             )}
                             aria-hidden="true"
                           />
@@ -299,7 +299,7 @@ export default function Home() {
                                     childNav.icon && <childNav.icon
                                       className={classNames(
                                         activeItem === childNav.name ? 'text-sky-600' : 'text-gray-400 group-hover:text-sky-600',
-                                        'h-5 w-5 shrink-0'
+                                        'h-4 w-4 shrink-0'
                                       )}
                                       aria-hidden="true"
                                     />
@@ -325,7 +325,7 @@ export default function Home() {
                     className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
                   >
                     <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600"
+                      className="h-5 w-5 shrink-0 text-gray-400 group-hover:text-sky-600"
                       aria-hidden="true"
                     />
                     Settings

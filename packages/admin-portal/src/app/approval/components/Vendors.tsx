@@ -39,7 +39,7 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
   
   let approvedUsers = data?.listInitialRegistrations.filter((user: any) =>{
     console.log("user remarks : )", user);
-     return (user.isapproved === 'Approval_pending' && (user.remarks === '' || user.remarks === 'remarksUpdated'))
+     return (user.isapproved === 'Approval_pending' && (user.remarks === '' || user.remarks === 'remarksUpdated' || user.remarks === null))
 
    } );
 
