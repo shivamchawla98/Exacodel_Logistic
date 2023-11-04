@@ -17,14 +17,13 @@ import Alert from '@/components/Alert';
 import CustomField from '@/components/CustomField';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ReCAPTCHA from 'react-google-recaptcha';
+// import ReCAPTCHA from 'react-google-recaptcha';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
     .required('Email is required'),
   password: Yup.string().required('Password is required'),
-  recaptcha: Yup.string().required('reCAPTCHA is required'),
 });
 
 function Page() {
@@ -86,14 +85,8 @@ function Page() {
                     },
                   },
                 });
-
                 const newToken = response?.data?.login.access_token;
                 const payload: any = jwt_decode(newToken);
-
-                console.log(payload?.exp);
-                console.log("payload ", payload);
-
-
                 setId(payload?.id)
                 const { data } = await refetch(
                   {
@@ -121,6 +114,7 @@ function Page() {
 
                 // You may want to perform actions like setting tokens or redirecting on success
               } catch (error: any) {
+                console.error("Mutation error: ", error);
                 if (error.networkError) {
                   toast.error('There is network error come after some time', {
                     position: toast.POSITION.TOP_CENTER,
@@ -133,7 +127,7 @@ function Page() {
                   });
 
                 }
-                console.error("Mutation error: ", error);
+                
               }
 
 
@@ -145,22 +139,11 @@ function Page() {
 
                   <CustomField title="Email Address" id="email" type="text" />
                   <CustomField title="Password" id="password" type="password" />
-                  {/* <div className='w-1/2'>
-                    <ReCAPTCHA
-                      sitekey="6LexSekoAAAAAFt_Rek8-mHLbGpwWVZNsZhIsDJ0"
-                      onChange={(value) => setFieldValue('recaptcha', value)}
-                    />
-                    <ErrorMessage
-                      name="recaptcha"
-                      component="div"
-                      className="text-red-500 text-sm z-50 mt-11"
-                    />
-                  </div> */}
                   <div className="w-full flex ml-1 items-center">
                     <button
                       type="submit"
                       className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1 w-4/5"
-                      disabled={isSubmitting}
+                      // disabled={isSubmitting}
                     >
                       {isSubmitting ? 'Signing in...' : 'Sign In'}
                     </button>

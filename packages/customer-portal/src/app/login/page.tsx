@@ -46,7 +46,7 @@ const validationSchema = Yup.object().shape({
     .email('Invalid email address')
     .required('Email is required'),
   password: Yup.string().required('Password is required'),
-  recaptcha: Yup.string().required('reCAPTCHA is required'),
+  // recaptcha: Yup.string().required('reCAPTCHA is required'),
 });
 
 
