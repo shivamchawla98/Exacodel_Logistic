@@ -59,9 +59,6 @@ const validationSchema = Yup.object({
   lastName: Yup.string().required('Enter last name'),
   designation: Yup.string().required('Enter designation'),
   phnNumber: Yup.string().required('Enter phone number'),
-  email: Yup.string()
-    .email('Enter a valid email address')
-    .required('Enter email address'),
   website: Yup.string().required('Enter a webiste'),
   checkBox: Yup.boolean().oneOf(
     [true],
@@ -551,7 +548,7 @@ function VendorRegistrationForm() {
           {/* contact */}
 
           {/* email */}
-          <div >
+          {/* <div >
             <label
               htmlFor="email"
               className="block text-sm font-medium leading-6 text-gray-600"
@@ -566,7 +563,7 @@ function VendorRegistrationForm() {
               className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
             />
             <ErrorMessage className='text-xs text-rose-600' name="email" component="span" />
-          </div>
+          </div> */}
 
           {/* phone number */}
           <div >
@@ -616,7 +613,7 @@ function VendorRegistrationForm() {
           {/* contact end */}
 
           {/* buttons */}
-          <div className="end-end-2">
+          <div className="end-end-2 col-span-full">
             <div className="flex items-center">
               <input
                 id="link-checkbox"

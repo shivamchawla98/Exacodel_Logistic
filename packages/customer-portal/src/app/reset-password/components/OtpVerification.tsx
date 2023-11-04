@@ -99,7 +99,7 @@ function OtpVerification({ setNext}: any) {
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().email("Invalid email").required("Email is required"),
-        recaptcha: Yup.string().required('reCAPTCHA is required'),
+        // recaptcha: Yup.string().required('reCAPTCHA is required'),
     });
 
     const logEmail = (values: any) => {
