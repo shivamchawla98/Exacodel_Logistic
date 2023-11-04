@@ -1,7 +1,7 @@
 'use client';
 import '../globals.css';
 
-import { Formik, Form} from 'formik';
+import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
@@ -17,12 +17,14 @@ import Alert from '@/components/Alert';
 import CustomField from '@/components/CustomField';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
     .required('Email is required'),
   password: Yup.string().required('Password is required'),
+  recaptcha: Yup.string().required('reCAPTCHA is required'),
 });
 
 function Page() {
@@ -37,7 +39,7 @@ function Page() {
       id: id,
     }
   });
-  
+
 
   const initialValues = {
     email: '', // Ensure a default value if email is undefined
@@ -47,13 +49,13 @@ function Page() {
   const token = Cookies.get('jwtToken');
   if (token) {
     const decodedToken: any = jwt_decode(token);
-    const currentTime: any = Date.now() / 1000; 
-          // Check token expiration
-          if (decodedToken?.exp && currentTime < decodedToken?.exp) {
-            // Token is expired, redirect to the login page
-            
-            router.push('/approval'); // Redirect to the login page
-          }
+    const currentTime: any = Date.now() / 1000;
+    // Check token expiration
+    if (decodedToken?.exp && currentTime < decodedToken?.exp) {
+      // Token is expired, redirect to the login page
+
+      router.push('/approval'); // Redirect to the login page
+    }
   }
   // api login logic ends and login ui starts
 
@@ -89,8 +91,8 @@ function Page() {
                 const payload: any = jwt_decode(newToken);
 
                 console.log(payload?.exp);
-                console.log("payload ",payload);
-                
+                console.log("payload ", payload);
+
 
                 setId(payload?.id)
                 const { data } = await refetch(
@@ -101,7 +103,7 @@ function Page() {
                 const user = data.getUserById
                 setId(payload.id)
 
-                console.log("user ",user);
+                console.log("user ", user);
 
                 // 
                 if (user?.isapproved === 'Approved' && user?.userType === 'VENDOR') {
@@ -124,13 +126,13 @@ function Page() {
                     position: toast.POSITION.TOP_CENTER,
                   });
                 }
-                 else {
+                else {
 
-                   toast.error('There must be user name or password entered wrong try again', {
-                     position: toast.POSITION.TOP_CENTER,
-                   });
+                  toast.error('There must be user name or password entered wrong try again', {
+                    position: toast.POSITION.TOP_CENTER,
+                  });
 
-                 }
+                }
                 console.error("Mutation error: ", error);
               }
 
@@ -143,7 +145,17 @@ function Page() {
 
                   <CustomField title="Email Address" id="email" type="text" />
                   <CustomField title="Password" id="password" type="password" />
-
+                  {/* <div className='w-1/2'>
+                    <ReCAPTCHA
+                      sitekey="6LexSekoAAAAAFt_Rek8-mHLbGpwWVZNsZhIsDJ0"
+                      onChange={(value) => setFieldValue('recaptcha', value)}
+                    />
+                    <ErrorMessage
+                      name="recaptcha"
+                      component="div"
+                      className="text-red-500 text-sm z-50 mt-11"
+                    />
+                  </div> */}
                   <div className="w-full flex ml-1 items-center">
                     <button
                       type="submit"

@@ -1,11 +1,11 @@
 'use client';
 import { ErrorMessage, Field, Form, Formik, useFormikContext } from 'formik';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
 import SubmitButtons from './SubmitButtons';
 import SelectComponet from './SelectComponent';
-import { companyTypes, industryTypes, turnOver, typeOfCompanies } from '../data/dropdownData';
+import { companyTypes, industryTypeOptions, turnOver, turnOverOptions, typeOfCompanyOptions } from '../data/dropdownData';
 import TextField from './TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice'
@@ -291,13 +291,13 @@ function CustomerRegistrationForm() {
           {/* companyType */}
           <div>
 
-         <SelectComponet options={typeOfCompanies} id={'companyType'} title={'Type Of Company'} />
+         <SelectComponet options={typeOfCompanyOptions} id={'companyType'} title={'Type Of Company'} />
           </div>
 
           {/* Industry Type */}
           <div>
             <SelectComponet
-              options={industryTypes}
+              options={industryTypeOptions}
               id={'industryType'}
               title={'Industry Type'}
             />
@@ -451,7 +451,7 @@ function CustomerRegistrationForm() {
           {/* Annual Turn Over */}
           <div>
             <SelectComponet
-              options={turnOver}
+              options={turnOverOptions}
               id={'turnover'}
               title={'Annual Turnover*'}
             />

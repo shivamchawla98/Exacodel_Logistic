@@ -240,40 +240,24 @@ function WarehouseEdit({Id, setActiveItem}: any) {
         <div className=' '>
           {showAlert && <Alert />}
           {showPopUp && <ApprovedPopup name={formData["companyName"]} onApprovalClick={() =>{ setShowPopUp(false); setActiveItem('Warehouse Review')}} operation={operation} />}
-          <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
+          <div className="overflow-hidden relative my-10  lg:my-0 mx-auto bg-white sm:rounded-lg w-full lg:w-full rounded-md shadow-md">
             <div className="px-4 py-6 sm:px-6">
               <div className='w-full flex justify-between items-center'>
                 <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
     
-                <div className='flex justify-evenly w-1/2'>
-                <button
-                  onClick={() => {
-                    handleApprove("delete")
-                  }}
-                  type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-                  Reject<span className="sr-only">, Reject </span>
-                </button>
-                <button
-                  onClick={() => {
-                    handleApprove("approve")
-                  }}
-                  type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-                  Approve<span className="sr-only">, Approve </span>
-                </button>
-    
-                </div>
+
               </div>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
             </div>
             <div className="border-t border-gray-100">
-              <dl className="divide-y divide-gray-100">
+              <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-3">
                 {Object.entries(formData).map(([label, value]: any[]) => (
-                  <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
-                    <>
-                      <div className="col-span-4">
-                        <dt className="text-sm font-medium text-gray-900">{label}</dt>
+                  <div className="grid grid-cols-3 items-center py-4 px-6" key={label}>
+                   <div className="col-span-full">
+                      <div className="">
+                        <dt className="text-xs pb-2 font-medium text-gray-700">{label}</dt>
                       </div>
-                      <div className="col-span-8">
+                      <div className="">
                         {label === 'warehouseType' ? (
                           <select
                             value={selectedWarehouseType}
@@ -335,11 +319,28 @@ function WarehouseEdit({Id, setActiveItem}: any) {
                           />
                         )}
                       </div>
-                    </>
+                    </div>
                   </div>
                 ))}
               </dl>
             </div>
+            <div className='flex justify-end w-full my-6'>
+                <button
+                  onClick={() => {
+                    handleApprove("delete")
+                  }}
+                  type="button" className="rounded-md bg-sky-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+                  Reject<span className="sr-only">, Reject </span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleApprove("approve")
+                  }}
+                  type="button" className="rounded-md mx-4 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+                  Approve<span className="sr-only">, Approve </span>
+                </button>
+    
+                </div>
           </div>
         </div>
       );

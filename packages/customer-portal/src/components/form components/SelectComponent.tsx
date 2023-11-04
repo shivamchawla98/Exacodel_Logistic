@@ -1,7 +1,7 @@
 import { ErrorMessage, Field } from 'formik';
 
 interface SelectComponetProps {
-  options: Array<number | string>;
+  options: Array<Object | string>;
   id: string;
   title: string;
   optionalOption?: string;
@@ -27,9 +27,9 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
       >
         <option value="">{optionalOption !== 'undefined' ? optionalOption : ''}</option>
-        {options.map((element) => (
-          <option className='text-sm' key={element} value={element}>
-            {element}
+        {options.map((element: any) => (
+          <option className='text-sm' key={element.value} value={element.value}>
+            {element.label}
           </option>
         ))}
       </Field>

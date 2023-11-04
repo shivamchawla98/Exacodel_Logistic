@@ -1,7 +1,7 @@
 'use client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import countries from '../../components/data/country';
 import SelectComponet from '../../components/form components/SelectComponent';
@@ -24,12 +24,9 @@ import {    updateCompanyBillingCode,
     updateWebsite,
     updateCheckBox,
     updateCompanyRegistrationNumber,} from '../../features/vendorRegForm/vendorReg-slice'
-import {
-  companyTypes,
-  industryTypes,
-  turnOver,
-  typeOfCompanies,
-} from '../data/dropdownData';
+import {industryTypeOptions, turnOverOptions, typeOfCompanyOptions } from '../data/dropdownData';
+
+
 import TextField from '../form components/TextField';
 import FormWrapper from '@/components/FormWrapper';
 import { updatesRegisterButtonClicked } from '@/features/registrationConf/registrationConf-slice';
@@ -311,7 +308,7 @@ function VendorRegistrationForm() {
           {/* companyType */}
           <div >
             <SelectComponet
-              options={typeOfCompanies}
+              options={typeOfCompanyOptions}
               id={'companyType'}
               title={'Type Of Company'}
             />
@@ -320,7 +317,7 @@ function VendorRegistrationForm() {
           {/* Industry Type */}
           <div >
             <SelectComponet
-              options={industryTypes}
+              options={industryTypeOptions}
               id={'industryType'}
               title={'Industry Type'}
             />
@@ -485,30 +482,12 @@ function VendorRegistrationForm() {
           </div>
 
           {/* Annual Turn Over */}
+          
           <div >
-            <label
-              htmlFor="turnover"
-              className="block text-sm font-medium leading-6 text-gray-600"
-            >
-              Annual Turnover
-            </label>
-            <Field
-              as="select"
-              id="turnover"
-              name="turnover"
-              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
-            >
-              <option value="">Select a country</option>
-              {turnOver.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage
-            className='text-xs text-rose-600'
-              name="country"
-              component="span"
+          <SelectComponet
+              options={turnOverOptions}
+              id={'turnover'}
+              title={'Annual Turnover'}
             />
           </div>
 

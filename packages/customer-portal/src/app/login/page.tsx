@@ -21,6 +21,7 @@ import { CheckIcon } from '@heroicons/react/24/outline'
 import { XCircleIcon, CogIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 
 const LOGIN_MUTATION = gql`
@@ -45,6 +46,7 @@ const validationSchema = Yup.object().shape({
     .email('Invalid email address')
     .required('Email is required'),
   password: Yup.string().required('Password is required'),
+  recaptcha: Yup.string().required('reCAPTCHA is required'),
 });
 
 
@@ -216,7 +218,7 @@ function Page() {
       <LoginStatus id={id} open={open} setOpen={setOpen} />
       {showAlert && <Alert />}
       <ToastContainer />
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div className="relative py-3 sm:max-w-xl sm:mx-auto  lg:w-4/12">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
@@ -336,6 +338,12 @@ function Page() {
                         className="text-red-500 text-sm"
                       />
                     </div>
+                    <div className="my-4">
+                        {/* <ReCAPTCHA
+                          sitekey="6LexSekoAAAAAFt_Rek8-mHLbGpwWVZNsZhIsDJ0"
+                          onChange={(value) => setFieldValue('recaptcha', value)}
+                        /> */}
+                    </div>
                     <div className="relative">
                       <button
                         type="submit"
@@ -348,7 +356,7 @@ function Page() {
                     <div>
                       <p className="mb-0 mt-2 pt-1 text-sm font-medium">
                         <Link
-                          href="/registration"
+                          href="/reset-password"
                           className="text-danger transition text-xs duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
                         >
                           Forget password !

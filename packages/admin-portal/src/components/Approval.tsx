@@ -5,18 +5,21 @@ import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SEND_TO_REVIEW_USER from '@/graphql/mutation/sendToReviewUser';
+import Prompt from './Prompt';
 
-const annualTurnoverOptions = [
-  "UP_TO_10000",
-  "FROM_10000_TO_50000",
-  "FROM_50000_TO_100000",
-  "FROM_100000_TO_500000",
-  "FROM_500000_TO_1000000",
-  "FROM_1000000_TO_1500000",
-  "FROM_1500000_TO_2500000",
-  "FROM_2500000_TO_5000000",
-  "FROM_5000000_TO_10000000",
-  "ABOVE_10000000"
+
+// Create a mapping array to map enum values to labels
+const annualTurnoverLabels = [
+  { value: "UP_TO_10000", label: "Up to $10,000" },
+  { value: "FROM_10000_TO_50000", label: "$10,000 to $50,000" },
+  { value: "FROM_50000_TO_100000", label: "$50,000 to $100,000" },
+  { value: "FROM_100000_TO_500000", label: "$100,000 to $500,000" },
+  { value: "FROM_500000_TO_1000000", label: "$500,000 to $1,000,000" },
+  { value: "FROM_1000000_TO_1500000", label: "$1,000,000 to $1,500,000" },
+  { value: "FROM_1500000_TO_2500000", label: "$1,500,000 to $2,500,000" },
+  { value: "FROM_2500000_TO_5000000", label: "$2,500,000 to $5,000,000" },
+  { value: "FROM_5000000_TO_10000000", label: "$5,000,000 to $10,000,000" },
+  { value: "ABOVE_10000000", label: "Above $10,000,000" },
 ];
 
 const industryTypeOptions = [
@@ -29,16 +32,29 @@ const industryTypeOptions = [
   "Food_and_Beverages",
   "Hospital_and_Medicalsupplies"
 ];
+// Create a mapping object to map enum values to labels
+const industryTypeLabels = {
+  "Apparels_and_garments": "Apparels and Garments",
+  "Building_and_Construction": "Building and Construction",
+  "Electronic_and_Electical": "Electronic and Electrical",
+  "Drugs_and_pharms": "Drugs and Pharmaceuticals",
+  "Industrial_Machines": "Industrial Machines",
+  "Industrial_suppplies": "Industrial Supplies",
+  "Food_and_Beverages": "Food and Beverages",
+  "Hospital_and_Medicalsupplies": "Hospital and Medical Supplies",
+};
 
-const companyTypeOptions = [
-  "Partnership",
-  "private_limited",
-  "public_limited",
-  "limited_liability_partnership",
-  "Non_profit_cooperation",
-  "Inc",
-  "Cooperation",
-  "LLC"
+
+// Create a mapping array to map enum values to labels
+const companyTypeLabels = [
+  { value: "Partnership", label: "Partnership" },
+  { value: "private_limited", label: "Private Limited" },
+  { value: "public_limited", label: "Public Limited" },
+  { value: "limited_liability_partnership", label: "Limited Liability Partnership" },
+  { value: "Non_profit_cooperation", label: "Non-Profit Cooperation" },
+  { value: "Inc", label: "Inc" },
+  { value: "Cooperation", label: "Cooperation" },
+  { value: "LLC", label: "LLC" },
 ];
 
 const userTypes = [
@@ -49,6 +65,10 @@ const userTypes = [
 ];
 
 
+// Function to get the label for a given enum value
+const getENUMTypeLabel = (enumKeyValue: any, enumValue: any) => {
+  return enumKeyValue[enumValue] || enumValue;
+};
 
 
 export default function Approval({ setName, setOperation, Id, onApproveClick, isApproved }: any) {
@@ -65,9 +85,13 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
   const [selectedCompanyType, setSelectedCompanyType] = useState('');
   const [selectedUserType, setSelectedUserType] = useState('');
   const [selectedIndustryType, setSelectedIndustryType] = useState('');
+  const [isPromptOpen, setPromptOpen] = useState(false);
+  const [remarks, setRemarks] = useState('');
+  const [whichAction, setAction] = useState('');
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
   const [sendtoreveiwuser] = useMutation(SEND_TO_REVIEW_USER);
+
 
   useEffect(() => {
 
@@ -107,7 +131,6 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
           'Designation': user.Designation,
           'Contact Number': user.mobile,
           'Website': user.website,
-          'Remarks': "",
         });
 
 
@@ -124,144 +147,131 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
 
   const handleApprove = async (approvedOrReject: String) => {
     console.log("Id : ", Id);
-
-    try {
-      const { data: approvalData } = await approveUser({
-        variables: {
-          userId: Id * 1,
-          input: {
-            companyType: selectedCompanyType,
-            Approveduser: approvedOrReject,
-            industryType: selectedIndustryType,
-            state: formData['State'],
-            pincode: formData['Pincode'],
-            Address: formData['Address'],
-            city: formData['City'],
-            country: formData['Country'],
-            company_reg_no: formData['Company Registration Number'],
-            company_name: formData['Company Name'],
-            company_pan_no: formData['Company Pan Number'],
-            annualTurnover: selectedAnnualTurnover,
-            gst_no: formData['GST Number'],
-            first_name: formData['Full name'].split(' ')[0],
-            last_name: formData['Full name'].split(' ')[1],
-            Designation: formData['Designation'],
-            mobile: formData['Contact Number'],
-            website: formData['Website'],
-            email: formData['Email address'],
-            // password: formData['Password'],
-            userType: userType,
-            customerSubType: formData['Customer Type'],
-            vendorSubType: formData['Vendor Type'],
-            overseasAgentSubType: formData['Overseas Type'],
-            remarks: formData['Remarks'],
+  
+      try {
+        const { data: approvalData } = await approveUser({
+          variables: {
+            userId: Id * 1,
+            input: {
+              companyType: selectedCompanyType,
+              Approveduser: approvedOrReject,
+              industryType: selectedIndustryType,
+              state: formData['State'],
+              pincode: formData['Pincode'],
+              Address: formData['Address'],
+              city: formData['City'],
+              country: formData['Country'],
+              company_reg_no: formData['Company Registration Number'],
+              company_name: formData['Company Name'],
+              company_pan_no: formData['Company Pan Number'],
+              annualTurnover: selectedAnnualTurnover,
+              gst_no: formData['GST Number'],
+              first_name: formData['Full name'].split(' ')[0],
+              last_name: formData['Full name'].split(' ')[1],
+              Designation: formData['Designation'],
+              mobile: formData['Contact Number'],
+              website: formData['Website'],
+              email: formData['Email address'],
+              // password: formData['Password'],
+              userType: userType,
+              customerSubType: formData['Customer Type'],
+              vendorSubType: formData['Vendor Type'],
+              overseasAgentSubType: formData['Overseas Type'],
+              remarks: remarks,
+            },
           },
-        },
-      });
-      console.log("this is : ", data);
-      setName(formData['Full name']);
-      setOperation(approvedOrReject)
-      onApproveClick();
-      isApproved()
-    } catch (error: any) {
-      if (error.networkError) {
-        toast.error('There is network error come after some time', {
-          position: toast.POSITION.TOP_CENTER,
         });
+        console.log("this is : ", data);
+        setName(formData['Full name']);
+        setOperation(approvedOrReject)
+        onApproveClick();
+        isApproved()
+      } catch (error: any) {
+        if (error.networkError) {
+          toast.error('There is network error come after some time', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+        else {
+          toast.error('Some Error !', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+  
+        }
+        console.error("error : ", error);
       }
-       else {
-         toast.error('Some Error !', {
-           position: toast.POSITION.TOP_CENTER,
-         });
-
-       }
-      console.error("error : ", error);
-    }
+      
   }
 
   const handleReviw = async () => {
-    try {
-      const { data: approvalData } = await approveUser({
-        variables: {
-          userId: Id * 1,
-          input: {
-            remarks: formData['Remarks']
+    
+      try {
+        const { data: approvalData } = await approveUser({
+          variables: {
+            userId: Id * 1,
+            input: {
+              remarks: remarks,
+            }
           }
+        })
+  
+        const { data: any } = await sendtoreveiwuser({
+          variables: {
+            id: Id * 1,
+          }
+        })
+  
+        console.log("this is : ", data);
+        setName(formData['Full name']);
+        setOperation("Sended Review")
+        onApproveClick();
+        isApproved()
+      } catch (error: any) {
+        console.log("review error ", error);
+        if (error.networkError) {
+          toast.error('There is network error come after some time', {
+            position: toast.POSITION.TOP_CENTER,
+          });
         }
-      })
-
-      const { data: any } = await sendtoreveiwuser({
-        variables: {
-          id: Id * 1,
+        else {
+  
+          toast.error('Some Error !', {
+            position: toast.POSITION.TOP_CENTER,
+          });
+  
         }
-      })
-
-      console.log("this is : ", data);
-      setName(formData['Full name']);
-      setOperation("Sended Review")
-      onApproveClick();
-      isApproved()
-    } catch (error: any) {
-      console.log("review error ", error);
-      if (error.networkError) {
-        toast.error('There is network error come after some time', {
-          position: toast.POSITION.TOP_CENTER,
-        });
       }
-       else {
 
-         toast.error('Some Error !', {
-           position: toast.POSITION.TOP_CENTER,
-         });
-
-       }
-    }
   }
 
   return (
     <div className=' '>
       <ToastContainer />
-      <div className="overflow-hidden relative my-10  lg:my-16 mx-auto bg-white sm:rounded-lg w-full lg:w-3/4 rounded-md shadow-md">
-        <div className="px-4 py-6 sm:px-6">
+      <Prompt isPromptOpen={isPromptOpen} remarks={remarks}
+       setPromptOpen={setPromptOpen}
+        setRemarks={setRemarks}
+         handleApprove={() => {handleApprove(whichAction)}}
+         handleReviw={() => {handleReviw()}}
+         whichAction={whichAction}
+         />
+      <div className="overflow-hidden relative my-10  lg:my-0 mx-auto bg-white sm:rounded-lg w-full lg:w-full rounded-md shadow-md">
+        <div className="px-4 py-3 sm:px-6">
           <div className='w-full flex justify-start lg:justify-between items-center flex-wrap lg:flex-nowrap'>
             <h3 className="text-base  font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
 
-            <div className='flex justify-end lg:justify-evenly w-full my-6 lg:w-1/2'>
-              <button
-                onClick={() => {
-                  handleReviw()
-                }}
-                type="button" className="rounded-md bg-sky-500 px-3 mx-1 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-                Send for Review<span className="sr-only">, Review </span>
-              </button>
-              <button
-                onClick={() => {
-                  handleApprove("Rejected")
-                }}
-                type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-                Reject<span className="sr-only">, Reject </span>
-              </button>
-              <button
-                onClick={() => {
-                  handleApprove("Approved")
-                }}
-                type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-                Approve<span className="sr-only">, Approve </span>
-              </button>
 
-            </div>
           </div>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
         </div>
         <div className="border-t border-gray-100">
-          <dl className="divide-y divide-gray-100">
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-3">
             {Object.entries(formData).map(([label, value]: any[]) => (
-              <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
-                <>
-                  <div className="col-span-4">
-                    <dt className="text-sm font-medium text-gray-900">{label}</dt>
+              <div className="grid grid-cols-3 items-center py-4 px-6" key={label}>
+                <div className="col-span-full">
+                  <div className="">
+                    <dt className="text-xs pb-2 font-medium text-gray-700">{label}</dt>
                   </div>
-                  <div className="col-span-8">
+                  <div className="">
                     {label === 'Annual Turn Over' ? (
                       <select
                         value={selectedAnnualTurnover}
@@ -269,9 +279,9 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Annual Turnover</option>
-                        {annualTurnoverOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
+                        {annualTurnoverLabels.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
                           </option>
                         ))}
                       </select>
@@ -282,9 +292,9 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Type of Company</option>
-                        {companyTypeOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
+                        {companyTypeLabels.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
                           </option>
                         ))}
                       </select>
@@ -310,7 +320,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                         <option value="">Industry</option>
                         {industryTypeOptions.map((option) => (
                           <option key={option} value={option}>
-                            {option}
+                            {getENUMTypeLabel(industryTypeLabels, option)}
                           </option>
                         ))}
                       </select>
@@ -319,23 +329,54 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                         type="text"
                         value={value}
                         onChange={(e) => handleInputChange(label, e.target.value)}
-                        disabled = {true}
+                        disabled={true}
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       />
                     ) : (
-                        <input
-                          type="text"
-                          value={value}
-                          onChange={(e) => handleInputChange(label, e.target.value)}
-                          className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
-                        />
-                      )
+                      <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => handleInputChange(label, e.target.value)}
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                      />
+                    )
                     }
                   </div>
-                </>
+                </div>
               </div>
             ))}
           </dl>
+        </div>
+        <div className='flex justify-end lg:justify-end  w-full lg:w-11/12 my-6'>
+        <button
+            onClick={() => {
+              setPromptOpen(true)
+              setAction("Approved")
+              
+            }}
+            type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            Approve<span className="sr-only">, Approve </span>
+          </button>
+          <button
+            onClick={() => {
+              setPromptOpen(true)
+              setAction("Rejected")
+            }}
+            type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            Reject<span className="sr-only">, Reject </span>
+          </button>
+          <button
+            onClick={() => {
+             
+              setPromptOpen(true)
+              setAction("Review")
+            }}
+            type="button" className="rounded-md bg-sky-500 px-3 mx-1 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            Send for Review<span className="sr-only">, Review </span>
+          </button>
+
+
+
         </div>
       </div>
     </div>

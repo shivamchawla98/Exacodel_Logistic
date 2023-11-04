@@ -1,22 +1,25 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
-import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
+import GET_WAREHOUSE_BY_USER_ID from "@/graphql/query/getWarehousesByUserId";
+import { useSelector} from 'react-redux'
 
 
-const userType = ["CUSTOMER", "VENDOR", "OVERSEAS_AGENT"];
-const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORTER", "MERCHANT_EXPORTER"];
-const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
-const overseasSubtype = ["FOREIGN_AGENT"];
 
-function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
-  const { loading, error, data, refetch} = useQuery(LIST_INITIAL_REGISTRATION);
+
+function MyWarehouses({setActiveItem, setApprovalIndex}:any) {
+
   const [isLoading, setIsLoading] = useState(true);
-  const [userTypeFilter, setUserTypeFilter] = useState("All");
-  const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 28; // Number of items to display per page
+  let [isApproved, setIsApproved] = useState<any>(false);
+  const {userId } = useSelector((state: any) => state.loginSlice)
+  const { loading, error, data, refetch} = useQuery(GET_WAREHOUSE_BY_USER_ID, {
+    variables: {
+        id: userId
+    }
+  }); 
 
 
   useEffect(() => {
@@ -27,7 +30,7 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
 
   useEffect(() => {
     refetch();
-  }, isApproved)
+  }, [isApproved])
 
   console.log(data);
 
@@ -35,66 +38,18 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
- 
-  
-  let approvedUsers = data?.listInitialRegistrations.filter((user: any) =>{
-    console.log("user remarks : )", user);
-     return (user.isapproved === 'Approval_pending' )
+  let warehouse = data?.getWarehousesByUserId;
 
-   } );
-
-  const totalPages = Math.ceil(data?.listInitialRegistrations.filter((user: any) => user.isapproved === 'Approval_pending').length / itemsPerPage);
+  const totalPages = Math.ceil(data?.getWarehousesByUserId.length / itemsPerPage);
 
   // Filter data based on search query
-  const filteredData = data?.listInitialRegistrations.filter((person: any) => {
+  const filteredData = data?.getWarehousesByUserId.filter((person: any) => {
     const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
     return fullName.includes(searchQuery.toLowerCase());
   });
 
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-      <div className="flex justify-between items-center flex-wrap mb-4">
-        <div className="flex items-center space-x-2">
-          <label htmlFor="userTypeFilter" className="text-sm font-semibold">
-            User Type Filter:
-          </label>
-          <select
-            id="userTypeFilter"
-            className="border rounded-md px-2 py-1 text-left text-sm font-semibold text-gray-900"
-            value={userTypeFilter}
-            onChange={(e) => setUserTypeFilter(e.target.value)}
-          >
-            <option className="text-left text-sm tex font-medium text-gray-900" value="All">
-              All
-            </option>
-            {userType.map((type: any) => (
-              <option key={type} className="text-left text-sm tex font-medium text-gray-900" value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex items-center space-x-2">
-          <label htmlFor="subUserTypeFilter" className="text-sm font-semibold">
-            Sub User Type Filter:
-          </label>
-          <select
-            id="subUserTypeFilter"
-            className="border rounded-md px-2 py-1 text-left text-sm font-semibold text-gray-900"
-            value={subUserTypeFilter}
-            onChange={(e) => setSubUserTypeFilter(e.target.value)}
-          >
-            <option className="text-left text-sm tex font-medium text-gray-900" value="All">
-              All
-            </option>
-            {[...customerSubtype, ...vendorSubtype, ...overseasSubtype].map((type) => (
-              <option key={type} className="text-left text-sm tex font-medium text-gray-900" value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
       <div className="mb-4">
         <div className="relative rounded-md shadow-sm">
           <input
@@ -125,16 +80,16 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                    Name
+                    ID
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    User type
+                    Company Name
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Email
+                  Warehouse Type
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Approval
+                    State
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                     <span className="sr-only">Edit</span>
@@ -144,49 +99,42 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
               <tbody className="divide-y divide-gray-200 bg-white">
                 {!error &&
                   !loading &&
-                  approvedUsers
+                  warehouse
                     .slice(startIndex, endIndex)
                     .map((person: any, index: any) => (
                       <>
-                        {console.log("isApproved : ", person.isapproved)}
-
-                        {((userTypeFilter === person.userType && (
-                          userTypeFilter === "CUSTOMER" &&
-                          subUserTypeFilter === person.customerSubType ||
-                          userTypeFilter === "VENDOR" &&
-                          subUserTypeFilter === person.vendorSubType ||
-                          userTypeFilter === "OVERSEAS_AGENT" &&
-                          subUserTypeFilter === person.overseasAgentSubType ||
-                          subUserTypeFilter === "All"
-                        )) || userTypeFilter === "All") && (
+                    
                             <tr key={person.email}>
                               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                {person.first_name}
+                                {person.id}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.userType}
+                                {person.companyName}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.email}
+                                {person.warehouseType}
+                              </td>
+                              <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                {person.State}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 
                                 <button
                                   onClick={() => {
-                                    console.log("vendor : ", person.id);
-
-                                    setApprovalIndex(person.id);
-                                    onApprovalClick();
+                                    // console.log("warehouse : ", person.id);
+                                    setApprovalIndex(person.id)
+                                    setActiveItem("warehouseInfo");
+                                    
                                   }}
                                   type="button"
                                   className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
                                 >
-                                  Review
+                                  More Info
                                 </button>
                               </td>
                     
                             </tr>
-                          )}
+                    
                       </>
                     ))}
               </tbody>
@@ -203,7 +151,7 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
                 </button>
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={endIndex >= approvedUsers.length}
+                  disabled={endIndex >= warehouse.length}
                   className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
                 >
                   Next
@@ -220,4 +168,5 @@ function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
   );
 }
 
-export default Vendors;
+export default MyWarehouses;
+

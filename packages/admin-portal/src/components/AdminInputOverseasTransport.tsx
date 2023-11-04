@@ -57,7 +57,7 @@ function AdminInputOverseasTransport() {
         onSubmit={handleSubmit}
       >
         <Form className="mt-2 grid grid-cols-1 col-span-full lg:grid-cols-3 gap-6 p-12 gap-y-8">
-            <Address prefix={'address1'} />
+            <Address  />
             <OverseasTruckingDetails prefix="flt1"/>
             <SubmitButtons  id1={'save'} title1={'Save'} />
             <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />

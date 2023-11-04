@@ -14,7 +14,9 @@ function CompanyDetails({prefix}: any) {
           Company Name
         </label>
         <Field type="text" id={`companyName`} name={`companyName`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`companyName`} component="div" />
+        <ErrorMessage name={`companyName`} component="div"
+        className='text-xs text-rose-500'
+        />
       </div>
 
       {/* billingCode */}

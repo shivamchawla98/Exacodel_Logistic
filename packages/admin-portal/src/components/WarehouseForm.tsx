@@ -10,26 +10,53 @@ import { useMutation } from '@apollo/client';
 import ApprovedPopup from '@/app/approval/components/ApprovedPopup';
 import { useState } from 'react';
 import CREATE_WAREHOUSE from '@/graphql/mutation/createWarehouse';
+import { useSelector} from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
-
-const validationSchema = Yup.object({
-    billingAddress: Yup.string(),
-});
+const validationSchema = Yup.object().shape({
+    companyName: Yup.string().required('Company Name is required'),
+    streetAddress: Yup.string().required('Street Address is required'),
+    region: Yup.string().required('Region/State is required'),
+    city: Yup.string().required('City is required'),
+    postalCode: Yup.string()
+    .matches(/^[0-9]{6}$/, 'PIN code must be a 6-digit number')
+    .required('PIN code is required'),
+    country: Yup.string().required('Country is required'),
+    typeOfWarehouse: Yup.string().required('Type of Warehouse is required'),
+    totalStorageArea: Yup.string().required('Total Storage Area is required'),
+    totalAvailableArea: Yup.string().required('Total Available Area is required'),
+    occupiedSpace: Yup.string().required('Occupied Space is required'),
+    unOccupiedSpace: Yup.string().required('Unoccupied Space is required'),
+    rackedSpace: Yup.string().required('Racked Space is required'),
+    minimumStorageRent: Yup.string().required('Minimum Storage Rent per Sq Ft is required'),
+    minimumStorageCharges_per_pallet: Yup.string().required('Minimum Storage Charges per Pallet is required'),
+    minimumStorageArea: Yup.string().required('Minimum Storage Area per Sq Ft is required'),
+    minimumstorageArea_per_pallet: Yup.string().required('Minimum Storage Area per Pallet is required'),
+    storageChargesPerSqFt: Yup.string().required('Storage Charges per Sq Ft is required'),
+    storageChargesPerPallet: Yup.string().required('Storage Charges per Pellet Ft is required'),
+    // minimumStorageChargesPerPallet: Yup.string().required('Storage Charges per Pallet is required'),
+    hazardousStorageCapacity: Yup.string().required('Hazardous Storage Capacity is required'),
+    activePassive: Yup.string().required('Active/Passive Temperature Type is required'),
+    temperatureCapacity: Yup.string().required('Temperature Capacity is required'),
+  });
 
 function AdminInputWarehouse({ setActiveItem }: any) {
 
-    const [createWarehouse, { data, error }] = useMutation(CREATE_WAREHOUSE);
+    const [createWarehouse,  {data, error} ] = useMutation(CREATE_WAREHOUSE);
     const [companyName, setCompanyName] = useState('')
     const [showPopUp, setShowPopUp] = useState(false)
+    const {userId } = useSelector((state: any) => state.loginSlice)
 
+    
 
-    const handleSubmit = (values: any) => {
+    const handleSubmit = async (values: any) => {
         // Handle form submission
         setCompanyName(values.companyName)
-        console.log(values.region);
+        console.log(values);
         try {
-            createWarehouse({
+            const result = await createWarehouse({
                 variables: {
                     input: {
                         "companyName": values.companyName,
@@ -44,19 +71,27 @@ function AdminInputWarehouse({ setActiveItem }: any) {
                         "occupiedSpace": `${values.occupiedSpace}`,
                         "unoccupiedSpace": `${values.unOccupiedSpace}`,
                         "rackedSpace": `${values.rackedSpace}`,
-                        "minimumStorageRent": `${values.minimumStorageRentPerSqFt}`,
-                        "minimumStorageCharges_per_pallet": `${values.minimumStorageChargesPerPallet}`,
-                        "minimumStorageArea": `${values.minimumStorageAreaPerSqFt}`,
-                        "minimumstorageArea_per_pallet": `${values.minimumStorageAreaPerPallet}`,
+                        "minimumStorageRent": `${values.minimumStorageRent}`,
+                        "minimumStorageCharges_per_pallet": `${values.minimumStorageCharges_per_pallet}`,
+                        "minimumStorageArea": `${values.minimumStorageArea}`,
+                        "minimumstorageArea_per_pallet": `${values.minimumstorageArea_per_pallet}`,
                         "storageCharges": `${values.storageChargesPerSqFt}`,
                         "storageCharges_per_pallet": `${values.storageChargesPerPallet}`,
                         "hazardousStorageType": `${values.hazardousStorageCapacity}`,
                         "temperatureType": `${values.activePassive}`,
-                        "temperatureCapacity": `${values.temperatureCapacity}`
+                        "temperatureCapacity": `${values.temperatureCapacity}`,
+                        "userId": userId
                     }
                 }
             })
-            setShowPopUp(true)
+            
+            
+                console.log("myEror : (", result);
+           
+                // setShowPopUp(true)
+
+            
+            
         } catch (error) {
             console.log("errror found : ", error);
 
@@ -96,7 +131,8 @@ function AdminInputWarehouse({ setActiveItem }: any) {
 
     return (
         <>
-            {showPopUp && <ApprovedPopup name={companyName} operation="Warehouse Added" onApprovalClick={() => { setShowPopUp(false); setActiveItem('All warehouses') }} />}
+            {showPopUp && <ApprovedPopup name={companyName} operation="Warehouse Added" onApprovalClick={() => { setShowPopUp(false); setActiveItem('My Warehouses') }} />}
+            <ToastContainer />
             <h2 className="text-lg font-semibold leading-7 text-gray-900 pl-11 pt-11">
                 ADMIN INPUT - WAREHOUSE
             </h2>

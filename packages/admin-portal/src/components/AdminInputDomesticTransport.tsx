@@ -6,12 +6,14 @@ import SubmitButtons from './SubmitButtons';
 import Address from './Address';
 import DomesticTransportFTLDetails from './DomesticTransportFTLDetails';
 import DomesticTransporLTLtDetails from './DomesticTransportLCLDetails';
+import { useState } from 'react';
 
 const validationSchema = Yup.object({
   billingAddress: Yup.string(),
 });
 
 function AdminInputDomesticTransport() {
+  const [isFTL, setIsFTL] = useState(true)
   const handleSubmit = (values: any) => {
     // Handle form submission
     console.log(values);
@@ -19,30 +21,20 @@ function AdminInputDomesticTransport() {
 
   // initial values
   const initialValues = {
-    address1: {
       country: '',
       region: '',
       city: '',
       streetAddress: '',
       postalCode: '',
-    },
-    address2: {
-      country: '',
-      region: '',
-      city: '',
-      streetAddress: '',
-      postalCode: '',
-    },
-    billingAddress: '',
-    warehouseAddress: '',
-    firstName: '',
-    lastName: '',
-    designation: '',
-    email: '',
-    country: '',
-    file1: null,
-    file2: null,
-    termsAccepted: '',
+      typeOfTransport: '',
+      typeOfVehicle: '',
+      maxPayload: '',
+      pickupCityState: '',
+      pickupPincode: '',
+      dropCityState: '',
+      dropPincode: '',
+      transportCharges: '',
+
   };
 
   return (
@@ -54,15 +46,17 @@ function AdminInputDomesticTransport() {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-      >
+      >{ () => (
         <Form className="mt-2 grid lg:grid-cols-3 gap-6 p-12 gap-y-8">
-            <Address prefix={'address1'} />
-            <DomesticTransportFTLDetails prefix="flt1"/>
+            <Address />
+            {isFTL  && <DomesticTransportFTLDetails setIsFTLFalse={() => setIsFTL(false)}/>}
             <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-            <DomesticTransporLTLtDetails prefix="ltl1" />
+            {!isFTL && <DomesticTransporLTLtDetails  setIsFTLTrue={() => setIsFTL(true)} />}
             <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
             <SubmitButtons  id1={'save'} title1={'Save'} />
         </Form>
+
+      )}
       </Formik>
     </>
   );

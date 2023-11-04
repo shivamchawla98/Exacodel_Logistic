@@ -1,4 +1,5 @@
 import SelectComponet from './SelectComponent';
+import SelectComponet2 from './SelectComponent2';
 import TextField from './TextField';
 
 function AdminInputWarehouseDetail({ prefix }: any) {
@@ -8,15 +9,15 @@ function AdminInputWarehouseDetail({ prefix }: any) {
                   <h2 className="font-semibold text-gray-900 col-span-3">
         Warehouse Details
       </h2>
-      <SelectComponet
+      <SelectComponet2
         options={[
-          'coldStorageFacility',
-          'generalWarehouse',
-          'referigeratedWarehouse',
-          'fullFilmentCenter',
-          'petroleumWarehouse',
-          'bondedWarehouse',
-          'hazCargoWarehouse'
+          { value: 'coldStorageFacility', label: 'Cold Storage Facility' },
+          { value: 'generalWarehouse', label: 'General Warehouse' },
+          { value: 'referigeratedWarehouse', label: 'Referigerated Warehouse' },
+          { value: 'fullFilmentCenter', label: 'Fullfilment Center' },
+          { value: 'petroleumWarehouse', label: 'Petroleum Warehouse' },
+          { value: 'bondedWarehouse', label: 'Bonded Warehouse' },
+          { value: 'hazCargoWarehouse', label: 'Hazardous Cargo Warehouse' }
         ]}
         id={`typeOfWarehouse`}
         title={'Type Of Warehouse'}
@@ -56,12 +57,12 @@ function AdminInputWarehouseDetail({ prefix }: any) {
         id={`activePassive`}
         title={'Temperature Capcity (Active/Passive)'}
       />
-      <SelectComponet
+      <SelectComponet2
         options={[
-            "MINUS_Eighteen_Degree_to_twenty_degree_celcius",
-            "MINUS_Two_Degree_to_MINUS_Eight_degree_celcius",
-            "MINUS_Twenty_Degree_to_twenty_degree_celcius",
-            "fifteen_Degree_to_twentyfive_degree_celcius"
+          { value: "MINUS_Eighteen_Degree_to_twenty_degree_celcius", label: "-18°C to 20°C" },
+          { value: "MINUS_Two_Degree_to_MINUS_Eight_degree_celcius", label: "-2°C to -8°C" },
+          { value: "MINUS_Twenty_Degree_to_twenty_degree_celcius", label: "-20°C to 20°C" },
+          { value: "fifteen_Degree_to_twentyfive_degree_celcius", label: "15°C to 25°C" }         
         ]}
         id={`temperatureCapacity`}
         title={'Temperature Capcity'}
@@ -91,22 +92,23 @@ function AdminInputWarehouseDetail({ prefix }: any) {
         type={'number'}
       />
                     <TextField
-        id={`minimumStorageAreaPerSqFt`}
+                    
+        id={`minimumStorageArea`}
         title={'Minimum Storage Area (Sq. ft)'}
         type={'number'}
         />
         <TextField
-        id={`minimumStorageAreaPerPallet`}
+        id={`minimumstorageArea_per_pallet`}
         title={'Minimum Storage Area (per pellet)'}
         type={'number'}
       />
               <TextField
-        id={`minimumStorageRentPerSqFt`}
+        id={`minimumStorageRent`}
         title={'Minimum Storage Rent (Sq. ft)'}
         type={'number'}
         />
         <TextField
-        id={`minimumStorageChargesPerPallet`}
+        id={`minimumStorageCharges_per_pallet`}
         title={'Minimum Storage Rent Charges (per pallet)'}
         type={'number'}
       />

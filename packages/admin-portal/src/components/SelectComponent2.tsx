@@ -1,13 +1,13 @@
 import { ErrorMessage, Field } from 'formik';
 
 interface SelectComponetProps {
-  options: Array<number | string>;
+  options: Array<object>;
   id: string;
   title: string;
   optionalOption?: string;
 }
 
-const SelectComponet: React.FC<SelectComponetProps> = ({
+const SelectComponet2: React.FC<SelectComponetProps> = ({
   options,
   id,
   title,
@@ -16,7 +16,7 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
   return (
     <div>
       <label
-        htmlFor={id}
+        htmlFor="warehouseInsurance"
         className="block text-sm font-medium leading-6 text-gray-600"
       >
         {title}
@@ -27,9 +27,9 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
         className="block px-4 w-full rounded-md border-0 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
       >
         <option value="">{optionalOption !== 'undefined' ? optionalOption : ''}</option>
-        {options.map((element) => (
-          <option className='text-sm' key={element} value={element}>
-            {element}
+        {options.map((element: any) => (
+          <option className='text-sm' key={element.value} value={element.value}>
+            {element.label}
           </option>
         ))}
       </Field>
@@ -38,4 +38,4 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
   );
 };
 
-export default SelectComponet;
+export default SelectComponet2;

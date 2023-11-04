@@ -5,46 +5,68 @@ import {
   pincode,
   basisOfCharges,
 } from './data/dropdownData';
+import { ErrorMessage, Field } from 'formik';
 
-function DomesticTransporLTLtDetails(prefix: any) {
+function DomesticTransporLTLtDetails({setIsFTLTrue}:any) {
   return (
     <>
       <h2 className="font-semibold text-gray-900 col-span-3">
         Uploading Trucking Rates (LTL)
       </h2>
-      <SelectComponet
-        options={['FTL', 'LTL']}
-        id={`${prefix}.typeOfTransport`}
-        title={'Type Of Transport'}
-      />
+      <div>
+        <label
+          htmlFor="typeOfTransport"
+          className="block text-sm font-medium leading-6 text-gray-600"
+        >
+          Type Of Transport
+        </label>
+        <Field
+          as="select"
+          name="typeOfTransport"
+          onChange={(e: any) => {
+            if (e.currentTarget.value === 'LTL') {
+              setIsFTLTrue()
+            }
+          }}
+          className="block px-4 w-full rounded-md border-0 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+        >
+          <option value=""></option>
+          {['FTL', 'LTL'].map((element) => (
+            <option className='text-sm' key={element} value={element}>
+              {element}
+            </option>
+          ))}
+        </Field>
+        <ErrorMessage name="typeOfTransport" component="span" className='text-xs text-rose-600' />
+      </div>
       <SelectComponet
         options={states}
-        id={`${prefix}.pickupCityState`}
+        id={`pickupCityState`}
         title={'Pickup City State'}
       />
       <SelectComponet
         options={pincode}
-        id={`${prefix}.pickupPincode`}
+        id={`pickupPincode`}
         title={'Pickup City Pin Code'}
       />
       <SelectComponet
         options={states}
-        id={`${prefix}.dropCityState`}
+        id={`dropCityState`}
         title={'Drop City State'}
       />
       <SelectComponet
         options={pincode}
-        id={`${prefix}.dropPincode`}
+        id={`dropPincode`}
         title={'Drop City Pin Code'}
       />
       <TextField
-        id={`${prefix}.transportCharges`}
+        id={`transportCharges`}
         title={'Transport Charges'}
         type={'number'}
       />
       <SelectComponet
         options={basisOfCharges}
-        id={`${prefix}.basisOfCharges`}
+        id={`basisOfCharges`}
         title={'Type Of Transport'}
       />
     </>

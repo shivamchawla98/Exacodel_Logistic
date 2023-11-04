@@ -9,6 +9,7 @@ import { updateUserId } from "@/features/user/user-slice";
 import { updateSignUpclicked, updateSendOtpClicked } from '@/features/select-form/selectForm-slice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import ReCAPTCHA from "react-google-recaptcha";
 
 const SEND_OTP_MUTATION = gql`
   mutation SendOTP($email: String!) {
@@ -104,6 +105,7 @@ function OtpVerification() {
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Email is required"),
+    recaptcha: Yup.string().required('reCAPTCHA is required'),
   });
 
   const logEmail = (values: any) => {
@@ -212,6 +214,10 @@ function OtpVerification() {
     });
   };
 
+  const reCaptchChange = () => {
+    return;
+  }
+
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <ToastContainer />
@@ -250,6 +256,7 @@ function OtpVerification() {
                             </div>
                           ))}
                         </div>
+
                         <div className={`flex flex-row items-center mt-4 justify-evenly text-center text-sm font-medium space-x-1 ${resendDisabled ? "text-gray-300" : "text-gray-500"}`}>
                           <p>Didn&apos;t receive the code?</p>{" "}
                           <button
@@ -283,7 +290,7 @@ function OtpVerification() {
                     validationSchema={validationSchema}
                     onSubmit={handleEmailSubmit}
                   >
-                    {({ isSubmitting }) => (
+                    {({ isSubmitting, setFieldValue }) => (
                       <Form>
                         <label htmlFor="email" className="sr-only">
                           Email
@@ -302,13 +309,25 @@ function OtpVerification() {
                           className="text-red-500 text-sm"
                         />
 
+                        {/* <div className="my-4">
+                        <ReCAPTCHA
+                          sitekey="6LexSekoAAAAAFt_Rek8-mHLbGpwWVZNsZhIsDJ0"
+                          onChange={(value) => setFieldValue('recaptcha', value)}
+                        />
+                        <ErrorMessage
+                          name="recaptcha"
+                          component="div"
+                          className="text-red-500 text-sm"
+                        />
+                        </div> */}
+
                         <button
                           type="submit"
                           disabled={resendDisabled || isEmailSubmitting}
                           className={` mt-4 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 sm:ml-3 sm:w-auto ${resendDisabled ? "bg-sky-200" : "bg-sky-500 hover:bg-sky-400"
                             }`}
                         >
-                          {isSubmitting  ? (
+                          {isSubmitting ? (
                             <div className="flex space-x-1 items-center">
                               <div>Loading</div>
                               <div className="animate-bounce">...</div>

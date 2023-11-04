@@ -67,16 +67,27 @@ const vehicleDimension: Array<string> = [
     "40 L X 8 W X 8 H"
     ]
 
-const industryTypes: Array<string> = [
-  "Apparels_and_garments",
-  "Building_and_Construction",
-  "Electronic_and_Electical",
-  "Drugs_and_pharms",
-  "Industrial_Machines",
-  "Industrial_suppplies",
-  "Food_and_Beverages",
-  "Hospital_and_Medicalsupplies"
-    ]
+// const industryTypes: Array<string> = [
+//   "Apparels_and_garments",
+//   "Building_and_Construction",
+//   "Electronic_and_Electical",
+//   "Drugs_and_pharms",
+//   "Industrial_Machines",
+//   "Industrial_suppplies",
+//   "Food_and_Beverages",
+//   "Hospital_and_Medicalsupplies"
+//     ]
+  
+    const industryTypeOptions = [
+      { value: "Apparels_and_garments", label: "Apparels and Garments" },
+      { value: "Building_and_Construction", label: "Building and Construction" },
+      { value: "Electronic_and_Electical", label: "Electronic and Electrical" },
+      { value: "Drugs_and_pharms", label: "Drugs and Pharmaceuticals" },
+      { value: "Industrial_Machines", label: "Industrial Machines" },
+      { value: "Industrial_suppplies", label: "Industrial Supplies" },
+      { value: "Food_and_Beverages", label: "Food and Beverages" },
+      { value: "Hospital_and_Medicalsupplies", label: "Hospital and Medical Supplies" }
+    ];
 
     const companyTypes = [
       "MANUFACTURER",
@@ -85,17 +96,18 @@ const industryTypes: Array<string> = [
 "MERCHANT_EXPORTER",
     ];
 
-    const typeOfCompanies: Array<string> = [
-     "Partnership",
-     "private_limited",
-     "public_limited",
-     "limited_liability_partnership",
-     "Non_profit_cooperation",
-     "Inc",
-     "Cooperation",
-     "LLC",
 
-    ]
+    const typeOfCompanyOptions = [
+      { value: "Partnership", label: "Partnership" },
+      { value: "private_limited", label: "Private Limited" },
+      { value: "public_limited", label: "Public Limited" },
+      { value: "limited_liability_partnership", label: "Limited Liability Partnership" },
+      { value: "Non_profit_cooperation", label: "Non-Profit Cooperation" },
+      { value: "Inc", label: "Inc" },
+      { value: "Cooperation", label: "Cooperation" },
+      { value: "LLC", label: "LLC" }
+    ];
+    
 
 const documetForOverseas: Array<string> = [  "IEC Code",  "ISO Certificate",  "Business Registration Certificate",  "VAT/GST Registration Certificate",  "PAN Card",  "Start Export House",  "MSME/UDYAM CERTIFICATE",  "D-U-N-S",  "AEO",  "IATA",  "FIATA"]
 
@@ -317,6 +329,19 @@ const turnOver: Array<string> = [
   "FROM_2500000_TO_5000000",
   "FROM_5000000_TO_10000000",
   "ABOVE_10000000"
+  ];
+
+  const turnOverOptions = [
+    { value: "UP_TO_10000", label: "UP TO 10000" },
+    { value: "FROM_10000_TO_50000", label: "FROM 10000 TO 50000" },
+    { value: "FROM_50000_TO_100000", label: "FROM 50000 TO 100000" },
+    { value: "FROM_100000_TO_500000", label: "FROM 100000 TO 500000" },
+    { value: "FROM_500000_TO_1000000", label: "FROM 500000 TO 1000000" },
+    { value: "FROM_1000000_TO_1500000", label: "FROM 1000000 TO 1500000" },
+    { value: "FROM_1500000_TO_2500000", label: "FROM 1500000 TO 2500000" },
+    { value: "FROM_2500000_TO_5000000", label: "FROM 2500000 TO 5000000" },
+    { value: "FROM_5000000_TO_10000000", label: "FROM 5000000 TO 10000000" },
+    { value: "ABOVE_10000000", label: "ABOVE 10000000" }
   ];
   
   const overseasAgent: Array<string> = [  "WCA",  "WWPC",  "PLN",  "CLN",  "WPA",  "W3LN",  "FNC",  "JC Trans",  "BLING",  "TWIG",  "PARNITY",  "PPL",  "AMERICAS ALLIANCE",  "LATAM",  "OTHER"];
@@ -741,4 +766,4 @@ const truckTypes = [
 
 
 
-export {truckName, truckTypes, maxPayLoad, vehicleDimension, industryTypes, typeOfCompanies, documetForOverseas, documetForForign, countries, mainMarket, storageType, turnOver, overseasAgent, temperatureCapacity, states, pincode, basisOfCharges, shippingLines, airlines, ports, containerTypes, companyTypes}
+export {truckName, truckTypes, maxPayLoad, vehicleDimension, industryTypeOptions, typeOfCompanyOptions, documetForOverseas, documetForForign, countries, mainMarket, storageType, turnOver, turnOverOptions, overseasAgent, temperatureCapacity, states, pincode, basisOfCharges, shippingLines, airlines, ports, containerTypes, companyTypes}

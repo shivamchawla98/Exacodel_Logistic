@@ -1,7 +1,7 @@
 import { ErrorMessage, Field } from 'formik';
 import countries from './data/country';
 
-function Address({prefix}: any) {
+function Address() {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6'>
             <h2 className="font-semibold text-gray-900 col-span-3">
@@ -31,7 +31,7 @@ function Address({prefix}: any) {
         <ErrorMessage
           name={`country`}
           component="span"
-          className="error-message"
+          className="error-message text-xs text-rose-600"
         />
       </div>
       {/* stree address streetAddress */}
@@ -44,7 +44,11 @@ function Address({prefix}: any) {
           Street address
         </label>
         <Field type="text" id={`streetAddress`} name={`streetAddress`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`streetAddress`} component="div" />
+        <ErrorMessage
+         name={`streetAddress`}
+          component="div"
+          className="error-message text-xs text-rose-600"
+          />
       </div>
 
       {/* city */}
@@ -56,7 +60,11 @@ function Address({prefix}: any) {
           City
         </label>
         <Field type="text" id={`city`} name={`city`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`city`} component="div" />
+        <ErrorMessage 
+        name={`city`}
+         component="div"
+         className="error-message text-xs text-rose-600"
+         />
       </div>
 
       {/* region */}
@@ -68,7 +76,9 @@ function Address({prefix}: any) {
           State / Province
         </label>
         <Field type="text" id={`region`} name={`region`} className="block px-4 w-full rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`region`} component="span" />
+        <ErrorMessage name={`region`} component="span"
+        className="error-message text-xs text-rose-600"
+        />
       </div>
 
       {/* postal code */}
@@ -80,7 +90,9 @@ function Address({prefix}: any) {
           ZIP / Postal code
         </label>
         <Field type="text" id={`postalCode`} name={`postalCode`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`postalCode`} component="span" />
+        <ErrorMessage name={`postalCode`} component="span" 
+        className="error-message text-xs text-rose-600"
+        />
       </div>
       <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
     </div>

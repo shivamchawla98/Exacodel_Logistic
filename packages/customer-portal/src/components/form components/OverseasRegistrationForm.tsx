@@ -1,11 +1,12 @@
 'use client';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import countries from '../data/country';
 import SelectComponet from './SelectComponent';
-import { companyTypes, industryTypes, turnOver, typeOfCompanies } from '../data/dropdownData';
+import {industryTypeOptions, turnOverOptions, typeOfCompanyOptions } from '../data/dropdownData';
+
 import TextField from './TextField';
 import {
   setBillingCode,
@@ -298,13 +299,13 @@ function OverseasRegistrationForm() {
           {/* companyType */}
           <div>
 
-            <SelectComponet options={typeOfCompanies} id={'companyType'} title={'Type Of Company'} />
+            <SelectComponet options={typeOfCompanyOptions} id={'companyType'} title={'Type Of Company'} />
           </div>
 
           {/* Industry Type */}
           <div>
             <SelectComponet
-              options={industryTypes}
+              options={industryTypeOptions}
               id={'industryType'}
               title={'Industry Type'}
             />
@@ -458,28 +459,10 @@ function OverseasRegistrationForm() {
 
           {/* Annual Turn Over */}
           <div>
-            <label
-              htmlFor="turnover"
-              className="block text-sm font-medium leading-6 text-gray-600"
-            >
-              Annual Turnover
-            </label>
-            <Field
-              as="select"
-              id="turnover"
-              name="turnover"
-              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
-            >
-              <option value="">Select a country</option>
-              {turnOver.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </Field>
-            <ErrorMessage
-              name="country"
-              component="span" className="text-xs text-rose-600"
+          <SelectComponet
+              options={turnOverOptions}
+              id={'turnover'}
+              title={'Annual Turnover'}
             />
           </div>
 

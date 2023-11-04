@@ -103,9 +103,11 @@ export default function RolePopup() {
       <div className="hidden sm:block">
         <div className="isolate flex divide-x divide-gray-200 rounded-lg shadow" aria-label="Tabs">
           {tabs.map((tab, tabIdx) => (
+
             <button
               key={tab.name}
               id={tab.value}
+              disabled = {tab.name === "I'm Overseas Agent"}
               onClick={(e) => {
                 const updatedTabs = tabs.map((tab) => ({
                   ...tab,

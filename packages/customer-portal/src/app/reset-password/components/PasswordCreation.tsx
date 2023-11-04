@@ -1,10 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePassword } from '@/features/user/user-slice';
-import { updateFormName } from '@/features/select-form/selectForm-slice';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import SuccessModals from './SuccessModals';
+import { useState } from 'react';
 
 // Define your initial values
 const initialValues = {
@@ -13,13 +15,9 @@ const initialValues = {
 };
 
 
-const SAVE_PASSWORD_MUTATION = gql`
-  mutation SavePassword($passwordInput: Password!, $userId: Float!) {
-    savePassword(passwordInput: $passwordInput, userId: $userId) {
-      email
-    }
-  }
-`;
+const RESET_SAVE_PASSWORD = gql`mutation RESET_SAVE_PASSWORD($mail: String!, $passInput: ResetPasswordInput!) {
+  reset_Save_password(email: $mail, password: $passInput) 
+  }`
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -33,42 +31,70 @@ const validationSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Passwords must match')
     .required('Please confirm your password'),
 });
+
+
 function PasswordCreation() {
-  const [savePassword, { loading, error, data }] = useMutation(SAVE_PASSWORD_MUTATION);
+
   let {userId} = useSelector((state: any) => state.user);
-  console.log("userId ", userId);
+  const [reset_Save_password] = useMutation(RESET_SAVE_PASSWORD)
+  const {token} = useSelector((state: any) => state.form);
+  const [reset, setReset] = useState<boolean>(false)
+  console.log("userId ", userId, " token : ", token);
+  const email = useSelector((state: any) => state.user.email);
   // Log the GraphQL query
   // console.log("GraphQL Query:", SAVE_PASSWORD_MUTATION?.loc?.source?.body);
   const dispatch = useDispatch();
  
+ 
 
   const handleSubmit = async (value: any) => {
-    console.log(value.password);
    
     
     
     try {
-      const response = await savePassword({
-        variables: {
-          passwordInput: {
+      const response = await reset_Save_password({
+        variables: { 
+          mail: email,
+          passInput: {
             password: value.password,
             confirmPassword: value.passwordCheck,
           },
-          userId: userId, // Replace with the actual user ID
         },
       });
 
       console.log('Password saved:', response);
-    } catch (error) {
-      console.error('Error saving password:', error);
+      setReset(true);
+    } catch (error: any) {
+
+      console.error('Error saving password:', error?.message);
+
+       if (error?.message === "Verification expired") {
+        toast.error('Verification expired', {
+          position: toast.POSITION.TOP_CENTER,
+      })
+      } 
+      
+      else if (error?.message === "User not found") {
+        toast.error('User not found', {
+          position: toast.POSITION.TOP_CENTER,
+      })
+      }
+      
+      else {
+        toast.error('Network Problem come after some time', {
+          position: toast.POSITION.TOP_CENTER,
+      });
+      }
+      
+
     }
     console.log(value);
-    // dispatch(updatePassword(value.password))
-    dispatch(updateFormName("registration"))
   }
 
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
+      {reset && <SuccessModals />}
+      <ToastContainer />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">

@@ -34,7 +34,7 @@ export default function WarehouseInfo({ Id }: any) {
       if (warehouse) {
 
         setFormData({
-          "companyName": warehouse.companyName,
+          "Company Name": warehouse.companyName,
           "Adress": warehouse.Adress,
           "State": warehouse.State,
           "City": warehouse.City,
@@ -92,8 +92,7 @@ export default function WarehouseInfo({ Id }: any) {
         <div className="border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
             {Object.
-              entries(
-                data?.getWarehouseById).
+              entries(formData).
               map(([label, value]: any[]) => !(label === "__typename") && (
             
                 <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>

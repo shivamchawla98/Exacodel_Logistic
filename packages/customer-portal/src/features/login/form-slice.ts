@@ -4,12 +4,14 @@ interface FormState {
   email: string;
   password: string;
   isLogedIn: boolean;
+  token: string
 }
 
 const initialState: FormState = {
   email: "",
   password: "",
   isLogedIn: false,
+  token: ""
 };
 
 const formSlice = createSlice({
@@ -29,8 +31,11 @@ const formSlice = createSlice({
       state.email = "";
       state.password = "";
     },
+    updateToken: (state, action) => {
+      state.token = action.payload;
+    }
   },
 });
 
-export const { updateEmail, updatePassword, updateIsLogedIn, resetForm } = formSlice.actions;
+export const { updateEmail, updatePassword, updateIsLogedIn, resetForm, updateToken } = formSlice.actions;
 export default formSlice.reducer;

@@ -50,7 +50,7 @@ function ReviewSendedUser({ onApprovalClick, setApprovalIndex }: any) {
             <tbody className="divide-y divide-gray-200 bg-white">
               {!error &&
                 !loading &&
-                Array.from(data.listInitialRegistrations)?.map((person: any, index) => (person.isapproved === 'Approval_pending' && (person.remarks !== '' || person.remarks !== 'remarksUpdated' || person.remarks !== null)) && (
+                Array.from(data.listInitialRegistrations)?.map((person: any, index) => (person.isapproved === 'REVEIW_PENDING') && (
                   <tr key={person.email}>
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
                       {person.first_name}

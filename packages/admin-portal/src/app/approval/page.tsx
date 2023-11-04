@@ -23,11 +23,10 @@ import ApprovedPopup from './components/ApprovedPopup'
 import { useRouter } from 'next/navigation'
 import Approved from '@/components/Approved'
 import RejectedUsers from '@/components/RejectedUsers'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import AdminInputWarehouse from '@/components/WarehouseForm'
 import Trucking from '@/components/Trucking'
 import AllWarehouse from './components/AllWarehouse'
-import { FaWarehouse } from 'react-icons/fa'
 import WarehouseInfo from './components/WarehouseInfo'
 import WarehouseActionCenter from './components/WarehouseActionCenter'
 import WarehouseReview from './components/WarehouseEdit'
@@ -36,9 +35,11 @@ import TruckingEdit from './components/TruckingEdit'
 import AllTruckingInfo from './components/AllTrucking'
 import TruckingInfo from './components/TruckingInfo'
 import Cookies from 'js-cookie'
-import GET_USER_BY_ID from '@/graphql/query/getUserById'
-import jwt_decode from "jwt-decode";
 import ReviewSendedUser from './components/ReviewSended'
+import jwt_decode from "jwt-decode"; 
+import { updateUserId } from '@/features/login/login-slice'
+import MyWarehouses from './components/MyWarehouse'
+import MyTrucks from './components/MyTrucks'
 
 
 const navigation = [
@@ -46,10 +47,10 @@ const navigation = [
     name: 'Vendor', href: '#', icon: PaperAirplaneIcon, current: true,
     subNav:
       [
-        { name: 'Vendor Review', href: '#', icon: CursorArrowRaysIcon, current: false },
-        { name: 'Approved', href: '#', icon: CheckIcon, current: false },
-        { name: 'Rejected', href: '#', icon: XMarkIcon, current: false },
-        { name: 'Review Sended', href: '#', icon: EnvelopeIcon, current: false },
+        { name: 'Users In Review', href: '#', icon: CursorArrowRaysIcon, current: false },
+        { name: 'Approved Users', href: '#', icon: CheckIcon, current: false },
+        { name: 'Rejected Users', href: '#', icon: XMarkIcon, current: false },
+        { name: 'Review Mail Sended', href: '#', icon: EnvelopeIcon, current: false },
       ],
   },
 
@@ -57,20 +58,21 @@ const navigation = [
     name: 'Warehouse', href: '#', icon: BuildingOfficeIcon, current: true,
     subNav:
       [
-        { name: 'Warehouse Review', href: '#', icon: EyeIcon, current: false },
+        { name: 'Warehouses In Review', href: '#', icon: EyeIcon, current: false },
         { name: 'Add Warehouse', href: '#', icon: PlusIcon, current: false },
-        { name: 'All warehouses', href: '#', icon: WalletIcon, current: false },
+        { name: 'All Warehouses', href: '#', icon: WalletIcon, current: false },
         { name: 'My Warehouses', href: '#', icon: UserCircleIcon, current: false },
       ],
   },
 
   {
-    name: 'Trucking', href: '#', icon: TruckIcon, current: true,
+    name: 'Trucks', href: '#', icon: TruckIcon, current: true,
     subNav:
       [
-        { name: 'Trucking Review', href: '#', icon: EyeIcon, current: false },
-        { name: 'Add Trucking', href: '#', icon: PlusIcon, current: false },
-        { name: 'All Trucking', href: '#', icon: WalletIcon, current: false },
+        { name: 'Trucks In Review', href: '#', icon: EyeIcon, current: false },
+        { name: 'Add Truck', href: '#', icon: PlusIcon, current: false },
+        // { name: 'All Trucks', href: '#', icon: WalletIcon, current: false },
+        { name: 'My Trucks', href: '#', icon: WalletIcon, current: false },
       ],
   },
 
@@ -87,9 +89,17 @@ export default function Home() {
   const [isApproved, setIsApproved] = useState(false);
   const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
-  const [activeItem, setActiveItem] = useState('Vendor Review');
-  const { firstName, lastName } = useSelector((state: any) => state.loginSlice)
+  const [activeItem, setActiveItem] = useState('Vendor');
+  const { firstName, lastName, userId } = useSelector((state: any) => state.loginSlice)
   const router = useRouter();
+  const dispatch = useDispatch();
+  const token:any = Cookies.get("jwtToken");
+  const decodedToken:any = jwt_decode(token);
+  console.log("id : ",decodedToken?.id);
+  
+  dispatch(updateUserId(decodedToken?.id))
+  
+  
 
 
   { console.log(activeItem) }
@@ -426,29 +436,30 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              {activeItem === 'Vendor Review' && <Vendors isApproved={isApproved} setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
-              {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Vendor Review") }}
+              {(activeItem === 'Users In Review' || activeItem === 'Vendor') && <Vendors isApproved={isApproved} setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
+              {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Users In Review") }}
               />}
-              {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Vendor Review")} />}
-              {activeItem === 'Approved' && <Approved />}
-              {activeItem === 'Rejected' && <RejectedUsers />}
-              {activeItem === 'Review Sended' && <ReviewSendedUser />}
+              {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Users In Review")} />}
+              {activeItem === 'Approved Users' && <Approved />}
+              {activeItem === 'Rejected Users' && <RejectedUsers />}
+              {activeItem === 'Review Mail Sended' && <ReviewSendedUser />}
 
 
               {/* warehouse */}
-              {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem} />}
-              {activeItem === 'Warehouse Review' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {activeItem === 'Warehouses In Review' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />}
               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem} />}
-              {activeItem === 'All warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem} />}
+              {activeItem === 'All Warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
               {activeItem === 'warehouseInfo' && <WarehouseInfo Id={approvalIndex} />}
-              {activeItem === 'My Warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'My Warehouses' && <MyWarehouses setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
 
               {/* trucking */}
-              {activeItem === 'Trucking Review' && <TruckingReview setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
+              {activeItem === 'Trucks In Review' && <TruckingReview setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
               {activeItem === 'truckingEdit' && <TruckingEdit Id={approvalIndex} setActiveItem={setActiveItem} />}
-              {activeItem === 'Add Trucking' && <Trucking />}
-              {activeItem === 'All Trucking' && <AllTruckingInfo setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'Add Truck' && <Trucking />}
+              {/* {activeItem === 'All Trucks' && <AllTruckingInfo setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />} */}
               {activeItem === 'truckingInfo' && <TruckingInfo Id={approvalIndex} />}
+              {activeItem === 'My Trucks' && <MyTrucks setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
             </div>
           </main>
         </div>
