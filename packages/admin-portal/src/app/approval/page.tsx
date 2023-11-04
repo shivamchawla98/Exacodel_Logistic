@@ -93,11 +93,18 @@ export default function Home() {
   const { firstName, lastName, userId } = useSelector((state: any) => state.loginSlice)
   const router = useRouter();
   const dispatch = useDispatch();
-  const token:any = Cookies.get("jwtToken");
-  const decodedToken:any = jwt_decode(token);
-  console.log("id : ",decodedToken?.id);
-  
-  dispatch(updateUserId(decodedToken?.id))
+
+  try {
+    const token:any = Cookies.get("jwtToken");
+    const decodedToken:any = jwt_decode(token);
+    console.log("id : ",decodedToken?.id);
+    
+    dispatch(updateUserId(decodedToken?.id))
+  } catch (error) {
+    console.log(error);
+    
+  }
+
   
   
 
