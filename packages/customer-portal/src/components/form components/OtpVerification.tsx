@@ -226,8 +226,15 @@ function OtpVerification() {
         <div className="relative px-4 max-w-md  py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="flex flex-col items-center justify-center text-center space-y-2">
             <div className="font-semibold text-3xl">
-              <p>Email Verification</p>
-            </div>
+                            {sendOtpClicked ? <p>Verify OTP to set password</p> : <p>Email Verification</p>}
+                        </div>
+                        <div className="flex flex-row text-sm font-medium text-gray-400 my-6">
+                            {sendOtpClicked ? (
+                                <p>We have sent a code to your email <strong>{email}</strong></p>
+                            ) : (
+                                <p>Enter email and verify your mail to be one step ahead</p>
+                            )}
+                        </div>
             <div className="mt-5 w-full sm:flex sm:items-center">
               <div className="w-11/12 mx-auto sm:max-w-xs py-8">
                 {otpSent ? (
@@ -341,13 +348,6 @@ function OtpVerification() {
                   </Formik>
                 )}
               </div>
-            </div>
-            <div className="flex flex-row text-sm font-medium text-gray-400">
-              {sendOtpClicked ? (
-                <p>We have sent a code to your email {email}</p>
-              ) : (
-                <p>Enter email and verify your mail to be one step ahead</p>
-              )}
             </div>
           </div>
 

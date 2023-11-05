@@ -40,6 +40,8 @@ import jwt_decode from "jwt-decode";
 import { updateUserId } from '@/features/login/login-slice'
 import MyWarehouses from './components/MyWarehouse'
 import MyTrucks from './components/MyTrucks'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const navigation = [
@@ -100,8 +102,11 @@ export default function Home() {
     console.log("id : ",decodedToken?.id);
     
     dispatch(updateUserId(decodedToken?.id))
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
+    toast.error(error?.message, {
+      position: toast.POSITION.TOP_CENTER,
+  })
     
   }
 
@@ -114,6 +119,7 @@ export default function Home() {
     <>
       <div>
         {/* mobile side bar */}
+        <ToastContainer />
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
             <Transition.Child

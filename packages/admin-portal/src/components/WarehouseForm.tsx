@@ -35,11 +35,11 @@ const validationSchema = Yup.object().shape({
     minimumStorageArea: Yup.string().required('Minimum Storage Area per Sq Ft is required'),
     minimumstorageArea_per_pallet: Yup.string().required('Minimum Storage Area per Pallet is required'),
     storageChargesPerSqFt: Yup.string().required('Storage Charges per Sq Ft is required'),
-    storageChargesPerPallet: Yup.string().required('Storage Charges per Pellet Ft is required'),
+    // storageChargesPerPallet: Yup.string().required('Storage Charges per Pellet Ft is required'),
     // minimumStorageChargesPerPallet: Yup.string().required('Storage Charges per Pallet is required'),
-    hazardousStorageCapacity: Yup.string().required('Hazardous Storage Capacity is required'),
-    activePassive: Yup.string().required('Active/Passive Temperature Type is required'),
-    temperatureCapacity: Yup.string().required('Temperature Capacity is required'),
+    // hazardousStorageCapacity: Yup.string().required('Hazardous Storage Capacity is required'),
+    // activePassive: Yup.string().required('Active/Passive Temperature Type is required'),
+    // temperatureCapacity: Yup.string().required('Temperature Capacity is required'),
   });
 
 function AdminInputWarehouse({ setActiveItem }: any) {
@@ -53,6 +53,7 @@ function AdminInputWarehouse({ setActiveItem }: any) {
 
     const handleSubmit = async (values: any) => {
         // Handle form submission
+        console.log("GraphQL Query:", CREATE_WAREHOUSE?.loc?.source?.body);
         setCompanyName(values.companyName)
         console.log(values);
         try {
@@ -71,12 +72,12 @@ function AdminInputWarehouse({ setActiveItem }: any) {
                         "occupiedSpace": `${values.occupiedSpace}`,
                         "unoccupiedSpace": `${values.unOccupiedSpace}`,
                         "rackedSpace": `${values.rackedSpace}`,
-                        "minimumStorageRent": `${values.minimumStorageRent}`,
-                        "minimumStorageCharges_per_pallet": `${values.minimumStorageCharges_per_pallet}`,
+                        "minimumStorageRent": values.minimumStorageRent * 1,
+                        "minimumStorageCharges_per_pallet": values.minimumStorageCharges_per_pallet * 1,
                         "minimumStorageArea": `${values.minimumStorageArea}`,
                         "minimumstorageArea_per_pallet": `${values.minimumstorageArea_per_pallet}`,
-                        "storageCharges": `${values.storageChargesPerSqFt}`,
-                        "storageCharges_per_pallet": `${values.storageChargesPerPallet}`,
+                        "storageCharges": values.storageChargesPerSqFt*1,
+                        "storageCharges_per_pallet": values.storageChargesPerPallet * 1,
                         "hazardousStorageType": `${values.hazardousStorageCapacity}`,
                         "temperatureType": `${values.activePassive}`,
                         "temperatureCapacity": `${values.temperatureCapacity}`,
@@ -88,12 +89,15 @@ function AdminInputWarehouse({ setActiveItem }: any) {
             
                 console.log("myEror : (", result);
            
-                // setShowPopUp(true)
+                setShowPopUp(true)
 
             
             
         } catch (error) {
             console.log("errror found : ", error);
+            toast.error("Error in submiting data", {
+                position: toast.POSITION.TOP_CENTER,
+            })
 
         }
 
