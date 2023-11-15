@@ -1,24 +1,107 @@
-import { gql, useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { EnvelopeIcon } from '@heroicons/react/20/solid'
+import { useQuery } from "@apollo/client";
 import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
+import {flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
+import { useMemo, useState } from "react";
+import { EyeIcon, CursorArrowRaysIcon} from "@heroicons/react/24/outline";
+import { CheckIcon, EnvelopeIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { useSelector} from 'react-redux';
 
-function ReviewSendedUser({ onApprovalClick, setApprovalIndex }: any) {
-  const { loading, error, data } = useQuery(LIST_INITIAL_REGISTRATION);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (!loading) {
-      setIsLoading(false);
-    }
-  }, [loading]);
 
-  console.log(data);
+export default function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
+  const {userId } = useSelector((state: any) => state.loginSlice)
+  const { loading, error, data, refetch } = useQuery(LIST_INITIAL_REGISTRATION);
+  const [sorting, setSorting] = useState<any>([])
+  const [filtering, setFiltering] = useState<any>("")
+  const myData = useMemo(() => {
+    return data?.listInitialRegistrations.filter((user: any) => user.isapproved === "REVEIW_PENDING")
+  },
+   [data?.listInitialRegistrations]
+   );
+  /**
+   @type import("@tanstack/react-table").columndDef<any>
+   */
+  const columns = useMemo(
+    () => [
+      {
+        accessorKey: "id",
+        Header: "ID",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "first_name",
+        Header: "Name",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "companyName",
+        Header: "Company Name",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "email",
+        Header: "Email",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+
+      {
+        accessorKey: "id",
+        Header: "Approval",
+        cell: (cell: any) => (
+          <button
+          type="button"
+          className="flex justify-center"
+        >
+          <EnvelopeIcon className="mr-6 h-5 w-5 text-green-300" aria-hidden="true" />
+        
+        </button>
+        )
+      },
+      {
+        accessorKey: "id",
+        Header: "Preview",
+        cell: (cell: any) => (
+          <div className="cursor-pointer" onClick={() => {
+            setApprovalIndex(cell.row.original.id)
+            console.log("cell id : ", cell.row.original.id);
+
+            onApprovalClick()
+          }}>
+            <EyeIcon className="h-6 w-6 text-sky-500" />
+          </div>
+        )
+      }
+
+    ], [setApprovalIndex]);
+
+  const table = useReactTable({
+    data: myData,
+    columns: columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting: sorting,
+      globalFilter: filtering
+    },
+    onSortingChange: setSorting,
+    onGlobalFilterChange: setFiltering,
+  })
+
 
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        {isLoading ? (
+        <div className="relative">
+      <input type="text"
+       className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+       onChange={(e) => setFiltering(e.currentTarget.value)}
+       />
+          <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
+
+        </div>
+        {loading ? (
           <div className="flex items-center justify-center py-10">
             <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
             <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
@@ -29,55 +112,79 @@ function ReviewSendedUser({ onApprovalClick, setApprovalIndex }: any) {
         ) : (
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
-              <tr>
-                <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                  Name
-                </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  User type
-                </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Email
-                </th>
-                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Approval
-                </th>
-                <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                  <span className="sr-only">Edit</span>
-                </th>
-              </tr>
+              {
+                table.getHeaderGroups().map(headerGroup => (
+                  <tr id={headerGroup.id} >
+                    {headerGroup.headers.map(header => (
+                      <th scope="col" key={header.id}
+                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
+                       onClick={header.column.getToggleSortingHandler()}
+                       >
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.Header, header.getContext())}
+                        {
+                        { asc: '▲', desc: '▼' }[
+                          (header.column.getIsSorted() as 'asc' | 'desc') ?? null
+                        ]
+                      }
+                      </th>
+                    ))}
+
+                  </tr>
+                ))
+              }
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {!error &&
-                !loading &&
-                Array.from(data.listInitialRegistrations)?.map((person: any, index) => (person.isapproved === 'REVEIW_PENDING') && (
-                  <tr key={person.email}>
-                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                      {person.first_name}
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.userType}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.email}</td>
-                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      <button
-                        onClick={() => {
-                          setApprovalIndex(index);
-                          onApprovalClick();
-                        }}
-                        type="button"
-                        className="flex justify-center"
-                      >
-                        <EnvelopeIcon className="mr-6 h-5 w-5 text-green-300" aria-hidden="true" />
-                        Review Sended<span className="sr-only">, {person.first_name}</span>
-                      </button>
-                    </td>
+              {
+                table.getRowModel().rows.map(row => (
+                  <tr id={row.id}>
+                    {row.getVisibleCells().map(cell => (
+                      <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </td>
+                    ))}
                   </tr>
-                ))}
+                ))
+              }
             </tbody>
           </table>
         )}
+        {/* Pagination controls */}
+        <div className="mt-4 flex justify-between items-center">
+          <div className="flex space-x-2 justify-evenly my-4">
+            <button
+              onClick={() => table.setPageIndex(0)}
+              className=" underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
+            >
+              First Page
+            </button>
+            <button
+              onClick={() => table.previousPage()}
+              disabled={table.getState().pagination.pageIndex === 0}
+              className=" underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => table.nextPage()}
+              disabled = {table.getState().pagination.pageIndex >= table.getPageCount() - 1}
+              className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
+            >
+              Next
+            </button>
+            <button
+              onClick={() => table.setPageIndex(table.getPageCount() -1)}
+              className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
+            >
+              Last Page
+            </button>
+          </div>
+          <div className="pr-2 shadow-sm text-xs  text-gray-600 rounded-md font-medium  py-2 px-4 mx-2">
+            Page <strong> {table.getState().pagination.pageIndex + 1} </strong> of {table.getPageCount()}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default ReviewSendedUser;
+

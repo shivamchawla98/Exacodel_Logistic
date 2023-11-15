@@ -1,4 +1,79 @@
-function Prompt({ isPromptOpen, remarks, setPromptOpen, setRemarks, handleApprove, handleReviw, whichAction }: any) {
+import GET_USER_BY_ID from "@/graphql/query/getUserById";
+import { useQuery } from "@apollo/client";
+import { useEffect, useState } from "react";
+
+// Map the enum values to human-readable items
+const companyTypeMap = {
+  Partnership: "Partnership",
+  private_limited: "Private Limited",
+  public_limited: "Public Limited",
+  limited_liability_partnership: "Limited Liability Partnership",
+  Non_profit_cooperation: "Non-Profit Cooperation",
+  Inc: "Inc",
+  Cooperation: "Cooperation",
+  LLC: "Limited Liability Company",
+};
+
+const annualTurnoverMap = {
+  UP_TO_10000: 'Up to $10,000',
+  FROM_10000_TO_50000: '$10,000 to $50,000',
+  FROM_50000_TO_100000: '$50,000 to $100,000',
+  FROM_100000_TO_500000: '$100,000 to $500,000',
+  FROM_500000_TO_1000000: '$500,000 to $1,000,000',
+  FROM_1000000_TO_1500000: '$1,000,000 to $1,500,000',
+  FROM_1500000_TO_2500000: '$1,500,000 to $2,500,000',
+  FROM_2500000_TO_5000000: '$2,500,000 to $5,000,000',
+  FROM_5000000_TO_10000000: '$5,000,000 to $10,000,000',
+  ABOVE_10000000: 'Above $10,000,000',
+};
+
+// Map the enum values to human-readable items
+const industryTypeMap = {
+  Apparels_and_garments: 'Apparels and Garments',
+  Building_and_Construction: 'Building and Construction',
+  Electronic_and_Electrical: 'Electronic and Electrical',
+  Drugs_and_pharms: 'Drugs and Pharmaceuticals',
+  Industrial_Machines: 'Industrial Machines',
+  Industrial_suppplies: 'Industrial Supplies',
+  Food_and_Beverages: 'Food and Beverages',
+  Hospital_and_Medicalsupplies: 'Hospital and Medical Supplies',
+};
+
+function Prompt({ isPromptOpen, remarks, setPromptOpen, setRemarks, handleApprove, handleReviw, whichAction, userID }: any) {
+  const { data, loading, error } = useQuery(GET_USER_BY_ID, {
+    variables: {
+      id: userID * 1,
+    },
+  });
+  const [formData, setFormData] = useState<any>({});
+
+  useEffect(() => {
+    if (!loading && data && data.getUserById) {
+      const user = data?.getUserById;
+      if (user) {
+        setFormData({
+          'Company Name': user.companyName,
+          'GST Number': user.gst_no,
+          'Full name': user.first_name + ' ' + user.last_name,
+          'Email address': user.email,
+          'Annual Turn Over': annualTurnoverMap[user.annualTurnover] || user.annualTurnover,
+          'User Type': user.userType,
+          'Type of Company': companyTypeMap[user.companyType] || user.companyType,
+          'Industry': industryTypeMap[user.industryType] || user.industryType,
+          'State': user.state,
+          'Pincode': user.pincode,
+          'Address': user.Adress,
+          'City': user.city,
+          'Country': user.country,
+          'Company Registration Number': user.company_reg_no,
+          'Company Pan Number': user.company_pan_no,
+          'Designation': user.Designation,
+          'Contact Number': user.mobile,
+          'Website': user.website,
+        });
+      }
+    }
+  }, [userID, loading, data]);
 
   const closePrompt = () => {
 
@@ -25,12 +100,12 @@ function Prompt({ isPromptOpen, remarks, setPromptOpen, setRemarks, handleApprov
   const handleRemarksChange = (e: any) => {
     setRemarks(e.target.value);
   };
-console.log("which Action", whichAction);
+  console.log("which Action", whichAction);
 
   return (
     <div>
       {isPromptOpen && (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
+        <div className="fixed z-10 mt-10 inset-0 overflow-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div className="fixed inset-0 transition-opacity" aria-hidden="true">
               <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -42,7 +117,10 @@ console.log("which Action", whichAction);
 
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 className="text-lg font-medium text-gray-900">I want to {whichAction === "Rejected" ? "Reject" : whichAction === "Review" ? "send User for Review" : "Approve User"} !</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-2 text-center"> {whichAction === "Rejected" ?
+                  "I want to Reject User" : whichAction === "Review" ?
+                    "I want to send User for Review" : "Please check the details before Approving User"
+                }</h3>
                 {
                   whichAction !== "Approved" &&
                   <>
@@ -62,12 +140,36 @@ console.log("which Action", whichAction);
                         name="remarks"
                         value={remarks}
                         onChange={handleRemarksChange}
-                       
+
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                         placeholder="Add remarks..."
                       ></textarea>
 
                     </div>
+                  </>
+                }
+
+                {
+                  whichAction === "Approved" && <>
+
+                    <div className="   h-full mx-2">
+                      {/* Profile tab */}
+                      {/* About Section */}
+                      <div className="bg-white p-3 shadow-sm rounded-sm">
+                        <div className="text-gray-700">
+                          <div className="grid md:grid-cols-2 gap-0 text-xs">
+                            {Object.entries(formData).map(([label, value]: any) => (
+                              <div className="grid grid-cols-2" key={label}>
+                                <div className="px-4 py-2 font-semibold">{label}</div>
+                                <div className="px-4 py-2">{value}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      {/* End of about section */}
+                    </div>
+
                   </>
                 }
 

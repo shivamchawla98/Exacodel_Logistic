@@ -145,7 +145,7 @@ function Page() {
                       className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1 w-4/5"
                       // disabled={isSubmitting}
                     >
-                      {isSubmitting ? 'Signing in...' : 'Sign In'}
+                      {loading ? 'Signing in...' : 'Sign In'}
                     </button>
                   </div>
                   <div>

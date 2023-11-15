@@ -42,6 +42,7 @@ import MyWarehouses from './components/MyWarehouse'
 import MyTrucks from './components/MyTrucks'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserMoreInfo from './components/UserMoreInfo'
 
 
 const navigation = [
@@ -449,13 +450,14 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              {(activeItem === 'Users In Review' || activeItem === 'Vendor') && <Vendors isApproved={isApproved} setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
+              {(activeItem === 'Users In Review' || activeItem === 'Vendor') && <Vendors isApproved={isApproved} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} onInfoClick={() => setActiveItem("userInfo")} onApprovalClick={() => setActiveItem("more info")} />}
               {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Users In Review") }}
               />}
               {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Users In Review")} />}
               {activeItem === 'Approved Users' && <Approved />}
               {activeItem === 'Rejected Users' && <RejectedUsers />}
               {activeItem === 'Review Mail Sended' && <ReviewSendedUser />}
+              {activeItem === 'userInfo' && <UserMoreInfo userID={approvalIndex * 1} />}
 
 
               {/* warehouse */}
