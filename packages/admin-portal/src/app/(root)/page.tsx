@@ -32,8 +32,9 @@ function Page() {
   const { isLoggedIn, email, name } = useSelector((state: any) => state.loginSlice)
   const [open, setOpen] = useState(false);
   const [id, setId] = useState('');
+  const [submiting, setSubmiting] = useState<boolean>(false);
   const [login] = useMutation(LOGIN_MUTATION);
-  const { loading, error, data, refetch } = useQuery(GET_USER_BY_ID, {
+  const { error, data, refetch } = useQuery(GET_USER_BY_ID, {
     variables: {
       id: id,
     }
@@ -77,6 +78,7 @@ function Page() {
 
 
               try {
+                setSubmiting(true)
                 const response = await login({
                   variables: {
                     loginUserInput: {
@@ -145,7 +147,7 @@ function Page() {
                       className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1 w-4/5"
                       // disabled={isSubmitting}
                     >
-                      {loading ? 'Signing in...' : 'Sign In'}
+                      {submiting ? 'Signing in...' : 'Sign In'}
                     </button>
                   </div>
                   <div>

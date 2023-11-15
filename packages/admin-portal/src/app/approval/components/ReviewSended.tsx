@@ -8,7 +8,7 @@ import { useSelector} from 'react-redux';
 
 
 
-export default function Vendors({isApproved, onApprovalClick, setApprovalIndex }: any) {
+export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
   const {userId } = useSelector((state: any) => state.loginSlice)
   const { loading, error, data, refetch } = useQuery(LIST_INITIAL_REGISTRATION);
   const [sorting, setSorting] = useState<any>([])
@@ -25,49 +25,35 @@ export default function Vendors({isApproved, onApprovalClick, setApprovalIndex }
     () => [
       {
         accessorKey: "id",
-        Header: "ID",
+        header: "ID",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
         accessorKey: "first_name",
-        Header: "Name",
+        header: "Name",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
         accessorKey: "companyName",
-        Header: "Company Name",
+        header: "Company Name",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
         accessorKey: "email",
-        Header: "Email",
+        header: "Email",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
-
       {
         accessorKey: "id",
-        Header: "Approval",
+        header: "Preview",
         cell: (cell: any) => (
-          <button
-          type="button"
-          className="flex justify-center"
-        >
-          <EnvelopeIcon className="mr-6 h-5 w-5 text-green-300" aria-hidden="true" />
-        
-        </button>
-        )
-      },
-      {
-        accessorKey: "id",
-        Header: "Preview",
-        cell: (cell: any) => (
-          <div className="cursor-pointer" onClick={() => {
+          <div className="flex justify-evenly item-center" onClick={() => {
             setApprovalIndex(cell.row.original.id)
             console.log("cell id : ", cell.row.original.id);
-
-            onApprovalClick()
+            onInfoClick()
           }}>
-            <EyeIcon className="h-6 w-6 text-sky-500" />
+            <EnvelopeIcon className="mr-6 h-4 w-4 text-green-300" aria-hidden="true" />
+            <EyeIcon className="h-4 w-4 text-sky-500" />
           </div>
         )
       }
@@ -120,7 +106,7 @@ export default function Vendors({isApproved, onApprovalClick, setApprovalIndex }
                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
                        onClick={header.column.getToggleSortingHandler()}
                        >
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.Header, header.getContext())}
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                         {
                         { asc: '▲', desc: '▼' }[
                           (header.column.getIsSorted() as 'asc' | 'desc') ?? null

@@ -454,9 +454,9 @@ export default function Home() {
               {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Users In Review") }}
               />}
               {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Users In Review")} />}
-              {activeItem === 'Approved Users' && <Approved />}
-              {activeItem === 'Rejected Users' && <RejectedUsers />}
-              {activeItem === 'Review Mail Sended' && <ReviewSendedUser />}
+              {activeItem === 'Approved Users' && <Approved onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
+              {activeItem === 'Rejected Users' && <RejectedUsers onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)}/>}
+              {activeItem === 'Review Mail Sended' && <ReviewSendedUser onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
               {activeItem === 'userInfo' && <UserMoreInfo userID={approvalIndex * 1} />}
 
 
