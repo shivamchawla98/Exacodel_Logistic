@@ -75,8 +75,6 @@ function Page() {
             validationSchema={validationSchema}
             onSubmit={async (values) => {
               // Handle form submission logic here
-
-
               try {
                 setSubmiting(true)
                 const response = await login({
@@ -131,8 +129,6 @@ function Page() {
                 }
                 
               }
-
-
             }}
           >
             {({ setFieldValue, isSubmitting }) => (
@@ -153,7 +149,7 @@ function Page() {
                   <div>
                     <p className="mb-0 mt-2 pt-1 text-sm font-medium">
                       <Link
-                        href="/registration"
+                        href="/reset-password"
                         className="text-danger transition text-xs duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-600"
                       >
                         Forget password !

@@ -1,18 +1,26 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
 import { flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon, } from "@heroicons/react/20/solid";
 import { useSelector } from 'react-redux';
+import ADMIN_REJECT from "@/graphql/mutation/adminReject";
+import TrashPrompt from "@/components/TrashPrompt";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick }: any) {
   const { userId } = useSelector((state: any) => state.loginSlice)
+  const [remarks, setRemarks] = useState<string>("");
   const { loading, error, data, refetch } = useQuery(LIST_INITIAL_REGISTRATION);
   const [sorting, setSorting] = useState<any>([])
+  const [isPromptOpen, setPromptOpen] = useState<boolean>(false)
+  const [userID, setUserID] = useState<number>(-1)
   const [filtering, setFiltering] = useState<any>("")
+  const [adminreject] = useMutation(ADMIN_REJECT)
   const myData = useMemo(() => {
     return data?.listInitialRegistrations.filter((user: any) => user.isapproved === "Approval_pending")
   },
@@ -69,11 +77,9 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
             <div className="cursor-pointer" onClick={() => {
               let Id = cell.row.original.id * 1
               console.log("ooh lala : ", Id);
-
-              setApprovalIndex(Id)
+              setUserID(Id*1)
               console.log("cell id : ", cell.row.original.id);
-              onInfoClick()
-
+              setPromptOpen(true);
             }}>
               <TrashIcon className="h-4 w-4 text-sky-400" />
             </div>
@@ -84,6 +90,32 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
     ], [setApprovalIndex]);
 
 
+async function trashUser(id:number) {
+  try {
+    if (remarks != '') {
+      const response: any = await adminreject({
+        variables: {
+          id: id,
+          input: {
+            "remarks": remarks
+          }
+        }
+      })
+      toast.success(`Success! User ${response?.first_name} of campany ${response.companyName} action was completed successfully.`, {
+        position: toast.POSITION.BOTTOM_LEFT,
+        autoClose: 3000, // milliseconds
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+      });
+      
+    } 
+    refetch();
+  } catch (error) {
+    console.log("error in reject user", error);
+    
+  }
+}
 
   const table = useReactTable({
     data: myData,
@@ -109,6 +141,8 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
 
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <ToastContainer />
+      {isPromptOpen && <TrashPrompt remarks={remarks} setPromptOpen={setPromptOpen} setRemarks={setRemarks} Id={userID} trashUser={(id: number) => trashUser(id)} />}
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
         <div className="relative">
           <input type="text"
@@ -167,6 +201,8 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
         )}
         {/* Pagination controls */}
         <div className="mt-4 flex justify-between items-center">
+        {myData && (
+
           <div className="flex space-x-2 justify-evenly my-4">
             <button
               onClick={() => table.setPageIndex(0)}
@@ -181,7 +217,7 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
             >
               Previous
             </button>
-            {/* <button
+            <button
               onClick={() => table.nextPage()}
               disabled = {table.getState().pagination.pageIndex >= table.getPageCount() - 1}
               className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
@@ -193,8 +229,10 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
               className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
             >
               Last Page
-            </button> */}
+            </button>
           </div>
+
+        )}
           {myData && (
             <div className="pr-2 shadow-sm text-xs  text-gray-600 rounded-md font-medium  py-2 px-4 mx-2">
               Page <strong>{table.getState().pagination.pageIndex + 1}</strong> of {table.getPageCount()}
