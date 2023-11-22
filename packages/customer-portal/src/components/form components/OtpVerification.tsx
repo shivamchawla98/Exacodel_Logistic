@@ -159,7 +159,7 @@ function OtpVerification() {
       console.log(response?.data?.sendOTP);
 
       if (response?.data?.sendOTP === "OTP sent successfully") {
-        dispatch(updateSendOtpClicked(true));
+        // dispatch(updateSendOtpClicked(true));
         setSendOtpClicked(true);
         setResendDisabled(true);
         setOtpSent(true);

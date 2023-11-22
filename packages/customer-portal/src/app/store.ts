@@ -8,6 +8,7 @@ import customerRegFormSlice from '@/features/customerRegForm/customerRegForm-sli
 import overseasRegSlice from '@/features/overseasRegForm/overseasReg-slice';
 import userSlice from '@/features/user/user-slice';
 import registrationConfSlice from '@/features/registrationConf/registrationConf-slice';
+import uploadSlice from '@/features/uploads/upload-slice';
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     overseasReg: overseasRegSlice,
     user: userSlice,
     registerConfSlice: registrationConfSlice,
+    uploadSlice: uploadSlice,
   },
 });
 

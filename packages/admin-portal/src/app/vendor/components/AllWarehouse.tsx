@@ -1,23 +1,32 @@
-import { useQuery } from "@apollo/client";
-import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
-import {flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import GET_ALL_WAREHOUSE from "@/graphql/query/getAllWarehouse";
+import { RowModel, Table, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { EyeIcon, CursorArrowRaysIcon} from "@heroicons/react/24/outline";
-import { CheckIcon, EnvelopeIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { useSelector} from 'react-redux';
+import { EyeIcon, ArrowsUpDownIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+
+type Warehouse = {
+  id: string,
+  companyName: string,
+  warehouseType: string,
+  State: string
+}
 
 
-
-export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
-  const {userId } = useSelector((state: any) => state.loginSlice)
-  const { loading, error, data, refetch } = useQuery(LIST_INITIAL_REGISTRATION);
+function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
+  const { loading, error, data, refetch } = useQuery(GET_ALL_WAREHOUSE);
   const [sorting, setSorting] = useState<any>([])
+
   const [filtering, setFiltering] = useState<any>("")
-  const myData = useMemo(() => {
-    return data?.listInitialRegistrations.filter((user: any) => user.isapproved === "REVEIW_PENDING")
-  },
-   [data?.listInitialRegistrations]
-   );
+  const myData = useMemo(() => data?.getAllWarehouses ?? [], [data?.getAllWarehouses]);
+  console.log(data?.getAllWarehouses);
+  function getSortingIcon(isSorted: string | null): string {
+    const sortingIcons: Record<string, string> = {
+      asc: '▲',
+      desc: '▼',
+    };
+    return sortingIcons[isSorted ?? ''] ?? '';
+  }
   /**
    @type import("@tanstack/react-table").columndDef<any>
    */
@@ -25,40 +34,41 @@ export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
     () => [
       {
         accessorKey: "id",
-        header: "ID",
-        cell: (props: any) => <p>{props.getValue()}</p>
-      },
-      {
-        accessorKey: "first_name",
-        header: "Name",
+        Header: "ID",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
         accessorKey: "companyName",
-        header: "Company Name",
+        Header: "Company Name",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
-        accessorKey: "email",
-        header: "Email",
+        accessorKey: "warehouseType",
+        Header: " Warehouse Type",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
+      {
+        accessorKey: "State",
+        Header: "State",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+
       {
         accessorKey: "id",
-        header: "Preview",
+        Header: "Actions",
         cell: (cell: any) => (
-          <div className="flex justify-evenly item-center" onClick={() => {
+          <div className="cursor-pointer" onClick={() => {
             setApprovalIndex(cell.row.original.id)
             console.log("cell id : ", cell.row.original.id);
-            onInfoClick()
+
+            setActiveItem("warehouseInfo")
           }}>
-            <EnvelopeIcon className="mr-6 h-4 w-4 text-green-300" aria-hidden="true" />
-            <EyeIcon className="h-4 w-4 text-sky-500" />
+            <EyeIcon className="h-6 w-6 text-sky-500" />
           </div>
         )
       }
 
-    ], [setApprovalIndex]);
+    ], [setApprovalIndex, setActiveItem]);
 
   const table = useReactTable({
     data: myData,
@@ -81,7 +91,7 @@ export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
         <div className="relative">
       <input type="text"
-       className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+       className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
        onChange={(e) => setFiltering(e.currentTarget.value)}
        />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
@@ -100,17 +110,15 @@ export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
             <thead className="bg-gray-50">
               {
                 table.getHeaderGroups().map(headerGroup => (
-                  <tr id={headerGroup.id} >
-                    {headerGroup.headers.map(header => (
+                  <tr key={headerGroup.id} id={headerGroup.id} >
+                    {headerGroup.headers.map((header: any) => (
                       <th scope="col" key={header.id}
                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
                        onClick={header.column.getToggleSortingHandler()}
                        >
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.Header, header.getContext())}
                         {
-                        { asc: '▲', desc: '▼' }[
-                          (header.column.getIsSorted() as 'asc' | 'desc') ?? null
-                        ]
+                       getSortingIcon(header.column.getIsSorted())
                       }
                       </th>
                     ))}
@@ -122,9 +130,9 @@ export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
             <tbody className="divide-y divide-gray-200 bg-white">
               {
                 table.getRowModel().rows.map(row => (
-                  <tr id={row.id}>
+                  <tr key={row.id} id={row.id}>
                     {row.getVisibleCells().map(cell => (
-                      <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
+                      <td  className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -173,4 +181,4 @@ export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
   );
 }
 
-
+export default AllWarehouse;

@@ -1,7 +1,7 @@
 
 import '../app/globals.css'
 import { useQuery } from '@apollo/client';
-import jwt_decode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
@@ -22,7 +22,7 @@ const LoginStatus = ({ id, open, setOpen }: any) => {
     try {
         const jwtToken: any = Cookies.get('jwt');
         console.log("from token : ", jwtToken);
-        const payload: any = jwt_decode(jwtToken)
+        const payload: any = jwtDecode(jwtToken)
 
         console.log(" getUserById Data ", payload);
         if (typeof (payload?.id) === 'number') {

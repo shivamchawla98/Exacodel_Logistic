@@ -1,24 +1,32 @@
-import { useQuery } from "@apollo/client";
-import GET_WAREHOUSE_BY_USER_ID from "@/graphql/query/getWarehousesByUserId";
-import {flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
+import { gql, useMutation, useQuery } from "@apollo/client";
+import GET_ALL_WAREHOUSE from "@/graphql/query/getAllWarehouse";
+import { RowModel, Table, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
-import { EyeIcon} from "@heroicons/react/24/outline";
+import { EyeIcon, ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { useSelector} from 'react-redux';
+
+type Warehouse = {
+  id: string,
+  companyName: string,
+  warehouseType: string,
+  State: string
+}
 
 
-
-export default function MyWarehouse({ setActiveItem, setApprovalIndex }: any) {
-  const {userId } = useSelector((state: any) => state.loginSlice)
-  const { loading, error, data, refetch } = useQuery(GET_WAREHOUSE_BY_USER_ID, {
-    variables: {
-      id: userId
-    }
-  });
+function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
+  const { loading, error, data, refetch } = useQuery(GET_ALL_WAREHOUSE);
   const [sorting, setSorting] = useState<any>([])
+
   const [filtering, setFiltering] = useState<any>("")
-  const myData = useMemo(() => data?.getWarehousesByUserId ?? [], [data?.getWarehousesByUserId]);
-  console.log(data?.getWarehousesByUserId);
+  const myData = useMemo(() => data?.getAllWarehouses ?? [], [data?.getAllWarehouses]);
+  console.log(data?.getAllWarehouses);
+  function getSortingIcon(isSorted: string | null): string {
+    const sortingIcons: Record<string, string> = {
+      asc: '▲',
+      desc: '▼',
+    };
+    return sortingIcons[isSorted ?? ''] ?? '';
+  }
   /**
    @type import("@tanstack/react-table").columndDef<any>
    */
@@ -83,7 +91,7 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex }: any) {
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
         <div className="relative">
       <input type="text"
-       className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+       className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
        onChange={(e) => setFiltering(e.currentTarget.value)}
        />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
@@ -102,17 +110,15 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex }: any) {
             <thead className="bg-gray-50">
               {
                 table.getHeaderGroups().map(headerGroup => (
-                  <tr id={headerGroup.id} >
-                    {headerGroup.headers.map(header => (
+                  <tr key={headerGroup.id} id={headerGroup.id} >
+                    {headerGroup.headers.map((header: any) => (
                       <th scope="col" key={header.id}
                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
                        onClick={header.column.getToggleSortingHandler()}
                        >
                         {header.isPlaceholder ? null : flexRender(header.column.columnDef.Header, header.getContext())}
                         {
-                        { asc: '▲', desc: '▼' }[
-                          header.column.getIsSorted() ?? null
-                        ]
+                       getSortingIcon(header.column.getIsSorted())
                       }
                       </th>
                     ))}
@@ -124,9 +130,9 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex }: any) {
             <tbody className="divide-y divide-gray-200 bg-white">
               {
                 table.getRowModel().rows.map(row => (
-                  <tr id={row.id}>
+                  <tr key={row.id} id={row.id}>
                     {row.getVisibleCells().map(cell => (
-                      <td className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
+                      <td  className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
@@ -175,4 +181,4 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex }: any) {
   );
 }
 
-
+export default AllWarehouse;

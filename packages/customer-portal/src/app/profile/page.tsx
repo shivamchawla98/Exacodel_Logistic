@@ -15,7 +15,7 @@ import {
 import CustomerProfileUpdate from '@/components/form components/CustomerProfileUpdate'
 import General from './component/General'
 import { current } from '@reduxjs/toolkit'
-import Invoice from './Invoice'
+import Invoice from './component/Invoice'
 
 const navigation = [
   { name: 'General', href: '#', icon: HomeIcon, current: true },

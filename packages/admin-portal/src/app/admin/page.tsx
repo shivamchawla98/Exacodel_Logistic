@@ -36,7 +36,7 @@ import AllTruckingInfo from './components/AllTrucking'
 import TruckingInfo from './components/TruckingInfo'
 import Cookies from 'js-cookie'
 import ReviewSendedUser from './components/ReviewSended'
-import jwt_decode from "jwt-decode"; 
+import {jwtDecode} from "jwt-decode"; 
 import { updateUserId } from '@/features/login/login-slice'
 import MyWarehouses from './components/MyWarehouse'
 import MyTrucks from './components/MyTrucks'
@@ -53,7 +53,7 @@ const navigation = [
         { name: 'Users In Review', href: '#', icon: CursorArrowRaysIcon, current: false },
         { name: 'Approved Users', href: '#', icon: CheckIcon, current: false },
         { name: 'Rejected Users', href: '#', icon: XMarkIcon, current: false },
-        { name: 'Review Mail Sended', href: '#', icon: EnvelopeIcon, current: false },
+        { name: 'Review Email Sent', href: '#', icon: EnvelopeIcon, current: false },
       ],
   },
 
@@ -99,7 +99,7 @@ export default function Home() {
 
   try {
     const token:any = Cookies.get("jwtToken");
-    const decodedToken:any = jwt_decode(token);
+    const decodedToken:any = jwtDecode(token);
     console.log("id : ",decodedToken?.id);
     
     dispatch(updateUserId(decodedToken?.id))
@@ -456,7 +456,7 @@ export default function Home() {
               {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Users In Review")} />}
               {activeItem === 'Approved Users' && <Approved onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
               {activeItem === 'Rejected Users' && <RejectedUsers onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)}/>}
-              {activeItem === 'Review Mail Sended' && <ReviewSendedUser onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
+              {activeItem === 'Review Email Sent' && <ReviewSendedUser onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
               {activeItem === 'userInfo' && <UserMoreInfo userID={approvalIndex * 1} />}
 
 

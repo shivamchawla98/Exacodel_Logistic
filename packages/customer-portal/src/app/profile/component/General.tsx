@@ -3,11 +3,11 @@
 import GET_USER_BY_ID from "@/graphql/query/getUserById"
 import { useQuery } from "@apollo/client"
 import Cookies from "js-cookie";
-import jwt_decode from 'jwt-decode'
+import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 
 // Map the enum values to human-readable items
-const companyTypeMap = {
+const companyTypeMap: any = {
   Partnership: "Partnership",
   private_limited: "Private Limited",
   public_limited: "Public Limited",
@@ -18,7 +18,7 @@ const companyTypeMap = {
   LLC: "Limited Liability Company",
 };
 
-const annualTurnoverMap = {
+const annualTurnoverMap: any = {
   UP_TO_10000: 'Up to $10,000',
   FROM_10000_TO_50000: '$10,000 to $50,000',
   FROM_50000_TO_100000: '$50,000 to $100,000',
@@ -32,7 +32,7 @@ const annualTurnoverMap = {
 };
 
 // Map the enum values to human-readable items
-const industryTypeMap = {
+const industryTypeMap: any = {
   Apparels_and_garments: 'Apparels and Garments',
   Building_and_Construction: 'Building and Construction',
   Electronic_and_Electrical: 'Electronic and Electrical',
@@ -42,16 +42,11 @@ const industryTypeMap = {
   Food_and_Beverages: 'Food and Beverages',
   Hospital_and_Medicalsupplies: 'Hospital and Medical Supplies',
 };
-
 function General() {
-  const token = Cookies.get("jwToken");
+  const token: any = Cookies.get("jwToken");
   console.log("Token ", token);
-  
-  if (token) {
-    const decodedToken: any = jwt_decode(token)?.id;
-    console.log("decoddede token >>>  ", typeof decodedToken?.id);
-  }
-  const [userID, setUserID] = useState<number>(token ? jwt_decode(token)?.id : -1);
+  const decodedToken: any = jwtDecode(token)
+  const [userID, setUserID] = useState<number>(token ? decodedToken.id * 1 : -1);
   
   const { data, loading, error } = useQuery(GET_USER_BY_ID, {
     variables: {
@@ -118,7 +113,7 @@ function General() {
           </p>
 
           { Object.entries(formData).map(([label, value]: any) => (
-          <dl className="mt-4 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+          <dl key={value} className="mt-4 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
           <div className="pt-4 sm:flex">
             <dt className="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">{label}</dt>
             <dd className="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">

@@ -3,7 +3,7 @@ import GET_USER_BY_ID from "@/graphql/query/getUserById";
 import { useQuery } from "@apollo/client";
 
 // Map the enum values to human-readable items
-const companyTypeMap = {
+const companyTypeMap: any = {
   Partnership: "Partnership",
   private_limited: "Private Limited",
   public_limited: "Public Limited",
@@ -14,7 +14,7 @@ const companyTypeMap = {
   LLC: "Limited Liability Company",
 };
 
-const annualTurnoverMap = {
+const annualTurnoverMap: any = {
     UP_TO_10000: 'Up to $10,000',
     FROM_10000_TO_50000: '$10,000 to $50,000',
     FROM_50000_TO_100000: '$50,000 to $100,000',
@@ -28,7 +28,7 @@ const annualTurnoverMap = {
   };
 
 // Map the enum values to human-readable items
-const industryTypeMap = {
+const industryTypeMap: any = {
     Apparels_and_garments: 'Apparels and Garments',
     Building_and_Construction: 'Building and Construction',
     Electronic_and_Electrical: 'Electronic and Electrical',

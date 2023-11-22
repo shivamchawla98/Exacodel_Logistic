@@ -44,8 +44,17 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
-        accessorKey: "id",
+        accessorKey: "status",
         Header: "Approval Status",
+        cell: (cell: any) => (
+          <div className="flex justify-evenly items-center">
+            <CheckIcon className="h-4 w-4 text-green-300" aria-hidden="true" />
+          </div>
+        )
+      },
+      {
+        accessorKey: "id",
+        Header: "Actions",
         cell: (cell: any) => (
           <div className="cursor-pointer flex justify-evenly items-center" onClick={() => {
             setApprovalIndex(cell.row.original.id)
@@ -53,7 +62,6 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
 
             onInfoClick()
           }}>
-            <CheckIcon className="h-4 w-4 text-green-300" aria-hidden="true" />
             <EyeIcon className="h-4 w-4 text-sky-500" />
           </div>
         )
@@ -102,7 +110,7 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
               {
                 table.getHeaderGroups().map(headerGroup => (
                   <tr id={headerGroup.id} >
-                    {headerGroup.headers.map(header => (
+                    {headerGroup.headers.map( (header: any) => (
                       <th scope="col" key={header.id}
                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
                        onClick={header.column.getToggleSortingHandler()}

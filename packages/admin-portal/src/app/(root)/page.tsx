@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { useMutation, useQuery } from '@apollo/client';
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -46,17 +46,32 @@ function Page() {
     password: '', // Ensure a default value if password is undefined
   };
   const dispatch = useDispatch();
-  const token = Cookies.get('jwtToken');
-  if (token) {
-    const decodedToken: any = jwt_decode(token);
-    const currentTime: any = Date.now() / 1000;
-    // Check token expiration
-    if (decodedToken?.exp && currentTime < decodedToken?.exp) {
-      // Token is expired, redirect to the login page
-
-      router.push('/approval'); // Redirect to the login page
+  try {
+    const token = Cookies.get('jwtToken');
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      const currentTime: any = Date.now() / 1000;
+      // Check token expiration
+      if (decodedToken?.exp && currentTime < decodedToken?.exp) {
+        // Token is expired, redirect to the login page
+        switch (decodedToken?.userType) {
+          case "VENDOR":
+            router.push('/vendor')
+            break;
+          case "ADMIN":
+            router.push('/admin')
+            break;
+          default:
+            router.push('/');
+            break;
+        }
+        // Redirect to the login page
+      }
     }
+  } catch (error) {
+console.log("token error hai : ", error);
   }
+
   // api login logic ends and login ui starts
 
   return (
@@ -86,7 +101,7 @@ function Page() {
                   },
                 });
                 const newToken = response?.data?.login.access_token;
-                const payload: any = jwt_decode(newToken);
+                const payload: any = jwtDecode(newToken);
                 setId(payload?.id)
                 const { data } = await refetch(
                   {
@@ -99,16 +114,35 @@ function Page() {
                 console.log("user ", user);
 
                 // 
-                if (user?.isapproved === 'Approved' && user?.userType === 'VENDOR') {
+                if (user?.isapproved === 'Approved' && user?.userType === 'Admin') {
+                  console.log("data inside admin", user);
+                  Cookies.set('jwtToken', newToken, { expires: payload.exp - Math.floor(Date.now() / 1000) });
+                  dispatch(updateFirstName(user.first_name))
+                  dispatch(updateLastName(user.last_name))
+                  dispatch(updateIsLoggedIn(true))
+
+                  router.push("/admin")
+
+                } if (user?.isapproved === 'Approved' && user?.userType === 'VENDOR') {
                   console.log("data inside approved", user);
                   Cookies.set('jwtToken', newToken, { expires: payload.exp - Math.floor(Date.now() / 1000) });
                   dispatch(updateFirstName(user.first_name))
                   dispatch(updateLastName(user.last_name))
                   dispatch(updateIsLoggedIn(true))
 
-                  router.push("/approval")
+                  router.push("/vendor")
 
-                } else if (user.isapproved === 'Approval_pending' || user.isapproved === 'Rejected' || user.userType === "CUSTOMER") {
+                } if (user?.isapproved === 'Approved' && user?.userType === 'OVERSEAS_AGENT') {
+                  console.log("data inside approved", user);
+                  Cookies.set('jwtToken', newToken, { expires: payload.exp - Math.floor(Date.now() / 1000) });
+                  dispatch(updateFirstName(user.first_name))
+                  dispatch(updateLastName(user.last_name))
+                  dispatch(updateIsLoggedIn(true))
+
+                  router.push("/overseas")
+
+                }
+                else if (user.isapproved === 'Approval_pending' || user.isapproved === 'Rejected' || user.userType === "CUSTOMER") {
                   setOpen(true)
                 }
 
@@ -127,7 +161,7 @@ function Page() {
                   });
 
                 }
-                
+
               }
             }}
           >
@@ -141,7 +175,7 @@ function Page() {
                     <button
                       type="submit"
                       className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1 w-4/5"
-                      // disabled={isSubmitting}
+                    // disabled={isSubmitting}
                     >
                       {submiting ? 'Signing in...' : 'Sign In'}
                     </button>

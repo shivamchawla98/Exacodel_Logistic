@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, createRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEmail, updateToken } from "@/features/login/login-slice";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -63,7 +63,7 @@ function OtpVerification({ setNext}: any) {
     const [reset_password_token] = useMutation(RESET_PASSWORD_TOKEN);
     const [reset_password_verify] = useMutation(RESET_PASSWORD_VERIFY)
     const dispatch = useDispatch();
-    const inputRefs: any = useRef(Array(6).fill(0).map(() => React.createRef()));
+    const inputRefs: any = useRef(Array(6).fill(0).map(() => createRef()));
     const [Email, setEmail] = useState('');
     const [isEmailSubmitting, setIsEmailSubmitting] = useState(false);
     // const [data, error, loading, refetch] = useQuery(GET_USER_BY_ID,
@@ -148,7 +148,7 @@ function OtpVerification({ setNext}: any) {
                 },
             });
 
-            console.log("Response : ",response);
+            console.log("Response : ",response?.data?.reset_password_token);
 
             if (response?.data?.reset_password_token === "One time password has been sent to reset the password.") {
                 setSendOtpClicked(true);
@@ -162,7 +162,9 @@ function OtpVerification({ setNext}: any) {
                     position: toast.POSITION.TOP_RIGHT
                 });
             }
-            console.log(error);
+            toast.error(error.message, {
+                position: toast.POSITION.TOP_RIGHT
+            });
         } finally {
             setIsEmailSubmitting(false);
         }

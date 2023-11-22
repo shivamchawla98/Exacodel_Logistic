@@ -3,18 +3,18 @@ import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
 import {flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 import { EyeIcon, CursorArrowRaysIcon} from "@heroicons/react/24/outline";
-import { CheckIcon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { CheckIcon, EnvelopeIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useSelector} from 'react-redux';
 
 
 
-export default function Vendors({onInfoClick, setApprovalIndex }: any) {
+export default function Vendors({onInfoClick, setApprovalIndex  }: any) {
   const {userId } = useSelector((state: any) => state.loginSlice)
   const { loading, error, data, refetch } = useQuery(LIST_INITIAL_REGISTRATION);
   const [sorting, setSorting] = useState<any>([])
   const [filtering, setFiltering] = useState<any>("")
   const myData = useMemo(() => {
-    return data?.listInitialRegistrations.filter((user: any) => user.isapproved === "Rejected")
+    return data?.listInitialRegistrations.filter((user: any) => user.isapproved === "REVEIW_PENDING")
   },
    [data?.listInitialRegistrations]
    );
@@ -44,11 +44,11 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
-        accessorKey: "action",
+        accessorKey: "preview",
         header: "Approval Status",
         cell: (cell: any) => (
-          <div className="flex justify-evenly items-center">
-            <XMarkIcon className="h-4 w-4 text-rose-500" />
+          <div className="flex justify-evenly item-center">
+            <EnvelopeIcon className="mr-6 h-4 w-4 text-green-300" aria-hidden="true" />
           </div>
         )
       },
@@ -56,7 +56,7 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
         accessorKey: "id",
         header: "Actions",
         cell: (cell: any) => (
-          <div className="flex justify-evenly items-center" onClick={() => {
+          <div className="flex justify-evenly item-center" onClick={() => {
             setApprovalIndex(cell.row.original.id)
             console.log("cell id : ", cell.row.original.id);
             onInfoClick()

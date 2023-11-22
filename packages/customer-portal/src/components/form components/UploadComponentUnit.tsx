@@ -1,34 +1,157 @@
-import { ErrorMessage } from 'formik';
-import { PhotoIcon } from '@heroicons/react/24/solid'
+import { useState, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { format } from "date-fns";
+import axios from 'axios';
+import { S3 } from 'aws-sdk';
+import { useDispatch } from 'react-redux';
+import { update_AEO_cert, update_DUNS_cert, update_IATA_cert, update_aadhaar_card, update_cert_of_registration, update_isoCertificate, update_manufacturing_license, update_other_license, update_pancard_auth, update_pancard_company } from '@/features/uploads/upload-slice';
 
-const UploadComponentUnit = ({ field, form }: any) => {
-  const handleFileChange = (event: any) => {
-    form.setFieldValue(field.name, event.currentTarget.files[0]);
-  };
+interface FileUploadProps {
+  label: string;
+  doc: string;
+}
+
+const FileUpload: React.FC<FileUploadProps> = ({ label, doc }) => {
+  const [file, setFile] = useState<File>();
+  const [s3GetPromiseUrl, setS3GetPromiseUrl] = useState<string>("");
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const dispatch = useDispatch();
+
+  const onDrop = (acceptedFiles: File[]) => {
+    setFile(acceptedFiles[0]);
+    try {
+      handleUploadFile();
+    } catch (error) {
+      console.log("image upload error >>> ", error);
+    }
+  }
+
+  useEffect(() => {
+    var s3FileKey = localStorage.getItem("s3FileKey");
+    var s3FileFormat = localStorage.getItem("s3FileFormat");
+
+    if (s3FileKey !== "" && s3FileKey && s3FileFormat !== "" && s3FileFormat) {
+      setS3GetPromiseUrl(`https://globextrade.s3.ap-south-1.amazonaws.com/${s3FileKey}`);
+    } else {
+      setS3GetPromiseUrl("");
+    }
+    localStorage.clear();
+  }, [file]);
+
+  async function handleUploadFile() {
+    var date = new Date();
+    var formattedDate = format(date, "yyyy-M-dd");
+
+    if (file) {
+      var fileKey = `user/${doc}/date=${formattedDate}${(file.name).toLowerCase()}`;
+      var fileType = file.type;
+      switch (doc) {
+        case 'cert_of_registration':
+          dispatch(update_cert_of_registration(fileKey))
+          break;
+        case 'pancard_company':
+          dispatch(update_pancard_company(fileKey))
+          break;
+        case 'aadhaar_card':
+          dispatch(update_aadhaar_card(fileKey))
+          break;
+        case 'isoCertificate':
+          dispatch(update_isoCertificate(fileKey))
+          break;
+        case 'pancard_auth':
+          dispatch(update_pancard_auth(fileKey))
+          break;
+        case 'AEO_cert':
+          dispatch(update_AEO_cert(fileKey))
+          break;
+        case 'IATA_cert':
+          dispatch(update_IATA_cert(fileKey))
+          break;
+        case 'DUNS_cert':
+          dispatch(update_DUNS_cert(fileKey))
+          break;
+        case 'manufacturing_license':
+          dispatch(update_manufacturing_license(fileKey))
+          break;
+        case 'other_license':
+          dispatch(update_other_license(fileKey))
+          break;
+
+        default:
+          break;
+      }
+      const client_s3 = new S3({
+        region: "ap-south-1",
+        accessKeyId: "AKIA5FWQZ5L4KOCCTT73",
+        secretAccessKey: "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",
+        signatureVersion: "v4",
+      });
+
+      try {
+        const fileParams = {
+          Bucket: "globextrade",
+          Key: fileKey,
+          Expires: 600,
+          ContentType: fileType,
+        };
+
+        const url = await client_s3.getSignedUrlPromise(
+          "putObject",
+          fileParams
+        );
+        const uploadUrl = url;
+
+        const fromAxios = await axios.put(uploadUrl, file, {
+          headers: {
+            "Content-type": fileType,
+            "Access-Control-Allow-Origin": "*",
+          },
+          onUploadProgress: (progressEvent: any) => {
+            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(progress);
+          },
+        });
+
+        localStorage.setItem("s3FileKey", fileKey);
+        localStorage.setItem("s3FileFormat", fileType);
+      } catch (error) {
+        console.log("AWS S3 API - upload_file.tsx - POST Error:", error);
+      }
+
+      setFile(undefined);
+    }
+  }
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: { 'image/*': [] },
+    multiple: false,
+  });
 
   return (
-    <div className="col-span-full">
-      <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
-        Cover photo
-      </label>
-      <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-        <div className="text-center">
-          <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-          <div className="mt-4 flex text-sm leading-6 text-gray-600">
-            <label
-              htmlFor="file-upload"
-              className="relative cursor-pointer rounded-md bg-white font-semibold text-sky-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-sky-600 focus-within:ring-offset-2 hover:text-sky-500"
-            >
-              <span>Upload a file</span>
-              <input id={field.name} onChange={handleFileChange} name={field.name} type="file" className="sr-only" />
-            </label>
-            <p className="pl-1">or drag and drop</p>
+    <div {...getRootProps()} className="space-y-4">
+      <label className='text-xs font-medium'>{label}</label>
+      <div className={`border border-dashed rounded-lg p-4 cursor-pointer border-sky-500`}>
+        <input id={label} {...getInputProps()} />
+        <p className={`text-sky-500 text-xs font-medium`}>Drop or click to upload {label}</p>
+        {s3GetPromiseUrl && (
+          <div className="mt-4">
+            <p className="text-sm font-medium">{label} Uploaded: {file?.name || ''}</p>
+            <img src={s3GetPromiseUrl} alt="Preview" />
           </div>
-          <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-        </div>
+        )}
       </div>
+      {uploadProgress > 0 && uploadProgress < 100 && (
+        <div className="mt-4">
+          <p className="text-sm font-medium">Uploading: {uploadProgress}%</p>
+          <progress className='bg-sky-500' value={uploadProgress} max="100" />
+        </div>
+      )}
+      <ToastContainer />
     </div>
   );
 };
 
-export default UploadComponentUnit
+export default FileUpload;

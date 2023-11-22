@@ -1,23 +1,35 @@
 import { useQuery } from "@apollo/client";
-import LIST_INITIAL_REGISTRATION from "@/graphql/query/listInitialRegistration";
-import {flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import { EyeIcon, CursorArrowRaysIcon} from "@heroicons/react/24/outline";
-import { CheckIcon, MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import { useSelector} from 'react-redux';
+import GET_WAREHOUSE_BY_USER_ID from "@/graphql/query/getWarehousesByUserId";
+import { flexRender, getCoreRowModel, useReactTable, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from "@tanstack/react-table";
+import { useEffect, useMemo, useState } from "react";
+import { EyeIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { useSelector } from 'react-redux';
 
 
 
-export default function Vendors({onInfoClick, setApprovalIndex }: any) {
-  const {userId } = useSelector((state: any) => state.loginSlice)
-  const { loading, error, data, refetch } = useQuery(LIST_INITIAL_REGISTRATION);
+export default function MyWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
+  const { userId } = useSelector((state: any) => state.loginSlice)
+  const { loading, error, data, refetch } = useQuery(GET_WAREHOUSE_BY_USER_ID, {
+    variables: {
+      id: userId
+    }
+  });
+  useEffect(() => {
+    refetch()
+  }, [activeItem])
+
   const [sorting, setSorting] = useState<any>([])
   const [filtering, setFiltering] = useState<any>("")
-  const myData = useMemo(() => {
-    return data?.listInitialRegistrations.filter((user: any) => user.isapproved === "Rejected")
-  },
-   [data?.listInitialRegistrations]
-   );
+  const myData = useMemo(() => data?.getWarehousesByUserId ?? [], [data?.getWarehousesByUserId, activeItem]);
+  console.log(data?.getWarehousesByUserId);
+  function getSortingIcon(isSorted: string | null): string {
+    const sortingIcons: Record<string, string> = {
+      asc: '▲',
+      desc: '▼',
+    };
+    return sortingIcons[isSorted ?? ''] ?? '';
+  }
   /**
    @type import("@tanstack/react-table").columndDef<any>
    */
@@ -25,48 +37,41 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
     () => [
       {
         accessorKey: "id",
-        header: "ID",
-        cell: (props: any) => <p>{props.getValue()}</p>
-      },
-      {
-        accessorKey: "first_name",
-        header: "Name",
+        Header: "ID",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
         accessorKey: "companyName",
-        header: "Company Name",
+        Header: "Company Name",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
-        accessorKey: "email",
-        header: "Email",
+        accessorKey: "warehouseType",
+        Header: " Warehouse Type",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
-        accessorKey: "action",
-        header: "Approval Status",
-        cell: (cell: any) => (
-          <div className="flex justify-evenly items-center">
-            <XMarkIcon className="h-4 w-4 text-rose-500" />
-          </div>
-        )
+        accessorKey: "State",
+        Header: "State",
+        cell: (props: any) => <p>{props.getValue()}</p>
       },
+
       {
         accessorKey: "id",
-        header: "Actions",
+        Header: "Actions",
         cell: (cell: any) => (
-          <div className="flex justify-evenly items-center" onClick={() => {
+          <div className="cursor-pointer flex justify-center " onClick={() => {
             setApprovalIndex(cell.row.original.id)
             console.log("cell id : ", cell.row.original.id);
-            onInfoClick()
+
+            setActiveItem("warehouseInfo")
           }}>
             <EyeIcon className="h-4 w-4 text-sky-500" />
           </div>
         )
       }
 
-    ], [setApprovalIndex]);
+    ], [setApprovalIndex, setActiveItem]);
 
   const table = useReactTable({
     data: myData,
@@ -88,10 +93,10 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
         <div className="relative">
-      <input type="text"
-       className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
-       onChange={(e) => setFiltering(e.currentTarget.value)}
-       />
+          <input type="text"
+            className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            onChange={(e) => setFiltering(e.currentTarget.value)}
+          />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
 
         </div>
@@ -109,17 +114,15 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
               {
                 table.getHeaderGroups().map(headerGroup => (
                   <tr id={headerGroup.id} >
-                    {headerGroup.headers.map(header => (
+                    {headerGroup.headers.map((header:any) => (
                       <th scope="col" key={header.id}
-                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
-                       onClick={header.column.getToggleSortingHandler()}
-                       >
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 cursor-pointer shadow bg-gray-100"
+                        onClick={header.column.getToggleSortingHandler()}
+                      >
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.Header, header.getContext())}
                         {
-                        { asc: '▲', desc: '▼' }[
-                          (header.column.getIsSorted() as 'asc' | 'desc') ?? null
-                        ]
-                      }
+                          getSortingIcon(header.column.getIsSorted())
+                        }
                       </th>
                     ))}
 
@@ -160,13 +163,13 @@ export default function Vendors({onInfoClick, setApprovalIndex }: any) {
             </button>
             <button
               onClick={() => table.nextPage()}
-              disabled = {table.getState().pagination.pageIndex >= table.getPageCount() - 1}
+              disabled={table.getState().pagination.pageIndex >= table.getPageCount() - 1}
               className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
             >
               Next
             </button>
             <button
-              onClick={() => table.setPageIndex(table.getPageCount() -1)}
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
             >
               Last Page

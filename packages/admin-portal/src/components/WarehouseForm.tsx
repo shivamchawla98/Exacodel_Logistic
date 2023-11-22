@@ -7,7 +7,7 @@ import Address from './Address';
 import AdminInputWarehouseDetail from './WarehouseDetails';
 import CompanyDetails from './CompanyDetails';
 import { useMutation } from '@apollo/client';
-import ApprovedPopup from '@/app/approval/components/ApprovedPopup';
+import ApprovedPopup from '@/app/admin/components/ApprovedPopup';
 import { useState } from 'react';
 import CREATE_WAREHOUSE from '@/graphql/mutation/createWarehouse';
 import { useSelector} from 'react-redux'
