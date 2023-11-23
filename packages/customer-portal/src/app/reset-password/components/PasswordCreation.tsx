@@ -100,7 +100,7 @@ function PasswordCreation() {
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <div>
-              <h1 className="text-2xl font-semibold">Create Password</h1>
+              <h1 className="text-2xl font-semibold">Create new password</h1>
             </div>
             <Formik
               initialValues={initialValues}

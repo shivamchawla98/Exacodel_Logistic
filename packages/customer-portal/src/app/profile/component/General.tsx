@@ -43,11 +43,17 @@ const industryTypeMap: any = {
   Hospital_and_Medicalsupplies: 'Hospital and Medical Supplies',
 };
 function General() {
-  const token: any = Cookies.get("jwToken");
-  console.log("Token ", token);
-  const decodedToken: any = jwtDecode(token)
-  const [userID, setUserID] = useState<number>(token ? decodedToken.id * 1 : -1);
+  const [userID, setUserID] = useState<number>(-1);
   
+  try {
+    const token: any = Cookies.get("jwToken");
+    console.log("Token ", token);
+    const decodedToken: any = jwtDecode(token)
+    setUserID( decodedToken.id * 1)
+  } catch (error) {
+    console.log("genereal token : ", error);
+  }
+
   const { data, loading, error } = useQuery(GET_USER_BY_ID, {
     variables: {
       id: userID,
