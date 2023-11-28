@@ -98,18 +98,22 @@ const temperatureTypes = ["Active", "Passive"]
 
 function WarehouseEdit({ Id, setActiveItem }: any) {
   const [userId, setUserId] = useState<String>("");
-  try {
-    const token: any = Cookies.get('jwtToken');
-    const decodedToken: any = jwtDecode(token)
-    setUserId(decodedToken?.id)
-  } catch (error) {
-    console.log("token error hi : ", error);
-  }
+  useEffect(() => {
+    try {
+      const token: any = Cookies.get('jwtToken');
+      const decodedToken: any = jwtDecode(token)
+      setUserId(decodedToken?.id)
+    } catch (error) {
+      console.log("token error hi : ", error);
+    }
+  }, [])
+  
   const { loading, error, data, refetch } = useQuery(GET_WAREHOUSE_BY_ID, {
     variables: {
       id: Id * 1
     },
   });
+  
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<any>({});
@@ -268,7 +272,8 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
   return (
     <div className=' '>
       {showAlert && <Alert />}
-      {showPopUp && <ApprovedPopup name={formData["companyName"]} onApprovalClick={() => { setShowPopUp(false); setActiveItem('Warehouse Review') }} operation={operation} />}
+      
+      {showPopUp && <ApprovedPopup name={formData["companyName"]} onApprovalClick={() => { setShowPopUp(false); setActiveItem('Approve Warehouse') }} operation={operation} />}
       <div className="overflow-hidden relative my-10  lg:my-0 mx-auto bg-white sm:rounded-lg w-full lg:w-full rounded-md shadow-md">
         <div className="px-4 py-6 sm:px-6">
           <div className='w-full flex justify-between items-center'>
@@ -354,6 +359,13 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
           </dl>
         </div>
         <div className='flex justify-end w-full my-6'>
+        <button
+            onClick={() => {
+              handleApprove("approve")
+            }}
+            type="button" className="rounded-md mx-4 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            Approve<span className="sr-only">, Approve </span>
+          </button>
           <button
             onClick={() => {
               handleApprove("delete")
@@ -363,12 +375,11 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
           </button>
           <button
             onClick={() => {
-              handleApprove("approve")
+              handleApprove("delete")
             }}
-            type="button" className="rounded-md mx-4 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-            Approve<span className="sr-only">, Approve </span>
+            type="button" className="rounded-md bg-sky-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            Send for Review<span className="sr-only">, Reject </span>
           </button>
-
         </div>
       </div>
     </div>

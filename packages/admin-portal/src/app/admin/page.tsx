@@ -13,7 +13,8 @@ import {
   PlusIcon,
   EyeIcon,
   WalletIcon,
-  UserCircleIcon
+  UserCircleIcon,
+  ChartPieIcon
 } from '@heroicons/react/24/outline'
 
 import { ChevronDownIcon, XMarkIcon, ArchiveBoxXMarkIcon, CheckIcon } from '@heroicons/react/20/solid'
@@ -43,6 +44,7 @@ import MyTrucks from './components/MyTrucks'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserMoreInfo from './components/UserMoreInfo'
+import AvailableWarehouseStats from '@/components/AvailableWarehouseStats'
 
 
 const navigation = [
@@ -50,10 +52,10 @@ const navigation = [
     name: 'Vendor', href: '#', icon: PaperAirplaneIcon, current: true,
     subNav:
       [
-        { name: 'Users In Review', href: '#', icon: CursorArrowRaysIcon, current: false },
+        { name: 'Approve Users', href: '#', icon: CursorArrowRaysIcon, current: false },
         { name: 'Approved Users', href: '#', icon: CheckIcon, current: false },
         { name: 'Rejected Users', href: '#', icon: XMarkIcon, current: false },
-        { name: 'Review Email Sent', href: '#', icon: EnvelopeIcon, current: false },
+        { name: 'Users In Review', href: '#', icon: EnvelopeIcon, current: false },
       ],
   },
 
@@ -61,9 +63,10 @@ const navigation = [
     name: 'Warehouse', href: '#', icon: BuildingOfficeIcon, current: true,
     subNav:
       [
-        { name: 'Warehouses In Review', href: '#', icon: EyeIcon, current: false },
+        { name: 'Approve Warehouse', href: '#', icon: EyeIcon, current: false },
         { name: 'Add Warehouse', href: '#', icon: PlusIcon, current: false },
-        { name: 'All Warehouses', href: '#', icon: WalletIcon, current: false },
+        { name: 'Warehouses In Review', href: '#', icon: WalletIcon, current: false },
+        { name: 'Stats of Warehouse', href: '#', icon: ChartPieIcon, current: false },
         { name: 'My Warehouses', href: '#', icon: UserCircleIcon, current: false },
       ],
   },
@@ -450,23 +453,24 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              {(activeItem === 'Users In Review' || activeItem === 'Vendor') && <Vendors isApproved={isApproved} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} onInfoClick={() => setActiveItem("userInfo")} onApprovalClick={() => setActiveItem("more info")} />}
+              {(activeItem === 'Approve Users' || activeItem === 'Vendor') && <Vendors isApproved={isApproved} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} onInfoClick={() => setActiveItem("userInfo")} onApprovalClick={() => setActiveItem("more info")} />}
               {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Users In Review") }}
               />}
               {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Users In Review")} />}
               {activeItem === 'Approved Users' && <Approved onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
               {activeItem === 'Rejected Users' && <RejectedUsers onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)}/>}
-              {activeItem === 'Review Email Sent' && <ReviewSendedUser onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
+              {activeItem === 'Users In Review' && <ReviewSendedUser onInfoClick={() => setActiveItem("userInfo")} setApprovalIndex={(userId: number) => setApprovalIndex(userId)} />}
               {activeItem === 'userInfo' && <UserMoreInfo userID={approvalIndex * 1} />}
 
 
               {/* warehouse */}
-              {activeItem === 'Warehouses In Review' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {activeItem === 'Approve Warehouse' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} activeItem={activeItem} Id={approvalIndex} setActiveItem={setActiveItem} />}
               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem} />}
               {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem} />}
-              {activeItem === 'All Warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'Warehouses In Review' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
               {activeItem === 'warehouseInfo' && <WarehouseInfo Id={approvalIndex} />}
               {activeItem === 'My Warehouses' && <MyWarehouses setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'Stats of Warehouse' && <AvailableWarehouseStats />}
 
               {/* trucking */}
               {activeItem === 'Trucks In Review' && <TruckingReview setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}

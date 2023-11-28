@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UploadState {
+export interface UploadState {
     userImage: string;
     cert_of_registration: string;
     pancard_company: string;

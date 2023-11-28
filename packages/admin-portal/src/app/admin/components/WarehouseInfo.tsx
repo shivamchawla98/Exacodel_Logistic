@@ -1,6 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import GET_WAREHOUSE_BY_ID from '@/graphql/query/getWarehouseById';
+import { RectangleGroupIcon } from '@heroicons/react/20/solid';
+
+
+const temperatureCapacityMapping: any = {
+  "MINUS_Eighteen_Degree_to_twenty_degree_celcius" : 'Between -18°C and 20°C',
+  "MINUS_Two_Degree_to_MINUS_Eight_degree_celcius": 'Between -2°C and -8°C',
+  "MINUS_Twenty_Degree_to_twenty_degree_celcius" : 'Between -20°C and 20°C',
+  "fifteen_Degree_to_twentyfive_degree_celcius" : 'Between 15°C and 25°C',
+};
+
+const warehouseTypeMapping: any = {
+  "coldStorageFacility": 'Cold Storage Facility',
+  "generalWarehouse": 'General Warehouse',
+  "referigeratedWarehouse": 'Refrigerated Warehouse',
+  "fullFilmentCenter": 'Fulfillment Center',
+  "petroleumWarehouse": 'Petroleum Warehouse',
+  "bondedWarehouse": 'Bonded Warehouse',
+  "hazCargoWarehouse": 'Hazardous Cargo Warehouse',
+}
 
 
 export default function WarehouseInfo({ Id }: any) {
@@ -40,7 +59,7 @@ export default function WarehouseInfo({ Id }: any) {
           "City": warehouse.City,
           "Pincode": warehouse.Pincode,
           "Country": warehouse.Country,
-          "Warehouse Type": warehouse.warehouseType,
+          "Warehouse Type": warehouseTypeMapping[warehouse.warehouseType] ||warehouse.warehouseType,
           "Total Square Area": warehouse.totalSquareArea,
           "Total Availiable Area": warehouse.totalAvailiableArea,
           "Occupied Space": warehouse.occupiedSpace,
@@ -54,7 +73,7 @@ export default function WarehouseInfo({ Id }: any) {
           "Storage Charges Per Pallet": warehouse.storageCharges_per_pallet,
           "Hazardous Storage Type": warehouse.hazardousStorageType,
           "Temperature Type": warehouse.temperatureType,
-          "Temperature Capacity": warehouse.temperatureCapacity
+          "Temperature Capacity": temperatureCapacityMapping[warehouse.temperatureCapacity] || warehouse.temperatureCapacity
         });
 
 
@@ -81,43 +100,32 @@ export default function WarehouseInfo({ Id }: any) {
 
 
   return (
-    <div className=' '>
-      <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
-        <div className="px-4 py-6 sm:px-6">
-          <div className='w-full flex justify-between items-center'>
-            <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
-          </div>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+  <>
+    {/* Right Side */}
+    <div className="w-full md:w-11/12 mx-2 h-64">
+      {/* Profile tab */}
+      {/* About Section */}
+      <div className="bg-white p-3 shadow-sm rounded-sm">
+        <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 my-6">
+          <span className="text-sky-500">
+            <RectangleGroupIcon className='h-6 w-6' />
+          </span>
+          <span className="tracking-wide">Warehouse Details</span>
         </div>
-        <div className="border-t border-gray-100">
-          <dl className="divide-y divide-gray-100">
-            {Object.
-              entries(formData).
-              map(([label, value]: any[]) => !(label === "__typename") && (
-            
-                <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
-                  {/* {console.log("label: ", label)} */}
-                  <>
-                    <div className="col-span-4">
-                      <dt className="text-sm font-medium text-gray-900">{label}</dt>
-                    </div>
-                    <div className="col-span-8">
-
-                      <input
-                        type="text"
-                        disabled
-                        value={value}
-                        className=" rounded-md px-3 py-2 w-full focus:outline-none text-sm text-gray-700 placeholder-gray-400"
-                      />
-
-                    </div>
-                  </>
-                </div>
-              ))}
-          </dl>
+        <div className="text-gray-700">
+          <div className="grid md:grid-cols-2 text-xs">
+            {Object.entries(formData).map(([label, value]: any) => (
+              <div className="grid grid-cols-2" key={label}>
+                <div className="px-4 py-2 font-semibold">{label}</div>
+                <div className="px-4 py-2">{value}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+      {/* End of about section */}
     </div>
+  </>
   );
 
 }

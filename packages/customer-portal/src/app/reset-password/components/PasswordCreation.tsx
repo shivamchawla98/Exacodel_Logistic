@@ -48,9 +48,6 @@ function PasswordCreation() {
  
 
   const handleSubmit = async (value: any) => {
-   
-    
-    
     try {
       const response = await reset_Save_password({
         variables: { 

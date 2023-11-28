@@ -97,18 +97,19 @@ const temperatureTypes = ["Active", "Passive"]
 
 
 function WarehouseEdit({ Id, setActiveItem }: any) {
-  const [userId, setUserId] = useState<String>("")
-  try {
-    const token: string | undefined = Cookies.get('jwtToken');
-    let decodedToken: any = {};
-    if (token) {
-      decodedToken = jwtDecode(token)
+  const [userId, setUserId] = useState<number>(-1)
+  useEffect(() => {
+    try {
+      const token: string | undefined = Cookies.get('jwtToken');
+      let decodedToken: any = {};
+      if (token) {
+        decodedToken = jwtDecode(token);
+      }
+      setUserId(decodedToken?.id * 1);
+    } catch (error) {
+      console.log("Token error: ", error);
     }
-    setUserId(decodedToken?.id)
-  } catch (error) {
-    console.log("toke errror hi : ", error);
-
-  }
+  }, []); 
   const { loading, error, data, refetch } = useQuery(GET_WAREHOUSE_BY_ID, {
     variables: {
       id: Id * 1

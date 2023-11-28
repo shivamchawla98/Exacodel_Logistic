@@ -44,15 +44,17 @@ const industryTypeMap: any = {
 };
 function General() {
   const [userID, setUserID] = useState<number>(-1);
-  
-  try {
-    const token: any = Cookies.get("jwToken");
-    console.log("Token ", token);
-    const decodedToken: any = jwtDecode(token)
-    setUserID( decodedToken.id * 1)
-  } catch (error) {
-    console.log("genereal token : ", error);
-  }
+  useEffect(() => {
+    try {
+      const token: any = Cookies.get("jwToken");
+      console.log("Token ", token);
+      const decodedToken: any = jwtDecode(token)
+      setUserID( decodedToken.id * 1)
+    } catch (error) {
+      console.log("genereal token : ", error);
+    }
+  },[])
+ 
 
   const { data, loading, error } = useQuery(GET_USER_BY_ID, {
     variables: {

@@ -18,10 +18,10 @@ import { useRouter } from 'next/navigation'
 import { useSelector, useDispatch } from 'react-redux'
 import AdminInputWarehouse from '@/components/WarehouseForm'
 import Trucking from '@/components/Trucking'
-import AllWarehouse from './components/AllWarehouse'
+import AllWarehouse from '../admin/components/AllWarehouse'
 import WarehouseInfo from './components/WarehouseInfo'
 import WarehouseActionCenter from './components/WarehouseActionCenter'
-import WarehouseReview from './components/WarehouseEdit'
+import WarehouseReview from '../admin/components/WarehouseEdit'
 import TruckingReview from './components/TruckingReview'
 import TruckingEdit from './components/TruckingEdit'
 import AllTruckingInfo from './components/AllTrucking'
@@ -29,7 +29,7 @@ import TruckingInfo from './components/TruckingInfo'
 import Cookies from 'js-cookie'
 import { jwtDecode } from "jwt-decode";
 import { updateUserId } from '@/features/login/login-slice'
-import MyWarehouses from './components/MyWarehouse'
+import MyWarehouses from '../admin/components/MyWarehouse'
 import MyTrucks from './components/MyTrucks'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,9 +42,9 @@ const navigation = [
     name: 'Warehouse', href: '#', icon: BuildingOfficeIcon, current: true,
     subNav:
       [
-        { name: 'Warehouses In Review', href: '#', icon: EyeIcon, current: false },
+        // { name: 'Approve Warehouse', href: '#', icon: EyeIcon, current: false },
         { name: 'Add Warehouse', href: '#', icon: PlusIcon, current: false },
-        { name: 'All Warehouses', href: '#', icon: WalletIcon, current: false },
+        { name: 'Warehouse In Review', href: '#', icon: WalletIcon, current: false },
         { name: 'My Warehouses', href: '#', icon: UserCircleIcon, current: false },
       ],
   },
@@ -73,7 +73,7 @@ export default function Home() {
   const [isApproved, setIsApproved] = useState(false);
   const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
-  const [activeItem, setActiveItem] = useState('Warehouses In Review');
+  const [activeItem, setActiveItem] = useState('My Warehouses');
   const { firstName, lastName, userId } = useSelector((state: any) => state.loginSlice)
   const router = useRouter();
   const dispatch = useDispatch();
@@ -432,10 +432,10 @@ export default function Home() {
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
               {/* warehouse */}
-              {activeItem === 'Warehouses In Review' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {/* {activeItem === 'Approve Warehouse' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />} */}
               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem} />}
               {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem} />}
-              {activeItem === 'All Warehouses' && <AllWarehouse activeItem={activeItem} setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'Warehouse In Review' && <AllWarehouse activeItem={activeItem} setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
               {activeItem === 'warehouseInfo' && <WarehouseInfo Id={approvalIndex} />}
               {activeItem === 'My Warehouses' && <MyWarehouses activeItem={activeItem} setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
 

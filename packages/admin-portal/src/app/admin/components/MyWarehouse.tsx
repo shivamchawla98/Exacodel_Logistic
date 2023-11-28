@@ -36,11 +36,6 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex, activeIte
   const columns = useMemo(
     () => [
       {
-        accessorKey: "id",
-        Header: "ID",
-        cell: (props: any) => <p>{props.getValue()}</p>
-      },
-      {
         accessorKey: "companyName",
         Header: "Company Name",
         cell: (props: any) => <p>{props.getValue()}</p>
@@ -55,7 +50,21 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex, activeIte
         Header: "State",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
-
+      {
+        accessorKey: "occupiedSpace",
+        Header: "Occupied Space",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "unoccupiedSpace",
+        Header: "Occupied Space",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "totalSquareArea",
+        Header: "Total Sq. ft.",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
       {
         accessorKey: "id",
         Header: "Actions",
@@ -92,9 +101,9 @@ export default function MyWarehouse({ setActiveItem, setApprovalIndex, activeIte
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <div className="relative">
+        <div className="relative my-4 max-w-xl">
           <input type="text"
-            className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            className="border rounded-ee-md rounded-tr-md border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
             onChange={(e) => setFiltering(e.currentTarget.value)}
           />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />

@@ -32,8 +32,8 @@ export default function Vendors({ onApprovalClick, setApprovalIndex, onInfoClick
   const columns = useMemo(
     () => [
       {
-        accessorKey: "id",
-        header: "ID",
+        accessorKey: "userType",
+        header: "User Type",
         cell: (props: any) => <p>{props.getValue()}</p>
       },
       {
@@ -144,9 +144,10 @@ async function trashUser(id:number) {
       <ToastContainer />
       {isPromptOpen && <TrashPrompt remarks={remarks} setPromptOpen={setPromptOpen} setRemarks={setRemarks} Id={userID} trashUser={(id: number) => trashUser(id)} />}
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <div className="relative">
+        <div className="relative max-w-xl my-4 ">
           <input type="text"
-            className="border border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            placeholder="Search"
+            className="border rounded-ee-md rounded-tr-md border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
             onChange={(e) => setFiltering(e.currentTarget.value)}
           />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />

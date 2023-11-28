@@ -11,7 +11,18 @@ export async function middleware(request: any) {
   const { value: token } = cookies.get("jwtToken") ?? { value: null };
   const hasVerifiedToken = token && (await verifyJwtToken(token));
   const isAuthPageRequested = ["/login", "/admin", "/vendor"].includes(nextUrl.pathname);
+  console.log("toek ", token);
+  if (token === null) {
+    const searchParams = new URLSearchParams(nextUrl.searchParams);
+    searchParams.set("next", nextUrl.pathname);
+    const response = NextResponse.redirect(
+      new URL(`/`, url)
+    );
+    response.cookies.delete("jwtToken");
+    return response;
+  }
   const decodedToken: any = jwtDecode(token)
+  
   
   if (isAuthPageRequested) {
     console.log("decodedToke usert : ", decodedToken?.userType);

@@ -32,11 +32,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
    */
   const columns = useMemo(
     () => [
-      {
-        accessorKey: "id",
-        Header: "ID",
-        cell: (props: any) => <p>{props.getValue()}</p>
-      },
+    
       {
         accessorKey: "companyName",
         Header: "Company Name",
@@ -54,6 +50,22 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
       },
 
       {
+        accessorKey: "occupiedSpace",
+        Header: "Occupied Space",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "unoccupiedSpace",
+        Header: "Occupied Space",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+      {
+        accessorKey: "totalSquareArea",
+        Header: "Total Sq. ft.",
+        cell: (props: any) => <p>{props.getValue()}</p>
+      },
+
+      {
         accessorKey: "id",
         Header: "Actions",
         cell: (cell: any) => (
@@ -63,7 +75,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
 
             setActiveItem("warehouseInfo")
           }}>
-            <EyeIcon className="h-6 w-6 text-sky-500" />
+            <EyeIcon className="h-4 w-4 text-sky-500" />
           </div>
         )
       }
@@ -89,9 +101,9 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <div className="relative">
+        <div className="relative my-4 max-w-xl">
       <input type="text"
-       className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+       className="border rounded-ee-md rounded-tr-md border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
        onChange={(e) => setFiltering(e.currentTarget.value)}
        />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
@@ -132,7 +144,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
                 table.getRowModel().rows.map(row => (
                   <tr key={row.id} id={row.id}>
                     {row.getVisibleCells().map(cell => (
-                      <td  className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
+                      <td  className="whitespace-nowrap px-3 py-2 text-center text-sm text-gray-500">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </td>
                     ))}
