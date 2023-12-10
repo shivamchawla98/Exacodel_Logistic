@@ -1,19 +1,30 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
-import GET_ALL_WAREHOUSE from "@/graphql/query/getAllWarehouse";
+
+const GET_ALL_TRUCKS = gql`query GET_ALL_TRUCKS{
+  getAllTrucks{
+    id
+    companyName
+    Country
+    State
+  }
+}`
 
 
+const userType = ["CUSTOMER", "VENDOR", "OVERSEAS_AGENT"];
+const customerSubtype = ["MANUFACTURER", "MERCHANT_TRADER", "MANUFACTURER_EXPORTER", "MERCHANT_EXPORTER"];
+const vendorSubtype = ["WAREHOUSE_COMPANY", "COLD_STORAGE_COMPANY"];
+const overseasSubtype = ["FOREIGN_AGENT"];
 
-
-function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
-  const { loading, error, data, refetch} = useQuery(GET_ALL_WAREHOUSE);
+function TruckingReview({ isApproved, onApprovalClick, setApprovalIndex }: any) {
+  const { loading, error, data, refetch } = useQuery(GET_ALL_TRUCKS);
   const [isLoading, setIsLoading] = useState(true);
+  const [userTypeFilter, setUserTypeFilter] = useState("All");
+  const [subUserTypeFilter, setSubUserTypeFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 28; // Number of items to display per page
-  let [isApproved, setIsApproved] = useState<any>(false);
- 
+  const itemsPerPage = 10; // Number of items to display per page
 
 
   useEffect(() => {
@@ -24,7 +35,7 @@ function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
 
   useEffect(() => {
     refetch();
-  }, [isApproved])
+  }, isApproved)
 
   console.log(data);
 
@@ -32,15 +43,15 @@ function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  let warehouse = data?.getAllWarehouses;
+  let allTrucks = data?.getAllTrucks;
 
-  const totalPages = Math.ceil(data?.getAllWarehouses.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.getAllTrucks / itemsPerPage);
 
   // Filter data based on search query
-  const filteredData = data?.getAllWarehouses.filter((person: any) => {
-    const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
-    return fullName.includes(searchQuery.toLowerCase());
-  });
+  // const filteredData = data?.getAllTrucks
+  //   const fullName = `${truck.first_name} ${truck.last_name}`.toLowerCase();
+  //   return fullName.includes(searchQuery.toLowerCase());
+  // });
 
   return (
     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -80,10 +91,10 @@ function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
                     Company Name
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                  Warehouse Type
+                    State
                   </th>
                   <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    State
+                    India
                   </th>
                   <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                     <span className="sr-only">Edit</span>
@@ -93,42 +104,40 @@ function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
               <tbody className="divide-y divide-gray-200 bg-white">
                 {!error &&
                   !loading &&
-                  warehouse
+                  allTrucks
                     .slice(startIndex, endIndex)
-                    .map((person: any, index: any) => (
+                    .map((truck: any, index: any) => (
                       <>
-                    
-                            <tr key={person.email}>
+                            <tr key={truck.email}>
                               <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                {person.id}
+                                {truck.id}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.companyName}
+                                {truck.companyName}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.warehouseType}
+                                {truck.State}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                {person.State}
+                                {truck.Country}
                               </td>
                               <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 
                                 <button
                                   onClick={() => {
-                                    // console.log("warehouse : ", person.id);
-                                    setApprovalIndex(person.id)
-                                    setActiveItem("warehouseInfo");
-                                    
+                                    console.log("Truck : ", truck.id);
+                                                 
+                                    setApprovalIndex(truck.id);
+                                    onApprovalClick();
                                   }}
                                   type="button"
                                   className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
                                 >
-                                  More Info
+                                  Review
                                 </button>
                               </td>
-                    
+
                             </tr>
-                    
                       </>
                     ))}
               </tbody>
@@ -145,7 +154,7 @@ function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
                 </button>
                 <button
                   onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={endIndex >= warehouse.length}
+                  disabled={endIndex >= allTrucks.length}
                   className="underline cursor-pointer text-gray-600 hover:text-gray-500 rounded-md font-medium text-sm  py-1 px-2 mx-2"
                 >
                   Next
@@ -162,4 +171,4 @@ function AllWarehouse({setActiveItem, setApprovalIndex}:any) {
   );
 }
 
-export default AllWarehouse;
+export default TruckingReview;

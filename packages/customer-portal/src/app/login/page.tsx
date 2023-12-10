@@ -82,7 +82,7 @@ const LoginStatus = ({id, open, setOpen}: any) => {
   });
 
   try {
-    const jwtToken: any = Cookies.get('jwtToken');
+    const jwtToken: any = Cookies.get('jwToken');
     console.log("from token : ", jwtToken);
     const decoded:any = jwt_decode(jwtToken)
   
@@ -93,7 +93,7 @@ const LoginStatus = ({id, open, setOpen}: any) => {
     //   return;
     // }
   } catch (error) {
-    console.log();
+    console.log(error);
     
   }
 
@@ -263,7 +263,7 @@ function Page() {
                   console.log(user);
                 if (user.isapproved === 'Approved') {
                   router.push("/")
-                  Cookies.set('jwToken', response.data.login, { expires: 7 });
+                  Cookies.set('jwToken', response?.data?.login.access_token, { expires: 7 });
                   dispatch(updateIsLogedIn(true))
                 } else if (user.isapproved === 'Approval_pending' || user.isapproved === 'Rejected' ) {
                   setOpen(true)
@@ -274,15 +274,10 @@ function Page() {
                   // Handle any errors
                   // console.log(error);
                   // setShowAlert(true);
-                  if (error.networkError) {
-                    toast.error('There is network error come after some time', {
+                 
+                    toast.error(error.message, {
                       position: toast.POSITION.TOP_CENTER,
                     });
-                  } else {
-                    toast.error('There is some Internal Server error Please Check after some time', {
-                      position: toast.POSITION.TOP_CENTER,
-                    });
-                  }
                   console.error("Mutation error: ", error);
                 }
             

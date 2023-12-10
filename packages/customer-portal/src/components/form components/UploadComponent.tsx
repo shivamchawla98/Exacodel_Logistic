@@ -1,31 +1,34 @@
-import { Field } from "formik";
-import UploadComponentUnit from "./UploadComponentUnit";
+import { useState, useCallback } from 'react';
+import { Field, FieldProps } from 'formik';
+import FileUpload from './UploadComponentUnit';
 
+
+// Example usage of FileUpload component
 const UploadComponent = () => {
-    return (
-      <div className="col-span-3 ">
-        <div className="w-full my-6">
-          <label htmlFor="file1">File 1:</label>
-          <Field name="file1" component={UploadComponentUnit} />
-        </div>
-  
-        <div className="w-full my-6">
-          <label htmlFor="file2">File 2:</label>
-          <Field name="file2" component={UploadComponentUnit} />
-        </div>
-  
-        {/* Add more upload fields as needed */}
-      </div>
-    );
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);  
+  const handleFileSelect = (file: File) => {
+    setSelectedFile(file);
+    console.log(file);
+    
   };
-  
+  return (
+    <div className="col-span-3">
+      <div className="my-6">
+        <label htmlFor="file1" className="block text-sm font-medium text-gray-700">
+          File 1:
+        </label>
+        <Field name={`file`}>
+          {({ field }: { field: any }) => (
+            <FileUpload
+            label = "etx"
+             doc= "just"
+              // Pass the callback function
+            />
+          )} 
+        </Field>
+      </div>
+    </div>
+  );
+};
 
 export default UploadComponent;
-
-  
-  
-  
-  
-  
-  
-  

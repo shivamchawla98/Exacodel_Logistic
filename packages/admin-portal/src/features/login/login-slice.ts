@@ -6,7 +6,8 @@ export interface loginState {
     firstName: string,
     lastName: string,
     isLogedIn: boolean,
-    userId: number
+    userId: number,
+    token: string,
 }
 
 const initialState: loginState = {
@@ -15,6 +16,7 @@ const initialState: loginState = {
     lastName: "",
     isLogedIn: false,
     userId: -1,
+    token: ''
 }
 
 
@@ -36,10 +38,13 @@ const loginSlice = createSlice({
         },
         updateUserId: (state, action) => {
             state.userId = action.payload;
+        },
+        updateToken: (state, action) => {
+            state.userId = action.payload;
         }
     }
 })
 
-export const {updateEmail, updateFirstName, updateLastName, updateIsLoggedIn, updateUserId} = loginSlice.actions;
+export const {updateEmail, updateFirstName, updateLastName, updateIsLoggedIn, updateUserId, updateToken} = loginSlice.actions;
 
 export default loginSlice.reducer;

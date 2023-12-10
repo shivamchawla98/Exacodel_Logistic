@@ -5,9 +5,9 @@ import { useMutation, useQuery } from '@apollo/client';
 import { BiErrorCircle } from 'react-icons/bi';
 import GET_USER_ID from '@/graphql/query/getUserById';
 import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
-import ApprovedPopup from '../approval/components/ApprovedPopup';
+import ApprovedPopup from '../admin/components/ApprovedPopup';
 import { useSearchParams } from 'next/navigation'
-import jwt_decode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import Modal from './component/Modal';
 
 const annualTurnoverOptions = [
@@ -73,7 +73,7 @@ export default function Page() {
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
   const token:any = searchParams.get("id");
-  const decodedJwt: any = jwt_decode(token)
+  const decodedJwt: any = jwtDecode(token)
   console.log("Top Id", decodedJwt);
   const Id = decodedJwt?.userID;
   const [remarks, setRemarks] = useState<any>('');

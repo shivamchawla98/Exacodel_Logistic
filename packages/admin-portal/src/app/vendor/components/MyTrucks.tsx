@@ -1,25 +1,27 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
-import GET_WAREHOUSE_BY_USER_ID from "@/graphql/query/getWarehousesByUserId";
+import GET_TRUCK_BY_USER_ID from "@/graphql/query/getTruckByUserId";
 import { useSelector} from 'react-redux'
 
 
 
 
-function MyWarehouses({setActiveItem, setApprovalIndex}:any) {
+function MyTrucks({setActiveItem, setApprovalIndex}:any) {
 
+    const {userId} = useSelector( (state: any) => state.loginSlice);
+
+  const { loading, error, data, refetch} = useQuery(GET_TRUCK_BY_USER_ID, {
+    variables: {
+        id: userId
+    }
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 28; // Number of items to display per page
   let [isApproved, setIsApproved] = useState<any>(false);
-  const {userId } = useSelector((state: any) => state.loginSlice)
-  const { loading, error, data, refetch} = useQuery(GET_WAREHOUSE_BY_USER_ID, {
-    variables: {
-        id: userId
-    }
-  }); 
+ 
 
 
   useEffect(() => {
@@ -38,12 +40,12 @@ function MyWarehouses({setActiveItem, setApprovalIndex}:any) {
   // Calculate the index range for the current page
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  let warehouse = data?.getWarehousesByUserId;
+  let warehouse = data?.gettrucksByUserId;
 
-  const totalPages = Math.ceil(data?.getWarehousesByUserId.length / itemsPerPage);
+  const totalPages = Math.ceil(data?.gettrucksByUserId.length / itemsPerPage);
 
   // Filter data based on search query
-  const filteredData = data?.getWarehousesByUserId.filter((person: any) => {
+  const filteredData = data?.gettrucksByUserId.filter((person: any) => {
     const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
     return fullName.includes(searchQuery.toLowerCase());
   });
@@ -123,7 +125,7 @@ function MyWarehouses({setActiveItem, setApprovalIndex}:any) {
                                   onClick={() => {
                                     // console.log("warehouse : ", person.id);
                                     setApprovalIndex(person.id)
-                                    setActiveItem("warehouseInfo");
+                                    setActiveItem("truckingInfo");
                                     
                                   }}
                                   type="button"
@@ -168,5 +170,4 @@ function MyWarehouses({setActiveItem, setApprovalIndex}:any) {
   );
 }
 
-export default MyWarehouses;
-
+export default MyTrucks;

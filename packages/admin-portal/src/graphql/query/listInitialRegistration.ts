@@ -12,6 +12,7 @@ const LIST_INITIAL_REGISTRATION = gql`
       id
       isapproved
       remarks
+      companyName
     }
   }
 `;

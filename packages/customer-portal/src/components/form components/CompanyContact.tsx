@@ -16,9 +16,9 @@ function CompanyContact({ prefix }: any) {
             type="text"
             id={`${prefix}.firstName`}
             name={`${prefix}.firstName`}
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name={`${prefix}.firstName`} component="div" />
+          <ErrorMessage name={`${prefix}.firstName`} component="p" className='text-xs text-rose-500' />
         </div>
       </div>
 
@@ -34,9 +34,9 @@ function CompanyContact({ prefix }: any) {
             type="text"
             id={`${prefix}.lastName`}
             name={`${prefix}.lastName`}
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name={`${prefix}.lastName`} component="div" />
+          <ErrorMessage name={`${prefix}.lastName`} component="p" className='text-xs text-rose-500' />
         </div>
       </div>
 
@@ -52,9 +52,9 @@ function CompanyContact({ prefix }: any) {
             type="text"
             id={`${prefix}.designation`}
             name={`${prefix}.designation`}
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
           />
-          <ErrorMessage name={`${prefix}.designation`} component="div" />
+          <ErrorMessage name={`${prefix}.designation`} component="p" className='text-xs text-rose-500' />
         </div>
       </div>
 
@@ -70,7 +70,7 @@ function CompanyContact({ prefix }: any) {
             type="email"
             id={`${prefix}.email`}
             name={`${prefix}.email`}
-            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
           />
           <ErrorMessage name={`${prefix}.email`} component="span" />
         </div>
@@ -84,33 +84,14 @@ function CompanyContact({ prefix }: any) {
           Phone Number
         </label>
         <div className="relative mt-2 rounded-md shadow-sm">
-          <div className="absolute inset-y-0 left-0 flex items-center">
-            <label htmlFor={`${prefix}.country`} className="sr-only">
-              Country
-            </label>
-            <Field
-              as="select"
-              id={`${prefix}.country`}
-              name={`${prefix}.country`}
-              autoComplete="country"
-              className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-            >
-              <option value=""></option>
-              {country_list.map((element) => (
-                <option key={element} value={element}>
-                  {element}
-                </option>
-              ))}
-            </Field>
-          </div>
           <Field
             type="tel"
             id={`${prefix}.phoneNumber`}
             name={`${prefix}.phoneNumber`}
-            className="block w-full rounded-md border-0 py-1.5 pl-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            placeholder="      +1 (555) 987-6543"
+            className="block w-full rounded-md border-0 py-1.5 pl-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            placeholder="+91 5559876543"
           />
-          <ErrorMessage name={`${prefix}.phoneNumber`} component="div" />
+          <ErrorMessage name={`${prefix}.phoneNumber`} component="p" className='text-xs text-rose-500' />  
         </div>
       </div>
     </div>

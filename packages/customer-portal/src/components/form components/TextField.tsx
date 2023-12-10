@@ -21,6 +21,7 @@ const TextField: React.FC<TextFieldProps> = ({id, title, type}) => {
         type={type}
         id={id}
         name={id}
+        placeholder={title}
         className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-600 text-sm pl-2"
       />
       <ErrorMessage name={id} component="div" className='text-xs text-rose-600'/>

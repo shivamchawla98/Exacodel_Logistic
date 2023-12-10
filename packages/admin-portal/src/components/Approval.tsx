@@ -64,7 +64,14 @@ const userTypes = [
   // Add more options as needed
 ];
 
+const getFileNameFromLink = (link: string): string => {
+  const startIndex = link.lastIndexOf('/') + 1; // Get the index after the last '/'
+  // Extract the file name without extension
+  const fileNameWithExtension = link.substring(startIndex);
+  const name = fileNameWithExtension.substring(fileNameWithExtension.indexOf('=') + 1);
 
+  return name;
+};
 // Function to get the label for a given enum value
 const getENUMTypeLabel = (enumKeyValue: any, enumValue: any) => {
   return enumKeyValue[enumValue] || enumValue;
@@ -79,6 +86,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
   });
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<any>({});
+  const [corporateAddress, setCorporateAddress] = useState<any>({});
   const [userType, setUserType] = useState('');
   const [gst_no, setGstNo] = useState('');
   const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState('');
@@ -88,6 +96,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
   const [isPromptOpen, setPromptOpen] = useState(false);
   const [remarks, setRemarks] = useState('');
   const [whichAction, setAction] = useState('');
+  const [files, setFiles] = useState<any>({});
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
   const [sendtoreveiwuser] = useMutation(SEND_TO_REVIEW_USER);
@@ -132,8 +141,25 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
           'Contact Number': user.mobile,
           'Website': user.website,
         });
-
-
+        setCorporateAddress({
+          "Address": user.corporateAddress.address,
+          "State": user.corporateAddress.state,
+          "City": user.corporateAddress.city,
+          "pincode": user.corporateAddress.pincode,
+          "Country": user.corporateAddress.country,
+        })
+        setFiles({
+          "Certificate Of Registration": user.kyc.certificate_of_registration,
+          "Company Pan Card" : user.kyc.company_pan_card,
+          "Aadhaar Card" : user.kyc.aadhar_card,
+          "Pan Card" : user.kyc.pan_card,
+          "ISO Certificate" : user.kyc.iso_certificate,
+          "AEO Certificate": user.kyc.aeo_certificate,
+          "IATA Certificate": user.kyc.iata_certificate,
+          "DUNS Certificate": user.kyc.duns_certificate,
+          "Manufacturing Lisence": user.kyc.manufacturing_license,
+          "Any Other Trading License": user.kyc.any_other_trading_license,
+      })
       }
     }
   }, [loading, data, Id]);
@@ -253,6 +279,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
          handleApprove={() => {handleApprove(whichAction)}}
          handleReviw={() => {handleReviw()}}
          whichAction={whichAction}
+         userID = {Id}
          />
       <div className="overflow-hidden relative my-10  lg:my-0 mx-auto bg-white sm:rounded-lg w-full lg:w-full rounded-md shadow-md">
         <div className="px-4 py-3 sm:px-6">
@@ -261,7 +288,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
 
 
           </div>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+          <p className="mt-1 max-w-2xl text-xs font-medium leading-6 text-gray-500">Personal details and application.</p>
         </div>
         <div className="border-t border-gray-100">
           <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-3">
@@ -276,7 +303,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                       <select
                         value={selectedAnnualTurnover}
                         onChange={(e) => setSelectedAnnualTurnover(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Annual Turnover</option>
                         {annualTurnoverLabels.map((option) => (
@@ -289,7 +316,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                       <select
                         value={selectedCompanyType}
                         onChange={(e) => setSelectedCompanyType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Type of Company</option>
                         {companyTypeLabels.map((option) => (
@@ -302,7 +329,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                       <select
                         value={selectedUserType}
                         onChange={(e) => setSelectedUserType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">User Types</option>
                         {userTypes.map((option) => (
@@ -315,7 +342,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                       <select
                         value={selectedIndustryType}
                         onChange={(e) => setSelectedIndustryType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Industry</option>
                         {industryTypeOptions.map((option) => (
@@ -330,14 +357,14 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
                         value={value}
                         onChange={(e) => handleInputChange(label, e.target.value)}
                         disabled={true}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       />
                     ) : (
                       <input
                         type="text"
                         value={value}
                         onChange={(e) => handleInputChange(label, e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       />
                     )
                     }
@@ -347,6 +374,74 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
             ))}
           </dl>
         </div>
+        {/* company contact */}
+        <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />      
+        <div className="">
+        <h2 className="text-sm  font-semibold leading-7 text-gray-900 items-baseline pl-6">Corporate Address</h2>
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-3">
+            {Object.entries(corporateAddress).map(([label, value]: any[]) => (
+              <div className="grid grid-cols-3 items-center py-4 px-6" key={label}>
+                <div className="col-span-full">
+                  <div className="">
+                    <dt className="text-xs pb-2 font-medium text-gray-700">{label}</dt>
+                  </div>
+                  <div>
+                  <input
+                        type="text"
+                        value={value}
+                        onChange={(e) => handleInputChange(label, e.target.value)}
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                      />
+                  </div>
+                </div>
+              </div>
+            ))}
+           </dl>
+        </div> 
+
+        {/* Kyc docs */}
+        <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />      
+        <div className="">
+        <h2 className="text-sm  font-semibold leading-7 text-gray-900 items-baseline pl-6">KYC Documents</h2>
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-2">
+          {Object.entries(files).map(([label, value]: any[]) => (
+            <>
+            {
+            files[label].length !== 0 ? (
+              <div className="grid grid-cols-3 items-center justify-evenly py-4 px-6" key={label}>
+              <div className="col-span-full">
+                <div className="">
+                  <dt className="text-xs pb-2 font-medium text-gray-700">{label}</dt>
+                </div>
+                <div className="mt-4 flex justify-between items-center">
+            <button
+              onClick={() => window.open(`https://globextrade.s3.ap-south-1.amazonaws.com/${value}`, '_blank')}
+              className="px-1.5 py-2 text-xs rounded-md bg-sky-500 text-white hover:bg-sky-600 focus:outline-none focus:bg-sky-600"
+              type="button"
+            >
+              Preview
+            </button>
+            <a
+              href={`https://globextrade.s3.ap-south-1.amazonaws.com/${value}`}
+              download={getFileNameFromLink(value)}
+              target='_blank'
+              className="px-4 py-2  text-xs font-normal text-center text-gray-500 hover:bg-sky-200 focus:outline-none focus:bg-sky-600"
+            >
+              Download {" "+ getFileNameFromLink(value)}
+            </a>
+          </div>
+                </div>
+                </div>
+            ) : "" 
+            
+          }
+            </>
+          ))}
+            </dl>
+        </div>
+
+
+
         <div className='flex justify-end lg:justify-end  w-full lg:w-11/12 my-6'>
         <button
             onClick={() => {
@@ -354,7 +449,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
               setAction("Approved")
               
             }}
-            type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-xs font-semibold text-white shadow-sm hover:bg-sky-400">
             Approve<span className="sr-only">, Approve </span>
           </button>
           <button
@@ -362,7 +457,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
               setPromptOpen(true)
               setAction("Rejected")
             }}
-            type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            type="button" className="rounded-md bg-sky-500 px-3 mx-1 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400">
             Reject<span className="sr-only">, Reject </span>
           </button>
           <button
@@ -371,7 +466,7 @@ export default function Approval({ setName, setOperation, Id, onApproveClick, is
               setPromptOpen(true)
               setAction("Review")
             }}
-            type="button" className="rounded-md bg-sky-500 px-3 mx-1 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
+            type="button" className="rounded-md bg-sky-500 px-3 mx-1 py-2 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400">
             Send for Review<span className="sr-only">, Review </span>
           </button>
 

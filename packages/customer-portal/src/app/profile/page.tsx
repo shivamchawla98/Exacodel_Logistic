@@ -15,7 +15,7 @@ import {
 import CustomerProfileUpdate from '@/components/form components/CustomerProfileUpdate'
 import General from './component/General'
 import { current } from '@reduxjs/toolkit'
-import Invoice from './Invoice'
+import Invoice from './component/Invoice'
 
 const navigation = [
   { name: 'General', href: '#', icon: HomeIcon, current: true },
@@ -208,7 +208,7 @@ export default function Example() {
         <main className="py-10 lg:pl-72">
           <div className="px-4 sm:px-6 lg:px-8">
            {section === "General" && <General />}
-           {section === 'Profile Update' && <CustomerProfileUpdate />}
+           {section === 'Profile Update' && <CustomerProfileUpdate backToGeneral={() => setSection("General")} />}
            {section === 'Invoice' && <Invoice />}
           </div>
         </main>

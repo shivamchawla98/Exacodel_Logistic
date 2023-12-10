@@ -3,7 +3,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import GET_WAREHOUSE_BY_ID from '@/graphql/query/getWarehouseById';
 
 
-export default function WarehouseInfo({ Id }: any) {
+export default function TruckingInfo({ Id }: any) {
 
   const { data, loading, error } = useQuery(GET_WAREHOUSE_BY_ID, {
     variables: {
@@ -34,7 +34,7 @@ export default function WarehouseInfo({ Id }: any) {
       if (warehouse) {
 
         setFormData({
-          "Company Name": warehouse.companyName,
+          "companyName": warehouse.companyName,
           "Adress": warehouse.Adress,
           "State": warehouse.State,
           "City": warehouse.City,
@@ -92,7 +92,8 @@ export default function WarehouseInfo({ Id }: any) {
         <div className="border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
             {Object.
-              entries(formData).
+              entries(
+                data?.getWarehouseById).
               map(([label, value]: any[]) => !(label === "__typename") && (
             
                 <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
@@ -107,7 +108,7 @@ export default function WarehouseInfo({ Id }: any) {
                         type="text"
                         disabled
                         value={value}
-                        className=" rounded-md px-3 py-2 w-full focus:outline-none text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       />
 
                     </div>

@@ -5,9 +5,6 @@ import {
   Bars3Icon,
   BellIcon,
   Cog6ToothIcon,
-  CursorArrowRaysIcon,
-  EnvelopeIcon,
-  PaperAirplaneIcon,
   TruckIcon,
   BuildingOfficeIcon,
   PlusIcon,
@@ -17,52 +14,37 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { ChevronDownIcon, XMarkIcon, ArchiveBoxXMarkIcon, CheckIcon } from '@heroicons/react/20/solid'
-import Vendors from './components/Vendors'
-import Approval from '@/components/Approval'
-import ApprovedPopup from './components/ApprovedPopup'
 import { useRouter } from 'next/navigation'
-import Approved from '@/components/Approved'
-import RejectedUsers from '@/components/RejectedUsers'
 import { useSelector, useDispatch } from 'react-redux'
 import AdminInputWarehouse from '@/components/WarehouseForm'
 import Trucking from '@/components/Trucking'
-import AllWarehouse from './components/AllWarehouse'
+import AllWarehouse from '../admin/components/AllWarehouse'
 import WarehouseInfo from './components/WarehouseInfo'
 import WarehouseActionCenter from './components/WarehouseActionCenter'
-import WarehouseReview from './components/WarehouseEdit'
+import WarehouseReview from '../admin/components/WarehouseEdit'
 import TruckingReview from './components/TruckingReview'
 import TruckingEdit from './components/TruckingEdit'
 import AllTruckingInfo from './components/AllTrucking'
 import TruckingInfo from './components/TruckingInfo'
 import Cookies from 'js-cookie'
-import ReviewSendedUser from './components/ReviewSended'
-import jwt_decode from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 import { updateUserId } from '@/features/login/login-slice'
-import MyWarehouses from './components/MyWarehouse'
+import MyWarehouses from '../admin/components/MyWarehouse'
 import MyTrucks from './components/MyTrucks'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const navigation = [
-  {
-    name: 'Vendor', href: '#', icon: PaperAirplaneIcon, current: true,
-    subNav:
-      [
-        { name: 'Users In Review', href: '#', icon: CursorArrowRaysIcon, current: false },
-        { name: 'Approved Users', href: '#', icon: CheckIcon, current: false },
-        { name: 'Rejected Users', href: '#', icon: XMarkIcon, current: false },
-        { name: 'Review Mail Sended', href: '#', icon: EnvelopeIcon, current: false },
-      ],
-  },
+
 
   {
     name: 'Warehouse', href: '#', icon: BuildingOfficeIcon, current: true,
     subNav:
       [
-        { name: 'Warehouses In Review', href: '#', icon: EyeIcon, current: false },
+        // { name: 'Approve Warehouse', href: '#', icon: EyeIcon, current: false },
         { name: 'Add Warehouse', href: '#', icon: PlusIcon, current: false },
-        { name: 'All Warehouses', href: '#', icon: WalletIcon, current: false },
+        { name: 'Warehouse In Review', href: '#', icon: WalletIcon, current: false },
         { name: 'My Warehouses', href: '#', icon: UserCircleIcon, current: false },
       ],
   },
@@ -91,27 +73,27 @@ export default function Home() {
   const [isApproved, setIsApproved] = useState(false);
   const [userName, setUserName] = useState('');
   const [operation, setOperation] = useState('')
-  const [activeItem, setActiveItem] = useState('Vendor');
+  const [activeItem, setActiveItem] = useState('My Warehouses');
   const { firstName, lastName, userId } = useSelector((state: any) => state.loginSlice)
   const router = useRouter();
   const dispatch = useDispatch();
 
   try {
-    const token:any = Cookies.get("jwtToken");
-    const decodedToken:any = jwt_decode(token);
-    console.log("id : ",decodedToken?.id);
-    
+    const token: any = Cookies.get("jwtToken");
+    const decodedToken: any = jwtDecode(token);
+    console.log("id : ", decodedToken?.id);
+
     dispatch(updateUserId(decodedToken?.id))
   } catch (error: any) {
     console.log(error);
     toast.error(error?.message, {
       position: toast.POSITION.TOP_CENTER,
-  })
-    
+    })
+
   }
 
-  
-  
+
+
 
 
   { console.log(activeItem) }
@@ -449,22 +431,13 @@ export default function Home() {
 
           <main className="py-10">
             <div className="px-4 sm:px-6 lg:px-8">
-              {(activeItem === 'Users In Review' || activeItem === 'Vendor') && <Vendors isApproved={isApproved} setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("more info")} />}
-              {activeItem === 'more info' && <Approval setName={setUserName} setOperation={setOperation} Id={approvalIndex} isApproved={() => setActiveItem("approved popup")} onApproveClick={() => { setActiveItem("Users In Review") }}
-              />}
-              {activeItem === "approved popup" && <ApprovedPopup name={userName} operation={operation} onApprovalClick={() => setActiveItem("Users In Review")} />}
-              {activeItem === 'Approved Users' && <Approved />}
-              {activeItem === 'Rejected Users' && <RejectedUsers />}
-              {activeItem === 'Review Mail Sended' && <ReviewSendedUser />}
-
-
               {/* warehouse */}
-              {activeItem === 'Warehouses In Review' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />}
+              {/* {activeItem === 'Approve Warehouse' && <WarehouseActionCenter setApprovalIndex={setApprovalIndex} Id={approvalIndex} setActiveItem={setActiveItem} />} */}
               {activeItem === "warehouseEdit" && <WarehouseReview Id={approvalIndex} setActiveItem={setActiveItem} />}
               {activeItem === 'Add Warehouse' && <AdminInputWarehouse setActiveItem={setActiveItem} />}
-              {activeItem === 'All Warehouses' && <AllWarehouse setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'Warehouse In Review' && <AllWarehouse activeItem={activeItem} setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
               {activeItem === 'warehouseInfo' && <WarehouseInfo Id={approvalIndex} />}
-              {activeItem === 'My Warehouses' && <MyWarehouses setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
+              {activeItem === 'My Warehouses' && <MyWarehouses activeItem={activeItem} setActiveItem={setActiveItem} setApprovalIndex={setApprovalIndex} />}
 
               {/* trucking */}
               {activeItem === 'Trucks In Review' && <TruckingReview setApprovalIndex={setApprovalIndex} onApprovalClick={() => setActiveItem("truckingEdit")} />}
