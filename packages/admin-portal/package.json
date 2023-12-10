@@ -34,6 +34,27 @@
     "react-google-recaptcha": "^3.1.0",
     "react-icons": "^4.9.0",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
-  }
+    "typescript": "5.0.4",
+    "use-places-autocomplete": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.54.10",
+    "@types/googlemaps": "^3.43.3",
+    "standard": "*"
+  },
+  "resolutions": {
+    "core-js": "3.32.0",
+    "@babel/core": "7.22.9",
+    "@babel/preset-react": "7.22.5",
+    "@types/node": "20.4.5",
+    "@types/react": "18.2.18",
+    "@types/react-dom": "18.2.7",
+    "@typescript-eslint/parser": "6.2.1",
+    "@typescript-eslint/eslint-plugin": "6.2.1",
+    "typescript": "5.1.6"
+  },
+  "main": "index.js",
+  "license": "MIT",
+  "description": "logistics project",
+  "author": "abhishek bharti"
 }
