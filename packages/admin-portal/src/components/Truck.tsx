@@ -1,5 +1,5 @@
-import { ErrorMessage, Field } from "formik";
-import SelectComponet from "./SelectComponent";
+import { ErrorMessage, Field } from 'formik';
+import SelectComponet from './SelectComponent';
 
 interface TransporterDetailProps {
   prefix: string;
@@ -13,9 +13,9 @@ const TransporterDetail: React.FC<TransporterDetailProps> = ({ prefix }) => {
       {/* typesOfTransport */}
       <div>
         <SelectComponet
-          options={["FTL", "LCL"]}
+          options={['FTL', 'LCL']}
           id={`${prefix}.typesOfTransport`}
-          title={"Type of Transport"}
+          title={'Type of Transport'}
         />
       </div>
 
@@ -23,74 +23,77 @@ const TransporterDetail: React.FC<TransporterDetailProps> = ({ prefix }) => {
       <div>
         <SelectComponet
           options={[
-            "TATA ACE",
-            "ASHOK LEYLAND DOST",
-            "MAHINDRA BOLERO PICKUP",
-            "TATA 407",
-            "EICHER 14 FEET",
+            'TATA ACE',
+            'ASHOK LEYLAND DOST',
+            'MAHINDRA BOLERO PICKUP',
+            'TATA 407',
+            'EICHER 14 FEET',
           ]}
           id={`${prefix}.typesOfTruck`}
-          title={"Type of Transport"}
+          title={'Type of Transport'}
         />
       </div>
 
-      {/*maxAcceptablePayload*/}
-      <div>
+            {/*maxAcceptablePayload*/}
+            <div>
         <SelectComponet
           options={[
-            "MAX LOAD 850KG",
-            "MAX LOAD 1 TON",
-            "MAX 1.5 TON",
-            "MAX 2 TON",
-            "MAX 2.5 TON",
+            'MAX LOAD 850KG',
+            'MAX LOAD 1 TON',
+            'MAX 1.5 TON',
+            'MAX 2 TON',
+            'MAX 2.5 TON',
           ]}
           id={`${prefix}.maxAcceptablePayload`}
-          title={"Max Acceptable Payload"}
+          title={'Max Acceptable Payload'}
         />
       </div>
 
-      {/*commodity*/}
-      <div>
+    {/*commodity*/}
+                  <div>
         <SelectComponet
-          options={["GENERAL CARGO", "DANGEROUS GOODS"]}
+          options={[
+            'GENERAL CARGO',
+            'DANGEROUS GOODS',
+          ]}
           id={`${prefix}.commodity`}
-          title={"Commodity"}
+          title={'Commodity'}
         />
       </div>
 
       {/* pickUpState */}
       <div>
         <SelectComponet
-          options={["Andhra Pradesh", "Arunachal Pradesh"]}
+          options={['Andhra Pradesh', 'Arunachal Pradesh']}
           id={`${prefix}.pickUpState`}
-          title={"Pick Up State"}
+          title={'Pick Up State'}
         />
       </div>
 
       {/* pickUpCityPincode */}
       <div>
         <SelectComponet
-          options={["122001", "22102"]}
+          options={['122001', '22102']}
           id={`${prefix}.pickUpCityPincode`}
-          title={"Pick Up City Pincode"}
+          title={'Pick Up City Pincode'}
         />
       </div>
 
       {/* dropState */}
       <div>
         <SelectComponet
-          options={["Andhra Pradesh", "Arunachal Pradesh"]}
+          options={['Andhra Pradesh', 'Arunachal Pradesh']}
           id={`${prefix}.dropState`}
-          title={"Drop State"}
+          title={'Drop State'}
         />
       </div>
 
       {/* DropCityPincode */}
       <div>
         <SelectComponet
-          options={["122001", "22102"]}
+          options={['122001', '22102']}
           id={`${prefix}.DropCityPincode`}
-          title={"Drop City Pincode"}
+          title={'Drop City Pincode'}
         />
       </div>
 
@@ -117,9 +120,9 @@ const TransporterDetail: React.FC<TransporterDetailProps> = ({ prefix }) => {
       {/* basisOfCharges */}
       <div>
         <SelectComponet
-          options={["Per kG", "Per Vehicle"]}
+          options={['Per kG', 'Per Vehicle']}
           id={`${prefix}.basisOfCharges`}
-          title={"Basis Of Charges"}
+          title={'Basis Of Charges'}
         />
       </div>
     </>

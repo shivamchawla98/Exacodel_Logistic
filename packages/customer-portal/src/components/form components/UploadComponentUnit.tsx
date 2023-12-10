@@ -13,7 +13,6 @@ interface FileUploadProps {
   doc: string;
 }
 
-
 const FileUpload = ({ label, doc }: FileUploadProps) => {
   const [file, setFile] = useState<File>();
   const [s3GetPromiseUrl, setS3GetPromiseUrl] = useState<string>("");
@@ -49,7 +48,7 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
   }, [file]);
 
 
-  console.log("mode : ", process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID);
+
   async function handleUploadFile() {
   
     var date = new Date();
@@ -99,15 +98,12 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
           
           break;
       }
-      console.log("mode : ", process.env.NEXT_PUBLIC_BUCKET_NAME);
-      
       const client_s3 = new S3({
         region: "ap-south-1",
         accessKeyId: "AKIA5FWQZ5L4KOCCTT73",
         secretAccessKey: "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",
         signatureVersion: "v4",
       });
-  
       // const client_s3 = new S3({
       //   region: process.env.NEXT_PUBLIC_REGION,
       //   accessKeyId: process.env. NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
