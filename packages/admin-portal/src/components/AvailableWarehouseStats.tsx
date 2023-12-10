@@ -1,27 +1,20 @@
-import { ArcElement, Chart } from "chart.js";
-Chart.register(ArcElement);
-import { Doughnut } from "react-chartjs-2"
+import { tooltip } from "@material-tailwind/react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import DoughnutStats from "./chart/Doughnut";
+import BarChart from "./chart/BarChart";
+import PieChart from "./chart/PieChart";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 function AvailableWarehouseStats() {
-    return (
-        <div className="max-w-xl">
-            <Doughnut data={{
-                labels: ["A", "B", "C"],
-                datasets: [
-                    {
-                        label: "Un-occupied",
-                        data: [200, 300, 400],
-                        backgroundColor: [
-                            'rgb(255, 99, 132)',
-                            'rgb(54, 162, 235)',
-                            'rgb(255, 205, 86)'                      
-                        ]
-                    },
-                ]
-             }}
-              />
-        </div>
-    )
+  return (
+    <div className="flex justify-evenly items-center">
+      <DoughnutStats />
+      <PieChart />
+      <BarChart />
+    </div>
+  );
 }
 
-export default AvailableWarehouseStats
+export default AvailableWarehouseStats;

@@ -28,14 +28,14 @@ function Page() {
     const {formName} = useSelector((state: any) => state.selectForm);
     return (
         <div className=''>
-             <VendorRegistrationForm />
-        {/* { formName === 'otp' && <OtpVerification />}
+      
+        { formName === 'otp' && <OtpVerification />}
         {formName === 'passCreation' && <PasswordCreation />}
         { formName === 'registration' && identification === 'CUSTOMER' && <CustomerRegistrationForm />}
         { formName === 'registration' && identification === 'VENDOR' && <VendorRegistrationForm />}
         { formName === 'registration' && identification === 'OVERSEAS_AGENT' && <OverseasRegistrationForm />}
         <RolePopup />
-        {registerButtonClicked && <RegistrationConfPopup />} */}
+        {registerButtonClicked && <RegistrationConfPopup />}
         </div>
 
     )

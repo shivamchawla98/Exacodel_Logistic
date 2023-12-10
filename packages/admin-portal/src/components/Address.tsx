@@ -1,7 +1,22 @@
 import { ErrorMessage, Field } from 'formik';
 import countries from './data/country';
+import {useSelector} from 'react-redux'
+import {useFormikContext} from 'formik'
+import { useEffect } from 'react';
 
 function Address() {
+  const {lat, lng, city, address, country, pincode, State} = useSelector((state: any) => state.gmapSlice)
+  const formikProps = useFormikContext()
+  useEffect(() => {
+    formikProps?.setFieldValue("country", country)
+    formikProps?.setFieldValue("streetAddress", address)
+    formikProps?.setFieldValue("city", city)
+    formikProps?.setFieldValue("postalCode", pincode)
+    formikProps?.setFieldValue("region", State)
+    console.log("mi pincode hu : ", pincode);
+    
+  }, [lat, country, State,lng])
+  
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6'>
             <h2 className="font-semibold text-gray-900 col-span-3">
@@ -19,6 +34,7 @@ function Address() {
           as="select"
           id={`country`}
           name={`country`}
+          
           placeholder={`country`}
           className="block w-full rounded-md border-0 px-4 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
         >

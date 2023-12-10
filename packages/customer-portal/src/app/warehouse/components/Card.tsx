@@ -1,61 +1,113 @@
+import { useState } from "react";
+import Image from "next/image";
+import { CheckIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 
-import { useState } from 'react';
-import Image from 'next/image';
-
-
-const WarehousePricing = ({openModal}: any) => {
+const WarehousePricing = ({ openModal }: any) => {
   const [activeTab, setActiveTab] = useState(0);
 
-
   const tabs = [
-    { title: 'Small Size', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: 19 },
-    { title: 'Medium Size', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: 39 },
-    { title: 'Large Size', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', price: 59 },
+    {
+      title: "Small Size",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      price: 19,
+    },
+    {
+      title: "Medium Size",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      price: 39,
+    },
+    {
+      title: "Large Size",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      price: 59,
+    },
   ];
 
   const handleTabClick = (index: any) => {
     setActiveTab(index);
   };
 
-
   return (
-    <div className="">
-      <div className="container mx-auto  px-4 mt-8 w-full flex justify-center">
-        <div className="lg:w-2/3">
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="flex items-center">
-              <img src="https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg" alt="ware house image" className='w-28 h-28 md:h-full lg:h-full md:w-52 lg:w-52 rounded'/>
-              <div className="w-1/2 p-4">
-                <h2 className="text-xl font-semibold mb-2">New Ohio</h2>
-                <h2 className=" text-base font-semibold">{tabs[activeTab].title}</h2>
-                <p className="text-gray-600 mb-4">{tabs[activeTab].description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-semibold text-sky-600">${tabs[activeTab].price}</span>
-                  <button
-                  onClick={openModal}
-                  className="px-4 py-2 bg-sky-600 text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 rounded">
-                    Book Now
-                  </button>
+    <div className="w-full flex justify-center items-center flex-wrap">
+      <div className="relative mx-auto max-w-md">
+        <a
+          href="#"
+          className="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full"
+        >
+          <div className="shadow p-4 rounded-lg bg-white">
+            <div className="flex justify-center relative rounded-lg overflow-hidden h-40">
+              <div className="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
+                <div className="absolute inset-0 bg-black opacity-10" />
+              </div>
+              <div className="absolute flex justify-center bottom-0 mb-3">
+                <div className="flex bg-white px-4 py-1 space-x-5 rounded-lg overflow-hidden shadow">
+                  <p className="flex items-center text-xs font-medium text-gray-800">
+                    <CheckIcon className="text-green-500 h-4 w-4" />
+                    Fork Lift
+                  </p>
+                  <p className="flex items-center text-xs font-medium text-gray-800">
+                    <CheckIcon className="text-green-500 h-4 w-4" />
+                    Full-time Labour
+                  </p>
+                  <p className="flex items-center text-xs font-medium text-gray-800">
+                    <CheckIcon className="text-green-500 h-4 w-4" />
+                    Supervisor
+                  </p>
                 </div>
               </div>
+              <span className="absolute top-0 left-0 inline-flex mt-3 ml-3 px-3 py-2 rounded-lg z-10 bg-red-500 text-sm font-medium text-white select-none">
+                Featured
+              </span>
             </div>
-            <div className="bg-gray-200 p-4">
-              <div className="flex justify-between">
-                {tabs.map((tab, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleTabClick(index)}
-                    className={`px-4 py-2 text-sm ${
-                      activeTab === index ? 'bg-sky-600 text-white' : 'bg-white text-sky-600 hover:bg-sky-100'
-                    } rounded-full focus:outline-none`}
-                  >
-                    {tab.title}
-                  </button>
-                ))}
+            <div className="mt-4">
+              <h2
+                className="font-medium text-base md:text-lg text-gray-800 line-clamp-1"
+                title="New York"
+              >
+                Statue of Liberty
+              </h2>
+              <p
+                className="mt-2 text-sm text-gray-800 line-clamp-1"
+                title="New York, NY 10004, United States"
+              >
+                New York, NY 10004, United States
+              </p>
+            </div>
+            <div className="grid grid-cols-2 grid-rows-2 gap-4 mt-4">
+              <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                <span className="mt-2 xl:mt-0">Monthly Rental : ₹0</span>
+              </p>
+              <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                <span className="mt-2 xl:mt-0">GST @ 18% : ₹0</span>
+              </p>
+              <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
+                <span className="mt-2 xl:mt-0">Total Amount To Pay : ₹0</span>
+              </p>
+            </div>
+            <div className="w-full flex justify-evenly mt-4 items-center">
+              <div className="flex justify-end">
+                <p className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
+                  <span className="text-sm uppercase">₹</span>
+                  <span className="text-lg">3,200</span>/m
+                </p>
+              </div>
+              <div className="w-11/12 flex lg:justify-start items-center ml-14 my-4">
+                <button
+                  type="button"
+                  className="text-white bg-rose-400 hover:bg-rose-500 focus:ring-4 focus:ring-rose-300 font-medium rounded-md text-xs px-5 py-2.5 me-2 mb-2 dark:bg-rose-600 dark:hover:bg-rose-500 focus:outline-none dark:focus:ring-rose-500"
+                >
+                  Discover Price
+                </button>
+                <button
+                  type="button"
+                  className="text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:ring-sky-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-sky-600 dark:hover:bg-sky-600 focus:outline-none dark:focus:ring-sky-600"
+                >
+                  Enter Enquiry
+                </button>
               </div>
             </div>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );
