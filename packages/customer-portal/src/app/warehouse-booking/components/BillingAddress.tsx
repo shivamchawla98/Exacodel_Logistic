@@ -1,4 +1,4 @@
-import React from "react";
+import TotalCostCard from "./ToatalCostCard";
 
 function BillingAddress() {
   return (
@@ -7,11 +7,9 @@ function BillingAddress() {
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
         <div className="px-4 sm:px-0">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Personal Information
+            Billing Address Information
           </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
-            Use a permanent address where you can receive mail.
-          </p>
+          <TotalCostCard />
         </div>
 
         <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
