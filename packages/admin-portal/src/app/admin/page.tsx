@@ -539,6 +539,7 @@ export default function Home() {
                   setApprovalIndex={(userId: number) =>
                     setApprovalIndex(userId)
                   }
+                  activeItem={activeItem}
                   onInfoClick={() => setActiveItem("userInfo")}
                   onApprovalClick={() => setActiveItem("more info")}
                 />

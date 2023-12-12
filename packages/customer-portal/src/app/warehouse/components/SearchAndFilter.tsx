@@ -7,7 +7,7 @@ import ServiceFilter from "./ServiceFilter";
 
 function SearchAndFilter() {
   return (
-    <div className="w-1/2 py-6 flex h-screen overflow-y-auto justify-center items-center rounded-md shadow-sm flex-wrap no-scrollbar  bg-gradient-to-br to-transparent from-sky-100">
+    <form className="w-1/2 py-6 flex h-screen overflow-y-auto justify-center items-center rounded-md shadow-sm flex-wrap no-scrollbar  bg-gradient-to-br to-transparent from-sky-100">
       <div className="w-full flex justify-center items-center">
         <div className="lg: w-10/12">
           <Searchbar />
@@ -15,8 +15,7 @@ function SearchAndFilter() {
       </div>
 
       <div className="w-full">
-        <DatePicker
-        />
+        <DatePicker />
       </div>
       <div className="w-full flex lg:justify-start items-center ml-14">
         <SpaceRequired />
@@ -35,7 +34,7 @@ function SearchAndFilter() {
       <div className="w-full flex lg:justify-start items-center ml-14 my-4">
         <WarehousePricing />
       </div>
-    </div>
+    </form>
   );
 }
 

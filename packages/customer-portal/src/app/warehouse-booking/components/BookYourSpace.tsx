@@ -2,6 +2,10 @@ import React from "react";
 import DatePicker from "./DatePicker";
 import TotalCostCard from "./ToatalCostCard";
 import { useForm, SubmitHandler } from "react-hook-form";
+import CREATE_BOOKING from "@/graphql/mutation/createBooking";
+import { useMutation } from "@apollo/client";
+import Cookies from "js-cookie";
+import jwtDecode from "jwt-decode";
 
 interface BookYourSpaceInput {
   name: string;
@@ -14,14 +18,38 @@ interface BookYourSpaceInput {
 }
 
 function BookYourSpace() {
+  let token: any = Cookies.get("jwToken");
+  const decodedToken: any = jwtDecode(token);
+  console.log(decodedToken);
+
+  const [createBooking] = useMutation(CREATE_BOOKING);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm<BookYourSpaceInput>();
-  const onSubmit: SubmitHandler<BookYourSpaceInput> = (data) =>
+  const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
+    try {
+      const response = await createBooking({
+        variables: {
+          input: {
+            moveInDate: data.moveInDate,
+            moveOutDate: data.moveOutDate,
+            spaceMaterialType: "Glass",
+            specialInstructions: "Handle with care",
+            warehouseId: 49,
+            userId: decodedToken?.id,
+          },
+        },
+      });
+      console.log("data ", response);
+    } catch (error) {
+      console.log("Error in creating Booking", error);
+    }
+
     console.log("form data : ", data);
+  };
 
   return (
     <div>
@@ -92,7 +120,11 @@ function BookYourSpace() {
                 </div>
               </div>
               <div className="sm:col-span-4">
-                <DatePicker register={register} setValue={setValue} />
+                <DatePicker
+                  register={register}
+                  errors={errors}
+                  setValue={setValue}
+                />
               </div>
               <div className="sm:col-span-3">
                 <label
@@ -103,12 +135,18 @@ function BookYourSpace() {
                 </label>
                 <div className="mt-2">
                   <input
-                    id="number"
-                    // {...register("number", {})}
+                    id="phone"
+                    {...register("phone", {
+                      required: "Phone number is required",
+                    })}
                     type="tel"
-                    autoComplete="email"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.phone?.message && (
+                    <span className="text-xs text-rose-500">
+                      Phone number is required
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -122,11 +160,17 @@ function BookYourSpace() {
                 <div className="mt-2">
                   <input
                     id="companyName"
-                    name="companyName"
+                    {...register("companyName", {
+                      required: "Email is required",
+                    })}
                     type="text"
-                    autoComplete="email"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.companyName?.message && (
+                    <span className="text-xs text-rose-500">
+                      Required field
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -140,11 +184,17 @@ function BookYourSpace() {
                 <div className="mt-2">
                   <input
                     type="text"
-                    name="gstNum"
+                    {...register("gstNum", {
+                      required: "Email is required",
+                    })}
                     id="gstNum"
-                    autoComplete="street-address"
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
+                  {errors.gstNum?.message && (
+                    <span className="text-xs text-rose-500">
+                      {errors.gstNum?.message}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

@@ -213,7 +213,6 @@ export default function Approval({
             remarks: remarks,
           },
           compcontact: {
-            id: Id * 1,
             firstName: formData["Full name"].split(" ")[0],
             lastName: formData["Full name"].split(" ")[1],
             designation: formData["Designation"],
@@ -262,14 +261,14 @@ export default function Approval({
 
   const handleReviw = async () => {
     try {
-      const { data: approvalData } = await approveUser({
-        variables: {
-          userId: Id * 1,
-          input: {
-            remarks: remarks,
-          },
-        },
-      });
+      // const { data: approvalData } = await approveUser({
+      //   variables: {
+      //     userId: Id * 1,
+      //     input: {
+      //       remarks: remarks,
+      //     },
+      //   },
+      // });
 
       const { data: any } = await sendtoreveiwuser({
         variables: {

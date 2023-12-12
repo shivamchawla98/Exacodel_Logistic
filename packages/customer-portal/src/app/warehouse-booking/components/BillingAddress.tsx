@@ -1,5 +1,16 @@
 import TotalCostCard from "./ToatalCostCard";
+import { useForm, SubmitHandler } from "react-hook-form";
 
+interface BillingAddressInputs {
+  firstName: string;
+  lastName: string;
+  email: string;
+  country: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: number;
+}
 
 function BillingAddress() {
   return (
