@@ -103,7 +103,7 @@ const Home = () => {
   );
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "add key here",
+    googleMapsApiKey: "AIzaSyCFigvs7RwemDJcfluki8CNX4uTUzua5Lo",
     libraries: libraries as any,
   });
 

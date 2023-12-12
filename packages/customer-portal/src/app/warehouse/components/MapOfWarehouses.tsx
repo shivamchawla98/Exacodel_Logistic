@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 function MapOfWarehouses() {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "add key here",
+    googleMapsApiKey: "AIzaSyCFigvs7RwemDJcfluki8CNX4uTUzua5Lo",
     // libraries: libraries as any,
   });
   const markers = [
