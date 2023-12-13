@@ -112,9 +112,9 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
       console.log("mode : ", process.env.NEXT_PUBLIC_BUCKET_NAME);
       //add key here
       const client_s3 = new S3({
-        region: "ap-south-1",
-        accessKeyId: "AKIA5FWQZ5L4KOCCTT73",
-        secretAccessKey: "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",
+        region: process.env.NEXT_PUBLIC_REGION,
+        accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
         signatureVersion: "v4",
       });
 
