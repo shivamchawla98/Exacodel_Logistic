@@ -5,7 +5,7 @@ import DatePicker from "./DatePicker";
 import Searchbar from "./Searchbar";
 import ServiceFilter from "./ServiceFilter";
 
-function SearchAndFilter() {
+function SearchAndFilter({ setLoginClose }: any) {
   return (
     <form className="w-1/2 py-6 flex h-screen overflow-y-auto justify-center items-center rounded-md shadow-sm flex-wrap no-scrollbar  bg-gradient-to-br to-transparent from-sky-100">
       <div className="w-full flex justify-center items-center">
@@ -32,7 +32,7 @@ function SearchAndFilter() {
         </button>
       </div>
       <div className="w-full flex lg:justify-start items-center ml-14 my-4">
-        <WarehousePricing />
+        <WarehousePricing setLoginClose={setLoginClose} />
       </div>
     </form>
   );

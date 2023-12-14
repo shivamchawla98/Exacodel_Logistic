@@ -40,6 +40,9 @@ const industryTypeMap: any = {
 };
 
 const getFileNameFromLink = (link: string): string => {
+  if (typeof link !== "string") {
+    return link;
+  }
   const startIndex = link?.lastIndexOf("/") + 1; // Get the index after the last '/'
   // Extract the file name without extension
   const fileNameWithExtension = link?.substring(startIndex);
@@ -94,11 +97,11 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
           Website: user.website,
         });
         setCorporateAddress({
-          Address: user.corporateAddress.address || "",
-          State: user.corporateAddress.state || "",
-          City: user.corporateAddress.city || "",
-          pincode: user.corporateAddress.pincode || "",
-          Country: user.corporateAddress.country || "",
+          Address: user.corporateAddress?.address || "",
+          State: user.corporateAddress?.state || "",
+          City: user.corporateAddress?.city || "",
+          pincode: user.corporateAddress?.pincode || "",
+          Country: user.corporateAddress?.country || "",
         });
         setFiles({
           "Certificate Of Registration": user.kyc.certificate_of_registration,

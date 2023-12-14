@@ -66,6 +66,11 @@ const userTypes = [
 ];
 
 const getFileNameFromLink = (link: string): string => {
+  console.log(typeof link);
+
+  if (typeof link !== "string") {
+    return link;
+  }
   const startIndex = link.lastIndexOf("/") + 1; // Get the index after the last '/'
   // Extract the file name without extension
   const fileNameWithExtension = link.substring(startIndex);
@@ -460,7 +465,7 @@ export default function Approval({
           <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-2">
             {Object.entries(files).map(([label, value]: any[]) => (
               <>
-                {files[label].length !== 0 ? (
+                {files[label] && files[label].length !== 0 ? (
                   <div
                     className="grid grid-cols-3 items-center justify-evenly py-4 px-6"
                     key={label}

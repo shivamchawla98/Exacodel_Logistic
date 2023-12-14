@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useSelector } from "react-redux";
@@ -36,6 +36,11 @@ export default function Vendors({
       (user: any) => user.isapproved === "Approval_pending"
     );
   }, [data?.listInitialRegistrations]);
+
+  useEffect(() => {
+    refetch();
+  }, [activeItem]);
+
   /**
    @type import("@tanstack/react-table").columndDef<any>
    */
@@ -105,7 +110,7 @@ export default function Vendors({
         ),
       },
     ],
-    [setApprovalIndex, activeItem]
+    [data?.listInitialRegistrations]
   );
 
   async function trashUser(id: number) {

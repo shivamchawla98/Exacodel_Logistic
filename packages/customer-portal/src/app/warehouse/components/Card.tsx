@@ -2,7 +2,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { CheckIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 
-const WarehousePricing = ({ openModal }: any) => {
+const WarehousePricing = ({ openModal, setLoginClose }: any) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
@@ -93,6 +93,9 @@ const WarehousePricing = ({ openModal }: any) => {
               </div>
               <div className="w-11/12 flex lg:justify-start items-center ml-14 my-4">
                 <button
+                  onClick={() => {
+                    setLoginClose(false);
+                  }}
                   type="button"
                   className="text-white bg-rose-400 hover:bg-rose-500 focus:ring-4 focus:ring-rose-300 font-medium rounded-md text-xs px-5 py-2.5 me-2 mb-2 dark:bg-rose-600 dark:hover:bg-rose-500 focus:outline-none dark:focus:ring-rose-500"
                 >

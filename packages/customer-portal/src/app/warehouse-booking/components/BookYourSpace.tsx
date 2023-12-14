@@ -18,10 +18,6 @@ interface BookYourSpaceInput {
 }
 
 function BookYourSpace() {
-  let token: any = Cookies.get("jwToken");
-  const decodedToken: any = jwtDecode(token);
-  console.log(decodedToken);
-
   const [createBooking] = useMutation(CREATE_BOOKING);
   const {
     register,
@@ -31,19 +27,25 @@ function BookYourSpace() {
   } = useForm<BookYourSpaceInput>();
   const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
     try {
-      const response = await createBooking({
-        variables: {
-          input: {
-            moveInDate: data.moveInDate,
-            moveOutDate: data.moveOutDate,
-            spaceMaterialType: "Glass",
-            specialInstructions: "Handle with care",
-            warehouseId: 49,
-            userId: decodedToken?.id,
+      let token: any = Cookies.get("jwToken");
+
+      if (token) {
+        const decodedToken: any = jwtDecode(token);
+        console.log(decodedToken);
+        const response = await createBooking({
+          variables: {
+            input: {
+              moveInDate: data.moveInDate,
+              moveOutDate: data.moveOutDate,
+              spaceMaterialType: "Glass",
+              specialInstructions: "Handle with care",
+              warehouseId: 49,
+              userId: decodedToken?.id,
+            },
           },
-        },
-      });
-      console.log("data ", response);
+        });
+        console.log("data ", response);
+      }
     } catch (error) {
       console.log("Error in creating Booking", error);
     }
