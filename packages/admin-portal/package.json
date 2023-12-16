@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 3001",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@tanstack/react-table": "^8.10.7",
     "@types/cookie": "^0.5.3",
+    "@types/googlemaps": "^3.43.3",
     "@types/node": "20.2.3",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
@@ -25,9 +26,13 @@
     "chartjs-plugin-zoom": "^2.0.1",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-tailwindcss": "^3.13.0",
     "jwt-decode": "^4.0.0",
     "next": "13.4.3",
     "postcss": "8.4.23",
+    "prettier": "^3.1.0",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",

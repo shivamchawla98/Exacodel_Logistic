@@ -60,6 +60,7 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
     localStorage.clear();
   }, [file]);
 
+  console.log("mode : ", process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID);
   async function handleUploadFile() {
     var date = new Date();
     var formattedDate = format(date, "yyyy-M-dd");
@@ -111,10 +112,10 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
       console.log("mode : ", process.env.NEXT_PUBLIC_BUCKET_NAME);
       //add key here
       const client_s3 = new S3({
-        region: "",
-        accessKeyId: "",
-        secretAccessKey: "",
-        signatureVersion: "",
+        region: process.env.NEXT_PUBLIC_REGION,
+        accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+        secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
+        signatureVersion: "v4",
       });
 
       // const client_s3 = new S3({

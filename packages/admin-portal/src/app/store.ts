@@ -1,12 +1,15 @@
 // store.js
+import gmapSlice from '@/features/gmapSlice/gmap-slice';
 import loginSlice from '@/features/login/login-slice'
 import { configureStore } from '@reduxjs/toolkit';
 
 
 export const store = configureStore({
   reducer: {
-    loginSlice: loginSlice
+    loginSlice: loginSlice,
+    gmapSlice: gmapSlice
   },
+
 });
 
 export type AppDispatch = typeof store.dispatch;
