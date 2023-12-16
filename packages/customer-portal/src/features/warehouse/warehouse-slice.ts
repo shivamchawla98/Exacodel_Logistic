@@ -34,9 +34,7 @@ const WarehoueSlice = createSlice({
   initialState: initialState,
   reducers: {
     updateMarksers: (state, action: PayloadAction<MarkerTypes>) => {
-      state.markers.lat = action.payload["lat"];
-      state.markers.lng = action.payload["lng"];
-      state.markers.imageUrl = action.payload["imageUrl"];
+      state.markers.push(action.payload);
     },
     updateSearchLatLng: (state, action: PayloadAction<searchLatLansTypes>) => {
       state.searchLatLng.lat = action.payload["lat"];
