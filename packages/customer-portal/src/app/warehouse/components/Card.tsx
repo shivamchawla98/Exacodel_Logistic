@@ -1,8 +1,15 @@
 import { useState } from "react";
 import Image from "next/image";
 import { CheckIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
+import { Id } from "react-toastify";
 
-const WarehousePricing = ({ openModal, setLoginClose }: any) => {
+const WarehousePricing = ({
+  setLoginClose,
+  comapanyName,
+  address,
+  storageCharges,
+  Id,
+}: any) => {
   const [activeTab, setActiveTab] = useState(0);
 
   const tabs = [
@@ -28,7 +35,7 @@ const WarehousePricing = ({ openModal, setLoginClose }: any) => {
   };
 
   return (
-    <div className="w-full flex justify-center items-center flex-wrap">
+    <div className="w-full flex justify-center my-2 items-center flex-wrap">
       <div className="relative mx-auto max-w-md">
         <a
           href="#"
@@ -64,13 +71,13 @@ const WarehousePricing = ({ openModal, setLoginClose }: any) => {
                 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1"
                 title="New York"
               >
-                Statue of Liberty
+                {`FORA ${comapanyName} ${Id}`}
               </h2>
               <p
                 className="mt-2 text-sm text-gray-800 line-clamp-1"
                 title="New York, NY 10004, United States"
               >
-                New York, NY 10004, United States
+                {address}
               </p>
             </div>
             <div className="grid grid-cols-2 grid-rows-2 gap-4 mt-4">
@@ -88,7 +95,7 @@ const WarehousePricing = ({ openModal, setLoginClose }: any) => {
               <div className="flex justify-end">
                 <p className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
                   <span className="text-sm uppercase">₹</span>
-                  <span className="text-lg">3,200</span>/m
+                  <span className="text-lg">{storageCharges}</span>/m
                 </p>
               </div>
               <div className="w-11/12 flex lg:justify-start items-center ml-14 my-4">
