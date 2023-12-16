@@ -11,7 +11,7 @@ interface searchLatLansTypes {
 }
 
 interface WarehouseSlice {
-  markers: MarkerTypes[];
+  // markers: MarkerTypes[];
   searchLatLng: searchLatLansTypes;
 }
 
@@ -20,22 +20,15 @@ const initialState: WarehouseSlice = {
     lat: -1,
     lng: -1,
   },
-  markers: [
-    {
-      lat: -1,
-      lng: -1,
-      imageUrl: "",
-    },
-  ],
 };
 
 const WarehoueSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    updateMarksers: (state, action: PayloadAction<MarkerTypes>) => {
-      state.markers.push(action.payload);
-    },
+    // updateMarksers: (state, action: PayloadAction<MarkerTypes>) => {
+    //   state.markers.push(action.payload);
+    // },
     updateSearchLatLng: (state, action: PayloadAction<searchLatLansTypes>) => {
       state.searchLatLng.lat = action.payload["lat"];
       state.searchLatLng.lng = action.payload["lng"];
@@ -43,6 +36,6 @@ const WarehoueSlice = createSlice({
   },
 });
 
-export const { updateMarksers, updateSearchLatLng } = WarehoueSlice.actions;
+export const { updateSearchLatLng } = WarehoueSlice.actions;
 
 export default WarehoueSlice.reducer;
