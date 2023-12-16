@@ -6,6 +6,10 @@ import CREATE_BOOKING from "@/graphql/mutation/createBooking";
 import { useMutation } from "@apollo/client";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import "react-toastify/dist/ReactToastify.css";
 
 interface BookYourSpaceInput {
   name: string;
@@ -19,6 +23,8 @@ interface BookYourSpaceInput {
 
 function BookYourSpace() {
   const [createBooking] = useMutation(CREATE_BOOKING);
+  const { warehouseId } = useSelector((state: any) => state.warehouseSlice);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -39,14 +45,17 @@ function BookYourSpace() {
               moveOutDate: data.moveOutDate,
               spaceMaterialType: "Glass",
               specialInstructions: "Handle with care",
-              warehouseId: 49,
+              warehouseId: warehouseId * 1,
               userId: decodedToken?.id,
             },
           },
         });
+        router.push("/profile");
         console.log("data ", response);
+        toast.success("Bokking placed sucessfully");
       }
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.message);
       console.log("Error in creating Booking", error);
     }
 
@@ -55,6 +64,7 @@ function BookYourSpace() {
 
   return (
     <div>
+      <ToastContainer />
       <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
         <div className="px-4 sm:px-0">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -206,7 +216,7 @@ function BookYourSpace() {
               type="submit"
               className="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
             >
-              Save
+              Next
             </button>
           </div>
         </form>

@@ -2,6 +2,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { CheckIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { Id } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { updateWarehouseId } from "@/features/warehouse/warehouse-slice";
 
 const WarehousePricing = ({
   setLoginClose,
@@ -9,9 +13,12 @@ const WarehousePricing = ({
   address,
   storageCharges,
   Id,
+  uniqueid,
 }: any) => {
   const [activeTab, setActiveTab] = useState(0);
-
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { isLogedIn } = useSelector((state: any) => state.form);
   const tabs = [
     {
       title: "Small Size",
@@ -71,7 +78,7 @@ const WarehousePricing = ({
                 className="font-medium text-base md:text-lg text-gray-800 line-clamp-1"
                 title="New York"
               >
-                {`FORA ${comapanyName} ${Id}`}
+                {uniqueid}
               </h2>
               <p
                 className="mt-2 text-sm text-gray-800 line-clamp-1"
@@ -101,12 +108,17 @@ const WarehousePricing = ({
               <div className="w-11/12 flex lg:justify-start items-center ml-14 my-4">
                 <button
                   onClick={() => {
-                    setLoginClose(false);
+                    if (!isLogedIn) {
+                      setLoginClose(false);
+                      return;
+                    }
+                    dispatch(updateWarehouseId(Id));
+                    router.push("/warehouse-booking");
                   }}
                   type="button"
                   className="text-white bg-rose-400 hover:bg-rose-500 focus:ring-4 focus:ring-rose-300 font-medium rounded-md text-xs px-5 py-2.5 me-2 mb-2 dark:bg-rose-600 dark:hover:bg-rose-500 focus:outline-none dark:focus:ring-rose-500"
                 >
-                  Discover Price
+                  Book Warehouse
                 </button>
                 <button
                   type="button"

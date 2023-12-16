@@ -10,15 +10,15 @@ function Page() {
       id: "01",
       name: "Book Your Space",
       href: "Book Your Space",
-      status: "complete",
-    },
-    {
-      id: "02",
-      name: "Billing Address",
-      href: "Billing Address",
       status: "current",
     },
-    { id: "03", name: "Payment", href: "Payment", status: "upcoming" },
+    // {
+    //   id: "02",
+    //   name: "Billing Address",
+    //   href: "Billing Address",
+    //   status: "current",
+    // },
+    { id: "02", name: "Payment", href: "Payment", status: "upcoming" },
   ]);
 
   const [activePage, setActivePage] = useState("Book Your Space");
@@ -35,9 +35,9 @@ function Page() {
         {activePage === "Book Your Space" && <BookYourSpace />}
       </div>
 
-      <div className="w-full flex justify-center items-center">
+      {/* <div className="w-full flex justify-center items-center">
         {activePage === "Billing Address" && <BillingAddress />}
-      </div>
+      </div> */}
     </>
   );
 }
