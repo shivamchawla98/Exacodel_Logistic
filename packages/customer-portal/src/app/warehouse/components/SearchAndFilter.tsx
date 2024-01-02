@@ -85,6 +85,7 @@ function SearchAndFilter({ setLoginClose }: any) {
               address={warehouse.Adress}
               storageCharges={warehouse.storageCharges}
               Id={warehouse.id}
+              uniqueid={warehouse.uniqueid}
             />
           ))}
       </div>

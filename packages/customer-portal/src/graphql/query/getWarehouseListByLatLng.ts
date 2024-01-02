@@ -9,6 +9,7 @@ const LIST_OF_WAREHOUSE_USING_LAT_LNG = gql`
       warehouseType
       storageCharges
       Adress
+      uniqueid
     }
   }
 `;

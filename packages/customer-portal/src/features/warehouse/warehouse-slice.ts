@@ -13,6 +13,7 @@ interface searchLatLansTypes {
 interface WarehouseSlice {
   // markers: MarkerTypes[];
   searchLatLng: searchLatLansTypes;
+  warehouseId: string;
 }
 
 const initialState: WarehouseSlice = {
@@ -20,6 +21,7 @@ const initialState: WarehouseSlice = {
     lat: -1,
     lng: -1,
   },
+  warehouseId: "",
 };
 
 const WarehoueSlice = createSlice({
@@ -33,9 +35,12 @@ const WarehoueSlice = createSlice({
       state.searchLatLng.lat = action.payload["lat"];
       state.searchLatLng.lng = action.payload["lng"];
     },
+    updateWarehouseId: (state, action: PayloadAction<string>) => {
+      state.warehouseId = action.payload;
+    },
   },
 });
 
-export const { updateSearchLatLng } = WarehoueSlice.actions;
+export const { updateSearchLatLng, updateWarehouseId } = WarehoueSlice.actions;
 
 export default WarehoueSlice.reducer;

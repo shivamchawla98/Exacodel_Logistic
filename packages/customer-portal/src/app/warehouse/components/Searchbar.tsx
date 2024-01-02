@@ -10,7 +10,7 @@ const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
   onPlaceSelected,
 }) => {
   const searchBoxRef = useRef<google.maps.places.SearchBox>();
-
+  const key = process.env.NEXT_PUBLIC_googleMapsApiKey;
   useEffect(() => {
     if (searchBoxRef.current && onPlaceSelected) {
       searchBoxRef.current.addListener("places_changed", () => {
@@ -21,16 +21,19 @@ const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
       });
     }
   }, [onPlaceSelected]);
-
   const handleLoad = (searchBox: google.maps.places.SearchBox) => {
     searchBoxRef.current = searchBox;
   };
+  if (!key) {
+    // you can throw error here and
+    // let [Error Boundary](https://reactjs.org/docs/error-boundaries.html)
+    // handle it
+    // or return an component that says "Google Token is not set"
+    throw new Error("Google token is not set");
+  }
 
   return (
-    <LoadScript
-      libraries={["places"]}
-      googleMapsApiKey={process.env.NEXT_PUBLIC_googleMapsApiKey!}
-    >
+    <LoadScript libraries={["places"]} googleMapsApiKey={key}>
       <StandaloneSearchBox onLoad={handleLoad}>
         <div className="relative flex justify-center items-center my-2">
           <input
