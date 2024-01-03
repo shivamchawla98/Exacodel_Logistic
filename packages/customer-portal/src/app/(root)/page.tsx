@@ -10,6 +10,7 @@ import HomeBlogSection from "./components/HomeBlogSection";
 import Descript from "./components/Descript";
 import { useSelector } from "react-redux";
 import RolePopup from "@/components/form components/RolePopup";
+import Slider from "./components/search bar component/Slider";
 
 export default function Home() {
   const signupclicked = useSelector(
@@ -25,6 +26,7 @@ export default function Home() {
       <Descript />
       <Service />
       <GetStarted />
+      <Slider />
       <Feature />
       <Brand />
       <HomeBlogSection />

@@ -6,48 +6,51 @@ import { useSelector, useDispatch } from "react-redux";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { updateWarehouseId } from "@/features/warehouse/warehouse-slice";
+import { FaBiohazard, FaTemperatureHigh, FaWarehouse } from "react-icons/fa";
+
+const warehouseTypeMapping: any = {
+  coldStorageFacility: "Cold Storage Facility",
+  generalWarehouse: "General Warehouse",
+  referigeratedWarehouse: "Refrigerated Warehouse",
+  fullFilmentCenter: "Fulfillment Center",
+  petroleumWarehouse: "Petroleum Warehouse",
+  bondedWarehouse: "Bonded Warehouse",
+  hazCargoWarehouse: "Hazardous Cargo Warehouse",
+};
+
+const temperatureCapacityMapping: any = {
+  MINUS_Eighteen_Degree_to_twenty_degree_celcius: "Between -18°C and 20°C",
+  MINUS_Two_Degree_to_MINUS_Eight_degree_celcius: "Between -2°C and -8°C",
+  MINUS_Twenty_Degree_to_twenty_degree_celcius: "Between -20°C and 20°C",
+  fifteen_Degree_to_twentyfive_degree_celcius: "Between 15°C and 25°C",
+};
 
 const WarehousePricing = ({
   setLoginClose,
-  comapanyName,
   address,
   storageCharges,
   Id,
   uniqueid,
+  hazrard,
+  warehouseType,
+  temperatureCapacity,
+  temperatureType,
 }: any) => {
   const [activeTab, setActiveTab] = useState(0);
   const router = useRouter();
   const dispatch = useDispatch();
   const { isLogedIn } = useSelector((state: any) => state.form);
-  const tabs = [
-    {
-      title: "Small Size",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: 19,
-    },
-    {
-      title: "Medium Size",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: 39,
-    },
-    {
-      title: "Large Size",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: 59,
-    },
-  ];
-
-  const handleTabClick = (index: any) => {
-    setActiveTab(index);
+  const getWarehouseHumanReadable = (warehouse: any) => {
+    return warehouseTypeMapping[warehouse];
+  };
+  const getWarehouseTempHumanReadable = (temperature: any) => {
+    return temperatureCapacityMapping[temperature];
   };
 
   return (
     <div className="w-full flex justify-center my-2 items-center flex-wrap">
       <div className="relative mx-auto max-w-md">
-        <a
-          href="#"
-          className="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full"
-        >
+        <div className="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
           <div className="shadow p-4 rounded-lg bg-white">
             <div className="flex justify-center relative rounded-lg overflow-hidden h-40">
               <div className="transition-transform duration-500 transform ease-in-out hover:scale-110 w-full">
@@ -88,14 +91,24 @@ const WarehousePricing = ({
               </p>
             </div>
             <div className="grid grid-cols-2 grid-rows-2 gap-4 mt-4">
-              <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                <span className="mt-2 xl:mt-0">Monthly Rental : ₹0</span>
+              <p className="inline-flex flex-col xl:flex-row items-center text-gray-800">
+                <FaBiohazard className="text-rose-500 w-5 h-5" />
+                <span className="ml-2 font-medium text-sm mt-1  text-gray-700">
+                  {hazrard}
+                </span>
               </p>
               <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                <span className="mt-2 xl:mt-0">GST @ 18% : ₹0</span>
+                <FaWarehouse className="text-sky-500 w-5 h-5" />
+                <span className="ml-2 font-medium text-sm mt-1  text-gray-700">
+                  {getWarehouseHumanReadable(warehouseType)}
+                </span>
               </p>
               <p className="inline-flex flex-col xl:flex-row xl:items-center text-gray-800">
-                <span className="mt-2 xl:mt-0">Total Amount To Pay : ₹0</span>
+                <FaTemperatureHigh className="text-sky-500 w-5 h-5" />
+                <span className="ml-2 font-medium text-sm mt-1  text-gray-700">
+                  {getWarehouseTempHumanReadable(temperatureCapacity)}{" "}
+                  <strong>{temperatureType}</strong>
+                </span>
               </p>
             </div>
             <div className="w-full flex justify-evenly mt-4 items-center">
@@ -108,12 +121,20 @@ const WarehousePricing = ({
               <div className="w-11/12 flex lg:justify-start items-center ml-14 my-4">
                 <button
                   onClick={() => {
-                    if (!isLogedIn) {
-                      setLoginClose(false);
-                      return;
+                    try {
+                      if (!isLogedIn) {
+                        setLoginClose(false);
+                        return;
+                      }
+                      if (localStorage.getItem("warehouseId") != null) {
+                        localStorage.removeItem("warehouseId");
+                      }
+                      localStorage.setItem("warehouseId", JSON.stringify(Id));
+                      dispatch(updateWarehouseId(Id));
+                      router.push("/warehouse-booking");
+                    } catch (error) {
+                      console.log(error);
                     }
-                    dispatch(updateWarehouseId(Id));
-                    router.push("/warehouse-booking");
                   }}
                   type="button"
                   className="text-white bg-rose-400 hover:bg-rose-500 focus:ring-4 focus:ring-rose-300 font-medium rounded-md text-xs px-5 py-2.5 me-2 mb-2 dark:bg-rose-600 dark:hover:bg-rose-500 focus:outline-none dark:focus:ring-rose-500"
@@ -121,15 +142,26 @@ const WarehousePricing = ({
                   Book Warehouse
                 </button>
                 <button
+                  onClick={() => {
+                    try {
+                      if (localStorage.getItem("warehouseId") != null) {
+                        localStorage.removeItem("warehouseId");
+                      }
+                      localStorage.setItem("warehouseId", Id);
+                      router.push("/warehouse-details");
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }}
                   type="button"
                   className="text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:ring-sky-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-sky-600 dark:hover:bg-sky-600 focus:outline-none dark:focus:ring-sky-600"
                 >
-                  Enter Enquiry
+                  View Warehouse Details
                 </button>
               </div>
             </div>
           </div>
-        </a>
+        </div>
       </div>
     </div>
   );

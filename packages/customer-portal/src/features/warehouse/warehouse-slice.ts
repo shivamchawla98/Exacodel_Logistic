@@ -1,19 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface MarkerTypes {
-  lat: number;
-  lng: number;
-  imageUrl: string;
-}
+// interface MarkerTypes {
+//   lat: number;
+//   lng: number;
+//   imageUrl: string;
+// }
 interface searchLatLansTypes {
   lat: number;
   lng: number;
 }
 
 interface WarehouseSlice {
-  // markers: MarkerTypes[];
+  markers: [];
   searchLatLng: searchLatLansTypes;
   warehouseId: string;
+  moveInDate: Date;
+  moveOutDate: Date;
 }
 
 const initialState: WarehouseSlice = {
@@ -22,6 +24,9 @@ const initialState: WarehouseSlice = {
     lng: -1,
   },
   warehouseId: "",
+  markers: [],
+  moveInDate: new Date(),
+  moveOutDate: new Date(),
 };
 
 const WarehoueSlice = createSlice({
@@ -38,9 +43,24 @@ const WarehoueSlice = createSlice({
     updateWarehouseId: (state, action: PayloadAction<string>) => {
       state.warehouseId = action.payload;
     },
+    updateWarehouseMarkers: (state, action: PayloadAction<[]>) => {
+      state.markers = action.payload;
+    },
+    updateMoveInDate: (state, action: PayloadAction<Date>) => {
+      state.moveInDate = action.payload;
+    },
+    updateMoveOutDate: (state, action: PayloadAction<Date>) => {
+      state.moveOutDate = action.payload;
+    },
   },
 });
 
-export const { updateSearchLatLng, updateWarehouseId } = WarehoueSlice.actions;
+export const {
+  updateSearchLatLng,
+  updateWarehouseId,
+  updateWarehouseMarkers,
+  updateMoveInDate,
+  updateMoveOutDate,
+} = WarehoueSlice.actions;
 
 export default WarehoueSlice.reducer;

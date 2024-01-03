@@ -40,11 +40,9 @@ const GET_WAREHOUSE_BY_ID = gql`
   }
 `;
 
-const SEND_REVIEW = gql`
-  mutation SEND_WAREHOUSE_TO_REVIEW($userId: Int!, $warehouseId: Int!) {
-    sendforreveiwingWarehouse(userid: $userId, warehouseid: $warehouseId) {
-      id
-    }
+const SEND_WAREHOUSE_TO_REVIEW = gql`
+  mutation SEND_WAREHOUSE_TO_REVIEW($warehouseId: Float!) {
+    warehouseReveiw(warehouseId: $warehouseId)
   }
 `;
 
@@ -141,21 +139,21 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
   const [operation, setOperation] = useState("Approved");
   const [approveWarehouse] = useMutation(APPROVE_WAREHOUSE);
   const [warehousereject] = useMutation(WAREHOUSE_REJECT);
-  const [sendforreveiwingWarehouse] = useMutation(SEND_REVIEW);
+  const [warehouseReveiw] = useMutation(SEND_WAREHOUSE_TO_REVIEW);
 
   useEffect(() => {
     if (!loading && data && data.getWarehouseById) {
       refetch();
-      console.log("data", data);
-      console.log("loading", error);
+      // console.log("data", data);
+      // console.log("loading", error);
       let warehouse = data.getWarehouseById;
       setUserType(warehouse.userType);
       setGstNo(warehouse.gst_no);
-      console.log(
-        "warehouse type : ",
-        warehouse.temperatureCapacity,
-        selectedTemperatureCapacities
-      );
+      // console.log(
+      //   "warehouse type : ",
+      //   warehouse.temperatureCapacity,
+      //   selectedTemperatureCapacities
+      // );
 
       if (warehouse) {
         setSelectedWarehouseType(warehouse.warehouseType);
@@ -177,14 +175,15 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
           "Occupied Space": warehouse.occupiedSpace,
           "Unoccupied Space": warehouse.unoccupiedSpace,
           "Racked Space": warehouse.rackedSpace,
-          "Minimum Storage Rent": warehouse.minimumStorageRent,
-          "Minimum Storage Charges (*per pallet)":
+          "Minimum Storage Rent (*Day / Sq. Ft.)": warehouse.minimumStorageRent,
+          "Minimum Storage Charges (*Day / per pallet)":
             warehouse.minimumStorageCharges_per_pallet,
           "Minimum Storage Area": warehouse.minimumStorageArea,
           "Minimum Storage Area (*per pallet)":
             warehouse.minimumstorageArea_per_pallet,
-          "Storage Charges": warehouse.storageCharges,
-          "Storage Charges (*per pallet)": warehouse.storageCharges_per_pallet,
+          "Storage Charges (*Day / Sq. Ft.)": warehouse.storageCharges,
+          "Storage Charges (*Day / per pallet)":
+            warehouse.storageCharges_per_pallet,
           "Hazardous Storage Type": selectedHazardousType,
           "Temperature Type": selectedTemperatureType,
           "Temperature Capacity":
@@ -193,7 +192,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
         });
       }
     }
-  }, [loading, data, Id, showPopUp]);
+  }, [data]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData: any) => ({
@@ -203,8 +202,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
   };
 
   const handleApprove = async () => {
-    console.log("Id of warehouse : ", Id);
-    console.log(data);
+    console.log("Id of warehouse Approved : ", formData);
 
     try {
       await approveWarehouse({
@@ -229,9 +227,8 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
             minimum_storage_Area: formData["minimumStorageArea"],
             minimum_storage_area_per_pallet:
               formData["minimumstorageArea_per_pallet"],
-            storage_charges: formData["storageCharges"] * 1,
-            storage_charges_per_pallet:
-              formData["storageCharges_per_pallet"] * 1,
+            storage_charges: formData["storageCharges"],
+            storage_charges_per_pallet: formData["storageCharges_per_pallet"],
             HazardousStorageType: selectedHazardousType,
             TempaeratureType: selectedTemperatureType,
             TemperatureCapacity: selectedTemperatureCapacities,
@@ -239,8 +236,8 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
           },
         },
       });
+      console.log("form data : ", formData);
 
-      // console.log("this is : ", data);
       setOperation("Approved");
       setShowPopUp(true);
     } catch (error: any) {
@@ -272,9 +269,8 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
     console.log(data.getWarehouseById);
 
     try {
-      const reviewData = await sendforreveiwingWarehouse({
+      const reviewData = await warehouseReveiw({
         variables: {
-          userId: data.getWarehouseById.user.id * 1,
           warehouseId: data.getWarehouseById.id * 1,
         },
       });
@@ -415,7 +411,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
             type="button"
             className="rounded-md mx-4 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
           >
-            Approve<span className="sr-only">, Approve </span>
+            Approve
           </button>
           <button
             onClick={() => {
@@ -424,16 +420,16 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
             type="button"
             className="rounded-md bg-sky-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
           >
-            Reject<span className="sr-only">, Reject </span>
+            Reject
           </button>
           <button
             onClick={() => {
-              handleReview();
+              // handleReview();
             }}
             type="button"
             className="rounded-md bg-sky-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
           >
-            Send for Review<span className="sr-only"> Send for Review</span>
+            Send for Review
           </button>
         </div>
       </div>

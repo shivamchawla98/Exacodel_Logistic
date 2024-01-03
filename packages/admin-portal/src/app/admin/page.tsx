@@ -22,6 +22,7 @@ import {
   XMarkIcon,
   CheckIcon,
   Square3Stack3DIcon,
+  BookmarkIcon,
 } from "@heroicons/react/20/solid";
 import Vendors from "./components/Vendors";
 import Approval from "@/components/Approval";
@@ -52,6 +53,7 @@ import UserMoreInfo from "./components/UserMoreInfo";
 import AvailableWarehouseStats from "@/components/AvailableWarehouseStats";
 import ApprovedWarehouseList from "./components/ApprovedWarehouseListing";
 import RejectedWarehouseList from "./components/RejectedWarehouse";
+import Bookings from "./components/Bookings";
 
 const navigation = [
   {
@@ -85,6 +87,7 @@ const navigation = [
     subNav: [
       { name: "Approve Warehouse", href: "#", icon: EyeIcon, current: false },
       { name: "Add Warehouse", href: "#", icon: PlusIcon, current: false },
+      { name: "Bookings", href: "#", icon: BookmarkIcon, current: false },
       {
         name: "Warehouses In Review",
         href: "#",
@@ -604,6 +607,9 @@ export default function Home() {
                   Id={approvalIndex}
                   setActiveItem={setActiveItem}
                 />
+              )}
+              {activeItem === "Bookings" && (
+                <Bookings Id={approvalIndex} setActiveItem={setActiveItem} />
               )}
               {activeItem === "Add Warehouse" && (
                 <AdminInputWarehouse setActiveItem={setActiveItem} />

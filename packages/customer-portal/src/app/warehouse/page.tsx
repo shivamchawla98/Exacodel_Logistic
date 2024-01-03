@@ -17,7 +17,7 @@ function Page() {
       )}
       <main className="bg-white my-2 flex justify-center items-center flex-wrap-reverse">
         <MapOfWarehouses />
-        <SearchAndFilter setLoginClose={setLoginClose} />
+        <SearchAndFilter setLoginClose={() => setLoginClose} />
       </main>
     </>
   );

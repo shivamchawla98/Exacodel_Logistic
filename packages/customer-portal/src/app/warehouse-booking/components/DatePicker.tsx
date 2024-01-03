@@ -1,20 +1,25 @@
 "use client";
+import {
+  updateMoveInDate,
+  updateMoveOutDate,
+} from "@/features/warehouse/warehouse-slice";
 import { Combobox } from "@headlessui/react";
 import { Datepicker } from "flowbite-react";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 function DatePicker({ setValue, register, errors }: any) {
+  const dispatch = useDispatch();
   const handleMoveInDatePickerChange = (date: any) => {
     const fomatedDate =
       date.getDay() + "/ " + date.getMonth() + " / " + date.getFullYear();
     console.log("move in : ", fomatedDate);
-
+    dispatch(updateMoveInDate(date));
     setValue("moveInDate", date);
   };
   const handleMoveOutDatePickerChange = (date: any) => {
     const fomatedDate =
       date.getDay() + "/ " + date.getMonth() + " / " + date.getFullYear();
-
+    dispatch(updateMoveOutDate(date));
     setValue("moveOutDate", date);
   };
 
@@ -25,10 +30,12 @@ function DatePicker({ setValue, register, errors }: any) {
           Move-in Date
         </label>
         <Datepicker
+          placeholder="Select date start"
           {...register("moveInDate", {
             required: true,
           })}
           onSelectedDateChanged={handleMoveInDatePickerChange}
+          minDate={new Date()}
         />
         {errors.moveInDate && (
           <span className="text-xs text-rose-500">This field is required</span>
@@ -39,10 +46,12 @@ function DatePicker({ setValue, register, errors }: any) {
           Move-out Date
         </label>
         <Datepicker
+          placeholder="Select date end"
           {...register("moveOutDate", {
             required: true,
           })}
           onSelectedDateChanged={handleMoveOutDatePickerChange}
+          minDate={new Date()}
         />
         {errors.moveOutDate && (
           <span className="text-xs text-rose-500">This field is required</span>

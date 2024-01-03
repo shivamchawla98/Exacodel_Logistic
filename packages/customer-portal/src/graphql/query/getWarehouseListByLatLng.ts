@@ -10,6 +10,11 @@ const LIST_OF_WAREHOUSE_USING_LAT_LNG = gql`
       storageCharges
       Adress
       uniqueid
+      hazardousStorageType
+      temperatureCapacity
+      temperatureType
+      latitude
+      longitude
     }
   }
 `;

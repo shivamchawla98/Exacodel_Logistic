@@ -1,8 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import GET_ALL_WAREHOUSE from "@/graphql/query/getAllWarehouse";
+import ALL_BOOKINGS from "@/graphql/query/getAllBookings";
 import {
-  RowModel,
-  Table,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -10,9 +8,12 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
-import { EyeIcon, ArrowsUpDownIcon } from "@heroicons/react/24/outline";
+import { useEffect, useMemo, useState } from "react";
+import { EyeIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "js-cookie";
+import moment from "moment";
 
 type Warehouse = {
   id: string;
@@ -21,16 +22,16 @@ type Warehouse = {
   State: string;
 };
 
-function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
-  const { loading, error, data, refetch } = useQuery(GET_ALL_WAREHOUSE);
-  const [sorting, setSorting] = useState<any>([]);
+function Bookings({ setActiveItem, setApprovalIndex, activeItem }: any) {
+  const token: any = Cookies.get("jwtToken");
+  console.log(token);
 
-  const [filtering, setFiltering] = useState<any>("");
-  const myData = useMemo(
-    () => data?.getAllWarehouses ?? [],
-    [data?.getAllWarehouses]
-  );
-  console.log(data?.getAllWarehouses);
+  const decodedData: any = jwtDecode(token);
+  console.log("decoded : ", decodedData.id);
+
+  const { loading, error, data, refetch } = useQuery(ALL_BOOKINGS);
+
+  const [sorting, setSorting] = useState<any>([]);
   function getSortingIcon(isSorted: string | null): string {
     const sortingIcons: Record<string, string> = {
       asc: "▲",
@@ -38,40 +39,50 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
     };
     return sortingIcons[isSorted ?? ""] ?? "";
   }
+  const [filtering, setFiltering] = useState<any>("");
+  const myData = useMemo(() => data?.allBookings ?? [], [data?.allBookings]);
+  console.log(data?.allBookings);
+  useEffect(() => {
+    refetch();
+  }, [activeItem]);
   /**
    @type import("@tanstack/react-table").columndDef<any>
    */
   const columns = useMemo(
     () => [
       {
-        accessorKey: "companyName",
+        accessorKey: "user.companyName",
         Header: "Company Name",
         cell: (props: any) => <p>{props.getValue()}</p>,
       },
       {
-        accessorKey: "warehouseType",
-        Header: " Warehouse Type",
+        accessorKey: "uniquecode",
+        Header: "Warehouse Booked",
         cell: (props: any) => <p>{props.getValue()}</p>,
       },
       {
-        accessorKey: "State",
-        Header: "State",
-        cell: (props: any) => <p>{props.getValue()}</p>,
+        accessorKey: "moveInDate",
+        Header: "Move In Date",
+        cell: (props: any) => (
+          <p>{moment(props.getValue()).format("D/MM/yyyy")}</p>
+        ),
       },
 
       {
-        accessorKey: "occupiedSpace",
-        Header: "Occupied Space",
+        accessorKey: "moveOutDate",
+        Header: "MoveOutDate",
+        cell: (props: any) => (
+          <p>{moment(props.getValue()).format("D/MM/yyyy")}</p>
+        ),
+      },
+      {
+        accessorKey: "user.first_name",
+        Header: "Name",
         cell: (props: any) => <p>{props.getValue()}</p>,
       },
       {
-        accessorKey: "unoccupiedSpace",
-        Header: "Occupied Space",
-        cell: (props: any) => <p>{props.getValue()}</p>,
-      },
-      {
-        accessorKey: "totalSquareArea",
-        Header: "Total Sq. ft.",
+        accessorKey: "spaceMaterialType",
+        Header: "Material Type",
         cell: (props: any) => <p>{props.getValue()}</p>,
       },
 
@@ -79,21 +90,23 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
         accessorKey: "id",
         Header: "Actions",
         cell: (cell: any) => (
-          <div
-            className="cursor-pointer"
-            onClick={() => {
-              setApprovalIndex(cell.row.original.id);
-              console.log("cell id : ", cell.row.original.id);
+          <div className="flex justify-evenly items-center">
+            <div
+              className="cursor-pointer mr-2"
+              onClick={() => {
+                setApprovalIndex(cell.row.original.id);
+                console.log("cell id : ", cell.row.original.id);
 
-              setActiveItem("warehouseInfo");
-            }}
-          >
-            <EyeIcon className="h-4 w-4 text-sky-500" />
+                setActiveItem("warehouseInfo");
+              }}
+            >
+              <EyeIcon className="h-4 w-4 text-sky-500" />
+            </div>
           </div>
         ),
       },
     ],
-    [setApprovalIndex, setActiveItem]
+    [setApprovalIndex, setActiveItem, activeItem]
   );
 
   const table = useReactTable({
@@ -112,7 +125,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
   });
 
   return (
-    <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+    <div className="inline-block max-w-4xl py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
         <div className="relative py-8">
           <input
@@ -134,7 +147,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
           <table className="min-w-full divide-y divide-gray-300">
             <thead className="bg-gray-50">
               {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id} id={headerGroup.id}>
+                <tr id={headerGroup.id}>
                   {headerGroup.headers.map((header: any) => (
                     <th
                       scope="col"
@@ -156,9 +169,9 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
               {table.getRowModel().rows.map((row) => (
-                <tr key={row.id} id={row.id}>
+                <tr id={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <td className="whitespace-nowrap px-3 py-2 text-center text-sm text-gray-500">
+                    <td className="whitespace-nowrap text-center px-3 py-2 text-sm text-gray-500">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -213,4 +226,4 @@ function AllWarehouse({ setActiveItem, setApprovalIndex }: any) {
   );
 }
 
-export default AllWarehouse;
+export default Bookings;

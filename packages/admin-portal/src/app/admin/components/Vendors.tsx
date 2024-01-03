@@ -175,11 +175,11 @@ export default function Vendors({
         />
       )}
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <div className="relative max-w-xl my-4 ">
+        <div className="relative py-8">
           <input
             type="text"
             placeholder="Search"
-            className="border rounded-ee-md rounded-tr-md border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            className="border absolute top-0 max-w-sm right-0 rounded-ee-md rounded-tr-md border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
             onChange={(e) => setFiltering(e.currentTarget.value)}
           />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />

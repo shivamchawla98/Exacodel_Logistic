@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "./DatePicker";
 import TotalCostCard from "./ToatalCostCard";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -31,35 +31,52 @@ function BookYourSpace() {
     formState: { errors },
     setValue,
   } = useForm<BookYourSpaceInput>();
-  const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
+  const [localWarehouseId, setLocalWarehouseId] = useState<any>("");
+  try {
+    let warehouseLocalStorageId: any = localStorage.getItem("warehouseId");
+    setLocalWarehouseId(warehouseLocalStorageId);
+  } catch (error) {
+    console.log(error);
+  }
+
+  const [userId, setUserId] = useState(-1);
+  useEffect(() => {
     try {
       let token: any = Cookies.get("jwToken");
-
       if (token) {
         const decodedToken: any = jwtDecode(token);
         console.log(decodedToken);
-        const response = await createBooking({
-          variables: {
-            input: {
-              moveInDate: data.moveInDate,
-              moveOutDate: data.moveOutDate,
-              spaceMaterialType: "Glass",
-              specialInstructions: "Handle with care",
-              warehouseId: warehouseId * 1,
-              userId: decodedToken?.id,
-            },
-          },
-        });
-        router.push("/profile");
-        console.log("data ", response);
-        toast.success("Bokking placed sucessfully");
+        setUserId(decodedToken.id);
       }
     } catch (error: any) {
       toast.error(error.message);
       console.log("Error in creating Booking", error);
     }
+  }, []);
+  // submit function
+  const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
+    try {
+      const response = await createBooking({
+        variables: {
+          input: {
+            moveInDate: data.moveInDate,
+            moveOutDate: data.moveOutDate,
+            spaceMaterialType: "Glass",
+            specialInstructions: "Handle with care",
+            warehouseId: warehouseId * 1 || localWarehouseId * 1,
+            userId: userId * 1,
+          },
+        },
+      });
 
-    console.log("form data : ", data);
+      router.push("/profile");
+      console.log("data ", response);
+      toast.success("Bokking placed sucessfully");
+      console.log("form data : ", data);
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log("Error in creating Booking", error);
+    }
   };
 
   return (

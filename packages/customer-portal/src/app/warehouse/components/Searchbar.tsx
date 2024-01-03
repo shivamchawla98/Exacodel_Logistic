@@ -6,6 +6,8 @@ interface LocationSearchInputProps {
   onPlaceSelected: (place: google.maps.places.PlaceResult) => void;
 }
 
+const libraries = ["places"];
+
 const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
   onPlaceSelected,
 }) => {
@@ -38,7 +40,7 @@ const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
         <div className="relative flex justify-center items-center my-2">
           <input
             type="text"
-            className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-cyan-500 focus:ring-cyan-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm pl-10 rounded-lg"
+            className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-sky-500 focus:ring-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm pl-10 rounded-lg"
             placeholder="Search warehouse location"
           />
           <MagnifyingGlassIcon className="h-6 w-6 absolute right-3" />

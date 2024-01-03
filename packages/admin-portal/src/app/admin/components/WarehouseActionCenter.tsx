@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 // import GET_ALL_WAREHOUSE from "@/graphql/query/getAllWarehouse";
-import GET_WAREHOUSE_APPROVAL_PENDING_LIST from "@/graphql/query/getWarehousePendingApprovalList";
+import GET_ALL_WAREHOUSE_APPROVAL_PENDING_LIST from "@/graphql/query/getAllWarehouseApprovalpending";
 import {
   flexRender,
   getCoreRowModel,
@@ -30,12 +30,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
   console.log("decoded : ", decodedData.id);
 
   const { loading, error, data, refetch } = useQuery(
-    GET_WAREHOUSE_APPROVAL_PENDING_LIST,
-    {
-      variables: {
-        userId: decodedData.id * 1,
-      },
-    }
+    GET_ALL_WAREHOUSE_APPROVAL_PENDING_LIST
   );
 
   const [sorting, setSorting] = useState<any>([]);
@@ -48,10 +43,10 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
   }
   const [filtering, setFiltering] = useState<any>("");
   const myData = useMemo(
-    () => data?.getWarehousePendingForApprovalListbyuserid ?? [],
-    [data?.getWarehousePendingForApprovalListbyuserid]
+    () => data?.warehousesPendingApproval ?? [],
+    [data?.warehousesPendingApproval]
   );
-  console.log(data?.getWarehousePendingForApprovalListbyuserid);
+  console.log(data?.warehousesPendingApproval);
   useEffect(() => {
     refetch();
   }, [activeItem]);
@@ -144,10 +139,10 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
   return (
     <div className="inline-block max-w-4xl py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <div className="relative my-4 max-w-xl">
+        <div className="relative py-8">
           <input
             type="text"
-            className="border rounded-ee-md rounded-tr-md border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            className="border absolute top-0 max-w-sm right-0 rounded-ee-md rounded-tr-md border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
             onChange={(e) => setFiltering(e.currentTarget.value)}
           />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
