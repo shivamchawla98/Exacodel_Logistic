@@ -13,11 +13,13 @@ const filters = [
     id: "containers",
     name: "Container Type",
     options: containerTypes,
+    status: false,
   },
   {
     id: "shipping-line",
     name: "Shipping Lines",
     options: shippingLines,
+    status: false,
   },
 ];
 
@@ -27,18 +29,12 @@ function classNames(...classes: any) {
 
 export default function Page() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [container, setContainer] = useState(false);
+  const [shippingLine, setShippingLine] = useState(false);
   return (
     <div className="bg-white">
       <section className="bg-white ">
-        {/* <ShippingFilter /> */}
         <ShippingFilter2 />
-        {/* <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
-          <h3 className="mx-auto text-lg font-semibold tracking-tight text-gray-600 sm:text-2xl text-center">
-            You Have Booked form{" "}
-            <strong className="text-sky-400">por bandar </strong> to{" "}
-            <strong className="text-rose-400">Beigjin</strong>
-          </h3>
-        </div> */}
       </section>
       <div>
         {/* Mobile filter dialog */}
@@ -167,37 +163,77 @@ export default function Page() {
 
               <div className="hidden lg:block">
                 <form className="space-y-10 divide-y divide-gray-200">
-                  {filters.map((section, sectionIdx) => (
-                    <div
-                      key={section.name}
-                      className={sectionIdx === 0 ? "" : "pt-10"}
-                    >
-                      <fieldset>
-                        <legend className="block text-sm font-medium text-gray-900">
-                          {section.name}
-                        </legend>
-                        <div className="space-y-3 pt-6">
-                          {section.options.map((option, optionIdx) => (
+                  <div
+                    key="containers"
+                    // className={sectionIdx === 0 ? "" : "pt-10"}
+                  >
+                    <fieldset>
+                      <legend
+                        onClick={() => {
+                          setContainer(!container);
+                        }}
+                        className="block text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 hover:scale-105 cursor-pointer  text-gray-800"
+                      >
+                        Container Type
+                        <span>
+                          <ChevronDownIcon className="ml-2 w-6 h-6 paragraph-semibold text-fuchsia-800 hover:text-primary-500" />
+                        </span>
+                      </legend>
+                      <div className="space-y-3 bg-gray-50 px-2">
+                        {container &&
+                          containerTypes.map((option, optionIdx) => (
                             <div key={option} className="flex items-center">
                               <input
-                                id={`${section.id}-${optionIdx}`}
-                                name={`${section.id}[]`}
+                                id={`${optionIdx}`}
+                                name={`${optionIdx}[]`}
                                 defaultValue={option}
                                 type="checkbox"
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-fuchsia-800"
                               />
                               <label
-                                htmlFor={`${section.id}-${optionIdx}`}
+                                htmlFor={`${optionIdx}`}
                                 className="ml-3 text-sm text-gray-600"
                               >
                                 {option}
                               </label>
                             </div>
                           ))}
-                        </div>
-                      </fieldset>
-                    </div>
-                  ))}
+                      </div>
+                    </fieldset>
+                    <fieldset className="mt-2">
+                      <legend
+                        onClick={() => {
+                          setShippingLine(!shippingLine);
+                        }}
+                        className="block text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 hover:scale-105 cursor-pointer  text-gray-800"
+                      >
+                        Shipping Lines
+                        <span>
+                          <ChevronDownIcon className="ml-2 w-6 h-6 paragraph-semibold text-fuchsia-800 hover:text-primary-500" />
+                        </span>
+                      </legend>
+                      <div className="space-y-3 bg-gray-50 px-2">
+                        {shippingLine &&
+                          shippingLines.map((option, optionIdx) => (
+                            <div key={option} className="flex items-center">
+                              <input
+                                id={`${optionIdx}`}
+                                name={`${optionIdx}[]`}
+                                defaultValue={option}
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-fuchsia-800"
+                              />
+                              <label
+                                htmlFor={`${optionIdx}`}
+                                className="ml-3 text-sm text-gray-600"
+                              >
+                                {option}
+                              </label>
+                            </div>
+                          ))}
+                      </div>
+                    </fieldset>
+                  </div>
                 </form>
               </div>
             </aside>

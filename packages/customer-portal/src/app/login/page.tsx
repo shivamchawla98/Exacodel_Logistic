@@ -251,13 +251,13 @@ function Page() {
   // api login logic ends and login ui starts
 
   return (
-    <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
+    <div className=" bg-white flex flex-col justify-center sm:py-12">
       <RolePopup />
       <LoginStatus id={id} open={open} setOpen={setOpen} />
       {showAlert && <Alert />}
       <ToastContainer />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto  lg:w-4/12">
-        <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-300 to-primary-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <div>
@@ -326,7 +326,7 @@ function Page() {
                     <div className="relative">
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                        className="block text-sm paragraph-medium text-gray-900"
                       >
                         Email Address
                       </label>
@@ -335,7 +335,7 @@ function Page() {
                         id="email"
                         name="email"
                         type="text"
-                        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                         placeholder="Email address"
                         // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(email, e.target.value) }
                         // value={email}
@@ -350,7 +350,7 @@ function Page() {
                     <div className="relative">
                       <label
                         htmlFor="password"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                        className="block text-sm paragraph-medium text-gray-900"
                       >
                         Password
                       </label>
@@ -359,7 +359,7 @@ function Page() {
                         id="password"
                         name="password"
                         type="password"
-                        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                         placeholder="Password"
                         // value={password}
                         // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(password, e.target.value) }
@@ -377,24 +377,27 @@ function Page() {
                           onChange={(value) => setFieldValue('recaptcha', value)}
                         /> */}
                     </div>
-                    <div className="relative mt-2">
-                      <button
-                        type="submit"
-                        className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-6 py-1"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Loging in..." : "Login"}
-                      </button>
-                    </div>
-                    <div>
-                      <p className="mb-0 mt-2 pt-1 text-sm font-medium">
-                        <Link
-                          href="/reset-password"
-                          className="text-danger transition text-xs duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
+
+                    <div className="flex-between">
+                      <div className="relative mt-2">
+                        <button
+                          type="submit"
+                          className="bg-primary-500 hover:bg-fuchsia-700 text-white rounded-md shadow-sm body-semibold  px-6 py-2"
+                          disabled={isSubmitting}
                         >
-                          Forget password !
-                        </Link>
-                      </p>
+                          {isSubmitting ? "Loging in..." : "Login"}
+                        </button>
+                      </div>
+                      <div>
+                        <p className="mb-0 mt-2 pt-1 text-sm font-medium">
+                          <Link
+                            href="/reset-password"
+                            className="text-danger transition text-xs duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-primary-500"
+                          >
+                            Forget password !
+                          </Link>
+                        </p>
+                      </div>
                     </div>
                     <div>
                       <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
@@ -404,7 +407,7 @@ function Page() {
                           onClick={() => {
                             dispatch(updateSignUpclicked(!signUpClicked));
                           }}
-                          className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-sky-700"
+                          className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700 pl-1 text-primary-500"
                         >
                           Register
                         </Link>

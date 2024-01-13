@@ -259,15 +259,15 @@ export default function Home() {
                                     }}
                                     className={`group flex gap-x-3 rounded-md p-2 -mx-2 space-y-1 text-sm leading-6 font-medium w-full ${
                                       activeItem === navItems.name
-                                        ? "bg-gray-50 text-sky-600"
-                                        : "text-gray-700 hover:text-sky-600 hover:bg-gray-50"
+                                        ? "bg-gray-50 text-primary-500"
+                                        : "text-gray-700 hover:text-primary-500 hover:bg-gray-50"
                                     } `}
                                   >
                                     <navItems.icon
                                       className={classNames(
                                         activeItem === navItems.name
-                                          ? "text-sky-600"
-                                          : "text-gray-400 group-hover:text-sky-600",
+                                          ? "text-primary-500"
+                                          : "text-gray-400 group-hover:text-primary-500",
                                         "h-6 w-6 shrink-0"
                                       )}
                                       aria-hidden="true"
@@ -289,16 +289,16 @@ export default function Home() {
                                               }}
                                               className={`group flex gap-x-3 rounded-md  text-sm leading-6 items-center  font-normal w-full ${
                                                 activeItem === childNav.name
-                                                  ? "bg-gray-50 text-sky-600"
-                                                  : "text-gray-700 hover:text-sky-600 hover:bg-gray-50"
+                                                  ? "bg-gray-50 text-primary-500"
+                                                  : "text-gray-700 hover:text-primary-500 hover:bg-gray-50"
                                               } `}
                                             >
                                               {childNav.icon && (
                                                 <childNav.icon
                                                   className={classNames(
                                                     activeItem === childNav.name
-                                                      ? "text-sky-600"
-                                                      : "text-gray-400 group-hover:text-sky-600",
+                                                      ? "text-primary-500"
+                                                      : "text-gray-400 group-hover:text-primary-500",
                                                     "h-4 w-4 shrink-0"
                                                   )}
                                                   aria-hidden="true"
@@ -319,10 +319,10 @@ export default function Home() {
                         <li className="mt-auto">
                           <a
                             href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
+                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-500"
                           >
                             <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-sky-600"
+                              className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-primary-500"
                               aria-hidden="true"
                             />
                             Settings
@@ -360,15 +360,15 @@ export default function Home() {
                         }}
                         className={`group flex gap-x-3 rounded-md p-2 -mx-2 space-y-1 text-sm leading-6 font-medium w-full ${
                           activeItem === navItems.name
-                            ? "bg-gray-50 text-sky-600"
-                            : "text-gray-700 hover:text-sky-600 hover:bg-gray-50"
+                            ? "bg-gray-50 text-primary-500"
+                            : "text-gray-700 hover:text-primary-500 hover:bg-gray-50"
                         } `}
                       >
                         <navItems.icon
                           className={classNames(
                             activeItem === navItems.name
-                              ? "text-sky-600"
-                              : "text-gray-400 group-hover:text-sky-600",
+                              ? "text-primary-500"
+                              : "text-gray-400 group-hover:text-primary-500",
                             "h-5 w-5 shrink-0"
                           )}
                           aria-hidden="true"
@@ -387,16 +387,16 @@ export default function Home() {
                                 }}
                                 className={`group flex gap-x-3 rounded-md  text-sm leading-6 items-center  font-normal w-full ${
                                   activeItem === childNav.name
-                                    ? "bg-gray-50 text-sky-600"
-                                    : "text-gray-700 hover:text-sky-600 hover:bg-gray-50"
+                                    ? "bg-gray-50 text-primary-500"
+                                    : "text-gray-700 hover:text-primary-500 hover:bg-gray-50"
                                 } `}
                               >
                                 {childNav.icon && (
                                   <childNav.icon
                                     className={classNames(
                                       activeItem === childNav.name
-                                        ? "text-sky-600"
-                                        : "text-gray-400 group-hover:text-sky-600",
+                                        ? "text-primary-500"
+                                        : "text-gray-400 group-hover:text-primary-500",
                                       "h-4 w-4 shrink-0"
                                     )}
                                     aria-hidden="true"
@@ -415,10 +415,10 @@ export default function Home() {
                 <li className="mt-auto">
                   <a
                     href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-sky-600"
+                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-primary-500"
                   >
                     <Cog6ToothIcon
-                      className="h-5 w-5 shrink-0 text-gray-400 group-hover:text-sky-600"
+                      className="h-5 w-5 shrink-0 text-gray-400 group-hover:text-primary-500"
                       aria-hidden="true"
                     />
                     Settings

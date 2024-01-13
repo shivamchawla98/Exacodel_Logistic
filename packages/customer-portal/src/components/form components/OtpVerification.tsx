@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, createRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateEmail } from "@/features/user/user-slice";
 import { updateFormName } from "@/features/select-form/selectForm-slice";
@@ -6,9 +6,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { updateUserId } from "@/features/user/user-slice";
-import { updateSignUpclicked, updateSendOtpClicked } from '@/features/select-form/selectForm-slice';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the styles
+import {
+  updateSignUpclicked,
+  updateSendOtpClicked,
+} from "@/features/select-form/selectForm-slice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import the styles
 import ReCAPTCHA from "react-google-recaptcha";
 
 const SEND_OTP_MUTATION = gql`
@@ -18,7 +21,10 @@ const SEND_OTP_MUTATION = gql`
 `;
 
 const INITIAL_REGISTRATION_MUTATION = gql`
-  mutation InitialRegistration($userInput: SelectUserTypeAndSubtypeInput!, $emailInput: EmailInput!) {
+  mutation InitialRegistration(
+    $userInput: SelectUserTypeAndSubtypeInput!
+    $emailInput: EmailInput!
+  ) {
     initialRegistration(userInput: $userInput, emailInput: $emailInput) {
       id
     }
@@ -44,22 +50,23 @@ const CountdownTimer = ({ timer }: any) => {
 
   return (
     <div className="flex w-full justify-evenly mt-4 items-center mx-auto text-sm font-semibold">
-      <div className="w-8 h-8 rounded-full flex justify-center items-center bg-sky-500 text-white font-semibold text-center">
+      <div className="w-8 h-8 rounded-full flex justify-center items-center bg-primary-500 text-white font-semibold text-center">
         {countdown > 0 ? countdown : ""}
       </div>
       {countdown > 0 ? (
-        <span className="text-sky-500">seconds remaining</span>
+        <span className="text-primary-500">seconds remaining</span>
       ) : (
-        <span className="text-sky-500">Resend available</span>
+        <span className="text-primary-500">Resend available</span>
       )}
     </div>
   );
 };
 
-
 function OtpVerification() {
   const email = useSelector((state: any) => state.user.email);
-  const { identification, userType } = useSelector((state: any) => state.starterSlice);
+  const { identification, userType } = useSelector(
+    (state: any) => state.starterSlice
+  );
   const [sendOtpClicked, setSendOtpClicked] = useState(false);
   const [resendDisabled, setResendDisabled] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
@@ -67,10 +74,14 @@ function OtpVerification() {
   const [timer, setTimer] = useState(0); // Added timer state
 
   const dispatch = useDispatch();
-  const inputRefs: any = useRef(Array(4).fill(0).map(() => React.createRef()));
+  const inputRefs: any = useRef(
+    Array(4)
+      .fill(0)
+      .map(() => createRef())
+  );
 
-  const [Email, setEmail] = useState('');
-  const [Otp, setOtp] = useState('');
+  const [Email, setEmail] = useState("");
+  const [Otp, setOtp] = useState("");
 
   const [sendOTPMutation] = useMutation(SEND_OTP_MUTATION);
   const [initialRegistration] = useMutation(INITIAL_REGISTRATION_MUTATION);
@@ -139,7 +150,7 @@ function OtpVerification() {
   }
 
   const handleEmailSubmit = async (values: any) => {
-    if (userType === '') {
+    if (userType === "") {
       dispatch(updateSignUpclicked(true));
       alert("Please Enter Identification and User type");
       return;
@@ -173,7 +184,7 @@ function OtpVerification() {
   };
 
   const verifyAccount = async () => {
-    let otp = inputRefs.current.map((ref: any) => ref.current.value).join('');
+    let otp = inputRefs.current.map((ref: any) => ref.current.value).join("");
     console.log("otp", otp);
     let customerType = identification === "CUSTOMER" ? userType : null;
     let vendorType = identification === "VENDOR" ? userType : null;
@@ -198,10 +209,10 @@ function OtpVerification() {
       dispatch(updateUserId(response.data.initialRegistration.id * 1));
       dispatch(updateFormName("passCreation"));
     } catch (error: any) {
-      toast.error('OTP not matched', {
+      toast.error("OTP not matched", {
         position: toast.POSITION.TOP_CENTER,
       });
-      console.error('Error during registration:', error);
+      console.error("Error during registration:", error);
     }
   };
 
@@ -209,32 +220,38 @@ function OtpVerification() {
     // Loop through the inputRefs and set the value of each input to an empty string
     inputRefs.current.forEach((inputRefs: any) => {
       if (inputRefs.current) {
-        inputRefs.current.value = '';
+        inputRefs.current.value = "";
       }
     });
   };
 
   const reCaptchChange = () => {
     return;
-  }
+  };
 
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <ToastContainer />
       <div className="relative py-3 sm:max-w-lg sm:mx-auto">
-        <div className="absolute max-w-md inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="absolute max-w-md inset-0 bg-gradient-to-r from-fuchsia-300 to-primary-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 max-w-md  py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="flex flex-col items-center justify-center text-center space-y-2">
             <div className="font-semibold text-3xl">
-                            {sendOtpClicked ? <p>Verify OTP to set password</p> : <p>Email Verification</p>}
-                        </div>
-                        <div className="flex flex-row text-sm font-medium text-gray-400 my-6">
-                            {sendOtpClicked ? (
-                                <p>We have sent a code to your email <strong>{email}</strong></p>
-                            ) : (
-                                <p>Enter email and verify your mail to be one step ahead</p>
-                            )}
-                        </div>
+              {sendOtpClicked ? (
+                <p>Verify OTP to set password</p>
+              ) : (
+                <p>Email Verification</p>
+              )}
+            </div>
+            <div className="flex flex-row text-sm font-medium text-gray-400 my-6">
+              {sendOtpClicked ? (
+                <p>
+                  We have sent a code to your email <strong>{email}</strong>
+                </p>
+              ) : (
+                <p>Enter email and verify your mail to be one step ahead</p>
+              )}
+            </div>
             <div className="mt-5 w-full sm:flex sm:items-center">
               <div className="w-11/12 mx-auto sm:max-w-xs py-8">
                 {otpSent ? (
@@ -252,7 +269,7 @@ function OtpVerification() {
                           {Array.from({ length: 4 }, (_, index) => (
                             <div className="w-12 h-12" key={index}>
                               <input
-                                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+                                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
                                 type="text"
                                 name={`digit-${index + 1}`}
                                 id={`digit-${index + 1}`}
@@ -264,10 +281,18 @@ function OtpVerification() {
                           ))}
                         </div>
 
-                        <div className={`flex flex-row items-center mt-4 justify-evenly text-center text-sm font-medium space-x-1 ${resendDisabled ? "text-gray-300" : "text-gray-500"}`}>
+                        <div
+                          className={`flex flex-row items-center mt-4 justify-evenly text-center text-sm font-medium space-x-1 ${
+                            resendDisabled ? "text-gray-300" : "text-gray-500"
+                          }`}
+                        >
                           <p>Didn&apos;t receive the code?</p>{" "}
                           <button
-                            className={`flex flex-row items-center ${resendDisabled ? "text-sky-200" : "text-sky-600"} `}
+                            className={`flex flex-row items-center ${
+                              resendDisabled
+                                ? "text-fuchsia-200"
+                                : "text-primary-500"
+                            } `}
                             disabled={resendDisabled}
                             type="button"
                             onClick={(e) => {
@@ -282,7 +307,7 @@ function OtpVerification() {
                         <div>
                           <button
                             type="submit"
-                            className="flex flex-row items-center mt-4 justify-center text-center px-4 mx-auto border rounded-lg outline-none py-4 bg-sky-600 border-none text-white text-sm font-semibold shadow-sm"
+                            className="flex flex-row items-center mt-4 justify-center text-center px-4 mx-auto border rounded-lg outline-none py-4 bg-primary-500 border-none text-white text-sm font-semibold shadow-sm"
                             disabled={verificationLoading}
                           >
                             {isSubmitting ? "Verifying..." : "Verify Account"}
@@ -306,7 +331,7 @@ function OtpVerification() {
                           type="email"
                           name="email"
                           id="email"
-                          className="block w-full text-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                          className="block w-full text-center rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                           placeholder="you@example.com"
                           disabled={isEmailSubmitting}
                         />
@@ -331,8 +356,11 @@ function OtpVerification() {
                         <button
                           type="submit"
                           disabled={resendDisabled || isEmailSubmitting}
-                          className={` mt-4 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 sm:ml-3 sm:w-auto ${resendDisabled ? "bg-sky-200" : "bg-sky-500 hover:bg-sky-400"
-                            }`}
+                          className={` mt-4 inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 sm:ml-3 sm:w-auto ${
+                            resendDisabled
+                              ? "bg-fuchsia-200"
+                              : "bg-primary-500 hover:bg-fuchsia-800"
+                          }`}
                         >
                           {isSubmitting ? (
                             <div className="flex space-x-1 items-center">
@@ -351,12 +379,7 @@ function OtpVerification() {
             </div>
           </div>
 
-          <div>
-            {resendDisabled && (
-              <CountdownTimer timer={timer} />
-            )}
-
-          </div>
+          <div>{resendDisabled && <CountdownTimer timer={timer} />}</div>
         </div>
       </div>
     </div>

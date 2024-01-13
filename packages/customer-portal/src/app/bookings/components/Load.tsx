@@ -12,8 +12,8 @@ function classNames(...classes: any) {
 }
 export default function Load() {
   return (
-    <Popover className="relative">
-      <Popover.Button className="flex focus:border-sky-500 justify-start flex-col w-72 lg:w-72 border-1 shadow-md rounded-md py-2 px-2 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+    <Popover className="relative rounded-md shadow-md">
+      <Popover.Button className="flex focus:border-primary-500 border-b-2 border-primary-500 justify-start flex-col w-72 lg:w-72 border-1 shadow rounded-md py-2 px-2 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
         <div className="flex justify-start items-center w-full font-normal">
           Load
         </div>

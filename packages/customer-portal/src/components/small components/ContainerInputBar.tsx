@@ -41,9 +41,9 @@ function SearchBar({ register }: any) {
 
           <label
             htmlFor="fcl"
-            className={`w-32 py-2 text-center text-gray-800 font-medium text-sm cursor-pointer rounded-tl-lg rounded-bl-lg transition duration-300 ${
+            className={`w-32 py-2 text-center text-gray-800 body-medium text-sm cursor-pointer rounded-tl-lg rounded-bl-lg transition duration-300 ${
               transportationType === "FCL Containers"
-                ? "bg-sky-500 text-white"
+                ? "bg-fuchsia-800 text-white"
                 : "bg-white border border-gray-300"
             }`}
           >
@@ -51,16 +51,16 @@ function SearchBar({ register }: any) {
           </label>
           <label
             htmlFor="lcl"
-            className={`w-32 py-2 text-center text-gray-800 font-medium text-sm cursor-pointer rounded-tr-lg rounded-br-lg transition duration-300 ${
+            className={`w-32 py-2 text-center text-gray-800 body-medium text-sm cursor-pointer rounded-tr-lg rounded-br-lg transition duration-300 ${
               transportationType === "LCL Containers"
-                ? "bg-sky-500 text-white"
+                ? "bg-fuchsia-800 text-white"
                 : "bg-white border border-gray-300"
             }`}
           >
             LCL Containers
           </label>
           <div
-            className={`h-8 bg-sky-500 rounded-full absolute transition-transform ${
+            className={`h-8 bg-primary-500 rounded-full absolute transition-transform ${
               transportationType === "LCL Containers"
                 ? "translate-x-32"
                 : "translate-x-0"
@@ -78,7 +78,7 @@ function SearchBar({ register }: any) {
               <div className="flex justify-between items-center mb-3">
                 <div className="inline-flex items-center self-start">
                   <BsFillBox2Fill size={18} style={{ margin: "7px" }} />
-                  <span className="font-medium text-gray-900">
+                  <span className="body-medium text-gray-900">
                     Container Type
                   </span>
                 </div>
@@ -86,30 +86,30 @@ function SearchBar({ register }: any) {
                 <select
                   defaultValue={"20FT"}
                   {...register("containerType", { required: true })}
-                  className="max-w-sm font-medium py-1.5 px-2 mx-1.5
+                  className="max-w-sm body-medium py-1.5 px-2 mx-1.5
               block border border-gray-300 rounded-md text-sm shadow-sm  placeholder-gray-400
               focus:outline-none
-              focus:border-sky-500
+              focus:border-primary-500
               focus:ring-1
-              focus:ring-sky-500
-              focus:invalid:border-red-500  focus:invalid:ring-red-500"
+              focus:ring-primary-500
+              focus:invalid:border-primary-500  focus:invalid:ring-primary-500"
                 >
-                  <option className="text-sm font-medium" value="ST20">
+                  <option className="text-sm body-medium" value="ST20">
                     20&apos; Standard
                   </option>
-                  <option className="text-sm font-medium" value="ST40">
+                  <option className="text-sm body-medium" value="ST40">
                     40&apos; Standard
                   </option>
-                  <option className="text-sm font-medium" value="HQ40">
+                  <option className="text-sm body-medium" value="HQ40">
                     40&apos; High Cube
                   </option>
-                  <option className="text-sm font-medium" value="HQ45">
+                  <option className="text-sm body-medium" value="HQ45">
                     45&apos; High Cube
                   </option>
-                  <option className="text-sm font-medium" value="REF20">
+                  <option className="text-sm body-medium" value="REF20">
                     20&apos; Refrigerated
                   </option>
-                  <option className="text-sm font-medium" value="REF40">
+                  <option className="text-sm body-medium" value="REF40">
                     40&apos; Refrigerated
                   </option>
                 </select>
@@ -120,7 +120,7 @@ function SearchBar({ register }: any) {
               <div>
                 <label
                   htmlFor="weight"
-                  className="text-xs font-medium text-black"
+                  className="text-xs body-medium text-black"
                 >
                   WEIGHT, MT
                 </label>
@@ -133,7 +133,7 @@ function SearchBar({ register }: any) {
               <div className="mb-2">
                 <label
                   htmlFor="volume"
-                  className="text-xs font-medium text-black"
+                  className="text-xs body-medium text-black"
                 >
                   VOLUME, M³
                 </label>
@@ -147,7 +147,7 @@ function SearchBar({ register }: any) {
           )}
 
           <button
-            className="transition duration-300 ease-in-out hover:scale-105 px-4 py-1.5 rounded-md shadow-lg bg-sky-600 font-medium text-gray-100 block"
+            className="transition duration-300 ease-in-out hover:scale-105 px-4 py-1.5 rounded-md shadow-lg bg-primary-500 body-medium text-gray-100 block"
             type="submit"
           >
             <span id="login_process_state" className="hidden">

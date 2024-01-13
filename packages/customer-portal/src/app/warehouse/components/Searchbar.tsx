@@ -37,13 +37,20 @@ const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
   return (
     <LoadScript libraries={["places"]} googleMapsApiKey={key}>
       <StandaloneSearchBox onLoad={handleLoad}>
-        <div className="relative flex justify-center items-center my-2">
+        <div className="relative flex-col items-center my-2">
+          <label
+            htmlFor="location"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Warehouse Location
+          </label>
           <input
             type="text"
-            className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-sky-500 focus:ring-sky-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-cyan-500 dark:focus:ring-cyan-500 p-2.5 text-sm pl-10 rounded-lg"
+            id="location"
+            className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-fuchsia-500 dark:focus:ring-fuchsia-500 p-2.5 text-sm pl-2 rounded-lg"
             placeholder="Search warehouse location"
           />
-          <MagnifyingGlassIcon className="h-6 w-6 absolute right-3" />
+          {/* <MagnifyingGlassIcon className="h-6 w-6 absolute right-3" /> */}
         </div>
       </StandaloneSearchBox>
     </LoadScript>

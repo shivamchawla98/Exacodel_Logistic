@@ -22,7 +22,7 @@ function ViewMoreTab({ setActiveStep, step, setCost, cost }: any) {
       >
         <div className="flex items-center  text-sm text-gray-600  font-medium ml-4">
           <input
-            className="w-4 h-4 text-sky-400 bg-gray-100 border-gray-300 rounded focus:ring-sky-500 dark:focus:ring-sky-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            className="w-4 h-4 text-primary-500 bg-gray-100 border-gray-300 rounded focus:ring-fuchsia-800 dark:focus:ring-primary-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
             type="checkbox"
             checked={isChecked}
             onChange={handleCheckboxChange}
@@ -47,7 +47,9 @@ function ViewMoreTab({ setActiveStep, step, setCost, cost }: any) {
             426.82 kg CO2
           </p>
         </div>
-        <p className="font-medium text-sm text-sky-500 mr-4">${costOfThis}</p>
+        <p className="text-sm paragraph-semibold text-primary-500 mr-4">
+          ${costOfThis}
+        </p>
       </div>
       {viewSubMenu && <SubViewMoreTab />}
     </div>

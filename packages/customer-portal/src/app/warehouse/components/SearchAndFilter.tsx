@@ -117,7 +117,7 @@ function SearchAndFilter({ setLoginClose }: any) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-1/2 py-6 flex h-screen overflow-y-auto justify-center items-center rounded-md shadow-sm flex-wrap no-scrollbar  bg-gradient-to-br to-transparent from-sky-100"
+      className="w-1/2 py-6 flex h-screen overflow-y-auto justify-center items-center flex-wrap no-scrollbar  bg-gradient-to-br to-transparent from-primary-100"
     >
       <ToastContainer />
       <div className="w-full flex justify-center items-center">
@@ -130,14 +130,15 @@ function SearchAndFilter({ setLoginClose }: any) {
         {/* <DatePicker /> */}
         <div className="lg:w-5/12">
           <label
-            htmlFor="countries"
+            htmlFor="warehouseType"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Select Warehouse Type
           </label>
           <select
             {...register("warehouseType", {})}
-            className="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+            id="warehouseType"
+            className="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           >
             <option value="other">other</option>
             {Object.entries(warehouseTypeMapping).map(([value, Key]: any) => {
@@ -151,14 +152,15 @@ function SearchAndFilter({ setLoginClose }: any) {
         </div>
         <div className="lg:w-1/3">
           <label
-            htmlFor="countries"
+            htmlFor="hazardous-type"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
           >
             Select Hazardous Category
           </label>
           <select
             {...register("hazardType")}
-            className="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+            id="hazardous-type"
+            className="bg-gray-50 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           >
             <option value="">Choose type</option>
             {hazardousTypes.map((hazType: any) => {
@@ -183,7 +185,7 @@ function SearchAndFilter({ setLoginClose }: any) {
           <div className="flex justify-evenly items-center">
             <button
               type="button"
-              className="px-2 py-1 mr-2 bg-sky-500 text-white rounded-md focus:outline-none hover:bg-sky-600"
+              className="px-2 py-1 mr-2 bg-primary-500 text-white rounded-md focus:outline-none hover:bg-fuchsia-700"
               onClick={() => {
                 if (reqValue <= 100) {
                   return;
@@ -197,7 +199,7 @@ function SearchAndFilter({ setLoginClose }: any) {
             <input
               {...register("sqFootRequired", { value: 100 })}
               value={reqValue}
-              className=" rounded-md border-gray-200 border-1 border focus:border-sky-400 text-sm"
+              className=" rounded-md border-gray-200 border-1 border focus:border-primary-400 text-sm"
               {...register("sqFootRequired", {
                 required: "Enter space needed for storage",
               })}
@@ -206,7 +208,7 @@ function SearchAndFilter({ setLoginClose }: any) {
             />
             <button
               type="button"
-              className="px-2 ml-2 py-1 bg-sky-500 text-white rounded-md focus:outline-none hover:bg-sky-600"
+              className="px-2 ml-2 py-1 bg-primary-500 text-white rounded-md focus:outline-none hover:bg-primary-600"
               onClick={() => {
                 setSpaceReqValue((prevValue) => prevValue + 50);
                 setValue("sqFootRequired", reqValue);
@@ -228,7 +230,7 @@ function SearchAndFilter({ setLoginClose }: any) {
       <div className="w-full flex lg:justify-start items-center ml-14 my-4">
         <button
           type="submit"
-          className="text-white bg-sky-400 hover:bg-sky-500 focus:ring-4 focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-sky-600 dark:hover:bg-sky-500 focus:outline-none dark:focus:ring-sky-500"
+          className="text-white bg-primary-500 hover:bg-fuchsia-800 focus:ring-4 focus:ring-fuchsia-100 font-medium rounded-md text-sm px-5 py-2.5 me-2 mb-2 dark:bg-fuchsia-700 dark:hover:bg-primary-500 focus:outline-none dark:focus:ring-primary-500"
         >
           Discover Warehouses
         </button>
@@ -236,7 +238,7 @@ function SearchAndFilter({ setLoginClose }: any) {
       <div className="w-full flex lg:justify-start justify-center flex-col items-center ml-14 my-4">
         {loading && (
           <div className="flex justify-center items-center mt-20">
-            <div className="animate-spin rounded-full border-t-4 border-b-4 border-sky-500 h-12 w-12"></div>
+            <div className="animate-spin rounded-full border-t-4 border-b-4 border-primary-500 h-12 w-12"></div>
           </div>
         )}
         {warehouses !== undefined &&

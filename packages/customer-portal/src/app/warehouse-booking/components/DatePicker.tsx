@@ -34,6 +34,7 @@ function DatePicker({ setValue, register, errors }: any) {
           {...register("moveInDate", {
             required: true,
           })}
+          className="text-xs font-medium bg-white ring-fuchsia-200"
           onSelectedDateChanged={handleMoveInDatePickerChange}
           minDate={new Date()}
         />
@@ -50,6 +51,7 @@ function DatePicker({ setValue, register, errors }: any) {
           {...register("moveOutDate", {
             required: true,
           })}
+          className="text-xs font-medium bg-white ring-fuchsia-200"
           onSelectedDateChanged={handleMoveOutDatePickerChange}
           minDate={new Date()}
         />

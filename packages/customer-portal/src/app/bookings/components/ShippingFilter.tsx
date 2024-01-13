@@ -138,7 +138,7 @@ function ShippingFilter() {
         >
           <LuWaves
             className={`hover:scale-105 bg-white ${
-              route === "sea" ? "text-sky-400" : "text-gray-600"
+              route === "sea" ? "text-primary-500" : "text-gray-600"
             }`}
             size={22}
           />
@@ -150,7 +150,7 @@ function ShippingFilter() {
         >
           <TbRoad
             className={` hover:scale-105 bg-white ${
-              route === "road" ? "text-sky-400" : "text-gray-600"
+              route === "road" ? "text-primary-500" : "text-gray-600"
             }`}
             size={22}
           />
@@ -162,7 +162,7 @@ function ShippingFilter() {
         >
           <RiCloudWindyLine
             className={` hover:scale-105 bg-white ${
-              route === "air" ? "text-sky-400" : "text-gray-600"
+              route === "air" ? "text-primary-500" : "text-gray-600"
             }`}
             size={22}
           />
@@ -262,7 +262,7 @@ function ShippingFilter() {
         <button
           onClick={() => clickHandler()}
           type="button"
-          className="rounded-md w-23 h-10 mt-2 ml-4 px-3 py-2 text-sm font-semibold text-white shadow-sm bg-rose-500 hover:bg-rose-400 items-center my-auto relative"
+          className="rounded-md w-23 h-10 mt-2 ml-4 px-3 py-2 text-sm font-semibold text-white shadow-sm bg-primary-500 hover:bg-fuchsia-700 items-center my-auto relative"
         >
           Add Quantity
         </button>

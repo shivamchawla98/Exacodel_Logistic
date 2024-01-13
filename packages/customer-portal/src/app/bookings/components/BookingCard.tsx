@@ -50,7 +50,7 @@ function BookingCard({ img, fromDestination, toDestination }: any) {
           <div className="flex justify-center items-center flex-wrap ml-4">
             <button
               onClick={openModal}
-              className="bg-sky-500 py-2 text-xs hover:bg-sky-400 text-white font-medium px-3 rounded-md border border-sky-500 transition-transform transform hover:scale-105"
+              className="bg-primary-500 py-2 text-xs hover:bg-fuchsia-800 text-white font-medium px-3 rounded-md border border-fuchsia-800 transition-transform transform hover:scale-105"
             >
               ${cost} <span className="text-xs">BOOK NOW</span>
             </button>
@@ -59,7 +59,7 @@ function BookingCard({ img, fromDestination, toDestination }: any) {
               className="flex justify-center rounded-md shadow-md items-center p-2 ml-4 cursor-pointer"
             >
               {/* <p>View More</p> */}
-              <MdArrowDropDown className="w-6 h-6 text-sky-600" />
+              <MdArrowDropDown className="w-6 h-6 text-primary-500" />
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@ function BookingCard({ img, fromDestination, toDestination }: any) {
           <div className="flex justify-center items-center">
             <span className="text-sm text-gray-500 font-medium">
               ID :{" "}
-              <span className="text-xs text-gray-600 hover:text-sky-500 cursor-pointer">
+              <span className="text-xs text-gray-600 hover:text-primary-500 cursor-pointer">
                 17841700
               </span>
             </span>

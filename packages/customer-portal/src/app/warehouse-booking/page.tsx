@@ -27,7 +27,7 @@ function Page() {
     <>
       <div className="w-full flex justify-center items-center">
         <div className="w-11/12">
-          <Stepper steps={steps} setActivePage={setActivePage} />
+          {/* <Stepper steps={steps} setActivePage={setActivePage} /> */}
         </div>
       </div>
 

@@ -15,7 +15,7 @@ function Page() {
       {!isLogedIn && !loginClose && (
         <LoginModal setLoginClose={setLoginClose} />
       )}
-      <main className="bg-white my-2 flex justify-center items-center flex-wrap-reverse">
+      <main className="bg-white flex justify-center items-center flex-wrap-reverse">
         <MapOfWarehouses />
         <SearchAndFilter setLoginClose={() => setLoginClose} />
       </main>

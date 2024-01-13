@@ -76,7 +76,7 @@ export default function Vendors({ onInfoClick, setApprovalIndex }: any) {
               onInfoClick();
             }}
           >
-            <EyeIcon className="h-4 w-4 text-sky-500" />
+            <EyeIcon className="h-4 w-4 text-primary-500" />
           </div>
         ),
       },
@@ -105,16 +105,16 @@ export default function Vendors({ onInfoClick, setApprovalIndex }: any) {
         <div className="relative py-8">
           <input
             type="text"
-            className="border absolute top-0 max-w-sm right-0 rounded-ee-md rounded-tr-md border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            className="border absolute top-0 max-w-sm right-0 rounded-ee-md rounded-tr-md border-gray-300 px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
             onChange={(e) => setFiltering(e.currentTarget.value)}
           />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
         </div>
         {loading ? (
           <div className="flex items-center justify-center py-10">
-            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-            <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+            <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
           </div>
         ) : error ? (
           <p>Error loading data</p>

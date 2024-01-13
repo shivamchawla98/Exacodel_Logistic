@@ -3,21 +3,7 @@ import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function TotalCostCard() {
-  const [warehouseId, setWarehouseId] = useState<any>("");
-  const [requiredSpace, setRequiredSpaceId] = useState<any>("");
-  try {
-    let localWarehouseId: any = JSON.parse(
-      localStorage.getItem("warehouseId") || "-1"
-    );
-
-    let localRequiredSpace: any = localStorage.getItem("requiredSpace");
-    setWarehouseId(localWarehouseId);
-    setRequiredSpaceId(localRequiredSpace);
-  } catch (error) {
-    console.log(error);
-  }
-
+export default function TotalCostCard({ warehouseId, requiredSpace }: any) {
   const { moveInDate, moveOutDate } = useSelector(
     (state: any) => state.warehouseSlice
   );
@@ -47,13 +33,14 @@ export default function TotalCostCard() {
   return (
     <div className="overflow-hidden rounded-md bg-white shadow mt-6">
       {loading && <>Loading ...</>}
-      <li className="px-6 py-2 bg-sky-200 flex justify-evenly items-center ">
-        <p className="text-lg font-medium text-gray-700">Your Booking</p>
+      {error && <>Error ...</>}
+      <li className="px-6 py-2 bg-fuchsia-100 flex justify-evenly items-center ">
+        <p className="text-base body-semibold text-gray-900">Your Booking</p>
       </li>
       <ul role="list" className="divide-y divide-gray-200">
         <li className="px-6 py-2">
           <p className="text-sm text-gray-600">
-            Warehouse : <strong>{data?.getWarehouseById.uniqueid}</strong>
+            Warehouse : <strong>{data?.getWarehouseById?.uniqueid}</strong>
           </p>
         </li>
         <li className="px-6 py-2">
@@ -64,8 +51,8 @@ export default function TotalCostCard() {
         <li className="px-6 py-2">
           <p className="text-sm text-gray-600">
             Montly rental :{" "}
-            <strong>
-              ₹{requiredSpace * data?.getWarehouseById.storageCharges * 30}
+            <strong className="text-sm paragraph-semibold">
+              ₹{requiredSpace * data?.getWarehouseById?.storageCharges * 28}
             </strong>
           </p>
         </li>
@@ -86,13 +73,20 @@ export default function TotalCostCard() {
             Discount : <strong>₹{0.0}</strong>
           </p>
         </li>
+        <li className="px-6 py-2">
+          <p className="text-sm text-gray-600">
+            Total Bookings Day :{" "}
+            <strong>{getTotalDays(moveInDate, moveOutDate)}</strong>
+          </p>
+        </li>
 
-        <li className="px-6 py-2 bg-sky-200 flex justify-evenly items-center ">
-          <p className="text-base font-medium text-gray-700">Total</p>
-          <span className="text-green-500 pl-10 text-lg">
+        <li className="px-6 py-2 bg-fuchsia-100 flex justify-evenly items-center ">
+          <p className="text-base font-medium text-gray-900">Total</p>
+          <span className="text-primary-500 pl-10 text-base body-semibold">
             ₹{" "}
             {getTotalDays(moveInDate, moveOutDate) *
-              data?.getWarehouseById.storageCharges}
+              data?.getWarehouseById?.storageCharges *
+              requiredSpace}
           </span>
         </li>
       </ul>

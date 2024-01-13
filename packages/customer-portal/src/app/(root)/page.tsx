@@ -24,8 +24,8 @@ export default function Home() {
       <Hero />
       <HotDeals />
       <Descript />
-      <Service />
       <GetStarted />
+      <Service />
       <Slider />
       <Feature />
       <Brand />

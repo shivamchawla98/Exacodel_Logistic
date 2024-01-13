@@ -329,7 +329,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
                         onChange={(e) =>
                           setSelectedWarehouseType(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Warehouse Type</option>
                         {Object.entries(warehouseTypeMapping).map(
@@ -346,7 +346,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
                         onChange={(e) =>
                           setSelectedHazardousType(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Type of Company</option>
                         {hazardousTypes.map((option) => (
@@ -361,7 +361,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
                         onChange={(e) =>
                           setSelectedTemperatureType(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">warehouse Types</option>
                         {temperatureTypes.map((option) => (
@@ -376,7 +376,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
                         onChange={(e) =>
                           setSelectedTemperatureCapacities(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Temperature</option>
                         {Object.entries(temperatureCapacityMapping).map(
@@ -394,7 +394,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
                         onChange={(e) =>
                           handleInputChange(label, e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
                       />
                     )}
                   </div>
@@ -409,7 +409,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
               handleApprove();
             }}
             type="button"
-            className="rounded-md mx-4 bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
+            className="rounded-md mx-4 bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-800"
           >
             Approve
           </button>
@@ -418,7 +418,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
               handleReject();
             }}
             type="button"
-            className="rounded-md bg-sky-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
+            className="rounded-md bg-primary-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-800"
           >
             Reject
           </button>
@@ -427,7 +427,7 @@ function WarehouseEdit({ Id, setActiveItem }: any) {
               // handleReview();
             }}
             type="button"
-            className="rounded-md bg-sky-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
+            className="rounded-md bg-primary-500 px-3 mx-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-800"
           >
             Send for Review
           </button>

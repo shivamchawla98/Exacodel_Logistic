@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GuiMap from "../app/location/componet/GuiMap";
+import UploadWarehousePic from "./WarehousePickUpload";
 
 const validationSchema = Yup.object().shape({
   companyName: Yup.string().required("Company Name is required"),
@@ -164,13 +165,19 @@ function AdminInputWarehouse({ setActiveItem }: any) {
       >
         {(formik) => (
           <Form className="mt-2 grid lg:grid-cols-3 gap-6 p-12 gap-y-8">
+            <p className="block text-base col-span-full  font-medium leading-6 text-gray-800">
+              Warehouse Images
+            </p>
+            <UploadWarehousePic label="Image 1" />
+            <UploadWarehousePic label="Image 2" />
+            <UploadWarehousePic label="Image 3" />
             <CompanyDetails />
             <Address />
             <AdminInputWarehouseDetail />
             <div className="flex col-span-full justify-end">
               <button
                 type="submit"
-                className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400 ml-4 w-26"
+                className="rounded-md bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-800 ml-4 w-26"
               >
                 Send for Approval
               </button>

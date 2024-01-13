@@ -1,9 +1,11 @@
 "use client";
 import GET_WARE_HOUSE_BY_ID from "@/graphql/query/getWarehouseById";
 import { useQuery } from "@apollo/client";
+import { Carousel } from "@material-tailwind/react";
 import Cookies from "js-cookie";
 import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const stats = [
   { label: "Warehouse Type", value: "2021" },
@@ -70,17 +72,55 @@ export default function WarehouseDetails() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto grid max-w-2xl grid-cols-1 items-start gap-x-8 gap-y-16 sm:gap-y-24 lg:mx-0 lg:max-w-none lg:grid-cols-2">
           <div className="lg:pr-4">
-            <div className="relative overflow-hidden rounded-3xl bg-gray-900 px-6 pb-9 pt-64 shadow-2xl sm:px-12 lg:max-w-lg lg:px-8 lg:pb-8 xl:px-10 xl:pb-10">
-              <img
-                className="absolute inset-0 h-full w-full object-cover"
-                src="https://images.pexels.com/photos/221047/pexels-photo-221047.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                alt=""
-              />
+            <div className="w-full flex justify-center bg-white pt-4 pb-12 items-center">
+              <Carousel
+                autoplay={true}
+                loop={true}
+                className="rounded-3xl max-h-screen lg:w-11/12 shadow-2xl "
+                navigation={({ setActiveIndex, activeIndex, length }) => (
+                  <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+                    {new Array(length).fill("").map((_, i) => (
+                      <span
+                        key={i}
+                        className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
+                          activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
+                        }`}
+                        onClick={() => setActiveIndex(i)}
+                      />
+                    ))}
+                  </div>
+                )}
+              >
+                <div className="h-96">
+                  <Image
+                    src="/images/w1.jpg"
+                    className="w-full h-full"
+                    fill={true}
+                    alt="warehouse 1"
+                  />
+                </div>
+                <div className="h-96">
+                  <Image
+                    src="/images/w1.jpg"
+                    className="w-full h-full"
+                    fill={true}
+                    alt="warehouse 1"
+                  />
+                </div>
+                <div className="h-96">
+                  <Image
+                    src="/images/w1.jpg"
+                    className="w-full h-full"
+                    fill={true}
+                    alt="warehouse 1"
+                  />
+                </div>
+              </Carousel>
             </div>
           </div>
           <div>
             <div className="text-base leading-7 text-gray-700 lg:max-w-lg">
-              <p className="text-base font-semibold leading-7 text-indigo-600">
+              <p className="text-base font-semibold leading-7 text-primary-500">
                 Warehouse Name
               </p>
               <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -103,7 +143,7 @@ export default function WarehouseDetails() {
             <dl className="mt-10 grid grid-cols-2 gap-8 border-t border-gray-900/10 pt-10 sm:grid-cols-2">
               {stats.map((stat, statIdx) => (
                 <div key={statIdx}>
-                  <dt className="mt-2 text-xl font-bold leading-10 tracking-tight text-gray-900">
+                  <dt className="mt-2 text-lg body-semibold leading-10 tracking-tight text-gray-900">
                     {stat.label}
                   </dt>
                   <dd className="text-sm font-semibold leading-6 text-gray-600">

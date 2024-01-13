@@ -28,9 +28,9 @@ export default function BookingStepper({
                   className="absolute inset-0 flex items-center"
                   aria-hidden="true"
                 >
-                  <div className="h-0.5 w-full bg-sky-600" />
+                  <div className="h-0.5 w-full bg-primary-500" />
                 </div>
-                <div className="relative flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 hover:bg-sky-900">
+                <div className="relative flex h-5 w-5 items-center justify-center rounded-full bg-fuchsia-800 hover:bg-primary-500">
                   <CheckIcon
                     className="h-4 w-4 text-white"
                     aria-hidden="true"

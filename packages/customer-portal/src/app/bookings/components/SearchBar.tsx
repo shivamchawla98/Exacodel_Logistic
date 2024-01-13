@@ -17,8 +17,8 @@ export default function SearchBar({
   setType,
 }: any) {
   return (
-    <Popover className="relative">
-      <Popover.Button className="flex focus:border-sky-500 justify-start flex-col my-auto w-80 lg:w-72 shadow-md rounded-md border-1 py-2 px-2 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+    <Popover className="relative shadow-md  rounded-md">
+      <Popover.Button className="flex active:border-primary-500 border-b-2 border-primary-500 outline-none active:border-2  justify-start flex-col my-auto w-80 lg:w-72 shadow rounded-md border-1 py-2 px-2 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
         <div className="flex justify-start items-center w-full font-normal">
           {orignDestinationTitle}
         </div>
@@ -58,7 +58,7 @@ export default function SearchBar({
                   onChange={(e: any) => {
                     setType(e.target.value);
                   }}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+                  className=" border border-primary-500 paragraph-medium text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected>Choose a Service</option>
                   {serviceType.map((service) => (
@@ -83,7 +83,7 @@ export default function SearchBar({
 
                     setOriginDestinationCountry(value);
                   }}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+                  className=" border border-primary-500  text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
                   <option selected>Choose a country</option>
                   {country_list.map((country) => (
@@ -103,7 +103,7 @@ export default function SearchBar({
                 <input
                   type="text"
                   id="first_name"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-sky-500 dark:focus:border-sky-500"
+                  className=" border border-primary-500 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Enter Address"
                 />
               </div>
