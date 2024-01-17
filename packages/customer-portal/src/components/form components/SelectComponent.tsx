@@ -24,7 +24,7 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
       <Field
         as="select"
         name={id}
-        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
       >
         <option value="">
           {optionalOption !== "undefined" ? optionalOption : ""}

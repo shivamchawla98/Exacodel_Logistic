@@ -11,7 +11,7 @@ interface searchLatLansTypes {
 }
 
 interface WarehouseSlice {
-  markers: [];
+  markers: any[];
   searchLatLng: searchLatLansTypes;
   warehouseId: string;
   moveInDate: Date;
@@ -24,7 +24,7 @@ const initialState: WarehouseSlice = {
     lng: -1,
   },
   warehouseId: "",
-  markers: [],
+  markers: [{ latitude: "20.5937", longitude: "78.9629" }],
   moveInDate: new Date(),
   moveOutDate: new Date(),
 };

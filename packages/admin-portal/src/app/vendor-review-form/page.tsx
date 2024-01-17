@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
-import  { useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { BiErrorCircle } from 'react-icons/bi';
-import GET_USER_ID from '@/graphql/query/getUserById';
-import APPROVE_USER_MUTATION from '@/graphql/mutation/approveUser';
-import ApprovedPopup from '../admin/components/ApprovedPopup';
-import { useSearchParams } from 'next/navigation'
-import {jwtDecode} from "jwt-decode";
-import Modal from './component/Modal';
+import { useState, useEffect } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { BiErrorCircle } from "react-icons/bi";
+import GET_USER_ID from "@/graphql/query/getUserById";
+import APPROVE_USER_MUTATION from "@/graphql/mutation/approveUser";
+import ApprovedPopup from "../admin/components/ApprovedPopup";
+import { useSearchParams } from "next/navigation";
+import { jwtDecode } from "jwt-decode";
+import Modal from "./component/Modal";
 
 const annualTurnoverOptions = [
   "UP_TO_10000",
@@ -20,7 +20,7 @@ const annualTurnoverOptions = [
   "FROM_1500000_TO_2500000",
   "FROM_2500000_TO_5000000",
   "FROM_5000000_TO_10000000",
-  "ABOVE_10000000"
+  "ABOVE_10000000",
 ];
 
 const industryTypeOptions = [
@@ -31,7 +31,7 @@ const industryTypeOptions = [
   "Industrial_Machines",
   "Industrial_suppplies",
   "Food_and_Beverages",
-  "Hospital_and_Medicalsupplies"
+  "Hospital_and_Medicalsupplies",
 ];
 
 const companyTypeOptions = [
@@ -42,97 +42,90 @@ const companyTypeOptions = [
   "Non_profit_cooperation",
   "Inc",
   "Cooperation",
-  "LLC"
+  "LLC",
 ];
 
 const userTypes = [
   "CUSTOMER",
   "VENDOR",
-  "OVERSEAS_AGENT"
+  "OVERSEAS_AGENT",
   // Add more options as needed
 ];
 
-
-
-
 export default function Page() {
-
   const searchParams = useSearchParams();
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState<any>({});
-  const [userType, setUserType] = useState('');
-  const [gst_no, setGstNo] = useState('');
+  const [userType, setUserType] = useState("");
+  const [gst_no, setGstNo] = useState("");
   const [showAlert, setShowAlert] = useState(false);
 
-  const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState('');
-  const [selectedCompanyType, setSelectedCompanyType] = useState('');
-  const [selectedUserType, setSelectedUserType] = useState('');
-  const [selectedIndustryType, setSelectedIndustryType] = useState('');
-  const [operation, setOperation] = useState<any>('');
-  const [showSucess, setShowSucess] = useState(false)
+  const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState("");
+  const [selectedCompanyType, setSelectedCompanyType] = useState("");
+  const [selectedUserType, setSelectedUserType] = useState("");
+  const [selectedIndustryType, setSelectedIndustryType] = useState("");
+  const [operation, setOperation] = useState<any>("");
+  const [showSucess, setShowSucess] = useState(false);
 
   const [approveUser] = useMutation(APPROVE_USER_MUTATION);
-  const token:any = searchParams.get("id");
-  const decodedJwt: any = jwtDecode(token)
+  const token: any = searchParams.get("id");
+  console.log("token : ", token);
+
+  const decodedJwt: any = jwtDecode(token);
   console.log("Top Id", decodedJwt);
   const Id = decodedJwt?.userID;
-  const [remarks, setRemarks] = useState<any>('');
+  const [remarks, setRemarks] = useState<any>("");
   console.log(Id);
 
   const { loading, error, data } = useQuery(GET_USER_ID, {
     variables: {
-      id: (Id*1)
+      id: Id * 1,
     },
   });
 
   useEffect(() => {
-    
     if (!loading && data && data.getUserById) {
       console.log("data", data);
       console.log("loading", error);
-      let user =  data.getUserById;
+      let user = data.getUserById;
 
-      console.log("list of intitial users ",  user.id);
-    
+      console.log("list of intitial users ", user.id);
+
       setUserType(user.userType);
       setGstNo(user.gst_no);
       setRemarks(user?.remarks);
       console.log("Remarks", user?.remarks);
-      
 
       if (user) {
         setSelectedAnnualTurnover(user.annualTurnover);
         setSelectedCompanyType(user.companyType);
         setSelectedUserType(user.userType);
-        setSelectedIndustryType(user.industryType)
+        setSelectedIndustryType(user.industryType);
         setFormData({
-          'Company Name': user.companyName,
-          'GST Number': user.gst_no,
-          'Full name': user.first_name + ' ' + user.last_name,
-          'Email address': user.email,
+          "Company Name": user.companyName,
+          "GST Number": user.gst_no,
+          "Full name": user.first_name + " " + user.last_name,
+          "Email address": user.email,
           // 'Password': user.password,
-          'Annual Turn Over': selectedAnnualTurnover,
+          "Annual Turn Over": selectedAnnualTurnover,
           // 'Billing Code of company': user.BillingCode,
-          'User Type': selectedUserType,
-          'Type of Company': selectedCompanyType,
-          'Industry': selectedIndustryType,
-          'State': user.state,
-          'Pincode': user.pincode,
-          'Address': user.Adress,
-          'City': user.city,
-          'Country': user.country,
-          'Company Registration Number': user.company_reg_no,
-          'Company Pan Number': user.company_pan_no,
-          'Designation': user.Designation,
-          'Contact Number': user.mobile,
-          'Website': user.website,
+          "User Type": selectedUserType,
+          "Type of Company": selectedCompanyType,
+          Industry: selectedIndustryType,
+          State: user.state,
+          Pincode: user.pincode,
+          Address: user.Adress,
+          City: user.city,
+          Country: user.country,
+          "Company Registration Number": user.company_reg_no,
+          "Company Pan Number": user.company_pan_no,
+          Designation: user.Designation,
+          "Contact Number": user.mobile,
+          Website: user.website,
         });
-
-
       }
     }
   }, [loading, data, Id]);
-
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData: any) => ({
@@ -148,41 +141,42 @@ export default function Page() {
           onClick={() => {
             setShowAlert(false);
           }}
-          className="flex">
+          className="flex"
+        >
           <div className="flex-shrink-0">
-            <BiErrorCircle className="h-5 w-5 text-red-400" aria-hidden="true" />
+            <BiErrorCircle
+              className="h-5 w-5 text-red-400"
+              aria-hidden="true"
+            />
           </div>
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">Your Review Url is Expired, Facing any issue please contact us</h3>
+            <h3 className="text-sm font-medium text-red-800">
+              Your Review Url is Expired, Facing any issue please contact us
+            </h3>
           </div>
         </div>
       </div>
-    )
+    );
   }
-
 
   if (loading) {
     return (
-        <div className="flex items-center justify-center py-10 h-screen">
+      <div className="flex items-center justify-center py-10 h-screen">
         <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
         <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
         <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
       </div>
-    )
+    );
   }
 
   if (error) {
     console.log(error);
-    return (
-        <p>Some Error :(</p>
-        
-    )
+    return <p>Some Error :(</p>;
   }
 
-
   const handleApprove = async (approvedOrReject: String) => {
-    console.log("Id : >>>>>>>> ", Id);  
-    
+    console.log("Id : >>>>>>>> ", Id);
+
     try {
       const { data: approvalData } = await approveUser({
         variables: {
@@ -191,77 +185,88 @@ export default function Page() {
             companyType: selectedCompanyType,
             Approveduser: "Approval_pending",
             industryType: selectedIndustryType,
-            state: formData['State'],
-            pincode: formData['Pincode'],
-            Address: formData['Address'],
-            city: formData['City'],
-            country: formData['Country'],
-            company_reg_no: formData['Company Registration Number'],
-            company_name: formData['Company Name'],
-            company_pan_no: formData['Company Pan Number'],
+            state: formData["State"],
+            pincode: formData["Pincode"],
+            Address: formData["Address"],
+            city: formData["City"],
+            country: formData["Country"],
+            company_reg_no: formData["Company Registration Number"],
+            company_name: formData["Company Name"],
+            company_pan_no: formData["Company Pan Number"],
             annualTurnover: selectedAnnualTurnover,
-            gst_no: formData['GST Number'],
-            first_name: formData['Full name'].split(' ')[0],
-            last_name: formData['Full name'].split(' ')[1],
-            Designation: formData['Designation'],
-            mobile: formData['Contact Number'],
-            website: formData['Website'],
-            email: formData['Email address'],
+            gst_no: formData["GST Number"],
+            first_name: formData["Full name"].split(" ")[0],
+            last_name: formData["Full name"].split(" ")[1],
+            Designation: formData["Designation"],
+            mobile: formData["Contact Number"],
+            website: formData["Website"],
+            email: formData["Email address"],
             // password: formData['Password'],
             userType: userType,
-            customerSubType: formData['Customer Type'],
-            vendorSubType: formData['Vendor Type'],
-            overseasAgentSubType: formData['Overseas Type'],
+            customerSubType: formData["Customer Type"],
+            vendorSubType: formData["Vendor Type"],
+            overseasAgentSubType: formData["Overseas Type"],
             remarks: "remarksUpdated",
           },
         },
       });
       console.log("this is : ", data);
-      setOperation(approvedOrReject)
+      setOperation(approvedOrReject);
       setShowSucess(true);
     } catch (error) {
-      
       setShowAlert(true);
-      console.error("error : ",error);
+      console.error("error : ", error);
     }
-  }
- 
+  };
+
   return (
-    <div className=' '>
-      {<Modal review={remarks}/>}
+    <div className=" ">
+      {<Modal review={remarks} />}
       {showAlert && <Alert />}
       {showSucess && <ApprovedPopup />}
       <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
         <div className="px-4 py-6 sm:px-6">
-          <div className='w-full flex justify-between items-center'>
-            <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">Applicant Information</h3>
+          <div className="w-full flex justify-between items-center">
+            <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">
+              Applicant Information
+            </h3>
 
-            <div className='flex justify-evenly w-1/2'>
-            <button
-              onClick={() => {
-                handleApprove("Reverted_user")
-              }}
-              type="button" className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400">
-              Send for Review<span className="sr-only">, Review </span>
-            </button>
-
+            <div className="flex justify-evenly w-1/2">
+              <button
+                onClick={() => {
+                  handleApprove("Reverted_user");
+                }}
+                type="button"
+                className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
+              >
+                Send for Review<span className="sr-only">, Review </span>
+              </button>
             </div>
           </div>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+            Personal details and application.
+          </p>
         </div>
         <div className="border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
             {Object.entries(formData).map(([label, value]: any[]) => (
-              <div className="grid grid-cols-12 items-center py-4 px-6" key={label}>
+              <div
+                className="grid grid-cols-12 items-center py-4 px-6"
+                key={label}
+              >
                 <>
                   <div className="col-span-4">
-                    <dt className="text-sm font-medium text-gray-900">{label}</dt>
+                    <dt className="text-sm font-medium text-gray-900">
+                      {label}
+                    </dt>
                   </div>
                   <div className="col-span-8">
-                    {label === 'Annual Turn Over' ? (
+                    {label === "Annual Turn Over" ? (
                       <select
                         value={selectedAnnualTurnover}
-                        onChange={(e) => setSelectedAnnualTurnover(e.target.value)}
+                        onChange={(e) =>
+                          setSelectedAnnualTurnover(e.target.value)
+                        }
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Annual Turnover</option>
@@ -271,7 +276,7 @@ export default function Page() {
                           </option>
                         ))}
                       </select>
-                    ) : label === 'Type of Company' ? (
+                    ) : label === "Type of Company" ? (
                       <select
                         value={selectedCompanyType}
                         onChange={(e) => setSelectedCompanyType(e.target.value)}
@@ -284,7 +289,7 @@ export default function Page() {
                           </option>
                         ))}
                       </select>
-                    ) : label === 'User Type' ? (
+                    ) : label === "User Type" ? (
                       <select
                         value={selectedUserType}
                         onChange={(e) => setSelectedUserType(e.target.value)}
@@ -297,10 +302,12 @@ export default function Page() {
                           </option>
                         ))}
                       </select>
-                    ) : label === 'Industry' ? (
+                    ) : label === "Industry" ? (
                       <select
                         value={selectedIndustryType}
-                        onChange={(e) => setSelectedIndustryType(e.target.value)}
+                        onChange={(e) =>
+                          setSelectedIndustryType(e.target.value)
+                        }
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Industry</option>
@@ -314,7 +321,9 @@ export default function Page() {
                       <input
                         type="text"
                         value={value}
-                        onChange={(e) => handleInputChange(label, e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(label, e.target.value)
+                        }
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
                       />
                     )}
@@ -328,5 +337,3 @@ export default function Page() {
     </div>
   );
 }
-
-

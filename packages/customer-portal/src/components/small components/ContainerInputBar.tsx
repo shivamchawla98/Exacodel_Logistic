@@ -4,8 +4,9 @@ import { ImSearch } from "react-icons/im";
 import { useState } from "react";
 import { BsFillBox2Fill } from "react-icons/bs";
 import { RxContainer } from "react-icons/rx";
+import { Datepicker } from "flowbite-react";
 
-function SearchBar({ register }: any) {
+function SearchBar({ register, handleDateChange }: any) {
   const [transportationType, setTransportationType] =
     useState("FCL Containers");
   const [containerType, setContainerType] = useState("20ft");
@@ -67,10 +68,11 @@ function SearchBar({ register }: any) {
             }`}
           ></div>
         </div>
-        <div className="flex items-center justify-center font-black m-3 mb-6">
+        <div className="flex items-center justify-center flex-col font-black m-3 mb-6">
           <h1 className="tracking-wide text-xl text-gray-900">
             {transportationType}
           </h1>
+          <Datepicker onSelectedDateChanged={handleDateChange} />
         </div>
         <div id="login_htmlForm" className="flex flex-col justify-center">
           {transportationType == "FCL Containers" ? (
