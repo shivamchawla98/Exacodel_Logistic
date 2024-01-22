@@ -78,9 +78,9 @@ export default function WarehouseInfo({ Id }: any) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-10">
-        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-        <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+        <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
       </div>
     );
   }
@@ -97,7 +97,7 @@ export default function WarehouseInfo({ Id }: any) {
         {/* About Section */}
         <div className="bg-white p-3 shadow-sm rounded-sm">
           <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 my-6">
-            <span className="text-sky-500">
+            <span className="text-primary-500">
               <RectangleGroupIcon className="h-6 w-6" />
             </span>
             <span className="tracking-wide">Warehouse Details</span>

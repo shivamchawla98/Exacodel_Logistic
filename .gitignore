@@ -2,3 +2,8 @@ node_modules/
 
 # Contentlayer
 .contentlayer
+
+# local env files
+.env*.local
+next.config.js
+

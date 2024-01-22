@@ -1,27 +1,26 @@
-import { ErrorMessage, Field } from 'formik';
-import countries from './data/country';
-import {useSelector} from 'react-redux'
-import {useFormikContext} from 'formik'
-import { useEffect } from 'react';
+import { ErrorMessage, Field } from "formik";
+import countries from "./data/country";
+import { useSelector } from "react-redux";
+import { useFormikContext } from "formik";
+import { useEffect } from "react";
 
 function Address() {
-  const {lat, lng, city, address, country, pincode, State} = useSelector((state: any) => state.gmapSlice)
-  const formikProps = useFormikContext()
+  const { lat, lng, city, address, country, pincode, State } = useSelector(
+    (state: any) => state.gmapSlice
+  );
+  const formikProps = useFormikContext();
   useEffect(() => {
-    formikProps?.setFieldValue("country", country)
-    formikProps?.setFieldValue("streetAddress", address)
-    formikProps?.setFieldValue("city", city)
-    formikProps?.setFieldValue("postalCode", pincode)
-    formikProps?.setFieldValue("region", State)
+    formikProps?.setFieldValue("country", country);
+    formikProps?.setFieldValue("streetAddress", address);
+    formikProps?.setFieldValue("city", city);
+    formikProps?.setFieldValue("postalCode", pincode);
+    formikProps?.setFieldValue("region", State);
     console.log("mi pincode hu : ", pincode);
-    
-  }, [lat, country, State,lng])
-  
+  }, [lat, country, State, lng]);
+
   return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6'>
-            <h2 className="font-semibold text-gray-900 col-span-3">
-        Address
-      </h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  col-span-full gap-6">
+      <h2 className="font-semibold text-gray-900 col-span-3">Address</h2>
       {/* country */}
       <div>
         <label
@@ -34,9 +33,8 @@ function Address() {
           as="select"
           id={`country`}
           name={`country`}
-          
           placeholder={`country`}
-          className="block w-full rounded-md border-0 px-4 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+          className="block w-full rounded-md border-0 px-4 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
         >
           <option value="">Select a country</option>
           {countries.map((country: any) => (
@@ -53,19 +51,24 @@ function Address() {
       </div>
       {/* stree address streetAddress */}
       <div>
-
         <label
           htmlFor={`streetAddress`}
           className="block text-sm font-medium leading-6 text-gray-600"
         >
           Street address
         </label>
-        <Field type="text" id={`streetAddress`} placeholder={"Address"} name={`streetAddress`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
+        <Field
+          type="text"
+          id={`streetAddress`}
+          placeholder={"Address"}
+          name={`streetAddress`}
+          className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
+        />
         <ErrorMessage
-         name={`streetAddress`}
+          name={`streetAddress`}
           component="div"
           className="error-message text-xs text-rose-600"
-          />
+        />
       </div>
 
       {/* city */}
@@ -76,12 +79,18 @@ function Address() {
         >
           City
         </label>
-        <Field type="text" id={`city`} name={`city`} placeholder={"city"} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage 
-        name={`city`}
-         component="div"
-         className="error-message text-xs text-rose-600"
-         />
+        <Field
+          type="text"
+          id={`city`}
+          name={`city`}
+          placeholder={"city"}
+          className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
+        />
+        <ErrorMessage
+          name={`city`}
+          component="div"
+          className="error-message text-xs text-rose-600"
+        />
       </div>
 
       {/* region */}
@@ -92,9 +101,17 @@ function Address() {
         >
           State / Province
         </label>
-        <Field type="text" id={`region`} placeholder="State" name={`region`} className="block px-4 w-full rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`region`} component="span"
-        className="error-message text-xs text-rose-600"
+        <Field
+          type="text"
+          id={`region`}
+          placeholder="State"
+          name={`region`}
+          className="block px-4 w-full rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
+        />
+        <ErrorMessage
+          name={`region`}
+          component="span"
+          className="error-message text-xs text-rose-600"
         />
       </div>
 
@@ -106,9 +123,17 @@ function Address() {
         >
           ZIP / Postal code
         </label>
-        <Field placeholder="Pincode" type="text" id={`postalCode`} name={`postalCode`} className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"/>
-        <ErrorMessage name={`postalCode`} component="span" 
-        className="error-message text-xs text-rose-600"
+        <Field
+          placeholder="Pincode"
+          type="text"
+          id={`postalCode`}
+          name={`postalCode`}
+          className="block w-full px-4 rounded-md border-0 py-1.5 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
+        />
+        <ErrorMessage
+          name={`postalCode`}
+          component="span"
+          className="error-message text-xs text-rose-600"
         />
       </div>
       <hr className="my-3 h-0.5 col-span-3 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />

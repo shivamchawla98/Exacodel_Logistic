@@ -16,21 +16,20 @@ function ShippingFilter() {
     console.log(show);
   };
 
+  type Location = {
+    name: string;
+    city: string;
+    country: string;
+    alias: string[];
+    regions: string[];
+    coordinates: number[];
+    province: string;
+    timezone: string;
+    unlocs: string[];
+    code: string;
+  };
 
-type Location = {
-  name: string;
-  city: string;
-  country: string;
-  alias: string[];
-  regions: string[];
-  coordinates: number[];
-  province: string;
-  timezone: string;
-  unlocs: string[];
-  code: string;
-};
-
-type Suggestions = [string, Location][];
+  type Suggestions = [string, Location][];
 
   // suggetion code
 
@@ -97,7 +96,7 @@ type Suggestions = [string, Location][];
   return (
     <form
       onClick={closeSuggestion}
-      className=" shadow-md flex-wrap flex justify-center item-center pt-12 pb-12 bg-white w-auto"
+      className=" shadow-md flex-wrap rounded-md flex justify-center item-center pt-12 pb-12 bg-white w-auto"
     >
       <div className="flex justify-evenly">
         <button
@@ -107,7 +106,7 @@ type Suggestions = [string, Location][];
         >
           <LuWaves
             className={`hover:scale-105 bg-white ${
-              route === "sea" ? "text-sky-400" : "text-gray-600"
+              route === "sea" ? "text-primary-500" : "text-gray-600"
             }`}
             size={30}
           />
@@ -119,7 +118,7 @@ type Suggestions = [string, Location][];
         >
           <TbRoad
             className={` hover:scale-105 bg-white ${
-              route === "road" ? "text-sky-400" : "text-gray-600"
+              route === "road" ? "text-primary-500" : "text-gray-600"
             }`}
             size={30}
           />
@@ -131,7 +130,7 @@ type Suggestions = [string, Location][];
         >
           <RiCloudWindyLine
             className={` hover:scale-105 bg-white ${
-              route === "air" ? "text-sky-400" : "text-gray-600"
+              route === "air" ? "text-primary-500" : "text-gray-600"
             }`}
             size={30}
           />
@@ -149,7 +148,7 @@ type Suggestions = [string, Location][];
           type="text"
           name="from"
           id="from"
-          className="block w-full rounded-md font-medium border-0 py-1.5 pl-10 text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
+          className="block w-full rounded-md body-medium border-0 py-1.5 pl-10 text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
           placeholder="Origin Of Shipment"
           onChange={handleChange}
           value={inputValueFrom}
@@ -192,7 +191,7 @@ type Suggestions = [string, Location][];
           id="to"
           value={inputValueTo}
           onChange={handleChange}
-          className="block w-full rounded-md border-0 py-1.5 pl-10 font-medium text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
+          className="block w-full rounded-md border-0 py-1.5 pl-10 body-medium text-gray-900 placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
           placeholder="Destination Of Shipment"
         />
         <div
@@ -216,13 +215,13 @@ type Suggestions = [string, Location][];
         </div>
       </div>
 
-      <div className="w-11/12 md:w-3/12 lg:w-3/12 relative mt-2 bg-white rounded-md shadow-sm px-3.5 py-2.5 h-14 border-2 hover:border-gray-300 ">
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+      <div className="w-11/12 md:w-3/12 lg:w-3/12 relative mt-2 lg:ml-2 bg-white rounded-md shadow-sm px-3.5 py-2.5 h-14 border-2 hover:border-gray-300 ">
+        {/* <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <BsFillCalendarFill className="h-5 w-5 text-gray-400" />
-        </div>
+        </div> */}
         <input
           type="date"
-          className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-600 font-medium placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
+          className="block w-full rounded-md border-0 py-1.5 pl-10 body-medium text-gray-600 placeholder:text-gray-400 outline-none sm:text-sm sm:leading-6"
           placeholder="Select date"
         />
       </div>
@@ -231,12 +230,14 @@ type Suggestions = [string, Location][];
         <button
           onClick={() => clickHandler()}
           type="button"
-          className="rounded-md w-23 h-12 ml-4 mt-3 px-3 py-2 text-sm font-semibold text-white shadow-sm bg-rose-500 hover:bg-rose-400 items-center my-auto relative"
+          className="rounded-md w-23 h-12 ml-4 mt-3 px-3 py-1 body-semibold text-white shadow-sm bg-primary-500 hover:bg-primary-700 items-center my-auto relative"
         >
           Add Quantity
         </button>
       </div>
-      <div className=" z-20">{show ? <ContainerInputBar /> : ""}</div>
+      <div className=" z-20">
+        {show ? <ContainerInputBar register={() => console.log("hey")} /> : ""}
+      </div>
     </form>
   );
 }

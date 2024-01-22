@@ -1,76 +1,251 @@
-'use client'
-
-
-import ContainerFilter from "@/components/small components/ContainerFilter";
-import ShipingLineFilter from "@/components/small components/ShipingLineFilter";
+"use client";
+import { Fragment, useState } from "react";
+import { Dialog, Disclosure, Transition } from "@headlessui/react";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { containerTypes } from "@/components/data/dropdownData";
+import { shippingLines } from "@/components/data/dropdownData";
 import BookingCard from "./components/BookingCard";
-import ShippingFilter from "./components/ShippingFilter";
-import { useEffect, useState } from "react";
+import ShippingFilter2 from "./components/ShippingFilter2";
 
+const filters = [
+  {
+    id: "containers",
+    name: "Container Type",
+    options: containerTypes,
+    status: false,
+  },
+  {
+    id: "shipping-line",
+    name: "Shipping Lines",
+    options: shippingLines,
+    status: false,
+  },
+];
 
-
-function Page() {
-  const [showFilters, setShowFilters] = useState(false);
-  // const isSmallScreen = window.innerWidth < 768; 
-  let from = "porbandar";
-  let to = "china";
-  from = from.toUpperCase();
-  to = to.toUpperCase();
-  let testArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  
-  // useEffect(() => {
-  //   setShowFilters(!isSmallScreen);
-  // }, [isSmallScreen]);
-
-  const toggleFilters = () => {
-    setShowFilters(!showFilters);
-  };
-
-  return (
-    <>
-      <section className="bg-white">
-          <ShippingFilter />
-          <div className="flex items-center justify-center font-black p-3 mb-2 pt-10">
-          <h3 className="mx-auto text-lg font-semibold tracking-tight text-gray-600 sm:text-2xl text-center">
-              You Have Booked form <strong className='text-sky-400'>{from} </strong> to <strong className='text-rose-400'>{to}</strong>
-            </h3>
-          </div>
-      </section>
-
-      <div className="md:flex md:justify-evenly">
-      <div className={`p-2 ml-2 shadow-sm`}>
-          
-            <button
-              className="block bg-sky-500 text-white p-2 rounded-md lg:hidden"
-              onClick={toggleFilters}
-            >
-              Toggle Filters
-            </button>
-        
-          <div
-            className={`transition-transform transform ${
-              showFilters ? 'translate-x-0' : '-translate-x-full'
-            } ${showFilters ? '' : 'hidden'}`}
-          >
-            <ContainerFilter />
-            <ShipingLineFilter />
-          </div>
-          <div
-            className={`transition-transform transform hidden lg:block`}
-          >
-            <ContainerFilter />
-            <ShipingLineFilter />
-          </div>
-        </div>
-        <div className='w-full p-2 lg:w-3/6 mx-auto'>
-        {testArr.map((element) =>  <BookingCard img="1" key={element} fromDestination="Abbu Dhabi" toDestination="Bandar Abbas" />)}
-
-        </div>
-
-      </div>
-    </>
-  );
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(" ");
 }
 
-export default Page;
+export default function Page() {
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [container, setContainer] = useState(false);
+  const [shippingLine, setShippingLine] = useState(false);
+  return (
+    <div className="bg-white">
+      <section className="bg-white ">
+        <ShippingFilter2 />
+      </section>
+      <div>
+        {/* Mobile filter dialog */}
+        <Transition.Root show={mobileFiltersOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="relative z-40 lg:hidden"
+            onClose={setMobileFiltersOpen}
+          >
+            <Transition.Child
+              as={Fragment}
+              enter="transition-opacity ease-linear duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity ease-linear duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-40 flex">
+              <Transition.Child
+                as={Fragment}
+                enter="transition ease-in-out duration-300 transform"
+                enterFrom="translate-x-full"
+                enterTo="translate-x-0"
+                leave="transition ease-in-out duration-300 transform"
+                leaveFrom="translate-x-0"
+                leaveTo="translate-x-full"
+              >
+                <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
+                  <div className="flex items-center justify-between px-4">
+                    <h2 className="text-lg font-medium text-gray-900">
+                      Filters
+                    </h2>
+                    <button
+                      type="button"
+                      className="-mr-2 flex h-10 w-10 items-center justify-center p-2 text-gray-400 hover:text-gray-500"
+                      onClick={() => setMobileFiltersOpen(false)}
+                    >
+                      <span className="sr-only">Close menu</span>
+                      <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
+
+                  {/* Filters */}
+                  <form className="mt-4">
+                    {filters.map((section) => (
+                      <Disclosure
+                        as="div"
+                        key={section.name}
+                        className="border-t border-gray-200 pb-4 pt-4"
+                      >
+                        {({ open }) => (
+                          <fieldset>
+                            <legend className="w-full px-2">
+                              <Disclosure.Button className="flex w-full items-center justify-between p-2 text-gray-400 hover:text-gray-500">
+                                <span className="text-sm font-medium text-gray-900">
+                                  {section.name}
+                                </span>
+                                <span className="ml-6 flex h-7 items-center">
+                                  <ChevronDownIcon
+                                    className={classNames(
+                                      open ? "-rotate-180" : "rotate-0",
+                                      "h-5 w-5 transform"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              </Disclosure.Button>
+                            </legend>
+                            <Disclosure.Panel className="px-4 pb-2 pt-4">
+                              <div className="space-y-6">
+                                {section.options.map((option, optionIdx) => (
+                                  <div
+                                    key={option}
+                                    className="flex items-center"
+                                  >
+                                    <input
+                                      id={`${section.id}-${optionIdx}-mobile`}
+                                      name={`${section.id}[]`}
+                                      defaultValue={option}
+                                      type="checkbox"
+                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                    />
+                                    <label
+                                      htmlFor={`${section.id}-${optionIdx}-mobile`}
+                                      className="ml-3 text-sm text-gray-500"
+                                    >
+                                      {option}
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            </Disclosure.Panel>
+                          </fieldset>
+                        )}
+                      </Disclosure>
+                    ))}
+                  </form>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition.Root>
+
+        <main className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div className="pl-4 lg:grid lg:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+            <aside>
+              <h2 className="sr-only">Filters</h2>
+
+              <button
+                type="button"
+                className="inline-flex items-center lg:hidden"
+                onClick={() => setMobileFiltersOpen(true)}
+              >
+                <span className="text-sm font-medium text-gray-700">
+                  Filters
+                </span>
+                <PlusIcon
+                  className="ml-1 h-5 w-5 flex-shrink-0 text-gray-400"
+                  aria-hidden="true"
+                />
+              </button>
+
+              <div className="hidden lg:block">
+                <form className="space-y-10 divide-y divide-gray-200">
+                  <div
+                    key="containers"
+                    // className={sectionIdx === 0 ? "" : "pt-10"}
+                  >
+                    <fieldset>
+                      <legend
+                        onClick={() => {
+                          setContainer(!container);
+                        }}
+                        className="block text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 hover:scale-105 cursor-pointer  text-gray-800"
+                      >
+                        Container Type
+                        <span>
+                          <ChevronDownIcon className="ml-2 w-6 h-6 paragraph-semibold text-fuchsia-800 hover:text-primary-500" />
+                        </span>
+                      </legend>
+                      <div className="space-y-3 bg-gray-50 px-2">
+                        {container &&
+                          containerTypes.map((option, optionIdx) => (
+                            <div key={option} className="flex items-center">
+                              <input
+                                id={`${optionIdx}`}
+                                name={`${optionIdx}[]`}
+                                defaultValue={option}
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-fuchsia-800"
+                              />
+                              <label
+                                htmlFor={`${optionIdx}`}
+                                className="ml-3 text-sm text-gray-600"
+                              >
+                                {option}
+                              </label>
+                            </div>
+                          ))}
+                      </div>
+                    </fieldset>
+                    <fieldset className="mt-2">
+                      <legend
+                        onClick={() => {
+                          setShippingLine(!shippingLine);
+                        }}
+                        className="block text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 hover:scale-105 cursor-pointer  text-gray-800"
+                      >
+                        Shipping Lines
+                        <span>
+                          <ChevronDownIcon className="ml-2 w-6 h-6 paragraph-semibold text-fuchsia-800 hover:text-primary-500" />
+                        </span>
+                      </legend>
+                      <div className="space-y-3 bg-gray-50 px-2">
+                        {shippingLine &&
+                          shippingLines.map((option, optionIdx) => (
+                            <div key={option} className="flex items-center">
+                              <input
+                                id={`${optionIdx}`}
+                                name={`${optionIdx}[]`}
+                                defaultValue={option}
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-fuchsia-800"
+                              />
+                              <label
+                                htmlFor={`${optionIdx}`}
+                                className="ml-3 text-sm text-gray-600"
+                              >
+                                {option}
+                              </label>
+                            </div>
+                          ))}
+                      </div>
+                    </fieldset>
+                  </div>
+                </form>
+              </div>
+            </aside>
+
+            {/* Product grid */}
+            <div className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3 mx-auto">
+              {/* Your content */}
+              <BookingCard fromDestinatio="PorBadar" toDestination="Beijin" />
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
+}

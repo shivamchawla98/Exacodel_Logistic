@@ -123,9 +123,9 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
     return (
       <>
         <div className="flex items-center justify-center py-10">
-          <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-          <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-          <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+          <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+          <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+          <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
         </div>
       </>
     );
@@ -146,7 +146,7 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
         {/* About Section */}
         <div className="bg-white p-3 shadow-sm rounded-sm">
           <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 my-6">
-            <span className="text-sky-500">
+            <span className="text-primary-500">
               <svg
                 className="h-5"
                 xmlns="http://www.w3.org/2000/svg"
@@ -195,11 +195,11 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
 
         {/* Kyc docs */}
         <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
-        <div className="w-full">
+        <div className="w-fullmt-9">
           <h2 className="text-sm  font-semibold leading-7 text-gray-900 items-baseline pl-6">
             KYC Documents
           </h2>
-          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-2">
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-2 ">
             {Object.entries(files).map(([label, value]: any[]) => (
               <>
                 {value !== null && value.length !== 0 ? (
@@ -213,7 +213,7 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
                           {label}
                         </dt>
                       </div>
-                      <div className="mt-4 flex justify-between items-center">
+                      <div className="mt-4 flex justify-evenly items-center">
                         <button
                           onClick={() =>
                             window.open(
@@ -221,7 +221,7 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
                               "_blank"
                             )
                           }
-                          className="px-1.5 py-2 text-xs rounded-md bg-sky-500 text-white hover:bg-sky-600 focus:outline-none focus:bg-sky-600"
+                          className="px-1.5 py-2 text-xs rounded-md bg-primary-500 text-white hover:bg-fuchsia-800 focus:outline-none focus:bg-fuchsia-700"
                           type="button"
                         >
                           Preview
@@ -230,7 +230,7 @@ const UserMoreInfo: React.FC<UserMoreInfoProps> = ({ userID }) => {
                           href={`https://globextrade.s3.ap-south-1.amazonaws.com/${value}`}
                           download={getFileNameFromLink(value)}
                           target="_blank"
-                          className="px-4 py-2  text-xs font-normal text-center text-gray-500 hover:bg-sky-200 focus:outline-none focus:bg-sky-600"
+                          className="px-4 py-2  text-xs font-normal bg-cyan-800 rounded-md text-center text-white  hover:bg-cyan-700 focus:outline-none focus:bg-fuchisa-800"
                         >
                           Download {" " + getFileNameFromLink(value)}
                         </a>

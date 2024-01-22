@@ -1,34 +1,17 @@
 "use client";
 import { useJsApiLoader, GoogleMap, Marker } from "@react-google-maps/api";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { useSelector } from "react-redux";
 
 function MapOfWarehouses() {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_googleMapsApiKey!,
     // libraries: libraries as any,
   });
-  const markers = [
-    {
-      lat: 37.7749,
-      lng: -122.4194,
-      imageUrl: "https://i.imgur.com/1w6QqKZ.png",
-    },
-    {
-      lat: 37.7749,
-      lng: -122.5194,
-      imageUrl: "https://i.imgur.com/1w6QqKZ.png",
-    },
-    {
-      lat: 37.8749,
-      lng: -122.4194,
-      imageUrl: "https://i.imgur.com/1w6QqKZ.png",
-    },
-    {
-      lat: 37.8749,
-      lng: -122.5194,
-      imageUrl: "https://i.imgur.com/1w6QqKZ.png",
-    },
-  ];
+  const { markers } = useSelector((state: any) => state.warehouseSlice);
+  useEffect(() => {
+    console.log("markers : ", markers);
+  }, [markers]);
 
   const mapOptions = useMemo<google.maps.MapOptions>(
     () => ({
@@ -54,17 +37,22 @@ function MapOfWarehouses() {
       {
         <GoogleMap
           options={mapOptions}
-          zoom={14}
-          center={{ lat: 37.7749, lng: -122.4194 }}
-          mapTypeId={google.maps.MapTypeId.ROADMAP}
+          zoom={9}
+          center={{
+            lat: markers[0]?.latitude * 1,
+            lng: markers[0]?.longitude * 1,
+          }}
           mapContainerStyle={{ width: "100vw", height: "100vh" }}
           onLoad={(map) => console.log("Map Loaded")}
         >
-          {markers.map(({ lat, lng, imageUrl }) => (
+          {markers?.map((warehouse: any) => (
             <Marker
-              key={`${lat}-${lng}`}
+              key={`${warehouse.latitude}-${warehouse.longitude}`}
               // icon={{ url: imageUrl }}
-              position={{ lat, lng }}
+              position={{
+                lat: warehouse.latitude * 1,
+                lng: warehouse.longitude * 1,
+              }}
             />
           ))}
         </GoogleMap>

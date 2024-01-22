@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 // import GET_ALL_WAREHOUSE from "@/graphql/query/getAllWarehouse";
-import GET_WAREHOUSE_APPROVAL_PENDING_LIST from "@/graphql/query/getWarehousePendingApprovalList";
+import GET_ALL_WAREHOUSE_APPROVAL_PENDING_LIST from "@/graphql/query/getAllWarehouseApprovalpending";
 import {
   flexRender,
   getCoreRowModel,
@@ -30,12 +30,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
   console.log("decoded : ", decodedData.id);
 
   const { loading, error, data, refetch } = useQuery(
-    GET_WAREHOUSE_APPROVAL_PENDING_LIST,
-    {
-      variables: {
-        userId: decodedData.id * 1,
-      },
-    }
+    GET_ALL_WAREHOUSE_APPROVAL_PENDING_LIST
   );
 
   const [sorting, setSorting] = useState<any>([]);
@@ -48,10 +43,10 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
   }
   const [filtering, setFiltering] = useState<any>("");
   const myData = useMemo(
-    () => data?.getWarehousePendingForApprovalListbyuserid ?? [],
-    [data?.getWarehousePendingForApprovalListbyuserid]
+    () => data?.warehousesPendingApproval ?? [],
+    [data?.warehousesPendingApproval]
   );
-  console.log(data?.getWarehousePendingForApprovalListbyuserid);
+  console.log(data?.warehousesPendingApproval);
   useEffect(() => {
     refetch();
   }, [activeItem]);
@@ -106,7 +101,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
                 setActiveItem("warehouseInfo");
               }}
             >
-              <EyeIcon className="h-4 w-4 text-sky-500" />
+              <EyeIcon className="h-4 w-4 text-primary-500" />
             </div>
             <div
               className="cursor-pointer ml-2"
@@ -117,7 +112,7 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
                 setActiveItem("warehouseEdit");
               }}
             >
-              <PencilIcon className="h-4 w-4 text-sky-500" />
+              <PencilIcon className="h-4 w-4 text-primary-500" />
             </div>
           </div>
         ),
@@ -144,19 +139,19 @@ function AllWarehouse({ setActiveItem, setApprovalIndex, activeItem }: any) {
   return (
     <div className="inline-block max-w-4xl py-2 align-middle sm:px-6 lg:px-8">
       <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-        <div className="relative my-4 max-w-xl">
+        <div className="relative py-8">
           <input
             type="text"
-            className="border rounded-ee-md rounded-tr-md border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+            className="border absolute top-0 max-w-sm right-0 rounded-ee-md rounded-tr-md border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-sm text-gray-700 placeholder-gray-400"
             onChange={(e) => setFiltering(e.currentTarget.value)}
           />
           <MagnifyingGlassIcon className="h-5 w-5 absolute right-3 top-2" />
         </div>
         {loading ? (
           <div className="flex items-center justify-center py-10">
-            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-            <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
+            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+            <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
+            <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-primary-500 rounded-full"></div>
           </div>
         ) : error ? (
           <p>Error loading data</p>

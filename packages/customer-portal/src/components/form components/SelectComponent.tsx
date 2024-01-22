@@ -1,4 +1,4 @@
-import { ErrorMessage, Field } from 'formik';
+import { ErrorMessage, Field } from "formik";
 
 interface SelectComponetProps {
   options: Array<Object | string>;
@@ -24,16 +24,22 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
       <Field
         as="select"
         name={id}
-        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-sky-600 text-sm pl-2"
+        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
       >
-        <option value="">{optionalOption !== 'undefined' ? optionalOption : ''}</option>
+        <option value="">
+          {optionalOption !== "undefined" ? optionalOption : ""}
+        </option>
         {options.map((element: any) => (
-          <option className='text-sm' key={element.value} value={element.value}>
+          <option className="text-sm" key={element.value} value={element.value}>
             {element.label}
           </option>
         ))}
       </Field>
-      <ErrorMessage name={id} component="span" className='text-xs text-rose-600' />
+      <ErrorMessage
+        name={id}
+        component="span"
+        className="text-xs text-rose-600"
+      />
     </div>
   );
 };

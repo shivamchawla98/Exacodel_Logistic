@@ -18,6 +18,7 @@ import {
   updatePincode,
   updateState,
 } from "@/features/gmapSlice/gmap-slice";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 const Home = () => {
   const { lat, lng } = useSelector((state: any) => state.gmapSlice);
@@ -193,23 +194,21 @@ const PlacesAutocomplete = ({
   };
 
   return (
-    <div className={styles.autocompleteWrapper}>
-      <button
-        type="button"
-        className="rounded-md bg-sky-500 px-3 mx-1 py-2.5 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400"
-      >
-        Locate your Warehouse
-      </button>
+    <div className=" w-full relative h-20">
       <input
         value={value}
-        className="shadow-md rounded-md focus:outline-none py-2 mb-2 text-sm border border-sky-500 focus:border-2  font-medium  w-1/2 pl-4"
+        className="shadow-md rounded-md pl-2 absolute right-0 z-10 focus:outline-none py-2 mb-2 text-sm border-2 border-primary-500 focus:border-2  font-medium w-3/4"
         disabled={!ready}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Search for loaction of yours warehouse"
       />
-
+      <span>
+        <MagnifyingGlassIcon className="h-5 w-5 text-primary-500 absolute right-1 z-20 top-2" />
+      </span>
       {status === "OK" && (
-        <ul className={styles.suggestionWrapper}>{renderSuggestions()}</ul>
+        <ul className="z-50 absolute right-0 top-10 w-3/4 bg-white">
+          {renderSuggestions()}
+        </ul>
       )}
     </div>
   );

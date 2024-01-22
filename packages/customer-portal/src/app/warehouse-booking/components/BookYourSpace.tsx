@@ -1,7 +1,8 @@
-import React from "react";
+"use client";
+import { useEffect, useState } from "react";
 import DatePicker from "./DatePicker";
 import TotalCostCard from "./ToatalCostCard";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, set } from "react-hook-form";
 import CREATE_BOOKING from "@/graphql/mutation/createBooking";
 import { useMutation } from "@apollo/client";
 import Cookies from "js-cookie";
@@ -10,6 +11,8 @@ import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
+import createBooking from "@/graphql/mutation/createBooking";
+import router from "next/router";
 
 interface BookYourSpaceInput {
   name: string;
@@ -22,44 +25,66 @@ interface BookYourSpaceInput {
 }
 
 function BookYourSpace() {
-  const [createBooking] = useMutation(CREATE_BOOKING);
-  const { warehouseId } = useSelector((state: any) => state.warehouseSlice);
   const router = useRouter();
+  const [createBooking] = useMutation(CREATE_BOOKING);
+  const [userId, setUserId] = useState(-1);
+  const [localWarehouseId, setLocalWarehouseId] = useState<any>(null);
+  const [localSpaceReq, setLocalSpaceReq] = useState<any>(null);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm<BookYourSpaceInput>();
-  const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
-    try {
-      let token: any = Cookies.get("jwToken");
 
+  useEffect(() => {
+    try {
+      let retrieviedStorageId: any = localStorage.getItem("warehouseId");
+      let retrieviedStorageRequiredSpace: any =
+        localStorage.getItem("requiredSpace");
+      let token: any = Cookies.get("jwToken");
+      console.log("warehouseLocalStorageId", JSON.parse(retrieviedStorageId));
+
+      if (retrieviedStorageId && retrieviedStorageRequiredSpace) {
+        // warehouseLocalStorageId *= 1;
+        setLocalSpaceReq(JSON.parse(retrieviedStorageRequiredSpace));
+        setLocalWarehouseId(JSON.parse(retrieviedStorageId));
+        console.log("local warehousid : >>> ", localWarehouseId);
+      }
       if (token) {
         const decodedToken: any = jwtDecode(token);
         console.log(decodedToken);
-        const response = await createBooking({
-          variables: {
-            input: {
-              moveInDate: data.moveInDate,
-              moveOutDate: data.moveOutDate,
-              spaceMaterialType: "Glass",
-              specialInstructions: "Handle with care",
-              warehouseId: warehouseId * 1,
-              userId: decodedToken?.id,
-            },
-          },
-        });
-        router.push("/profile");
-        console.log("data ", response);
-        toast.success("Bokking placed sucessfully");
+        setUserId(decodedToken.id);
       }
     } catch (error: any) {
       toast.error(error.message);
       console.log("Error in creating Booking", error);
     }
+  }, []);
+  // submit function
+  const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
+    try {
+      const response = await createBooking({
+        variables: {
+          input: {
+            moveInDate: data.moveInDate,
+            moveOutDate: data.moveOutDate,
+            spaceMaterialType: "Glass",
+            specialInstructions: "Handle with care",
+            warehouseId: localWarehouseId * 1,
+            userId: userId * 1,
+          },
+        },
+      });
 
-    console.log("form data : ", data);
+      router.push("/profile");
+      console.log("data ", response);
+      toast.success("Bokking placed sucessfully");
+      console.log("form data : ", data);
+    } catch (error: any) {
+      toast.error(error.message);
+      console.log("Error in creating Booking", error);
+    }
   };
 
   return (
@@ -70,11 +95,14 @@ function BookYourSpace() {
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             Book Your Space
           </h2>
-          <TotalCostCard />
+          <TotalCostCard
+            warehouseId={localWarehouseId}
+            requiredSpace={localSpaceReq}
+          />
         </div>
 
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={() => handleSubmit(onSubmit)}
           className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
         >
           <div className="px-4 py-6 sm:p-8">
@@ -92,7 +120,7 @@ function BookYourSpace() {
                     id="first-name"
                     autoComplete="given-name"
                     {...register("name", { required: true })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-fuchsia-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   {errors.name && (
                     <span className="text-xs text-rose-500">
@@ -122,7 +150,7 @@ function BookYourSpace() {
                     })}
                     type="email"
                     autoComplete="email"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-fuchsia-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   {errors.email?.message && (
                     <span className="text-xs text-rose-500">
@@ -152,7 +180,7 @@ function BookYourSpace() {
                       required: "Phone number is required",
                     })}
                     type="tel"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-fuchsia-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   {errors.phone?.message && (
                     <span className="text-xs text-rose-500">
@@ -176,7 +204,7 @@ function BookYourSpace() {
                       required: "Email is required",
                     })}
                     type="text"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-fuchsia-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   {errors.companyName?.message && (
                     <span className="text-xs text-rose-500">
@@ -200,7 +228,7 @@ function BookYourSpace() {
                       required: "Email is required",
                     })}
                     id="gstNum"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-fuchsia-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   {errors.gstNum?.message && (
                     <span className="text-xs text-rose-500">
@@ -214,7 +242,7 @@ function BookYourSpace() {
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
             <button
               type="submit"
-              className="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600"
+              className="rounded-md bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               Next
             </button>

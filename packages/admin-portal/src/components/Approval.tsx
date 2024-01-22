@@ -348,7 +348,7 @@ export default function Approval({
                         onChange={(e) =>
                           setSelectedAnnualTurnover(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Annual Turnover</option>
                         {annualTurnoverLabels.map((option) => (
@@ -361,7 +361,7 @@ export default function Approval({
                       <select
                         value={selectedCompanyType}
                         onChange={(e) => setSelectedCompanyType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Type of Company</option>
                         {companyTypeLabels.map((option) => (
@@ -374,7 +374,7 @@ export default function Approval({
                       <select
                         value={selectedUserType}
                         onChange={(e) => setSelectedUserType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">User Types</option>
                         {userTypes.map((option) => (
@@ -389,7 +389,7 @@ export default function Approval({
                         onChange={(e) =>
                           setSelectedIndustryType(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Industry</option>
                         {industryTypeOptions.map((option) => (
@@ -406,7 +406,7 @@ export default function Approval({
                           handleInputChange(label, e.target.value)
                         }
                         disabled={true}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       />
                     ) : (
                       <input
@@ -415,7 +415,7 @@ export default function Approval({
                         onChange={(e) =>
                           handleInputChange(label, e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       />
                     )}
                   </div>
@@ -447,7 +447,7 @@ export default function Approval({
                       type="text"
                       value={value}
                       onChange={(e) => handleInputChange(label, e.target.value)}
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                     />
                   </div>
                 </div>
@@ -484,7 +484,7 @@ export default function Approval({
                               "_blank"
                             )
                           }
-                          className="px-1.5 py-2 text-xs rounded-md bg-sky-500 text-white hover:bg-sky-600 focus:outline-none focus:bg-sky-600"
+                          className="px-1.5 py-2 text-xs rounded-md bg-primary-500 text-white hover:bg-primary-500 focus:outline-none focus:bg-primary-500"
                           type="button"
                         >
                           Preview
@@ -493,7 +493,7 @@ export default function Approval({
                           href={`https://globextrade.s3.ap-south-1.amazonaws.com/${value}`}
                           download={getFileNameFromLink(value)}
                           target="_blank"
-                          className="px-4 py-2  text-xs font-normal text-center text-gray-500 hover:bg-sky-200 focus:outline-none focus:bg-sky-600"
+                          className="px-4 py-2  text-xs font-normal text-center text-gray-500 hover:bg-fuchsia-200 focus:outline-none focus:bg-primary-500"
                         >
                           Download {" " + getFileNameFromLink(value)}
                         </a>
@@ -515,7 +515,7 @@ export default function Approval({
               setAction("Approved");
             }}
             type="button"
-            className="rounded-md bg-sky-500 px-3 mx-1 text-xs font-semibold text-white shadow-sm hover:bg-sky-400"
+            className="rounded-md bg-primary-500 px-3 mx-1 text-xs font-semibold text-white shadow-sm hover:bg-sky-400"
           >
             Approve<span className="sr-only">, Approve </span>
           </button>
@@ -525,7 +525,7 @@ export default function Approval({
               setAction("Rejected");
             }}
             type="button"
-            className="rounded-md bg-sky-500 px-3 mx-1 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400"
+            className="rounded-md bg-primary-500 px-3 mx-1 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400"
           >
             Reject<span className="sr-only">, Reject </span>
           </button>
@@ -535,7 +535,7 @@ export default function Approval({
               setAction("Review");
             }}
             type="button"
-            className="rounded-md bg-sky-500 px-3 mx-1 py-2 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400"
+            className="rounded-md bg-primary-500 px-3 mx-1 py-2 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400"
           >
             Send for Review<span className="sr-only">, Review </span>
           </button>

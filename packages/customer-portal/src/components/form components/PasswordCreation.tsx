@@ -1,17 +1,16 @@
-import { ErrorMessage, Field, Form, Formik } from 'formik'
-import * as Yup from 'yup'
-import { useDispatch, useSelector } from 'react-redux';
-import { updatePassword } from '@/features/user/user-slice';
-import { updateFormName } from '@/features/select-form/selectForm-slice';
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/client';
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePassword } from "@/features/user/user-slice";
+import { updateFormName } from "@/features/select-form/selectForm-slice";
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/client";
 
 // Define your initial values
 const initialValues = {
-  password: '',
-  passwordCheck: '',
+  password: "",
+  passwordCheck: "",
 };
-
 
 const SAVE_PASSWORD_MUTATION = gql`
   mutation SavePassword($passwordInput: Password!, $userId: Float!) {
@@ -23,30 +22,29 @@ const SAVE_PASSWORD_MUTATION = gql`
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters long')
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters long")
     .matches(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+      "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
     ),
   passwordCheck: Yup.string()
-    .oneOf([Yup.ref('password')], 'Passwords must match')
-    .required('Please confirm your password'),
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
 });
 function PasswordCreation() {
-  const [savePassword, { loading, error, data }] = useMutation(SAVE_PASSWORD_MUTATION);
-  let {userId} = useSelector((state: any) => state.user);
+  const [savePassword, { loading, error, data }] = useMutation(
+    SAVE_PASSWORD_MUTATION
+  );
+  let { userId } = useSelector((state: any) => state.user);
   console.log("userId ", userId);
   // Log the GraphQL query
   // console.log("GraphQL Query:", SAVE_PASSWORD_MUTATION?.loc?.source?.body);
   const dispatch = useDispatch();
- 
 
   const handleSubmit = async (value: any) => {
     console.log(value.password);
-   
-    
-    
+
     try {
       const response = await savePassword({
         variables: {
@@ -58,19 +56,19 @@ function PasswordCreation() {
         },
       });
 
-      console.log('Password saved:', response);
+      console.log("Password saved:", response);
     } catch (error) {
-      console.error('Error saving password:', error);
+      console.error("Error saving password:", error);
     }
     console.log(value);
     // dispatch(updatePassword(value.password))
-    dispatch(updateFormName("registration"))
-  }
+    dispatch(updateFormName("registration"));
+  };
 
   return (
     <div className="h-3/4 bg-white py-6 flex flex-col justify-center sm:py-12">
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-sky-300 to-sky-600 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-300 to-primary-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
         <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
           <div className="max-w-md mx-auto">
             <div>
@@ -89,10 +87,10 @@ function PasswordCreation() {
                         autoComplete="off"
                         name="password"
                         type="password"
-                        className="peer placeholder-transparent h-10 w-full py-2 border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-600"
+                        className="peer placeholder-transparent h-10 w-full py-2 border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-primary-500"
                         placeholder="Email address"
-                      // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(email, e.target.value) }
-                      // value={email}
+                        // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(email, e.target.value) }
+                        // value={email}
                       />
                       <label
                         htmlFor="password"
@@ -111,10 +109,10 @@ function PasswordCreation() {
                         autoComplete="off"
                         name="passwordCheck"
                         type="password"
-                        className="peer placeholder-transparent h-10 w-full border-b-2 py-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-600"
+                        className="peer placeholder-transparent h-10 w-full border-b-2 py-2 border-gray-300 text-gray-900 focus:outline-none focus:border-primary-500"
                         placeholder="Password"
-                      // value={password}
-                      // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(password, e.target.value) }
+                        // value={password}
+                        // onChange = {(e: React.ChangeEvent<HTMLInputElement>) => setFieldValue(password, e.target.value) }
                       />
                       <label
                         htmlFor="passwordCheck"
@@ -131,10 +129,10 @@ function PasswordCreation() {
                     <div className="relative">
                       <button
                         type="submit"
-                        className="bg-sky-600 hover:bg-sky-500 text-white rounded-md px-2 py-1"
+                        className="bg-primary-500 hover:bg-fuchsia-800 text-white rounded-md px-2 py-1"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? 'Submitting...' : 'Create Password'}
+                        {isSubmitting ? "Submitting..." : "Create Password"}
                       </button>
                     </div>
                   </div>
@@ -145,7 +143,7 @@ function PasswordCreation() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default PasswordCreation
+export default PasswordCreation;

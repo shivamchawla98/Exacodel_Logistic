@@ -64,72 +64,87 @@ function LoginModal({ setLoginClose }: any) {
 
   return (
     <>
-      <div className="w-screen h-screen flex justify-center items-center backdrop-blur-sm z-50  fixed ">
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="justify-center  object-center absolute rounded-md shadow-md items-center w-full bg-white  rounded-lgpx-6 flex flex-col md:w-1/2 lg:w-1/3 m-auto"
-        >
-          {/* This is an example component */}
-          <div className="flex justify-end items-center w-full pr-8 mt-4 cursor-pointer">
-            <XMarkIcon
-              onClick={() => {
-                setLoginClose(true);
-              }}
-              className="h-6 w-6 z-50 text-sky-600"
-            />
-          </div>
-          <h2 className="text-2xl my-4">Login</h2>
-          <div
-            id="whoobe-h90kl"
-            className="w-full p-2 justify-start flex flex-col"
-          >
-            <div id="whoobe-7izhv" className=" flex flex-row">
-              <span
-                id="whoobe-plfl9"
-                className="z-highest rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-400 border border-r-0"
-              >
-                <UserIcon className="text-gray-500 h-6 w-6" />
-              </span>
-              <input
-                defaultValue=""
-                {...register("email")}
-                className="border border-gray-200 rounded-r-lg outline-none focus:ring-1 ring-sky-400 w-full pl-1"
-                placeholder="username"
+      <div className="backdrop-blur-sm z-40 fixed w-full flex flex-col justify-center sm:py-12">
+        <div className="relative sm:max-w-xl sm:mx-auto  lg:w-4/12">
+          <div className="absolute inset-0 bg-gradient-to-r from-fuchsia-300 to-primary-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+          <div className="relative px-4  bg-white  h-96 shadow-lg sm:rounded-3xl sm:p-11">
+            <div className="flex justify-end">
+              <XMarkIcon
+                onClick={() => setLoginClose(true)}
+                className="w-5 h-5  text-primary-500 rotate-90 hover:rotate-6 ease-in-out transform-gpu cursor-pointer"
               />
-              {errors.email && (
-                <span className="text-xs text-rose-400">
-                  This field is required
-                </span>
-              )}
             </div>
-            <div id="whoobe-l6k6r" className="my-4 flex flex-row">
-              <span
-                id="whoobe-4occ6"
-                className="z-highest rounded-l-lg w-10 h-10 flex justify-center items-center text-2xl text-gray-400 border border-r-0"
-              >
-                <KeyIcon className="text-gray-500 h-6 w-6" />
-              </span>
-              <input
-                type="password"
-                defaultValue=""
-                {...register("password", { required: true })}
-                className="h-10 border border-gray-200 rounded-r-lg outline-none focus:ring-1 ring-sky-300 w-full pl-1"
-                placeholder="password"
-              />
-              {errors.password && (
-                <span className="text-rose-400 text-xs">
-                  This field is required
-                </span>
-              )}
-            </div>
-            <button
-              value="button"
-              className="px-4 py-2 rounded bg-sky-400 text-white hover:bg-sky-700 my-4 w-full"
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className=" text-base leading-6 space-y-4 h-96 text-gray-700 sm:text-lg sm:leading-7"
             >
-              Login
-            </button>
+              <div className="relative">
+                <h1 className="text-xl font-semibold my-4">
+                  Login to Continue
+                </h1>
+              </div>
+              <div className="w-full p-2 justify-start flex flex-col relative">
+                <div className="mt-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm paragraph-semibold text-gray-900"
+                  >
+                    Email Address
+                  </label>
+                  <input
+                    defaultValue=""
+                    {...register("email")}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
+                    placeholder="username"
+                  />
+                  {errors.email && (
+                    <span className="text-xs text-rose-400">
+                      This field is required
+                    </span>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm paragraph-semibold  leading-6 text-gray-900"
+                    >
+                      Password
+                    </label>
+                    <div className="text-sm">
+                      <a
+                        href="#"
+                        className="font-semibold text-primary-500 hover:text-fuchsia-700"
+                      >
+                        Forgot password?
+                      </a>
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <input
+                      type="password"
+                      defaultValue=""
+                      {...register("password", { required: true })}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
+                      placeholder="password"
+                    />
+                    {errors.password && (
+                      <span className="text-rose-400 text-xs">
+                        This field is required
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  value="button"
+                  className="px-4 py-1 rounded-md bg-primary-500 text-white hover:bg-fuchsia-700 my-4 w-24"
+                >
+                  Login
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </>
   );

@@ -18,6 +18,7 @@ import {
   update_pancard_auth,
   update_pancard_company,
 } from "@/features/uploads/upload-slice";
+import Dropzone from "react-dropzone";
 
 interface FileUploadProps {
   label: string;
@@ -31,20 +32,38 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [s3FileKey, setS3FileKey] = useState<string>("");
   const dispatch = useDispatch();
-
   const onDrop = (acceptedFiles: File[]) => {
-    setFile(acceptedFiles[0]);
-    setAccetedFiles([acceptedFiles[0]]);
+    console.log("accepted file : ", acceptedFiles);
+
     try {
-      handleUploadFile();
+      console.log("in handle upload : ", acceptedFiles);
+
+      setFile(acceptedFiles[0]);
+      setAccetedFiles([acceptedFiles[0]]);
+      handleUploadFile(acceptedFiles[0]);
     } catch (error) {
       console.log("image upload error >>> ", error);
     }
   };
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    isDragAccept,
+    isDragReject,
+    acceptedFiles,
+  } = useDropzone({
+    onDrop,
+    accept: {
+      "image/*": [".jpeg", ".png", ".jpg"],
+      "application/pdf": [".pdf"],
+    },
+    multiple: true,
+    maxSize: 4 * 1024 * 1024, // Specify max file size (4 MB)
+    maxFiles: 1,
+  });
 
   useEffect(() => {
-    // var s3FileKey = localStorage.getItem("s3FileKey");
-    // var s3FileFormat = localStorage.getItem("s3FileFormat");
     if (s3FileKey && s3FileKey?.length > 0) {
       setS3GetPromiseUrl(
         `https://globextrade.s3.ap-south-1.amazonaws.com/${s3FileKey}`
@@ -52,22 +71,16 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
     } else {
       setS3GetPromiseUrl(``);
     }
-    // if (s3FileKey !== "" && s3FileKey && s3FileFormat !== "" && s3FileFormat) {
-    //   setS3GetPromiseUrl(`https://globextrade.s3.ap-south-1.amazonaws.com/${s3FileKey}`);
-    // } else {
-    //   setS3GetPromiseUrl("");
-    // }
     localStorage.clear();
-  }, [file]);
+  }, [acceptedFiles, s3FileKey]);
 
-  console.log("mode : ", process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID);
-  async function handleUploadFile() {
-    var date = new Date();
-    var formattedDate = format(date, "yyyy-M-dd");
+  async function handleUploadFile(acceptedFiles: File) {
+    try {
+      var date = new Date();
+      var formattedDate = format(date, "yyyy-M-dd HH:mm:ss");
 
-    if (file) {
-      var fileKey = `user/${doc}/date=${formattedDate}${acceptedFile[0].name.toLowerCase()}`;
-      var fileType = acceptedFile[0].type;
+      var fileKey = `user/${doc}/date=${formattedDate}${acceptedFiles.name.toLowerCase()}`;
+      var fileType = acceptedFiles.type;
       console.log("Doc: ", doc, " file >> ", fileKey);
 
       switch (doc) {
@@ -109,7 +122,7 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
 
           break;
       }
-      console.log("mode : ", process.env.NEXT_PUBLIC_BUCKET_NAME);
+      console.log("fileKey : ", fileKey);
       //add key here
       const client_s3 = new S3({
         region: process.env.NEXT_PUBLIC_REGION,
@@ -117,13 +130,6 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
         secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
         signatureVersion: "v4",
       });
-
-      // const client_s3 = new S3({
-      //   region: process.env.NEXT_PUBLIC_REGION,
-      //   accessKeyId: process.env. NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
-      //   secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY,
-      //   signatureVersion: "v4",
-      // });
 
       try {
         const fileParams = {
@@ -140,7 +146,7 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
         );
         const uploadUrl = url;
 
-        const fromAxios = await axios.put(uploadUrl, file, {
+        const fromAxios = await axios.put(uploadUrl, acceptedFiles, {
           headers: {
             "Content-type": fileType,
             "Access-Control-Allow-Origin": "*",
@@ -158,9 +164,11 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
       } catch (error) {
         console.log("AWS S3 API - upload_file.tsx - POST Error:", error);
       }
-
-      setFile(undefined);
+    } catch (error) {
+      console.log("new error", error);
     }
+
+    setFile(undefined);
   }
 
   const getFileIcon = (fileType: string): string => {
@@ -175,32 +183,24 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
     }
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [],
-      "application/pdf": [".pdf"],
-    },
-    multiple: false,
-    maxSize: 4 * 1024 * 1024, // Specify max file size (4 MB)
-  });
-
   return (
-    <div {...getRootProps()} className="space-y-4">
+    <div {...getRootProps({ className: "dropzone" })} className="space-y-4">
       <label className="text-xs font-medium">{label}</label>
       <div
-        className={`border border-dashed rounded-lg p-4 cursor-pointer border-sky-500 max-w-xs`}
+        className={`border border-dashed rounded-lg p-4 cursor-pointer border-primary-500 max-w-xs`}
       >
         <input id={label} {...getInputProps()} />
-        <p className={`text-sky-500 text-xs font-medium`}>
+        <p className={`text-primary-500 text-xs font-medium`}>
           Drop or click to upload {label}
         </p>
-        {acceptedFile.length > 0 && (
+        {acceptedFiles.length > 0 && (
           <div className="mt-4 flex items-center  w-8">
-            <span className="text-lg">{getFileIcon(acceptedFile[0].type)}</span>{" "}
+            <span className="text-lg">
+              {getFileIcon(acceptedFiles[0].type)}
+            </span>{" "}
             {/* Unicode character for file icon */}
             <p className="text-xs font-normal ml-2 w-12">
-              {acceptedFile[0].name}
+              {acceptedFiles[0].name}
             </p>
           </div>
         )}
@@ -208,7 +208,11 @@ const FileUpload = ({ label, doc }: FileUploadProps) => {
       {uploadProgress > 0 && uploadProgress < 100 && (
         <div className="mt-4">
           <p className="text-sm font-medium">Uploading: {uploadProgress}%</p>
-          <progress className="bg-sky-500" value={uploadProgress} max="100" />
+          <progress
+            className="bg-primary-500"
+            value={uploadProgress}
+            max="100"
+          />
         </div>
       )}
       <ToastContainer />
