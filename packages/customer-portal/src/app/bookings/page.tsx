@@ -1,12 +1,13 @@
 "use client";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { containerTypes } from "@/components/data/dropdownData";
 import { shippingLines } from "@/components/data/dropdownData";
 import BookingCard from "./components/BookingCard";
-import ShippingFilter2 from "./components/ShippingFilter2";
+// import ShippingFilter2 from "./components/ShippingFilter2";
+import ShippingFilter3 from "./components/ShippingFilter3";
 
 const filters = [
   {
@@ -30,11 +31,28 @@ function classNames(...classes: any) {
 export default function Page() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [container, setContainer] = useState(false);
+  const [fcl, setFcl] = useState<boolean>(false);
   const [shippingLine, setShippingLine] = useState(false);
+  const [data, setData] = useState([]);
+  const [containerSizeType, setContainerSizeType] = useState("");
+  const [numberOfContainer, setNumberOfContainer] = useState(1);
+
+  useEffect(() => {
+    console.log(data);
+    data.map((item) => {
+      console.log("from  :: ", item);
+    });
+  }, [data]);
+
   return (
     <div className="bg-white">
       <section className="bg-white ">
-        <ShippingFilter2 />
+        <ShippingFilter3
+          setData={setData}
+          setFcl={setFcl}
+          setNumberOfContainer={setNumberOfContainer}
+          setContainerSizeType={setContainerSizeType}
+        />
       </section>
       <div>
         {/* Mobile filter dialog */}
@@ -172,12 +190,16 @@ export default function Page() {
                         onClick={() => {
                           setContainer(!container);
                         }}
-                        className="block text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 hover:scale-105 cursor-pointer  text-gray-800"
+                        className=" text-xs paragraph-semibold flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 cursor-pointer  text-gray-800"
                       >
-                        Container Type
                         <span>
-                          <ChevronDownIcon className="ml-2 w-6 h-6 paragraph-semibold text-fuchsia-800 hover:text-primary-500" />
+                          <ChevronDownIcon
+                            className={`ml-2 w-6 h-6 paragraph-semibold text-gray-500 hover:text-orange-400 ${
+                              !container && "rotate-90"
+                            } `}
+                          />
                         </span>
+                        Container Type
                       </legend>
                       <div className="space-y-3 bg-gray-50 px-2">
                         {container &&
@@ -188,7 +210,7 @@ export default function Page() {
                                 name={`${optionIdx}[]`}
                                 defaultValue={option}
                                 type="checkbox"
-                                className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-fuchsia-800"
+                                className="h-4 w-4 rounded border-gray-300 text-gray-500 focus:ring-orange-500"
                               />
                               <label
                                 htmlFor={`${optionIdx}`}
@@ -205,12 +227,15 @@ export default function Page() {
                         onClick={() => {
                           setShippingLine(!shippingLine);
                         }}
-                        className="block text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 hover:scale-105 cursor-pointer  text-gray-800"
+                        className="text-xs paragraph-semibold flex-center bg-gray-50 px-4 py-1.5 rounded-md  hover:text-gray-800  cursor-pointer  text-gray-800"
                       >
-                        Shipping Lines
-                        <span>
-                          <ChevronDownIcon className="ml-2 w-6 h-6 paragraph-semibold text-fuchsia-800 hover:text-primary-500" />
-                        </span>
+                        <ChevronDownIcon
+                          className={classNames(
+                            "ml-2 w-6 h-6 paragraph-semibold text-gray-500 hover:text-ornage-500",
+                            !shippingLine && "rotate-90"
+                          )}
+                        />
+                        <span>Shipping Lines</span>
                       </legend>
                       <div className="space-y-3 bg-gray-50 px-2">
                         {shippingLine &&
@@ -240,8 +265,36 @@ export default function Page() {
 
             {/* Product grid */}
             <div className="mt-6 lg:col-span-2 lg:mt-0 xl:col-span-3 mx-auto">
-              {/* Your content */}
-              <BookingCard fromDestinatio="PorBadar" toDestination="Beijin" />
+              {data &&
+                !fcl &&
+                data.map((item: any) => (
+                  <BookingCard
+                    key={item.shipmentId}
+                    src={item.oceanFreight.logo}
+                    to={item.cityTo.name}
+                    from={item.cityFrom.name}
+                    days={item.oceanFreight.transitTime}
+                    id={item.shipmentId}
+                    Co2={item.oceanFreight.co2}
+                    costEntered={item.oceanFreight.originalPrice}
+                    numberOfContainer={numberOfContainer}
+                    containerSizeType={containerSizeType}
+                  />
+                ))}
+              {data &&
+                fcl &&
+                data.map((item: any) => (
+                  <BookingCard
+                    key={item.shipmentId}
+                    to={item.cityTo.name}
+                    from={item.cityFrom.name}
+                    days={item.freight[0].transitTime}
+                    id={item.shipmentId}
+                    costEntered={item.freight[0].price}
+                    numberOfContainer={numberOfContainer}
+                    containerSizeType={containerSizeType}
+                  />
+                ))}
             </div>
           </div>
         </main>

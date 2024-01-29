@@ -7,6 +7,7 @@ import Service from "./components/Service";
 import HowItWorks from "./components/HowItWorks";
 import IndustryServed from "./components/IndustryServed";
 import Blogs from "./components/Blogs";
+import ShippingFilter3 from "../bookings/components/ShippingFilter3";
 
 function page() {
   return (
@@ -22,8 +23,8 @@ function page() {
         <h1 className="h1-bold z-20 text-5xl text-center w-full top-36 text-white absolute">
           Find The Best Freight Quote
         </h1>
-        <div className="absolute z-20 top-32 w-full">
-          <ShippingFilter2 />
+        <div className="absolute z-20 top-48 w-full">
+          <ShippingFilter3 />
         </div>
       </section>
       <HotDealSection />

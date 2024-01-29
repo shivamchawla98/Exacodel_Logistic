@@ -1,15 +1,54 @@
-import SelectComponet from './SelectComponent';
-import TextField from './TextField';
-import { ErrorMessage, Field } from 'formik';
+import SelectComponet from "./SelectComponent";
+import TextField from "./TextField";
+import { ErrorMessage, Field } from "formik";
 import {
   truckName,
   maxPayLoad,
   states,
   pincode,
   basisOfCharges,
-} from './data/dropdownData';
+} from "./data/dropdownData";
+const vehicleType = [
+  {
+    radableName: "Tata Ace",
+    enumName: "TataAce",
+  },
+  {
+    radableName: "Ashok Leyland Dost",
+    enumName: "AshokLeylandDost",
+  },
+  {
+    radableName: "Mahindra Bolero Pickup",
+    enumName: "MahindraBoleropickup",
+  },
+  {
+    radableName: "Tata 407",
+    enumName: "Tata407",
+  },
+];
 
-function DomesticTransportFTLDetails({setIsFTLFalse}: any) {
+const CityType = [
+  "Assam",
+  "Bihar",
+  "Gujarat",
+  "Rajesthan",
+  "Haryana",
+  "Kerala",
+  "Karnatka",
+];
+
+const pincodeType = [
+  "_515004",
+  "_515731",
+  "_515002",
+  "_515766",
+  "_515415",
+  "_515822",
+  "_515455",
+  "_515001",
+];
+
+function DomesticTransportFTLDetails() {
   return (
     <>
       <h2 className="font-semibold text-gray-900 col-span-3">
@@ -18,69 +57,67 @@ function DomesticTransportFTLDetails({setIsFTLFalse}: any) {
 
       <div>
         <label
-          htmlFor="typeOfTransport"
+          htmlFor={"typeOfVehicle"}
           className="block text-sm font-medium leading-6 text-gray-600"
         >
-          Type Of Transport
+          Vehicle Type
         </label>
         <Field
           as="select"
-          name="typeOfTransport"
-          onChange={(e: any) => {
-            if (e.currentTarget.value === 'LTL') {
-              setIsFTLFalse()
-            }
-          }}
-          className="block px-4 w-full rounded-md border-0 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+          name={"typeOfVehicle"}
+          className="block px-4 w-full rounded-md border-0 py-2 focus:outline-none text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
         >
-          <option value=""></option>
-          {['FTL', 'LTL'].map((element) => (
-            <option className='text-sm' key={element} value={element}>
-              {element}
+          <option value="">Enter Vehicle</option>
+          {vehicleType.map((element) => (
+            <option
+              className="text-sm"
+              key={`ftl ${element.radableName}`}
+              value={element.enumName}
+            >
+              {element.radableName}
             </option>
           ))}
         </Field>
-        <ErrorMessage name="typeOfTransport" component="span" className='text-xs text-rose-600' />
+        <ErrorMessage
+          name="typeOfVehicle"
+          component="span"
+          className="text-xs text-rose-600"
+        />
       </div>
-      <SelectComponet
-        options={truckName}
-        id={`typeOfVehicle`}
-        title={'Type Of Vehicle'}
-      />
       <SelectComponet
         options={maxPayLoad}
         id={`maxPayload`}
-        title={'Max Acceptable Payload'}
+        title={"Max Acceptable Payload"}
       />
       <SelectComponet
-        options={states}
+        options={CityType}
         id={`pickupCityState`}
-        title={'Pickup City State'}
+        title={"Pickup City State"}
       />
       <SelectComponet
-        options={pincode}
+        options={pincodeType}
         id={`pickupPincode`}
-        title={'Pickup City Pin Code'}
+        title={"Pickup City Pin Code"}
       />
       <SelectComponet
-        options={states}
+        options={CityType}
         id={`dropCityState`}
-        title={'Drop City State'}
+        title={"Drop City State"}
       />
       <SelectComponet
-        options={pincode}
+        options={pincodeType}
         id={`dropPincode`}
-        title={'Drop City Pin Code'}
+        title={"Drop City Pin Code"}
       />
       <TextField
         id={`transportCharges`}
-        title={'Transport Charges'}
-        type={'number'}
+        title={"Transport Charges"}
+        type={"number"}
       />
       <SelectComponet
         options={basisOfCharges}
         id={`basisOfCharges`}
-        title={'Type Of Transport'}
+        title={"Type Of Transport"}
       />
     </>
   );

@@ -1,26 +1,31 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { BiErrorCircle } from "react-icons/bi";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import GET_USER_ID from "@/graphql/query/getUserById";
 import APPROVE_USER_MUTATION from "@/graphql/mutation/approveUser";
-import ApprovedPopup from "../admin/components/ApprovedPopup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import SEND_TO_REVIEW_USER from "@/graphql/mutation/sendToReviewUser";
+import { Prompt } from "next/font/google";
 import { useSearchParams } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
+import { useSelector } from "react-redux";
+import { UploadState } from "@/features/uploads/upload-slice";
+import FileUpload from "./component/FileUpload";
 import Modal from "./component/Modal";
 
-const annualTurnoverOptions = [
-  "UP_TO_10000",
-  "FROM_10000_TO_50000",
-  "FROM_50000_TO_100000",
-  "FROM_100000_TO_500000",
-  "FROM_500000_TO_1000000",
-  "FROM_1000000_TO_1500000",
-  "FROM_1500000_TO_2500000",
-  "FROM_2500000_TO_5000000",
-  "FROM_5000000_TO_10000000",
-  "ABOVE_10000000",
+// Create a mapping array to map enum values to labels
+const annualTurnoverLabels = [
+  { value: "UP_TO_10000", label: "Up to $10,000" },
+  { value: "FROM_10000_TO_50000", label: "$10,000 to $50,000" },
+  { value: "FROM_50000_TO_100000", label: "$50,000 to $100,000" },
+  { value: "FROM_100000_TO_500000", label: "$100,000 to $500,000" },
+  { value: "FROM_500000_TO_1000000", label: "$500,000 to $1,000,000" },
+  { value: "FROM_1000000_TO_1500000", label: "$1,000,000 to $1,500,000" },
+  { value: "FROM_1500000_TO_2500000", label: "$1,500,000 to $2,500,000" },
+  { value: "FROM_2500000_TO_5000000", label: "$2,500,000 to $5,000,000" },
+  { value: "FROM_5000000_TO_10000000", label: "$5,000,000 to $10,000,000" },
+  { value: "ABOVE_10000000", label: "Above $10,000,000" },
 ];
 
 const industryTypeOptions = [
@@ -33,16 +38,31 @@ const industryTypeOptions = [
   "Food_and_Beverages",
   "Hospital_and_Medicalsupplies",
 ];
+// Create a mapping object to map enum values to labels
+const industryTypeLabels = {
+  Apparels_and_garments: "Apparels and Garments",
+  Building_and_Construction: "Building and Construction",
+  Electronic_and_Electical: "Electronic and Electrical",
+  Drugs_and_pharms: "Drugs and Pharmaceuticals",
+  Industrial_Machines: "Industrial Machines",
+  Industrial_suppplies: "Industrial Supplies",
+  Food_and_Beverages: "Food and Beverages",
+  Hospital_and_Medicalsupplies: "Hospital and Medical Supplies",
+};
 
-const companyTypeOptions = [
-  "Partnership",
-  "private_limited",
-  "public_limited",
-  "limited_liability_partnership",
-  "Non_profit_cooperation",
-  "Inc",
-  "Cooperation",
-  "LLC",
+// Create a mapping array to map enum values to labels
+const companyTypeLabels = [
+  { value: "Partnership", label: "Partnership" },
+  { value: "private_limited", label: "Private Limited" },
+  { value: "public_limited", label: "Public Limited" },
+  {
+    value: "limited_liability_partnership",
+    label: "Limited Liability Partnership",
+  },
+  { value: "Non_profit_cooperation", label: "Non-Profit Cooperation" },
+  { value: "Inc", label: "Inc" },
+  { value: "Cooperation", label: "Cooperation" },
+  { value: "LLC", label: "LLC" },
 ];
 
 const userTypes = [
@@ -52,36 +72,66 @@ const userTypes = [
   // Add more options as needed
 ];
 
-export default function Page() {
+const uploads = {
+  "Certificate of Registration": "cert_of_registration",
+  "Pan Card (company)*": "pancard_company",
+  "Aadhaar Card(Auth. Person)*": "aadhaar_card",
+  "ISO Certificate": "isoCertificate",
+  "Pan Card (Auth. Person)*": "pancard_auth",
+  "A.E.O Certificate": "AEO_cert",
+  "IATA Certificate": "IATA_cert",
+  "D-U-N-S Certificate": "DUNS_cert",
+  "Manufacturing License": "manufacturing_license",
+  "Any Other Trade License": "other_license",
+};
+
+// Function to get the label for a given enum value
+const getENUMTypeLabel = (enumKeyValue: any, enumValue: any) => {
+  return enumKeyValue[enumValue] || enumValue;
+};
+
+export default function ReviewForm() {
   const searchParams = useSearchParams();
-  const [editMode, setEditMode] = useState(false);
-  const [formData, setFormData] = useState<any>({});
-  const [userType, setUserType] = useState("");
-  const [gst_no, setGstNo] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
-
-  const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState("");
-  const [selectedCompanyType, setSelectedCompanyType] = useState("");
-  const [selectedUserType, setSelectedUserType] = useState("");
-  const [selectedIndustryType, setSelectedIndustryType] = useState("");
-  const [operation, setOperation] = useState<any>("");
-  const [showSucess, setShowSucess] = useState(false);
-
-  const [approveUser] = useMutation(APPROVE_USER_MUTATION);
   const token: any = searchParams.get("id");
   console.log("token : ", token);
+  const {
+    userImage,
+    cert_of_registration,
+    pancard_company,
+    aadhaar_card,
+    isoCertificate,
+    pancard_auth,
+    AEO_cert,
+    IATA_cert,
+    DUNS_cert,
+    manufacturing_license,
+    other_license,
+  } = useSelector((state: any): UploadState => state.uploadSlice);
 
   const decodedJwt: any = jwtDecode(token);
   console.log("Top Id", decodedJwt);
   const Id = decodedJwt?.userID;
-  const [remarks, setRemarks] = useState<any>("");
-  console.log(Id);
-
   const { loading, error, data } = useQuery(GET_USER_ID, {
     variables: {
       id: Id * 1,
     },
   });
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState<any>({});
+  const [corporateAddress, setCorporateAddress] = useState<any>({});
+  const [userType, setUserType] = useState("");
+  const [gst_no, setGstNo] = useState("");
+  const [selectedAnnualTurnover, setSelectedAnnualTurnover] = useState("");
+  const [selectedCompanyType, setSelectedCompanyType] = useState("");
+  const [selectedUserType, setSelectedUserType] = useState("");
+  const [selectedIndustryType, setSelectedIndustryType] = useState("");
+  const [isPromptOpen, setPromptOpen] = useState(false);
+  const [remarks, setRemarks] = useState("");
+  const [whichAction, setAction] = useState("");
+  const [files, setFiles] = useState<any>({});
+
+  const [approveUser] = useMutation(APPROVE_USER_MUTATION);
+  const [sendtoreveiwuser] = useMutation(SEND_TO_REVIEW_USER);
 
   useEffect(() => {
     if (!loading && data && data.getUserById) {
@@ -93,8 +143,6 @@ export default function Page() {
 
       setUserType(user.userType);
       setGstNo(user.gst_no);
-      setRemarks(user?.remarks);
-      console.log("Remarks", user?.remarks);
 
       if (user) {
         setSelectedAnnualTurnover(user.annualTurnover);
@@ -123,9 +171,29 @@ export default function Page() {
           "Contact Number": user.mobile,
           Website: user.website,
         });
+        setCorporateAddress({
+          Address: user.corporateAddress.address,
+          State: user.corporateAddress.state,
+          City: user.corporateAddress.city,
+          pincode: user.corporateAddress.pincode,
+          Country: user.corporateAddress.country,
+        });
+        setFiles({
+          "Certificate Of Registration": user.kyc.certificate_of_registration,
+          "Company Pan Card": user.kyc.company_pan_card,
+          "Aadhaar Card": user.kyc.aadhar_card,
+          "Pan Card": user.kyc.pan_card,
+          "ISO Certificate": user.kyc.iso_certificate,
+          "AEO Certificate": user.kyc.aeo_certificate,
+          "IATA Certificate": user.kyc.iata_certificate,
+          "DUNS Certificate": user.kyc.duns_certificate,
+          "Manufacturing Lisence": user.kyc.manufacturing_license,
+          "Any Other Trading License": user.kyc.any_other_trading_license,
+        });
       }
     }
   }, [loading, data, Id]);
+  console.log("cert registration : ", cert_of_registration);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prevData: any) => ({
@@ -134,48 +202,9 @@ export default function Page() {
     }));
   };
 
-  function Alert() {
-    return (
-      <div className="rounded-md flex justify-center items-center bg-red-50 p-4 cursor-pointer">
-        <div
-          onClick={() => {
-            setShowAlert(false);
-          }}
-          className="flex"
-        >
-          <div className="flex-shrink-0">
-            <BiErrorCircle
-              className="h-5 w-5 text-red-400"
-              aria-hidden="true"
-            />
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">
-              Your Review Url is Expired, Facing any issue please contact us
-            </h3>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-10 h-screen">
-        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-        <div className="animate-spin mr-2 h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-        <div className="animate-spin h-5 w-5 border-t-2 border-b-2 border-sky-500 rounded-full"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    console.log(error);
-    return <p>Some Error :(</p>;
-  }
-
-  const handleApprove = async (approvedOrReject: String) => {
-    console.log("Id : >>>>>>>> ", Id);
+  const handleApprove = async () => {
+    console.log("Id : ", Id);
+    let user = data.getUserById;
 
     try {
       const { data: approvalData } = await approveUser({
@@ -206,73 +235,102 @@ export default function Page() {
             customerSubType: formData["Customer Type"],
             vendorSubType: formData["Vendor Type"],
             overseasAgentSubType: formData["Overseas Type"],
-            remarks: "remarksUpdated",
+            remarks: "Reverted User " + remarks,
+          },
+          compcontact: {
+            firstName: formData["Full name"].split(" ")[0],
+            lastName: formData["Full name"].split(" ")[1],
+            designation: formData["Designation"],
+            mobileNo: formData["Contact Number"],
+            emailId: formData["Email address"],
+          },
+          corpad: {
+            address: corporateAddress["Address"],
+            state: corporateAddress["State"],
+            city: corporateAddress["City"],
+            pincode: corporateAddress["pincode"],
+            country: corporateAddress["Country"],
+          },
+          kycin: {
+            certificate_of_registration: cert_of_registration,
+            company_pan_card: pancard_company,
+            aadhar_card: aadhaar_card,
+            pan_card: pancard_auth,
+            iso_certificate: isoCertificate,
+            aeo_certificate: AEO_cert,
+            iata_certificate: IATA_cert,
+            duns_certificate: DUNS_cert,
+            manufacturing_license: manufacturing_license,
+            warehouse_insurance: "not needed, in final reg",
+            any_other_trading_license: other_license,
           },
         },
       });
+      console.log("=>>>>", cert_of_registration);
       console.log("this is : ", data);
-      setOperation(approvedOrReject);
-      setShowSucess(true);
-    } catch (error) {
-      setShowAlert(true);
+      setPromptOpen(true);
+    } catch (error: any) {
+      if (error.networkError) {
+        toast.error("There is network error come after some time", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      } else {
+        toast.error("Some Error !", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+      }
       console.error("error : ", error);
     }
   };
 
   return (
-    <div className=" ">
-      {<Modal review={remarks} />}
-      {showAlert && <Alert />}
-      {showSucess && <ApprovedPopup />}
-      <div className="overflow-hidden relative my-16 mx-auto bg-white sm:rounded-lg w-3/4 rounded-md shadow-md">
-        <div className="px-4 py-6 sm:px-6">
-          <div className="w-full flex justify-between items-center">
-            <h3 className="text-base font-semibold leading-7 text-gray-900 items-baseline">
+    <div className=" p-6 ">
+      <div
+        className="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+        role="alert"
+      >
+        <span className="font-medium">Remarks for review!</span>{" "}
+        <b>{data?.getUserById.remarks}</b>.
+      </div>
+      <ToastContainer />
+      {isPromptOpen && <Modal />}
+      <div className="overflow-hidden relative my-10  lg:my-0 mx-auto bg-white sm:rounded-lg w-full lg:w-full rounded-md shadow-md">
+        <div className="px-4 py-3 sm:px-6">
+          <div className="w-full flex justify-start lg:justify-between items-center flex-wrap lg:flex-nowrap">
+            <h3 className="text-base  font-semibold leading-7 text-gray-900 items-baseline">
               Applicant Information
             </h3>
-
-            <div className="flex justify-evenly w-1/2">
-              <button
-                onClick={() => {
-                  handleApprove("Reverted_user");
-                }}
-                type="button"
-                className="rounded-md bg-sky-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-sky-400"
-              >
-                Send for Review<span className="sr-only">, Review </span>
-              </button>
-            </div>
           </div>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+          <p className="mt-1 max-w-2xl text-xs font-medium leading-6 text-gray-500">
             Personal details and application.
           </p>
         </div>
         <div className="border-t border-gray-100">
-          <dl className="divide-y divide-gray-100">
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-3">
             {Object.entries(formData).map(([label, value]: any[]) => (
               <div
-                className="grid grid-cols-12 items-center py-4 px-6"
+                className="grid grid-cols-3 items-center py-4 px-6"
                 key={label}
               >
-                <>
-                  <div className="col-span-4">
-                    <dt className="text-sm font-medium text-gray-900">
+                <div className="col-span-full">
+                  <div className="">
+                    <dt className="text-xs pb-2 font-medium text-gray-700">
                       {label}
                     </dt>
                   </div>
-                  <div className="col-span-8">
+                  <div className="">
                     {label === "Annual Turn Over" ? (
                       <select
                         value={selectedAnnualTurnover}
                         onChange={(e) =>
                           setSelectedAnnualTurnover(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Annual Turnover</option>
-                        {annualTurnoverOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
+                        {annualTurnoverLabels.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
                           </option>
                         ))}
                       </select>
@@ -280,12 +338,12 @@ export default function Page() {
                       <select
                         value={selectedCompanyType}
                         onChange={(e) => setSelectedCompanyType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Select Type of Company</option>
-                        {companyTypeOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {option}
+                        {companyTypeLabels.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
                           </option>
                         ))}
                       </select>
@@ -293,7 +351,7 @@ export default function Page() {
                       <select
                         value={selectedUserType}
                         onChange={(e) => setSelectedUserType(e.target.value)}
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">User Types</option>
                         {userTypes.map((option) => (
@@ -308,15 +366,25 @@ export default function Page() {
                         onChange={(e) =>
                           setSelectedIndustryType(e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       >
                         <option value="">Industry</option>
                         {industryTypeOptions.map((option) => (
                           <option key={option} value={option}>
-                            {option}
+                            {getENUMTypeLabel(industryTypeLabels, option)}
                           </option>
                         ))}
                       </select>
+                    ) : label === "Email address" ? (
+                      <input
+                        type="text"
+                        value={value}
+                        onChange={(e) =>
+                          handleInputChange(label, e.target.value)
+                        }
+                        disabled={true}
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                      />
                     ) : (
                       <input
                         type="text"
@@ -324,14 +392,111 @@ export default function Page() {
                         onChange={(e) =>
                           handleInputChange(label, e.target.value)
                         }
-                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-sky-500 text-sm text-gray-700 placeholder-gray-400"
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
                       />
                     )}
                   </div>
-                </>
+                </div>
               </div>
             ))}
           </dl>
+        </div>
+        {/* company contact */}
+        <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+        <div className="">
+          <h2 className="text-sm  font-semibold leading-7 text-gray-900 items-baseline pl-6">
+            Corporate Address
+          </h2>
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-3">
+            {Object.entries(corporateAddress).map(([label, value]: any[]) => (
+              <div
+                className="grid grid-cols-3 items-center py-4 px-6"
+                key={label}
+              >
+                <div className="col-span-full">
+                  <div className="">
+                    <dt className="text-xs pb-2 font-medium text-gray-700">
+                      {label}
+                    </dt>
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      value={value}
+                      onChange={(e) => handleInputChange(label, e.target.value)}
+                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring focus:border-primary-500 text-xs font-medium text-gray-700 placeholder-gray-400"
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        {/* Kyc docs */}
+        <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+        <div className="">
+          <h2 className="text-sm  font-semibold leading-7 text-gray-900 items-baseline pl-6">
+            KYC Documents
+          </h2>
+          <dl className="divide-y divide-gray-100 grid grid-cols-1 lg:grid-cols-2">
+            {Object.entries(files).map(([label, value]: any[]) => (
+              <>
+                {files[label] && files[label].length !== 0 ? (
+                  <div
+                    className="grid grid-cols-3 items-center justify-evenly py-4 px-6"
+                    key={label}
+                  >
+                    <div className="col-span-full">
+                      <div className="">
+                        <dt className="text-xs pb-2 font-medium text-gray-700">
+                          {label}
+                        </dt>
+                      </div>
+                      <div className="mt-4 flex justify-between items-center">
+                        <button
+                          onClick={() =>
+                            window.open(
+                              `https://globextrade.s3.ap-south-1.amazonaws.com/${value}`,
+                              "_blank"
+                            )
+                          }
+                          className="px-1.5 py-2 text-xs rounded-md bg-primary-500 text-white hover:bg-primary-500 focus:outline-none focus:bg-primary-500"
+                          type="button"
+                        >
+                          Preview
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </>
+            ))}
+          </dl>
+        </div>
+
+        {/* upload docs */}
+        <hr className="my-12 h-0.5 border-t-0 bg-neutral-100 opacity-100 dark:opacity-50" />
+        <div className="col-span-full">
+          {Object.entries(uploads).map(([label, doc]) => (
+            <FileUpload key={doc} label={label} doc={doc} />
+          ))}
+        </div>
+
+        <div className="flex justify-end lg:justify-end  w-full lg:w-11/12 my-6">
+          <button
+            onClick={() => {
+              setPromptOpen(true);
+              setAction("Review");
+              handleApprove();
+            }}
+            type="button"
+            className="rounded-md bg-primary-500 px-3 mx-1 py-2 text-xs  font-semibold text-white shadow-sm hover:bg-sky-400"
+          >
+            Send for Review<span className="sr-only">, Review </span>
+          </button>
         </div>
       </div>
     </div>

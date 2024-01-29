@@ -3,6 +3,7 @@ import map from "../../../asset/images/map.jpg";
 import globe from "../../../asset/images/Globe .png";
 import Image from "next/image";
 import ShippingFilter from "@/components/ShippingFilter";
+import ShippingFilter3 from "@/app/bookings/components/ShippingFilter3";
 
 function Hero() {
   return (
@@ -14,8 +15,9 @@ function Hero() {
         alt="background image"
       />
 
-      <div className="lg:h-52 top-24  lg:w-10/12 lg:top-44  my-auto flex justify-center align-middle absolute bg z-10">
-        <ShippingFilter />
+      <div className="lg:h-52 top-24  w-full lg:top-44  my-auto flex justify-center align-middle absolute bg z-10">
+        {/* <ShippingFilter /> */}
+        <ShippingFilter3 />
       </div>
     </section>
   );

@@ -284,7 +284,7 @@ function VendorRegistrationForm() {
             iata_certificate: IATA_cert,
             duns_certificate: DUNS_cert,
             manufacturing_license: manufacturing_license,
-            warehouse_insurance: "not gonna needed in final reg",
+            warehouse_insurance: "not needed, in final reg",
             any_other_trading_license: other_license,
           },
           corpad: {
