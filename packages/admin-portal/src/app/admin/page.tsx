@@ -1,6 +1,8 @@
 "use client";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import { GoContainer } from "react-icons/go";
+import { CiBookmarkCheck } from "react-icons/ci";
 import {
   Bars3Icon,
   BellIcon,
@@ -54,6 +56,7 @@ import AvailableWarehouseStats from "@/components/AvailableWarehouseStats";
 import ApprovedWarehouseList from "./components/ApprovedWarehouseListing";
 import RejectedWarehouseList from "./components/RejectedWarehouse";
 import Bookings from "./components/Bookings";
+import FreightBookings from "./components/FreightBookings";
 
 const navigation = [
   {
@@ -74,6 +77,20 @@ const navigation = [
         name: "Users In Review",
         href: "#",
         icon: EnvelopeIcon,
+        current: false,
+      },
+    ],
+  },
+  {
+    name: "Freights",
+    href: "#",
+    icon: GoContainer,
+    current: true,
+    subNav: [
+      {
+        name: "Freight Booked",
+        href: "#",
+        icon: CiBookmarkCheck,
         current: false,
       },
     ],
@@ -592,6 +609,9 @@ export default function Home() {
               {activeItem === "userInfo" && (
                 <UserMoreInfo userID={approvalIndex * 1} />
               )}
+
+              {/* Freight  */}
+              {activeItem === "Freight Booked" && <FreightBookings />}
 
               {/* warehouse */}
               {activeItem === "Approve Warehouse" && (

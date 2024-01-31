@@ -280,7 +280,8 @@ const WarehousePricing = ({
                 <div className="flex justify-end">
                   <p className="inline-block font-semibold text-primary whitespace-nowrap leading-tight rounded-xl">
                     <span className="text-sm uppercase">₹</span>
-                    <span className="text-lg">{storageCharges}</span>/m
+                    <span className="text-lg">{storageCharges}</span> sq.
+                    Ft./day
                   </p>
                 </div>
               </div>

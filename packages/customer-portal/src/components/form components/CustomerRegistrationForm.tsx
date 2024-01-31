@@ -335,7 +335,7 @@ function VendorRegistrationForm() {
                 id="gst"
                 name="gst"
                 placeholder="GST Number"
-                className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
               />
               <ErrorMessage
                 className="text-xs text-rose-600"
@@ -366,7 +366,7 @@ function VendorRegistrationForm() {
               type="text"
               id="companyBillingCode"
               name="companyBillingCode"
-              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+              className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
             />
             <ErrorMessage className='text-xs text-rose-600' name="companyBillingCode" component="span" />
           </div> */}
@@ -411,7 +411,7 @@ function VendorRegistrationForm() {
                     id="company"
                     name="company"
                     placeholder="company"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -432,7 +432,7 @@ function VendorRegistrationForm() {
                     id="companyRegistrationNumber"
                     name="companyRegistrationNumber"
                     placeholder="Company Reg Number"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -456,7 +456,7 @@ function VendorRegistrationForm() {
                     id="country"
                     name="country"
                     placeholder="Country"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   >
                     <option value="">Select a country</option>
                     {countries.map((country) => (
@@ -486,7 +486,7 @@ function VendorRegistrationForm() {
                     id="streetAddress"
                     autoComplete="streetAddress"
                     placeholder="address"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     name="streetAddress"
@@ -509,7 +509,7 @@ function VendorRegistrationForm() {
                     id="city"
                     placeholder="city"
                     autoComplete="address-level2"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -532,7 +532,7 @@ function VendorRegistrationForm() {
                     id="region"
                     placeholder="state"
                     autoComplete="address-level1"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -555,7 +555,7 @@ function VendorRegistrationForm() {
                     placeholder="pincode"
                     id="postalCode"
                     autoComplete="postalCode"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -579,7 +579,7 @@ function VendorRegistrationForm() {
                     id="panNumber"
                     name="panNumber"
                     placeholder="pan number"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -613,7 +613,7 @@ function VendorRegistrationForm() {
                     id="firstName"
                     autoComplete="given-name"
                     placeholder="first name"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -637,7 +637,7 @@ function VendorRegistrationForm() {
                     id="lastName"
                     autoComplete="given-name"
                     placeholder="last name"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -660,7 +660,7 @@ function VendorRegistrationForm() {
                     id="designation"
                     placeholder="designation"
                     autoComplete="given-name"
-                    className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                    className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                   />
                   <ErrorMessage
                     className="text-xs text-rose-600"
@@ -684,7 +684,7 @@ function VendorRegistrationForm() {
               name="email"
               type="email"
               autoComplete="email"
-              className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+              className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
             />
             <ErrorMessage className='text-xs text-rose-600' name="email" component="span" />
           </div> */}
@@ -697,8 +697,8 @@ function VendorRegistrationForm() {
                   >
                     Phone Number
                   </label>
-                  <div className="relative rounded-md shadow-sm">
-                    <div className="absolute inset-y-0 left-0 flex items-center">
+                  <div className="flex-center rounded-md shadow-sm">
+                    <div className=" inset-y-0 w-28 z-10 left-0 flex items-center">
                       <label htmlFor="country" className="sr-only">
                         Country
                       </label>
@@ -706,7 +706,7 @@ function VendorRegistrationForm() {
                         id="countryPhnCode"
                         name="countryPhnCode"
                         autoComplete="countryPhnCode"
-                        className="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                       >
                         <option>91</option>
                         <option>01</option>
@@ -722,7 +722,7 @@ function VendorRegistrationForm() {
                       type="text"
                       name="phnNumber"
                       id="phnNumber"
-                      className="peer text-center placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-600 focus:outline-none focus:border-primary-500 text-sm pl-2"
+                      className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
                       placeholder="      +1 (555) 987-6543"
                     />
                     <ErrorMessage

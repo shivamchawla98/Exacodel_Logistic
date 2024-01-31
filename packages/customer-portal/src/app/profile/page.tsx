@@ -17,12 +17,14 @@ import General from "./component/General";
 import { current } from "@reduxjs/toolkit";
 import Invoice from "./component/Invoice";
 import Booking from "./component/Booking";
+import FreightBooking from "./component/FreightBookings";
 
 const navigation = [
   { name: "General", href: "#", icon: HomeIcon, current: true },
   { name: "Profile Update", href: "#", icon: UsersIcon, current: false },
   { name: "Invoice", href: "#", icon: UsersIcon, current: false },
-  { name: "Booking", href: "#", icon: FolderIcon, current: false },
+  { name: "Warehouse Bookings", href: "#", icon: FolderIcon, current: false },
+  { name: "Freight Bookings", href: "#", icon: FolderIcon, current: false },
   { name: "Warehouses", href: "#", icon: CalendarIcon, current: false },
   { name: "Reports", href: "#", icon: DocumentDuplicateIcon, current: false },
   // { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
@@ -236,7 +238,8 @@ export default function Example() {
                 backToGeneral={() => setSection("General")}
               />
             )}
-            {section === "Booking" && <Booking />}
+            {section === "Warehouse Bookings" && <Booking />}
+            {section === "Freight Bookings" && <FreightBooking />}
             {section === "Invoice" && <Invoice />}
           </div>
         </main>

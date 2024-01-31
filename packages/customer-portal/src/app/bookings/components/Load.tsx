@@ -10,7 +10,7 @@ const serviceType = ["Airport/Seaport", "Warehouse"];
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-export default function Load() {
+export default function Load({ handleDateChange }: any) {
   return (
     <Popover className="relative rounded-md shadow-md">
       <Popover.Button className="flex focus:border-primary-500 border-b-2 border-primary-500 justify-start flex-col w-72 lg:w-72 border-1 shadow rounded-md py-2 px-2 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
@@ -34,9 +34,10 @@ export default function Load() {
         leaveTo="opacity-0 translate-y-1"
       >
         <Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-xl -translate-x-1/2">
-          <div className="w-screen max-w-sm flex-auto overflow-hidden rounded-xl bg-white text-sm leading-6 shadow-lg ring-1 ring-sky-600/5 lg:max-w-sm">
+          <div className="w-screen max-w-sm flex-auto rounded-xl bg-white text-sm leading-6 shadow-lg ring-1 ring-sky-600/5 lg:max-w-sm">
             <div className="flex justify-center items-center">
               <SearchBar
+                handleDateChange={handleDateChange}
                 register={(args: any) => {
                   console.log(args);
                 }}

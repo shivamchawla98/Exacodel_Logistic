@@ -150,12 +150,13 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
             </div>
             <Popover.Group className="hidden lg:flex lg:gap-x-12">
               <Popover className="relative flex align-middle z-40">
-                <Popover.Button className="flex left-14 items-center gap-x-1 text-sm hover:text-primary-500 paragraph-medium leading-6 text-gray-900">
+                <Popover.Button className="flex left-14 items-center gap-x-1 text-sm hover:text-primary-500 paragraph-normal leading-6 text-gray-900">
                   Tools
                   <ChevronDownIcon
                     className="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
+                  <span className="text-gray-400 ml-6">|</span>
                 </Popover.Button>
 
                 <Transition
@@ -183,7 +184,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                           <div className="flex-auto">
                             <Link
                               href={item.href}
-                              className="block body-semibold text-gray-900 hover:text-primary-500"
+                              className="block body-medium text-gray-900 hover:text-primary-500"
                             >
                               {item.name}
                               <span className="absolute inset-0" />
@@ -200,7 +201,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                         <Link
                           key={item.name}
                           href={item.href}
-                          className="flex items-center justify-center gap-x-2.5 p-3 text-sm body-semibold  leading-6 text-gray-900 hover:bg-gray-100"
+                          className="flex items-center justify-center gap-x-2.5 p-3 text-sm body-medium  leading-6 text-gray-900 hover:bg-gray-100"
                         >
                           <item.icon
                             className="h-5 w-5 flex-none text-gray-400"
@@ -215,25 +216,28 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
               </Popover>
               <Link
                 href="#"
-                className="paragraph-medium text-sm hover:text-primary-500 leading-6 pt-1 z-40 text-gray-900"
+                className="paragraph-normal text-sm hover:text-primary-500 leading-6 pt-1 z-40 text-gray-900"
               >
                 Services
+                <span className="text-gray-400 ml-6">|</span>
               </Link>
 
               <Link
                 href="#"
-                className="paragraph-medium text-sm hover:text-primary-500 leading-6 pt-1 z-40 text-gray-900"
+                className="paragraph-normal text-sm hover:text-primary-500 leading-6 pt-1 z-40 text-gray-900"
               >
                 References
+                <span className="text-gray-400 ml-6">|</span>
               </Link>
 
               <Popover className="relative flex align-middle z-40">
-                <Popover.Button className="flex items-center gap-x-1 paragraph-medium text-sm hover:text-primary-500 leading-6 text-gray-900">
+                <Popover.Button className="flex items-center gap-x-1 paragraph-normal text-sm hover:text-primary-500 leading-6 text-gray-900">
                   Company
                   <ChevronDownIcon
                     className="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
+                  <span className="text-gray-400 ml-6">|</span>
                 </Popover.Button>
 
                 <Transition
@@ -268,7 +272,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
               </Popover>
 
               <Popover className="relative flex align-middle z-40">
-                <Popover.Button className="flex items-center text-sm gap-x-1 paragraph-medium hover:text-primary-500 leading-6 text-gray-900">
+                <Popover.Button className="flex items-center text-sm gap-x-1 paragraph-normal hover:text-primary-500 leading-6 text-gray-900">
                   Integration
                   <ChevronDownIcon
                     className="h-5 w-5 flex-none text-gray-400"
@@ -293,7 +297,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                       >
                         <Link
                           href={item.href}
-                          className="block body-semibold hover:text-primary-500 leading-6 text-gray-900"
+                          className="block body-medium hover:text-primary-500 leading-6 text-gray-900"
                         >
                           {item.name}
                           <span className="absolute inset-0" />
@@ -396,7 +400,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                     <div className="hidden lg:flex lg:flex-1 lg:justify-end ">
                       <Link
                         href="/login"
-                        className="body-semibold leading-6 z-40 bg-primary-500 px-3 rounded-md shadow-sm  text-white hover:bg-fuchsia-700 hover:scale-95 py-1"
+                        className="body-medium leading-6 z-40 bg-primary-500 px-3 rounded-md shadow-sm  text-white hover:bg-fuchsia-700 hover:scale-95 py-1"
                         type="button"
                       >
                         Log in
@@ -411,7 +415,7 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                       >
                         <button
                           type="button"
-                          className="body-semibold  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-primary-500  text-gray-700 hover:bg-fuchsia-100 hover:scale-95 py-1"
+                          className="body-medium  leading-6 z-40 bg-white px-3 rounded-md shadow-md hover:text-primary-500  text-gray-700 hover:bg-fuchsia-100 hover:scale-95 py-1"
                         >
                           Sign up
                           {/* <ArrowLongRightIcon className='text-sky-500 w-6 h-2'/> */}

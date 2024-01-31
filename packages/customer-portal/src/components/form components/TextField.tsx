@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
 import { ErrorMessage, Field } from "formik";
 
 interface TextFieldProps {
-    id: string;
-    title: string;
-    type: string;
+  id: string;
+  title: string;
+  type: string;
 }
 
-const TextField: React.FC<TextFieldProps> = ({id, title, type}) => {
+const TextField: React.FC<TextFieldProps> = ({ id, title, type }) => {
   return (
     <div>
       <label
@@ -22,9 +22,13 @@ const TextField: React.FC<TextFieldProps> = ({id, title, type}) => {
         id={id}
         name={id}
         placeholder={title}
-        className="peer placeholder-transparent h-10 w-full border-b-2 border-gray-300 text-gray-900 focus:outline-none focus:border-sky-600 text-sm pl-2"
+        className="block mt-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary-500 sm:text-sm sm:leading-6"
       />
-      <ErrorMessage name={id} component="div" className='text-xs text-rose-600'/>
+      <ErrorMessage
+        name={id}
+        component="div"
+        className="text-xs text-rose-600"
+      />
     </div>
   );
 };

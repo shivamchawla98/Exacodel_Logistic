@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ReduxProvider from "@/features/Provider";
 import ApolloWrapper from "@/lib/apollo-wrapper";
-import Navbar2 from "@/components/Navbar2";
+// import Navbar2 from "@/components/Navbar2";
 const inter = Inter({
   weight: ["200", "400", "500"],
   subsets: ["latin"],

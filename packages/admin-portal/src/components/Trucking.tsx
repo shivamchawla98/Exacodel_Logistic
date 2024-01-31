@@ -1,20 +1,19 @@
-import { useState } from 'react'
-import AdminInputDomesticTransport from './AdminInputDomesticTransport'
-import OverseasTruckingDetails from './OverseasTruckingDetails'
-import AdminInputOverseasTransport from './AdminInputOverseasTransport'
-import { Switch } from '@headlessui/react'
+import { useState } from "react";
+import AdminInputDomesticTransport from "./AdminInputDomesticTransport";
+// import OverseasTruckingDetails from './OverseasTruckingDetails'
+// import AdminInputOverseasTransport from './AdminInputOverseasTransport'
+import { Switch } from "@headlessui/react";
 
 function Trucking() {
   function classNames(...classes: any[]) {
-    return classes.filter(Boolean).join(' ')
+    return classes.filter(Boolean).join(" ");
   }
 
   const [isOverseas, setIsOverseas] = useState(false);
 
-
   return (
     <>
-        {/* <Switch.Group as="div" className="flex items-center">
+      {/* <Switch.Group as="div" className="flex items-center">
         <Switch.Label as="span" className="mr-3 text-sm">
         <span className={`font-medium ${isOverseas ?  "text-gray-900" : "text-sky-600"}`}>Domestic Transport</span>{' '}
       </Switch.Label>
@@ -39,10 +38,10 @@ function Trucking() {
       
       </Switch.Label>
     </Switch.Group> */}
-    {isOverseas && <AdminInputOverseasTransport />}
-    {!isOverseas && <AdminInputDomesticTransport />}
+      {/* {isOverseas && <AdminInputOverseasTransport />} */}
+      {!isOverseas && <AdminInputDomesticTransport />}
     </>
-  ) 
+  );
 }
 
-export default Trucking
+export default Trucking;

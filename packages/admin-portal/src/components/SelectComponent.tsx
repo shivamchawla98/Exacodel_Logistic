@@ -30,7 +30,7 @@ const SelectComponet: React.FC<SelectComponetProps> = ({
           {optionalOption !== "undefined" ? optionalOption : ""}
         </option>
         {options.map((element) => (
-          <option className="text-sm" key={element} value={element}>
+          <option className="text-sm" key={`ftl ${element}`} value={element}>
             {element}
           </option>
         ))}
