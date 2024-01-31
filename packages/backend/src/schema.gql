@@ -1,0 +1,968 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Booking {
+  id: ID!
+  moveInDate: DateTime
+  moveOutDate: DateTime
+  spaceMaterialType: String
+  specialInstructions: String
+  uniquecode: String
+  warehouse: WareHouse
+  user: User
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type WareHouse {
+  id: ID!
+  companyName: String!
+  Adress: String!
+  State: String
+  City: String
+  Pincode: String
+  Country: String
+  warehouseType: warehouseType
+  totalSquareArea: String
+  totalAvailiableArea: String
+  occupiedSpace: String
+  unoccupiedSpace: String
+  rackedSpace: String
+  user: User
+  minimumStorageRent: Float
+  minimumStorageCharges_per_pallet: Float
+  minimumStorageArea: String
+  minimumstorageArea_per_pallet: String
+  storageCharges: Float
+  storageCharges_per_pallet: Float
+  hazardousStorageType: hazardousStorageType
+  temperatureType: temperatureType
+  temperatureCapacity: temperatureCapacity
+  WarehouseApproval: WarehouseStatus
+  remarks: String
+  uniqueid: String
+  latitude: Float
+  longitude: Float
+  booking: Booking
+}
+
+"""types of warehouse"""
+enum warehouseType {
+  coldStorageFacility
+  generalWarehouse
+  referigeratedWarehouse
+  fullFilmentCenter
+  petroleumWarehouse
+  bondedWarehouse
+  hazCargoWarehouse
+}
+
+"""The type of hazardous Storage"""
+enum hazardousStorageType {
+  Class1
+  Class2
+  Class3
+  Class4
+  Class5
+  Class6
+  Class7
+  class8
+}
+
+"""The type oftemperature to display"""
+enum temperatureType {
+  Active
+  Passive
+}
+
+"""Value of the temperature capacity"""
+enum temperatureCapacity {
+  MINUS_Eighteen_Degree_to_twenty_degree_celcius
+  MINUS_Two_Degree_to_MINUS_Eight_degree_celcius
+  MINUS_Twenty_Degree_to_twenty_degree_celcius
+  fifteen_Degree_to_twentyfive_degree_celcius
+}
+
+"""Warehous status of the warehouse"""
+enum WarehouseStatus {
+  Warehouse_Approval_pending
+  Warehouse_Approved
+  Warehouse_Rejected
+  Warehouse_Reveiw_peding
+}
+
+type TruckEntity {
+  id: ID!
+  companyName: String!
+  Adress: String!
+  State: String
+  City: String
+  Pincode: String
+  Country: String
+  transportertype: transportType
+  vehicletype: vehicleType
+  maxacceptablepayload: maxacceptablePayload
+  pickupcity: pickupCity
+  pickupcitypincode: pickupCityPincode
+  dropcity: dropCity
+  dropcitypincode: DropCityPincode
+  transportcharges: Float
+  user: User
+}
+
+"""The type of transport to display"""
+enum transportType {
+  FTL
+  LTL
+}
+
+"""The type of vehicle to display"""
+enum vehicleType {
+  TataAce
+  AshokLeylandDost
+  MahindraBoleropickup
+  Tata407
+}
+
+"""TMax acceptable payload to display"""
+enum maxacceptablePayload {
+  Max_load_850_kgs
+  Max_load_1_Tonne
+  Max_load_onehalf_Tonne
+}
+
+"""pickupCity to display"""
+enum pickupCity {
+  Assam
+  Bihar
+  Gujarat
+  Rajesthan
+  Haryana
+  Kerala
+  Karnatka
+}
+
+"""pickupCity Pincode to display"""
+enum pickupCityPincode {
+  _515004
+  _515731
+  _515002
+  _515766
+  _515415
+  _515822
+  _515455
+  _515001
+}
+
+"""dropCity to display"""
+enum dropCity {
+  Assam
+  Bihar
+  Gujarat
+  Rajesthan
+  Haryana
+  Kerala
+  Karnatka
+}
+
+"""dropCity Pincode to display"""
+enum DropCityPincode {
+  _515004
+  _515731
+  _515002
+  _515766
+  _515415
+  _515822
+  _515455
+  _515001
+}
+
+type CompanyContact {
+  id: ID!
+  firstName: String
+  lastName: String
+  designation: String
+  mobileNo: String
+  emailId: String
+}
+
+type CorporateAddress {
+  id: ID!
+  address: String
+  state: String
+  city: String
+  pincode: String
+  country: String
+  user: User
+}
+
+type Kyc {
+  id: ID!
+  certificate_of_registration: KeyValue
+  company_pan_card: KeyValue
+  aadhar_card: KeyValue
+  pan_card: KeyValue
+  iso_certificate: KeyValue
+  aeo_certificate: KeyValue
+  iata_certificate: KeyValue
+  duns_certificate: KeyValue
+  manufacturing_license: KeyValue
+  warehouse_insurance: KeyValue
+  any_other_trading_license: KeyValue
+}
+
+"""Custom scalar type for key-value pairs"""
+scalar KeyValue
+
+type User {
+  id: ID!
+  BillingCode: String
+  userType: UserType
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
+  email: String
+  otp: String
+  otp_veified: Boolean
+  password: String
+  companyType: CompanyType
+  industryType: IndustryType
+  companyName: String
+  state: String
+  pincode: String
+  Adress: String
+  city: String
+  country: String
+  company_reg_no: String
+  company_pan_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  isapproved: Approved_users
+  createdAt: DateTime
+  updatedAt: DateTime
+  finalregapproved: Boolean
+  remarks: String
+  warehouses: [WareHouse!]
+  trucks: [TruckEntity!]
+  reveiw_token: String
+  JWT_token: String
+  reset_token: String
+  email_token: String
+  email_verify: Boolean
+  reset_password_verification: DateTime
+  companyContact: CompanyContact
+  corporateAddress: CorporateAddress
+  kyc: Kyc
+  bookings: [Booking!]
+}
+
+"""The type of user"""
+enum UserType {
+  CUSTOMER
+  VENDOR
+  OVERSEAS_AGENT
+  Admin
+}
+
+"""The subtype of a customer"""
+enum CustomerSubType {
+  MANUFACTURER
+  MERCHANT_TRADER
+  MANUFACTURER_EXPORTER
+  MERCHANT_EXPORTER
+}
+
+"""The subtype of a vendor"""
+enum VendorSubType {
+  WAREHOUSE_COMPANY
+  COLD_STORAGE_COMPANY
+}
+
+"""The subtype of an overseas agent"""
+enum OverseasAgentSubType {
+  FOREIGN_AGENT
+}
+
+"""The type of company"""
+enum CompanyType {
+  Partnership
+  private_limited
+  public_limited
+  limited_liability_partnership
+  Non_profit_cooperation
+  Inc
+  Cooperation
+  LLC
+}
+
+"""The type of industry"""
+enum IndustryType {
+  Apparels_and_garments
+  Building_and_Construction
+  Electronic_and_Electical
+  Drugs_and_pharms
+  Industrial_Machines
+  Industrial_suppplies
+  Food_and_Beverages
+  Hospital_and_Medicalsupplies
+}
+
+"""Annual Turnover Ranges"""
+enum AnnualTurnover {
+  UP_TO_10000
+  FROM_10000_TO_50000
+  FROM_50000_TO_100000
+  FROM_100000_TO_500000
+  FROM_500000_TO_1000000
+  FROM_1000000_TO_1500000
+  FROM_1500000_TO_2500000
+  FROM_2500000_TO_5000000
+  FROM_5000000_TO_10000000
+  ABOVE_10000000
+}
+
+"""Approved users"""
+enum Approved_users {
+  Approval_pending
+  Approved
+  Rejected
+  REVEIW_PENDING
+  Reverted_user
+}
+
+type LoginResponse {
+  access_token: String!
+}
+
+type CodeEntity {
+  id: ID!
+  Country: String
+  State: String
+  shippingMode: ShippingMode
+  name: String
+  code: String
+  latitude: Float
+  longitude: Float
+}
+
+"""Mode of shipping operation"""
+enum ShippingMode {
+  Port
+  Airport
+}
+
+type Bookingshipping {
+  id: ID!
+  departure: String
+  arrival: String
+  readytoload: String
+  typeofdelivery: String
+  cargo_details: String
+  price: String
+}
+
+type BookingshippingContactinfo {
+  id: ID!
+  firstname: String
+  lastname: String
+  phoneno: String
+  email: String
+  description: String
+}
+
+type City {
+  name: String
+  countryCode: String
+}
+
+type Port {
+  name: String
+  code: String
+  countryCode: String
+}
+
+type OceanFreight {
+  price: Float
+  transitTime: String
+  shippingLine: String
+}
+
+type Shipment {
+  shipmentId: String
+  cityFrom: City
+  cityTo: City
+  portFrom: Port
+  portTo: Port
+  freight: [OceanFreight!]
+}
+
+type City1 {
+  id: Float
+  code: String
+  lat: Float
+  lng: Float
+  name: String
+  countryCode: String
+}
+
+type PortFee {
+  abbr: String!
+  title: String!
+  text: String
+  originalPrice: Float!
+  originalCurrency: String!
+  price: Float!
+  perLot: Boolean!
+}
+
+type Truck {
+  price: Float!
+  distance: String!
+  transitTime: String!
+  originalPrice: Float!
+  originalCurrency: String!
+  interpolation: Boolean
+}
+
+type OceanFreight1 {
+  shippingLine: String
+  logo: String
+  price: Float
+  distance: String
+  comment: String
+  originalPrice: Float
+  originalCurrency: String
+  overdue: Boolean
+  co2: Float
+  transitTime: String
+  portFeesFrom: [PortFee!]
+  portFeesTo: [PortFee!]
+  truckFrom: Truck
+  truckTo: Truck
+}
+
+type Port1 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Shipmentlcl {
+  shipmentId: String
+  transportationMode: String
+  currency: String
+  cityFrom: City1
+  cityTo: City1
+  portFrom: Port1
+  portTo: Port1
+  oceanFreight: OceanFreight1
+}
+
+type City2 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Port2 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Rail {
+  price: Float
+  distance: String
+  transitTime: String
+  interpolation: Boolean
+}
+
+type OceanFreight2 {
+  shippingLine: String
+  logo: String
+  price: Float
+  comment: String
+  distance: String
+  originalPrice: Float
+  originalCurrency: String
+  transitTime: String
+  validTo: String
+  co2: Float
+  overdue: Boolean
+  railFrom: Rail
+  railTo: Rail
+}
+
+type Shipmentbulk {
+  shipmentId: String
+  transportationMode: String
+  currency: String
+  cityFrom: City2
+  cityTo: City2
+  portFrom: Port2
+  portTo: Port2
+  oceanFreight: OceanFreight2
+}
+
+type Default {
+  services: [String!]
+}
+
+type Truck4 {
+  price: Float
+  distance: String
+  transitTime: String
+  originalPrice: Float
+  originalCurrency: String
+  interpolation: Boolean
+}
+
+type City4 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type Port4 {
+  id: Float
+  name: String
+  code: String
+  countryCode: String
+  lat: Float
+  lng: Float
+}
+
+type AirFreight4 {
+  shippingLine: String
+  logo: String
+  price: Float
+  distance: String
+  originalPrice: Float
+  originalCurrency: String
+  transitTime: String
+  validTo: String
+  overdue: Boolean
+  portFeesFrom: [PortFees!]
+  portFeesTo: [PortFees!]
+  truckFrom: Truck4
+  truckTo: Truck4
+}
+
+type PortFees {
+  abbr: String
+  title: String
+  originalPrice: Float
+  originalCurrency: String
+  text: String
+  price: Float
+  perLot: Boolean
+}
+
+type Shipmentair {
+  shipmentId: String
+  transportationMode: String
+  currency: String
+  cityFrom: City4
+  cityTo: City4
+  portFrom: Port4
+  portTo: Port4
+  airFreight: AirFreight4
+}
+
+type Default4 {
+  services: [String!]
+}
+
+type Query {
+  hello: String!
+  listInitialRegistrations: [User!]!
+  listapprovealuser: [User!]!
+  listrejecteduser: [User!]!
+  listreveiweduser: [User!]!
+  listAllOtps: [String!]!
+  getOtpByEmail(email: String!): String
+  listNonApprovedUsers(userType: String!, CustomerSubType: String, VendorSubType: String, OverseasAgentSubType: String): [User!]!
+  getUserById(userId: Int!): User!
+  getFinalRegisteredUserById(userId: Int!): User!
+  getUserByReviewToken(hashedToken: String!): User
+  getAllWarehouses: [WareHouse!]!
+  getRejectedWarehouseList: [WareHouse!]!
+  getapprovedWarehouseList: [WareHouse!]!
+  getWarehousereveiwedlist: [WareHouse!]!
+  getWarehouseById(id: Int!): WareHouse
+  getWarehousesByUserId(userId: Int!): [WareHouse!]!
+  getWarehousePendingForApprovalListbyuserid(userId: Int!): [WareHouse!]!
+  getWarehouseapprovedlistbyuserid(userId: Int!): [WareHouse!]!
+  getWarehouseReveiwedlistbyuserid(userId: Int!): [WareHouse!]!
+  totalsquareAreaAvailiable: [String!]!
+  totalsquareAreaAvailiableforuserid(userId: Float!): [String!]!
+  occupiedspaceforuserid(userId: Float!): [String!]!
+  OccupiedSpace: [String!]!
+  UnoccupiedSpace: [String!]!
+  unoccupiedspaceforuserid(userId: Float!): [String!]!
+  storagechargeperPallet: [Float!]!
+  storagechargeperPalletforuserid(userId: Float!): [Float!]!
+  minimumstorageareaperpallet: [String!]!
+  minimumStorageareaperpalletForUser(userId: Float!): [String!]!
+  minimumstoragechargeperPallet: [Float!]!
+  minimumstoragechargeperPalletforuserid(userId: Float!): [Float!]!
+  totalStorageChargesPerPalletSum: Int!
+  totalStorageChargesPerPalletSumforuser(userId: Int!): Int!
+  getTotalstorageChargesSum: Int!
+  getTotalstorageChargesSumforuser(userId: Int!): Int!
+  getTotalstorageCharges_per_palletSum: Int!
+  getTotalstorageCharges_per_palletSumforuser(userId: Int!): Int!
+  getTotalminimumStorageCharges_per_palletSum: Int!
+  getTotalminimumStorageCharges_per_palletSumforuser(userId: Int!): Int!
+  getTotalminimumStorageRentSum: Int!
+  getTotalminimumStorageRentSumforuser(userId: Int!): Int!
+  getTotaloccupiedspaceSumforuser(userId: Int!): Int!
+  getTotaloccupiedspaceSum: Int!
+  getTotalunoccupiedspaceSumforuser(userId: Int!): Int!
+  getTotalunoccupiedspaceSum: Int!
+  getTotalavailiableareaSumforuser(userId: Int!): Int!
+  getTotalabviableareaSum: Int!
+  warehousesPendingApproval: [WareHouse!]!
+  getTruck(id: ID!): TruckEntity!
+  getAllTrucks: [TruckEntity!]!
+  gettrucksByUserId(userId: Int!): [TruckEntity!]!
+  booking(id: Int!): Booking!
+  allBookings: [Booking!]!
+  searchWarehousesByUserLocation(userLatitude: Float!, userLongitude: Float!): [WareHouse!]!
+  bookingsByUserId(userId: Int!): [Booking!]!
+  Suggestions(searchTerm: String!): [CodeEntity!]!
+  SuggestionsCountry(searchTerm: String!): [CodeEntity!]!
+  SuggestionsState(searchTerm: String!): [CodeEntity!]!
+  Suggestionsname(searchTerm: String!): [CodeEntity!]!
+  getCoordinatesByCode(code: String!): CodeEntity!
+  getCoordinatesByName(name: String!): CodeEntity!
+  getShipmentDetails(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, ST20: Float!, ST40: Float!, REF20: Float!, REF40: Float!, HQ40: Float!, HQ45: Float!, currency: String!, date: String!): [Shipment!]!
+  getShipmentDetailslcl(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, volume: Float!, date: String!): [Shipmentlcl!]!
+  getShipmentDetailsbulk(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentbulk!]!
+  getShipmentDetailsair(fromshipmentMode: ShippingMode!, fromCountry: String!, fromstate: String!, fromname: String!, toshipmentMode: ShippingMode!, toCountry: String!, tostate: String!, toname: String!, currency: String!, weight: Float!, date: String!): [Shipmentair!]!
+  bookingshippings: [Bookingshipping!]!
+  allcreatebookingcontact: BookingshippingContactinfo!
+}
+
+type Mutation {
+  acceptEmail(emailInput: EmailInput!): User!
+  sendOTP(email: String!): String!
+  verifyEmailotp(email: String!): String!
+  verifyEmail(token: String!, userid: Float!): String!
+  initialRegistration(userInput: SelectUserTypeAndSubtypeInput!, emailInput: EmailInput!): User!
+  savePassword(passwordInput: Password!, userId: Float!): User!
+  adminRegister(Admin: Admin!): User!
+  sendtoreveiwuser(userId: Float!): User!
+  finalreg(input: Finalreg!, userId: Float!, userInput: UpdateUsertype!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
+  approvereveiwedUser(userId: Int!, input: Updateapproved!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
+  approveUser(userId: Int!, input: Updateapproved!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
+  rejectUser(userId: Int!, input: SendFormTorejectedUser!, compcontact: CompanyContactDto!, corpad: CorporateAddressDto!, kycin: KycInput!): User!
+  adminreject(userId: Float!, input: Adminreject!): User!
+  adminreveiwreject(userId: Float!, input: Adminreject!): User!
+  userReveiw(userId: Float!): String!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
+  logout(userId: Float!): Boolean!
+  reset_password_token(email: String!): String!
+  reset_password_verify(email: String!, resettoken: String!): String!
+  reset_Save_password(email: String!, password: ResetPasswordInput!): String!
+  createWarehouse(input: WarehouseInput!): WareHouse!
+  updateWarehouse(id: Int!, input: WarehouseInput!): WareHouse!
+  deleteWarehouse(id: Int!): Boolean!
+  approveWarehouse(warehouseid: Float!, approvedinput: ApprovedWarehouseInput!): WareHouse!
+  warehousereject(warehouseid: Int!, remarks: String!): WareHouse!
+  sendforreveiwingWarehouse(userid: Int!, warehouseid: Int!): WareHouse!
+  reveiwwarehousereject(userid: Int!, warehouseid: Int!, remarks: String!): WareHouse!
+  reveiwwarehouseapproved(userid: Int!, warehouseid: Int!, approvedinput: ApprovedWarehouseInput!): WareHouse!
+  setWarehouseStatusToApprovalPending(warehouseId: Int!): WareHouse!
+  warehouseReveiw(warehouseId: Float!): String!
+  createTruck(truckData: TruckDTO!): TruckEntity!
+  updateTruck(id: ID!, truckData: TruckDTO!): TruckEntity!
+  deleteTruck(id: ID!): Boolean!
+  createBooking(bookingInput: BookingInput!): Booking!
+  updateBooking(id: Int!, bookingInput: BookingInput!): Booking!
+  deleteBooking(id: Int!): Boolean!
+  createAirport(input: CreateAirportInput!): CodeEntity!
+  updateAirport(input: CreateAirportInput!, name: String!): CodeEntity!
+  associateCoordinates(code: String!, latitude: Float!, longitude: Float!): CodeEntity!
+  associateCoordinatesbyid(id: Float!, latitude: Float!, longitude: Float!): CodeEntity!
+  createBookingshipping(input: CreateBookingshippingInput!): Bookingshipping!
+  createbookingcontact(input: BookingshippingContactinfoInput!): BookingshippingContactinfo!
+}
+
+input EmailInput {
+  email: String!
+  otp: String!
+}
+
+input SelectUserTypeAndSubtypeInput {
+  userType: UserType
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
+}
+
+input Password {
+  password: String!
+  confirmPassword: String!
+}
+
+input Admin {
+  userType: UserType
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  email: String
+  password: String
+  confirmpassword: String
+}
+
+input Finalreg {
+  companyType: CompanyType
+  industryType: IndustryType
+  companyName: String
+  state: String
+  city: String
+  country: String
+  pincode: String
+  Address: String
+  company_reg_no: String
+  company_pan_no: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+}
+
+input UpdateUsertype {
+  userType: UserType
+}
+
+input CompanyContactDto {
+  firstName: String
+  lastName: String
+  designation: String
+  mobileNo: String
+  emailId: String
+}
+
+input CorporateAddressDto {
+  address: String
+  state: String
+  city: String
+  pincode: String
+  country: String
+}
+
+input KycInput {
+  certificate_of_registration: KeyValue
+  company_pan_card: KeyValue
+  aadhar_card: KeyValue
+  pan_card: KeyValue
+  iso_certificate: KeyValue
+  aeo_certificate: KeyValue
+  iata_certificate: KeyValue
+  duns_certificate: KeyValue
+  manufacturing_license: KeyValue
+  warehouse_insurance: KeyValue
+  any_other_trading_license: KeyValue
+}
+
+input Updateapproved {
+  companyType: CompanyType
+  Approveduser: Approved_users
+  industryType: IndustryType
+  state: String
+  pincode: String
+  Address: String
+  city: String
+  country: String
+  company_reg_no: String
+  company_name: String
+  company_pan_no: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  email: String
+  userType: UserType
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
+  remarks: String
+}
+
+input SendFormTorejectedUser {
+  companyType: CompanyType
+  industryType: IndustryType
+  state: String
+  pincode: String
+  Address: String
+  city: String
+  country: String
+  company_reg_no: String
+  company_name: String
+  company_pan_no: String
+  annualTurnover: AnnualTurnover
+  gst_no: String
+  first_name: String
+  last_name: String
+  Designation: String
+  mobile: String
+  website: String
+  email: String
+  userType: UserType
+  customerSubType: CustomerSubType
+  vendorSubType: VendorSubType
+  overseasAgentSubType: OverseasAgentSubType
+}
+
+input Adminreject {
+  remarks: String
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input ResetPasswordInput {
+  password: String!
+  confirmPassword: String!
+}
+
+input WarehouseInput {
+  companyName: String
+  Adress: String
+  State: String
+  City: String
+  Pincode: String
+  Country: String
+  warehouseType: warehouseType
+  totalSquareArea: String
+  totalAvailiableArea: String
+  occupiedSpace: String
+  unoccupiedSpace: String
+  rackedSpace: String
+  minimumStorageRent: Float
+  minimumStorageCharges_per_pallet: Float
+  minimumStorageArea: String
+  minimumstorageArea_per_pallet: String
+  storageCharges: Float
+  storageCharges_per_pallet: Float
+  hazardousStorageType: hazardousStorageType
+  temperatureType: temperatureType
+  temperatureCapacity: temperatureCapacity
+  userId: Float!
+  latitude: Float
+  longitude: Float
+}
+
+input ApprovedWarehouseInput {
+  companyname: String
+  Adress: String
+  State: String
+  city: String
+  pincode: String
+  country: String
+  WarehouseType: warehouseType
+  totalsquareArea: String
+  totalavailiableareas: String
+  occupied_spaces: String
+  unoccupied_spaces: String
+  racked_spaces: String
+  minimumstoragerent: Float
+  minimum_storages_charges_per_pallet: Float
+  minimum_storage_Area: String
+  minimum_storage_area_per_pallet: String
+  storage_charges: Float
+  storage_charges_per_pallet: Float
+  HazardousStorageType: hazardousStorageType
+  TempaeratureType: temperatureType
+  TemperatureCapacity: temperatureCapacity
+  latitude: Float
+  longitude: Float
+  remarks: String
+}
+
+input TruckDTO {
+  companyName: String
+  Adress: String
+  State: String
+  City: String
+  Pincode: String
+  Country: String
+  transportertype: transportType
+  vehicletype: vehicleType
+  maxacceptablepayload: maxacceptablePayload
+  pickupcity: pickupCity
+  pickupcitypincode: pickupCityPincode
+  dropcity: dropCity
+  dropcitypincode: DropCityPincode
+  transportcharges: Float
+  userId: Float
+}
+
+input BookingInput {
+  moveInDate: DateTime
+  moveOutDate: DateTime
+  spaceMaterialType: String
+  specialInstructions: String
+  warehouseId: Int
+  userId: Int
+}
+
+input CreateAirportInput {
+  code: String
+  latitude: Float
+  longitude: Float
+  Country: String
+  State: String
+  name: String
+  ShipmentMode: ShippingMode
+}
+
+input CreateBookingshippingInput {
+  departure: String
+  arrival: String
+  readytoload: String
+  typeofdelivery: String
+  cargo_details: String
+  price: String
+}
+
+input BookingshippingContactinfoInput {
+  firstname: String
+  lastname: String
+  phoneno: String
+  email: String
+  description: String
+}
