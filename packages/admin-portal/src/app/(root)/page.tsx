@@ -169,6 +169,7 @@ function Page() {
                 // You may want to perform actions like setting tokens or redirecting on success
               } catch (error: any) {
                 console.error("Mutation error: ", error);
+                setSubmiting(false);
                 if (error.networkError) {
                   toast.error("There is network error come after some time", {
                     position: toast.POSITION.TOP_CENTER,

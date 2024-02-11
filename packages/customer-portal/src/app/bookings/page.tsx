@@ -190,8 +190,9 @@ export default function Page() {
                         onClick={() => {
                           setContainer(!container);
                         }}
-                        className=" text-xs paragraph-semibold flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 cursor-pointer  text-gray-800"
+                        className=" text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 cursor-pointer  text-gray-800"
                       >
+                        Container Type
                         <span>
                           <ChevronDownIcon
                             className={`ml-2 w-6 h-6 paragraph-semibold text-gray-500 hover:text-orange-400 ${
@@ -199,11 +200,31 @@ export default function Page() {
                             } `}
                           />
                         </span>
-                        Container Type
                       </legend>
                       <div className="space-y-3 bg-gray-50 px-2">
+                        {!container &&
+                          containerTypes
+                            .slice(0, 2)
+                            .map((option, optionIdx) => (
+                              <div key={option} className="flex items-center">
+                                <input
+                                  id={`${optionIdx}`}
+                                  name={`${optionIdx}[]`}
+                                  defaultValue={option}
+                                  type="checkbox"
+                                  className="h-4 w-4 rounded border-gray-300 text-gray-500 focus:ring-orange-500"
+                                />
+                                <label
+                                  htmlFor={`${optionIdx}`}
+                                  className="ml-3 text-sm text-gray-600"
+                                >
+                                  {option}
+                                </label>
+                              </div>
+                            ))}
+
                         {container &&
-                          containerTypes.map((option, optionIdx) => (
+                          containerTypes.slice(2).map((option, optionIdx) => (
                             <div key={option} className="flex items-center">
                               <input
                                 id={`${optionIdx}`}
@@ -227,17 +248,35 @@ export default function Page() {
                         onClick={() => {
                           setShippingLine(!shippingLine);
                         }}
-                        className="text-xs paragraph-semibold flex-center bg-gray-50 px-4 py-1.5 rounded-md  hover:text-gray-800  cursor-pointer  text-gray-800"
+                        className="text-xs w-full paragraph-semibold flex-center bg-gray-50 px-4 py-1.5 rounded-md  hover:text-gray-800  cursor-pointer  text-gray-800"
                       >
+                        <span>Shipping Lines</span>
                         <ChevronDownIcon
                           className={classNames(
                             "ml-2 w-6 h-6 paragraph-semibold text-gray-500 hover:text-ornage-500",
                             !shippingLine && "rotate-90"
                           )}
                         />
-                        <span>Shipping Lines</span>
                       </legend>
                       <div className="space-y-3 bg-gray-50 px-2">
+                        {!shippingLine &&
+                          shippingLines.slice(0, 2).map((option, optionIdx) => (
+                            <div key={option} className="flex items-center">
+                              <input
+                                id={`${optionIdx}`}
+                                name={`${optionIdx}[]`}
+                                defaultValue={option}
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-primary-500 focus:ring-fuchsia-800"
+                              />
+                              <label
+                                htmlFor={`${optionIdx}`}
+                                className="ml-3 text-sm text-gray-600"
+                              >
+                                {option}
+                              </label>
+                            </div>
+                          ))}
                         {shippingLine &&
                           shippingLines.map((option, optionIdx) => (
                             <div key={option} className="flex items-center">

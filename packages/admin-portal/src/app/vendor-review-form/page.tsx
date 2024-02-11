@@ -92,7 +92,7 @@ const getENUMTypeLabel = (enumKeyValue: any, enumValue: any) => {
 
 export default function ReviewForm() {
   const searchParams = useSearchParams();
-  const token: any = searchParams.get("id");
+  const token: any = searchParams.get("token");
   console.log("token : ", token);
   const {
     userImage,

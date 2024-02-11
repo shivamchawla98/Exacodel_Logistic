@@ -57,6 +57,7 @@ import ApprovedWarehouseList from "./components/ApprovedWarehouseListing";
 import RejectedWarehouseList from "./components/RejectedWarehouse";
 import Bookings from "./components/Bookings";
 import FreightBookings from "./components/FreightBookings";
+import RevertedUsers from "./components/RevertedUsers";
 
 const navigation = [
   {
@@ -73,6 +74,12 @@ const navigation = [
       },
       { name: "Approved Users", href: "#", icon: CheckIcon, current: false },
       { name: "Rejected Users", href: "#", icon: XMarkIcon, current: false },
+      {
+        name: "Reverted Users",
+        href: "#",
+        icon: EnvelopeIcon,
+        current: false,
+      },
       {
         name: "Users In Review",
         href: "#",
@@ -596,6 +603,17 @@ export default function Home() {
                   setApprovalIndex={(userId: number) =>
                     setApprovalIndex(userId)
                   }
+                />
+              )}
+              {activeItem === "Reverted Users" && (
+                <RevertedUsers
+                  isApproved={isApproved}
+                  setApprovalIndex={(userId: number) =>
+                    setApprovalIndex(userId)
+                  }
+                  activeItem={activeItem}
+                  onInfoClick={() => setActiveItem("userInfo")}
+                  onApprovalClick={() => setActiveItem("more info")}
                 />
               )}
               {activeItem === "Users In Review" && (

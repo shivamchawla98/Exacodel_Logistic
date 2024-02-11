@@ -278,6 +278,7 @@ export default function Approval({
       const { data: any } = await sendtoreveiwuser({
         variables: {
           id: Id * 1,
+          remarks: remarks,
         },
       });
 

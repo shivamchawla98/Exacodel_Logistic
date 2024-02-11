@@ -156,7 +156,6 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                     className="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="text-gray-400 ml-6">|</span>
                 </Popover.Button>
 
                 <Transition
@@ -219,7 +218,6 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                 className="paragraph-normal text-sm hover:text-primary-500 leading-6 pt-1 z-40 text-gray-900"
               >
                 Services
-                <span className="text-gray-400 ml-6">|</span>
               </Link>
 
               <Link
@@ -227,7 +225,6 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                 className="paragraph-normal text-sm hover:text-primary-500 leading-6 pt-1 z-40 text-gray-900"
               >
                 References
-                <span className="text-gray-400 ml-6">|</span>
               </Link>
 
               <Popover className="relative flex align-middle z-40">
@@ -237,7 +234,6 @@ export default function Navbar({ navAndFotterHidingRoute }: any) {
                     className="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="text-gray-400 ml-6">|</span>
                 </Popover.Button>
 
                 <Transition
