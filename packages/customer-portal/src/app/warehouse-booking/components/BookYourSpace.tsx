@@ -15,13 +15,13 @@ import createBooking from "@/graphql/mutation/createBooking";
 import router from "next/router";
 
 interface BookYourSpaceInput {
-  name: string;
-  email: string;
+  // name: string;
+  // email: string;
   moveInDate: string;
   moveOutDate: string;
-  phone: string;
-  companyName: string;
-  gstNum: string;
+  // phone: string;
+  // companyName: string;
+  // gstNum: string;
 }
 
 function BookYourSpace() {
@@ -53,7 +53,7 @@ function BookYourSpace() {
       }
       if (token) {
         const decodedToken: any = jwtDecode(token);
-        console.log(decodedToken);
+        console.log("decoded token", decodedToken);
         setUserId(decodedToken.id);
       }
     } catch (error: any) {
@@ -63,6 +63,7 @@ function BookYourSpace() {
   }, []);
   // submit function
   const onSubmit: SubmitHandler<BookYourSpaceInput> = async (data) => {
+    console.log("submit in submit", data);
     try {
       const response = await createBooking({
         variables: {
@@ -101,13 +102,10 @@ function BookYourSpace() {
           />
         </div>
 
-        <form
-          onSubmit={() => handleSubmit(onSubmit)}
-          className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
-        >
+        <form className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
           <div className="px-4 py-6 sm:p-8">
             <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-3">
+              {/* <div className="sm:col-span-3">
                 <label
                   htmlFor="first-name"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -128,9 +126,9 @@ function BookYourSpace() {
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
 
-              <div className="sm:col-span-3">
+              {/* <div className="sm:col-span-3">
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -158,7 +156,7 @@ function BookYourSpace() {
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
               <div className="sm:col-span-4">
                 <DatePicker
                   register={register}
@@ -166,7 +164,7 @@ function BookYourSpace() {
                   setValue={setValue}
                 />
               </div>
-              <div className="sm:col-span-3">
+              {/* <div className="sm:col-span-3">
                 <label
                   htmlFor="number"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -188,9 +186,9 @@ function BookYourSpace() {
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
 
-              <div className="sm:col-span-3">
+              {/* <div className="sm:col-span-3">
                 <label
                   htmlFor="companyName"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -212,9 +210,9 @@ function BookYourSpace() {
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
 
-              <div className="sm:col-span-3">
+              {/* <div className="sm:col-span-3">
                 <label
                   htmlFor="gstNum"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -236,12 +234,17 @@ function BookYourSpace() {
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
             <button
-              type="submit"
+              type="button"
+              onClick={(e) => {
+                console.log("button submit");
+                // onSubmit(data)
+                handleSubmit(onSubmit)(e);
+              }}
               className="rounded-md bg-primary-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-fuchsia-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
             >
               Next

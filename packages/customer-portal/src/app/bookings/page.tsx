@@ -195,8 +195,8 @@ export default function Page() {
                         Container Type
                         <span>
                           <ChevronDownIcon
-                            className={`ml-2 w-6 h-6 paragraph-semibold text-gray-500 hover:text-orange-400 ${
-                              !container && "rotate-90"
+                            className={`ml-2 w-6 h-6 z-10 paragraph-semibold text-gray-500 hover:text-orange-400 ${
+                              !container && "rotate-90 z-10"
                             } `}
                           />
                         </span>
@@ -248,15 +248,16 @@ export default function Page() {
                         onClick={() => {
                           setShippingLine(!shippingLine);
                         }}
-                        className="text-xs w-full paragraph-semibold flex-center bg-gray-50 px-4 py-1.5 rounded-md  hover:text-gray-800  cursor-pointer  text-gray-800"
+                        className=" text-xs paragraph-semibold w-full flex-between bg-gray-50 px-4 py-2 rounded-md hover:text-gray-800 cursor-pointer  text-gray-800"
                       >
-                        <span>Shipping Lines</span>
-                        <ChevronDownIcon
-                          className={classNames(
-                            "ml-2 w-6 h-6 paragraph-semibold text-gray-500 hover:text-ornage-500",
-                            !shippingLine && "rotate-90"
-                          )}
-                        />
+                        Shipping Lines
+                        <span>
+                          <ChevronDownIcon
+                            className={`ml-2 w-6 h-6 paragraph-semibold z-10 text-gray-500 hover:text-orange-400 ${
+                              !shippingLine && "rotate-90 z-10"
+                            } `}
+                          />
+                        </span>
                       </legend>
                       <div className="space-y-3 bg-gray-50 px-2">
                         {!shippingLine &&
