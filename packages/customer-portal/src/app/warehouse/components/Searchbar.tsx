@@ -8,21 +8,24 @@ interface LocationSearchInputProps {
 
 const libraries = ["places"];
 
-const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
-  onPlaceSelected,
-}) => {
+const LocationSearchInput: React.FC<LocationSearchInputProps> = ({ onPlaceSelected}) => {
+
   const searchBoxRef = useRef<google.maps.places.SearchBox>();
   const key = process.env.NEXT_PUBLIC_googleMapsApiKey;
-  useEffect(() => {
+  const selectedPlace = () => {
     if (searchBoxRef.current && onPlaceSelected) {
       searchBoxRef.current.addListener("places_changed", () => {
         const places = searchBoxRef.current?.getPlaces();
+        console.log("palces >>>>>>>", places);
+        
         if (places && places.length > 0) {
           onPlaceSelected(places[0]);
         }
       });
     }
-  }, [onPlaceSelected]);
+  }
+ 
+
   const handleLoad = (searchBox: google.maps.places.SearchBox) => {
     searchBoxRef.current = searchBox;
   };
@@ -49,6 +52,7 @@ const LocationSearchInput: React.FC<LocationSearchInputProps> = ({
             id="location"
             className="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-gray-50 border-gray-300 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-fuchsia-500 dark:focus:ring-fuchsia-500 p-2.5 text-sm pl-2 rounded-lg"
             placeholder="Search warehouse location"
+            onChangeCapture={() => selectedPlace()}
           />
           {/* <MagnifyingGlassIcon className="h-6 w-6 absolute right-3" /> */}
         </div>

@@ -46,6 +46,7 @@ function SearchAndFilter({ setLoginClose }: any) {
   const { searchLatLng } = useSelector((state: any) => state.warehouseSlice);
   const dispatch = useDispatch();
   const [reqValue, setSpaceReqValue] = useState(100);
+  
 
   const {
     register,
@@ -62,9 +63,9 @@ function SearchAndFilter({ setLoginClose }: any) {
     const lat = place.geometry?.location.lat();
     const lng = place.geometry?.location.lng();
     dispatch(updateSearchLatLng({ lat: lat, lng: lng }));
-    console.log("Latitude:", searchLatLng);
+    console.log("Latitude: >>>>>>>>>", lat);
   };
-  console.log("warehouses : ", warehouses);
+  console.log("warehouses : >>>>", warehouses);
 
   const { loading, error, data, refetch } = useQuery(
     LIST_OF_WAREHOUSE_USING_LAT_LNG,
@@ -109,7 +110,6 @@ function SearchAndFilter({ setLoginClose }: any) {
       dispatch(updateWarehouseMarkers(filteredWarehouse));
       console.log("formatted filtered one", filteredWarehouse);
     } catch (error: any) {
-      console.log();
       toast(error.message);
     }
   };

@@ -48,10 +48,12 @@ function MapOfWarehouses() {
           {markers?.map((warehouse: any) => (
             <Marker
               key={`${warehouse.latitude}-${warehouse.longitude}`}
-              // icon={{ url: imageUrl }}
+              // icon={{ url: imageUrl }}{ url: imageUrl }
+              // icon={'/warehouse.jpg'}
+              label={{color: 'rgb(112 26 117)', fontWeight: 'bold', fontSize: '18px', text: warehouse?.uniqueid,}}
               position={{
                 lat: warehouse.latitude * 1,
-                lng: warehouse.longitude * 1,
+                lng: warehouse.longitude * 1, 
               }}
             />
           ))}
